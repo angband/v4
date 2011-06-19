@@ -100,15 +100,16 @@ enum {
 
 /* Modes for object_desc() */
 typedef enum {
-	ODESC_BASE   = 0x00,   	/* Only describe the base name */
-	ODESC_COMBAT = 0x01,   	/* Also show combat bonuses */
-	ODESC_EXTRA  = 0x02,   	/* Show charges/inscriptions/pvals */
-	ODESC_STORE  = 0x04,   	/* This is an in-store description */
-	ODESC_PLURAL = 0x08,   	/* Always pluralise */
-	ODESC_SINGULAR = 0x10,	/* Always singular */
-	ODESC_SPOIL  = 0x20,    /* Display regardless of player knowledge */
-	ODESC_ARTICLE = 0x40,   	/* Article or number */
-	ODESC_AFFIX	 = 0x80,	/* Display object's prefix and suffix, if any */
+	ODESC_BASE   	= 0x000,   	/* Only describe the base name */
+	ODESC_COMBAT 	= 0x001,   	/* Also show combat bonuses */
+	ODESC_EXTRA  	= 0x002,   	/* Show charges/inscriptions/pvals */
+	ODESC_STORE  	= 0x004,   	/* This is an in-store description */
+	ODESC_PLURAL 	= 0x008,   	/* Always pluralise */
+	ODESC_SINGULAR 	= 0x010,	/* Always singular */
+	ODESC_SPOIL  	= 0x020,    /* Display regardless of player knowledge */
+	ODESC_ARTICLE 	= 0x040,  	/* Article or number */
+	ODESC_CAPITAL 	= 0x080,	/* Capitalise object name */
+	ODESC_AFFIX	 	= 0x100,	/* Display object's prefix and suffix, if any */
 
 	ODESC_FULL   = ODESC_COMBAT | ODESC_EXTRA | ODESC_AFFIX
 	                       	/* Show entire description */
