@@ -326,7 +326,7 @@ void textui_obj_study(void)
 /**
  * Cast a spell from a book.
  */
-void textui_obj_cast(void)
+int textui_obj_cast(void)
 {
 	int item;
 	int spell;
@@ -337,7 +337,7 @@ void textui_obj_cast(void)
 	if (!get_item(&item, "Cast from which book? ",
 			"You have no books that you can read.",
 			CMD_CAST, (USE_INVEN | USE_FLOOR)))
-		return;
+		return -1;
 
 	/* Track the object kind */
 	track_object(item);
@@ -348,4 +348,5 @@ void textui_obj_cast(void)
 		cmd_insert(CMD_CAST);
 		cmd_set_arg_choice(cmd_get_top(), 0, spell);
 	}
+	return spell;
 }
