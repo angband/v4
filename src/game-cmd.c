@@ -108,6 +108,11 @@ static const struct command_info game_cmds[] =
 	{ CMD_STASH, "stash", { arg_ITEM, arg_NUMBER }, do_cmd_stash, FALSE, 0 },
 	{ CMD_BUY, "buy", { arg_CHOICE, arg_NUMBER }, do_cmd_buy, FALSE, 0 },
 	{ CMD_RETRIEVE, "retrieve", { arg_CHOICE, arg_NUMBER }, do_cmd_retrieve, FALSE, 0 },
+	{ CMD_LOOK, "look", { arg_CHOICE, arg_NUMBER }, NULL, FALSE, 0 },
+	{ CMD_USE_AIMED, "use", { arg_ITEM, arg_TARGET }, do_cmd_use, FALSE, 0 },
+	{ CMD_USE_UNAIMED, "use", { arg_ITEM, arg_TARGET }, do_cmd_use, FALSE, 0 },
+	{ CMD_USE_ANY, "use", { arg_ITEM, arg_TARGET }, do_cmd_use, FALSE, 0 },
+	{ CMD_CONTEXT_MENU, NULL, { arg_NONE }, NULL, FALSE, 0 },
 	{ CMD_SUICIDE, "commit suicide", { arg_NONE }, do_cmd_suicide, FALSE, 0 },
 	{ CMD_SAVE, "save", { arg_NONE }, do_cmd_save_game, FALSE, 0 },
 	{ CMD_QUIT, "quit", { arg_NONE }, do_cmd_quit, FALSE, 0 },
@@ -182,6 +187,9 @@ struct item_selector item_selector[] =
 	{ CMD_QUAFF, "potion", obj_is_potion, (USE_INVEN | USE_FLOOR) },
 	{ CMD_READ_SCROLL, "scroll", obj_is_scroll, (USE_INVEN | USE_FLOOR) },
 	{ CMD_REFILL, "fuel source", obj_can_refill, (USE_INVEN | USE_FLOOR) },
+	{ CMD_USE_AIMED, NULL, obj_is_used_aimed, (USE_EQUIP |USE_INVEN | USE_FLOOR | SHOW_FAIL | QUIVER_TAGS) },
+	{ CMD_USE_UNAIMED, NULL, obj_is_used_unaimed, (USE_EQUIP |USE_INVEN | USE_FLOOR | SHOW_FAIL) },
+	{ CMD_USE_ANY, NULL, obj_is_useable, (USE_EQUIP |USE_INVEN | USE_FLOOR | SHOW_FAIL | QUIVER_TAGS) },
 };
 
 const char *cmd_get_verb(cmd_code cmd)
@@ -583,6 +591,9 @@ void process_command(cmd_context ctx, bool no_request)
 			case CMD_READ_SCROLL:
 			case CMD_FIRE:
 			case CMD_THROW:
+			case CMD_USE_ANY:
+			case CMD_USE_AIMED:
+			case CMD_USE_UNAIMED:
 			{
 				bool get_target = FALSE;
 				object_type *o_ptr = object_from_item_idx(cmd->arg[0].choice);
