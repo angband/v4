@@ -516,14 +516,14 @@ N:104:suffix:of Accuracy
 C:d15:d5:0
 M:15:255:0
 T:bow:0:99:great:20:5 to 75
-D:has no special abilities, but its to-hit value may be unusually
+D:It has no special abilities, but its to-hit value may be unusually
 D: high.
 
 N:105:suffix:of Power
 C:d5:d15:0
 M:255:15:0
 T:bow:0:99:great:20:10 to 95
-D:has no special abilities, but its to-dam value may be unusually
+D:It has no special abilities, but its to-dam value may be unusually
 D: high.
 
 N:108:suffix:of Extra Might
@@ -556,7 +556,7 @@ C:-d25:-d25:0
 T:shot:0:99:good:10:10 to 80
 T:arrow:0:99:good:10:10 to 80
 T:bolt:0:99:good:10:10 to 80
-D:It is just as likely to injure the shooter as the target
+D:It is just as likely to injure the shooter as the target.
 
 ### Dragon Scale Mail egos ###
 
@@ -647,7 +647,7 @@ T:sword:0:99:good:20:6 to 100
 T:bow:12:13:good:15:40 to 127
 T:arrow:0:99:good:18:25 to 100
 D:It is lighter and more accurate than usual, favored by
-D:wood-elf hunting parties.
+D: wood-elf hunting parties.
 
 N:142:prefix:Dwarven
 C:0:1:0:0:10:0:0
@@ -700,7 +700,7 @@ T:hafted:0:99:good:20:6 to 86
 T:polearm:0:99:good:20:6 to 86
 T:sword:0:99:good:20:6 to 86
 D:It is of orcish make.  It is heavy and unlikely to
-D:have ever seen daylight.
+D: have ever seen daylight.
 
 N:153:prefix:Giant
 C:-2:0:0:0:150:1:1
@@ -764,7 +764,7 @@ T:bow:0:99:good:15:6 to 100
 T:shot:0:99:good:15:10 to 100
 T:arrow:0:99:good:15:10 to 100
 T:bolt:0:99:good:15:10 to 100
-D:It is well-designed for combat
+D:It is well-designed for combat.
 
 N:161:prefix:Runed
 C:5:2:0:0:0:0:1
@@ -795,19 +795,19 @@ N:164:prefix:Stone
 C:0:1:0:0:10
 T:hafted:10:99:good:20:6 to 66
 T:polearm:0:99:good:20:6 to 66
-D:is made from solid granite
+D:It is made from solid granite.
 
 N:165:prefix:Lead-Filled
 C:0:0:0:0:50:2:-1
 T:hafted:10:10:good:20:6 to 100
-D:is much heavier than normal
+D:It is much heavier than normal.
 
 N:166:prefix:Dragonbone
 C:0:1:0:0:0:0:1
 T:hafted:10:99:good:10:16 to 100
 T:arrow:0:99:good:10:16 to 100
 T:bolt:0:99:good:10:16 to 100
-D:is made from the bones of dragons
+D:It is made from the bones of dragons.
 
 N:167:prefix:Iron
 F:HURT_DEMON

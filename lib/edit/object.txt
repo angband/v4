@@ -345,7 +345,7 @@ I:23:5
 W:5:0:110:120
 A:20:5 to 100
 P:0:1d8:0:0:0
-D:A thicker and slightly longer dagger, the cutlass is a slashing sword.  It
+D:A thicker and slightly longer dagger, the cutlass is a slashing sword. It
 D: possesses a slight curve and only one side is sharp.
 
 N:35:& Tulwar~
@@ -378,7 +378,7 @@ I:23:9
 W:10:0:150:300
 A:20:10 to 100
 P:0:2d5:0:0:0
-D: A two-edged sword with a basket hilt.
+D:A two-edged sword with a basket hilt.
 
 
 N:39:& Bastard Sword~
@@ -387,7 +387,7 @@ I:23:10
 W:15:0:140:400
 A:20:15 to 100
 P:0:3d4:0:0:0
-D: A two-edged sword, wielded with one hand or two.
+D:A two-edged sword, wielded with one hand or two.
 
 N:40:& Katana~
 G:|:W
@@ -395,7 +395,7 @@ I:23:11
 W:20:0:120:600
 A:20:20 to 100
 P:0:3d5:0:0:0
-D: A long, slightly curved sword with one sharp edge.
+D:A long, slightly curved sword with one sharp edge.
 
 N:41:& Zweihander~
 G:|:W
@@ -411,7 +411,7 @@ I:23:13
 W:40:0:260:850
 A:20:40 to 100
 P:0:4d5:0:0:0
-D:A very heavy, two-handed sword with no point.
+D:A very heavy two-handed sword with no point.
 
 N:43:& Blade~ of Chaos
 G:|:v
@@ -431,8 +431,8 @@ I:21:1
 W:3:0:30:30
 A:20:3 to 100
 P:0:1d3:0:0:0
-D:A long flexible leather line.  
-D:It's loud, cracking sound is more likely to intimidate than wound.
+D:A long flexible leather line. Its loud, cracking sound is more likely to
+D: intimidate than wound.
 
 N:51:& Ball-and-Chain~
 G:\:D
@@ -489,7 +489,7 @@ I:21:12
 W:10:0:150:200
 A:20:10 to 100
 P:0:1d9:0:0:0
-D: A long, solid staff, wielded with two hands.
+D:A long, solid staff, wielded with two hands.
 
 N:58:& War Hammer~
 G:\:D
@@ -514,7 +514,7 @@ W:5:0:180:500
 A:20:20 to 100
 P:0:8d1:0:0:0
 D:A large hammer requiring two hands to wield for all
-D:but the exceptionally strong.
+D: but the exceptionally strong.
 
 N:61:& Mace~ of Disruption
 G:\:v
@@ -534,7 +534,6 @@ I:22:1
 W:5:0:50:36
 A:20:5 to 100
 P:0:1d6:0:0:0
-D:The most ancient weapon known.
 D:A long stick with a sharpened point. 
 
 N:66:& Awl-Pike~
@@ -620,7 +619,7 @@ W:45:0:250:800
 A:20:45 to 100
 P:0:5d3:0:0:0
 D:A chopping weapon that is often used in farms and
-D:is a symbol of death.
+D: is a symbol of death.
 
 N:76:& Glaive~
 G:/:s
@@ -761,8 +760,7 @@ W:0:0:4:1
 M:100:5d7
 A:30:0 to 100
 P:0:1d2:0:0:0
-D:A smooth stone that flies straight.
-D:It can be shot with a sling.
+D:A smooth stone that flies straight. It can be shot with a sling.
 
 N:111:& Iron Shot~
 G:{:s
@@ -771,8 +769,7 @@ W:3:0:5:2
 M:100:5d7
 A:25:3 to 100
 P:0:1d4:0:0:0
-D:A heavy iron ball.
-D:It can be shot with a sling.
+D:A heavy iron ball. It can be shot with a sling.
 
 N:112:& Mithril Shot~
 G:{:B
@@ -782,8 +779,7 @@ M:100:5d7
 A:20:40 to 100
 P:0:2d4:5:5:0
 F:IGNORE_ACID | GOOD
-D:A heavy mithril ball.
-D:It can be shot with a sling.
+D:A heavy mithril ball. It can be shot with a sling.
 
 ##### Digging Tools #####
 
@@ -823,7 +819,7 @@ W:0:0:15:4
 A:20:1 to 100
 P:1:1d1:0:0:0
 D:A set of open-topped footgear with soft calfskin lacings and a sturdy 
-D:cured leather base.
+D: cured leather base.
 
 N:131:& Pair~ of Leather Boots
 G:]:U
@@ -858,8 +854,8 @@ W:60:0:40:500
 A:20:60 to 100
 P:8:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_FIRE
-D:A set of dwarven footgear covered in Dwarven mithril.  It is the
-D:most protective and durable of all boots.
+D:A set of dwarven footgear covered in Dwarven mithril. It is the
+D: most protective and durable of all boots.
 
 N:135:& Pair~ of Ethereal Slippers
 G:]:U
@@ -869,7 +865,7 @@ A:10:30 to 100
 P:0:0d0:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 D:A set of light, aery footgear made from an indeterminate, transparent fabric.
-D:You cannot feel its weight.
+D: You cannot feel its weight.
 
 
 ### Headgear ###
@@ -921,7 +917,7 @@ W:45:0:30:1000
 A:10:45 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID
-D:The symbol of kings.  It is an open-topped headgear made from the purest gold
+D:The symbol of kings. It is an open-topped headgear made from the purest gold.
 
 N:146:& Jewel Encrusted Crown~
 G:]:v
@@ -931,7 +927,7 @@ A:10:50 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID
 D:The symbol of ancient emperors.  It is an open-topped headgear covered with
-D:rubies, sapphires and emeralds.
+D: rubies, sapphires and emeralds.
 
 ### Body armours ###
 
@@ -1031,7 +1027,7 @@ W:45:0:340:1250
 A:20:50 to 100
 P:58:1d6:-3:0:0
 D:A set of armor similar to scale mail but without the leather backing
-D:and with thicker plates.
+D: and with thicker plates.
 
 N:162:Full Plate Armour~
 G:[:W
@@ -1103,8 +1099,8 @@ A:8:40 to 100
 P:6:0d0:0:0:0
 F:GOOD
 L:1:STEALTH | SPEED
-D:A mantle made of curious silken material by the Galadrim that wondrously 
-D:takes on the hues and shapes of its surroundings.
+D:A mantle made of curious silken material by the Galadrim that wondrously
+D: takes on the hues and shapes of its surroundings.
 
 N:173:& Ethereal Cloak~
 G:(:W
@@ -1113,8 +1109,8 @@ W:50:0:0:4500
 A:10:70 to 100
 P:0:0d0:0:0:10
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
-D:This unearthly, completely transparent body mantle folds and drapes in 
-D:iridescent patterns around you.  It weighs absolutely nothing.
+D:This unearthly, completely transparent body mantle folds and drapes in
+D: iridescent patterns around you.  It weighs absolutely nothing.
 
 
 
