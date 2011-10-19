@@ -99,39 +99,51 @@ V:3.4.0
 
 N:1:suffix:of Resist Acid
 F:RES_ACID | IGNORE_ACID
-T:shield:0:99:great:20:1 to 60
-T:soft armour:0:99:great:20:1 to 60
-T:hard armour:0:6:great:20:1 to 60
+T:shield:0:99:great:20:1 to 25
+T:soft armour:0:99:great:20:1 to 25
+T:hard armour:0:6:great:20:1 to 25
+T:shield:0:99:good:10:26 to 100
+T:soft armour:0:99:good:10:26 to 100
+T:hard armour:0:99:good:10:26 to 100
 T:crown:0:99:great:5:45 to 100
 
 N:2:suffix:of Resist Lightning
 F:RES_ELEC | IGNORE_ELEC
-T:shield:0:99:great:20:1 to 50
-T:soft armour:0:99:great:20:1 to 50
-T:hard armour:0:6:great:20:1 to 50
+T:shield:0:99:great:20:1 to 25
+T:soft armour:0:99:great:20:1 to 25
+T:hard armour:0:6:great:20:1 to 25
+T:shield:0:99:good:10:26 to 100
+T:soft armour:0:99:good:10:26 to 100
+T:hard armour:0:99:good:10:26 to 100
 T:crown:0:99:great:5:45 to 100
 
 N:3:suffix:of Resist Fire
 F:RES_FIRE | IGNORE_FIRE
-T:shield:0:99:great:20:1 to 40
-T:soft armour:0:99:great:20:1 to 40
-T:hard armour:0:6:great:20:1 to 40
+T:shield:0:99:great:20:1 to 25
+T:soft armour:0:99:great:20:1 to 25
+T:hard armour:0:6:great:20:1 to 25
+T:shield:0:99:good:10:26 to 100
+T:soft armour:0:99:good:10:26 to 100
+T:hard armour:0:99:good:10:26 to 100
 T:crown:0:99:great:5:45 to 100
 
 N:4:suffix:of Resist Cold
 F:RES_COLD | IGNORE_COLD
-T:shield:0:99:great:20:1 to 40
-T:soft armour:0:99:great:20:1 to 40
-T:hard armour:0:6:great:20:1 to 40
+T:shield:0:99:great:20:1 to 25
+T:soft armour:0:99:great:20:1 to 25
+T:hard armour:0:6:great:20:1 to 25
+T:shield:0:99:good:10:26 to 100
+T:soft armour:0:99:good:10:26 to 100
+T:hard armour:0:99:good:10:26 to 100
 T:crown:0:99:great:5:45 to 100
 
 N:10:suffix:of Vulnerability
 C:0:0:-d50
 F:AGGRAVATE | LIGHT_CURSE
-T:shield:0:99:good:10:10 to 80
-T:cloak:0:99:good:10:10 to 80
-T:soft armour:0:99:good:10:10 to 80
-T:hard armour:0:99:good:10:10 to 80
+#T:shield:0:99:good:10:10 to 80
+#T:cloak:0:99:good:10:10 to 80
+#T:soft armour:0:99:good:10:10 to 80
+#T:hard armour:0:99:good:10:10 to 80
 
 N:11:prefix:Aggravating
 F:AGGRAVATE
@@ -216,12 +228,12 @@ T:helm:0:99:good:10:10 to 80
 N:38:suffix:of Dullness
 F:LIGHT_CURSE
 L:-d5:0:INT | WIS | CHR
-T:crown:0:99:good:10:45 to 80
+#T:crown:0:99:good:10:45 to 80
 
 N:39:suffix:of Sickliness
 F:LIGHT_CURSE
 L:-d5:0:STR | DEX | CON
-T:crown:0:99:good:10:45 to 80
+#T:crown:0:99:good:10:45 to 80
 
 
 ### Cloaks ###
@@ -241,12 +253,12 @@ T:dragon armour:0:99:uber:8:40 to 100
 N:44:suffix:of Enveloping
 C:-d10:-d10:0
 F:SHOW_MODS | LIGHT_CURSE
-T:cloak:0:99:good:10:10 to 80
+#T:cloak:0:99:good:10:10 to 80
 
 N:46:suffix:of Irritation
 C:-d15:-d15:0
 F:AGGRAVATE | SHOW_MODS | LIGHT_CURSE
-T:cloak:0:99:good:10:10 to 80
+#T:cloak:0:99:good:10:10 to 80
 
 # 47 (unused)
 
@@ -281,12 +293,12 @@ T:crown:0:99:uber:5:45 to 100
 N:54:suffix:of Weakness
 F:LIGHT_CURSE
 L:-d10:0:STR
-T:gloves:0:99:good:10:10 to 80
+#T:gloves:0:99:good:10:10 to 80
 
 N:55:suffix:of Clumsiness
 F:LIGHT_CURSE
 L:-d10:0:DEX
-T:gloves:0:99:good:10:10 to 80
+#T:gloves:0:99:good:10:10 to 80
 
 ### Boots ###
 
@@ -302,12 +314,12 @@ T:boots:0:99:uber:2:20 to 127
 N:62:suffix:of Slowness
 F:LIGHT_CURSE
 L:-d5:0:SPEED
-T:boots:0:99:good:10:10 to 80
+#T:boots:0:99:good:10:10 to 80
 
 N:63:suffix:of Annoyance
 F:AGGRAVATE | LIGHT_CURSE
 L:-d10:0:SPEED | STEALTH
-T:boots:0:99:good:10:10 to 80
+#T:boots:0:99:good:10:10 to 80
 
 
 ### Weapons ###
@@ -330,36 +342,36 @@ T:sword:0:99:great:15:30 to 127
 
 N:72:suffix:of Acid
 F:BRAND_ACID | RES_ACID | IGNORE_ACID
-T:hafted:0:99:great:11:10 to 100
-T:polearm:0:99:great:11:10 to 100
-T:sword:0:99:great:11:10 to 100
+T:hafted:0:99:great:11:33 to 100
+T:polearm:0:99:great:11:33 to 100
+T:sword:0:99:great:11:33 to 100
 T:shot:0:99:great:8:10 to 100
 T:arrow:0:99:great:8:10 to 100
 T:bolt:0:99:great:8:10 to 100
 
 N:73:suffix:of Lightning
 F:BRAND_ELEC | RES_ELEC | IGNORE_ELEC
-T:hafted:0:99:great:10:10 to 100
-T:polearm:0:99:great:10:10 to 100
-T:sword:0:99:great:10:10 to 100
+T:hafted:0:99:great:10:33 to 100
+T:polearm:0:99:great:10:33 to 100
+T:sword:0:99:great:10:33 to 100
 T:shot:0:99:great:8:10 to 100
 T:arrow:0:99:great:8:10 to 100
 T:bolt:0:99:great:8:10 to 100
 
 N:74:suffix:of Flame
 F:BRAND_FIRE | RES_FIRE | IGNORE_FIRE
-T:hafted:0:99:great:17:10 to 100
-T:polearm:0:99:great:17:10 to 100
-T:sword:0:99:great:17:10 to 100
+T:hafted:0:99:great:17:33 to 100
+T:polearm:0:99:great:17:33 to 100
+T:sword:0:99:great:17:33 to 100
 T:shot:0:99:great:12:10 to 100
 T:arrow:0:99:great:12:10 to 100
 T:bolt:0:99:great:12:10 to 100
 
 N:75:suffix:of Frost
 F:BRAND_COLD | RES_COLD | IGNORE_COLD
-T:hafted:0:99:great:16:10 to 100
-T:polearm:0:99:great:16:10 to 100
-T:sword:0:99:great:16:10 to 100
+T:hafted:0:99:great:16:33 to 100
+T:polearm:0:99:great:16:33 to 100
+T:sword:0:99:great:16:33 to 100
 T:shot:0:99:great:12:10 to 100
 T:arrow:0:99:great:12:10 to 100
 T:bolt:0:99:great:12:10 to 100
@@ -383,77 +395,77 @@ T:bolt:0:99:great:12:10 to 100
 
 N:80:suffix:of Slay Animal
 F:SLAY_ANIMAL
-T:hafted:0:99:great:20:1 to 19
-T:polearm:0:99:great:20:1 to 19
-T:sword:0:99:great:20:1 to 19
-T:shot:0:99:great:12:1 to 60
-T:arrow:0:99:great:12:1 to 60
-T:bolt:0:99:great:12:1 to 60
+T:hafted:0:99:great:20:1 to 100
+T:polearm:0:99:great:20:1 to 100
+T:sword:0:99:great:20:1 to 100
+T:shot:0:99:great:12:1 to 100
+T:arrow:0:99:great:12:1 to 100
+T:bolt:0:99:great:12:1 to 100
 
 N:81:suffix:of Slay Evil
 F:SLAY_EVIL
-T:hafted:0:99:great:20:1 to 59
-T:polearm:0:99:great:20:1 to 59
-T:sword:0:99:great:20:1 to 59
-T:shot:0:99:great:12:1 to 60
-T:arrow:0:99:great:12:1 to 60
-T:bolt:0:99:great:12:1 to 60
+T:hafted:0:99:great:20:1 to 100
+T:polearm:0:99:great:20:1 to 100
+T:sword:0:99:great:20:1 to 100
+T:shot:0:99:great:12:1 to 100
+T:arrow:0:99:great:12:1 to 100
+T:bolt:0:99:great:12:1 to 100
 
 N:82:suffix:of Slay Undead
 F:SLAY_UNDEAD
-T:hafted:0:18:great:20:24 to 61
-T:polearm:0:99:great:20:24 to 61
-T:sword:0:99:great:20:24 to 61
-T:shot:0:99:great:8:24 to 77
-T:arrow:0:99:great:8:24 to 77
-T:bolt:0:99:great:8:24 to 77
+T:hafted:0:18:great:20:33 to 100
+T:polearm:0:99:great:20:33 to 100
+T:sword:0:99:great:20:33 to 100
+T:shot:0:99:great:8:24 to 100
+T:arrow:0:99:great:8:24 to 100
+T:bolt:0:99:great:8:24 to 100
 
 N:83:suffix:of Slay Demon
 F:SLAY_DEMON
-T:hafted:0:99:great:20:26 to 66
-T:polearm:0:99:great:20:26 to 66
-T:sword:0:99:great:20:26 to 66
-T:shot:0:99:great:8:26 to 77
-T:arrow:0:99:great:8:26 to 77
-T:bolt:0:99:great:8:26 to 77
+T:hafted:0:99:great:20:33 to 100
+T:polearm:0:99:great:20:33 to 100
+T:sword:0:99:great:20:33 to 100
+T:shot:0:99:great:8:26 to 100
+T:arrow:0:99:great:8:26 to 100
+T:bolt:0:99:great:8:26 to 100
 
 N:84:suffix:of Slay Orc
 F:SLAY_ORC
-T:hafted:0:99:good:20:5 to 14
-T:polearm:0:99:good:20:5 to 14
-T:sword:0:99:good:20:5 to 14
+T:hafted:0:99:good:20:5 to 44
+T:polearm:0:99:good:20:5 to 44
+T:sword:0:99:good:20:5 to 44
 
 N:85:suffix:of Slay Troll
 F:SLAY_TROLL
-T:hafted:0:99:good:20:16 to 35
-T:polearm:0:99:good:20:16 to 35
-T:sword:0:99:good:20:16 to 35
+T:hafted:0:99:good:20:16 to 66
+T:polearm:0:99:good:20:16 to 66
+T:sword:0:99:good:20:16 to 66
 
 N:86:suffix:of Slay Giant
 F:SLAY_GIANT
-T:hafted:0:99:great:20:24 to 38
-T:polearm:0:99:great:20:24 to 38
-T:sword:0:99:great:20:24 to 38
-T:shot:0:99:great:8:24 to 66
-T:arrow:0:99:great:8:24 to 66
-T:bolt:0:99:great:8:24 to 66
+T:hafted:0:99:great:20:24 to 100
+T:polearm:0:99:great:20:24 to 100
+T:sword:0:99:great:20:24 to 100
+T:shot:0:99:great:8:24 to 100
+T:arrow:0:99:great:8:24 to 100
+T:bolt:0:99:great:8:24 to 100
 
 N:87:suffix:of Slay Dragon
 F:SLAY_DRAGON
-T:hafted:0:99:great:20:8 to 38
-T:polearm:0:99:great:20:8 to 38
-T:sword:0:99:great:20:8 to 38
-T:shot:0:99:great:8:8 to 88
-T:arrow:0:99:great:8:8 to 88
-T:bolt:0:99:great:8:8 to 88
+T:hafted:0:99:great:20:25 to 100
+T:polearm:0:99:great:20:25 to 100
+T:sword:0:99:great:20:25 to 100
+T:shot:0:99:great:8:8 to 100
+T:arrow:0:99:great:8:8 to 100
+T:bolt:0:99:great:8:8 to 100
 
 # The *Slay* weapons (8)
 
 N:90:suffix:of Nightbane
 F:KILL_UNDEAD
-T:hafted:0:18:uber:20:62 to 127
-T:polearm:0:99:uber:20:62 to 127
-T:sword:0:99:uber:20:62 to 127
+T:hafted:0:18:uber:20:67 to 127
+T:polearm:0:99:uber:20:67 to 127
+T:sword:0:99:uber:20:67 to 127
 
 N:91:suffix:of Demonbane
 F:KILL_DEMON
@@ -463,9 +475,9 @@ T:sword:0:99:uber:20:67 to 127
 
 N:95:suffix:of Dragonbane
 F:KILL_DRAGON
-T:hafted:0:99:uber:20:39 to 88
-T:polearm:0:99:uber:20:39 to 88
-T:sword:0:99:uber:20:39 to 88
+T:hafted:0:99:uber:20:67 to 100
+T:polearm:0:99:uber:20:67 to 100
+T:sword:0:99:uber:20:67 to 100
 
 ### Lanterns/torches
 
@@ -493,6 +505,7 @@ T:light:0:99:great:12:10 to 100
 N:100:suffix:of Digging
 L:d3:1:TUNNEL
 T:digger:0:99:great:20:1 to 65
+T:gloves:0:99:great:5:10 to 100
 
 N:101:suffix:of Impact
 F:IMPACT
@@ -503,9 +516,9 @@ T:digger:0:99:great:5:20 to 127
 N:102:suffix:of Morgul
 F:SEE_INVIS | AGGRAVATE | HEAVY_CURSE | LIGHT_CURSE |
 F:HOLD_LIFE | DRAIN_EXP | SLAY_UNDEAD | BRAND_POIS
-T:hafted:0:99:great:10:10 to 80
-T:polearm:0:99:great:10:10 to 80
-T:sword:0:99:great:10:10 to 80
+#T:hafted:0:99:great:10:10 to 80
+#T:polearm:0:99:great:10:10 to 80
+#T:sword:0:99:great:10:10 to 80
 
 # 103 (unused)
 
@@ -539,7 +552,7 @@ T:bow:0:99:uber:10:25 to 100
 N:111:suffix:of the Nazgûl
 C:-d10:d10:0
 F:LIGHT_CURSE | DRAIN_EXP | SEE_INVIS
-T:bow:0:99:great:10:10 to 80
+#T:bow:0:99:great:10:10 to 80
 
 
 ### Ammo ###
@@ -553,9 +566,9 @@ D:It is more deadly than usual ammunition.
 
 N:125:suffix:of Backbiting
 C:-d25:-d25:0
-T:shot:0:99:good:10:10 to 80
-T:arrow:0:99:good:10:10 to 80
-T:bolt:0:99:good:10:10 to 80
+#T:shot:0:99:good:10:10 to 80
+#T:arrow:0:99:good:10:10 to 80
+#T:bolt:0:99:good:10:10 to 80
 D:It is just as likely to injure the shooter as the target.
 
 ### Dragon Scale Mail egos ###
@@ -578,9 +591,9 @@ T:dragon armour:0:99:uber:1:60 to 127
 N:130:prefix:Massive
 C:0:0:0:0:50:1:0
 T:digger:0:99:great:5:20 to 90
-T:hafted:0:99:great:10:10 to 80
-T:polearm:0:99:great:10:10 to 80
-T:sword:0:99:great:10:10 to 80
+T:hafted:0:99:great:10:45 to 100
+T:polearm:0:99:great:10:45 to 100
+T:sword:0:99:great:10:45 to 100
 D:It is considerably larger and heavier than normal.
 
 ### Imported from or inspired by EyAngband - thanks to Eytan Zweig ###
@@ -743,19 +756,21 @@ D:It is better suited on a store display.
 
 N:158:prefix:Hunter's
 C:2d3:0:0
-T:polearm:0:99:good:20:16 to 60
-T:sword:0:99:good:20:16 to 60
+T:polearm:0:99:good:20:3 to 100
+T:sword:0:99:good:20:3 to 100
 T:bow:12:13:good:15:10 to 127
 T:arrow:0:99:good:18:25 to 100
 D:It provides the wielder with accurate blows.
 
 N:159:prefix:Forester's
 F:BRAND_ICKY
-T:polearm:0:99:good:10:6 to 60
-T:sword:0:99:good:10:6 to 60
+T:polearm:0:99:great:20:6 to 55
+T:sword:0:99:great:20:6 to 55
+T:polearm:0:99:good:10:56 to 100
+T:sword:0:99:good:10:56 to 100
 T:arrow:0:99:good:10:1 to 60
 
-N:160:prefix:Quality
+N:160:suffix:of Quality
 C:1+M5:1+M5:0:0:0:0:0
 T:hafted:0:99:good:20:6 to 100
 T:polearm:0:99:good:20:6 to 100
@@ -799,7 +814,7 @@ D:It is made from solid granite.
 
 N:165:prefix:Lead-Filled
 C:0:0:0:0:50:2:-1
-T:hafted:10:10:good:20:6 to 100
+T:hafted:10:99:good:20:6 to 100
 D:It is much heavier than normal.
 
 N:166:prefix:Dragonbone
@@ -811,27 +826,27 @@ D:It is made from the bones of dragons.
 
 N:167:prefix:Iron
 F:HURT_DEMON
-T:hafted:0:99:good:20:6 to 56
-T:polearm:0:99:good:20:6 to 56
-T:sword:0:99:good:20:6 to 56
+T:hafted:10:99:good:20:6 to 76
+T:polearm:0:99:good:20:6 to 76
+T:sword:0:99:good:20:6 to 76
 T:shot:0:99:good:10:1 to 60
 T:arrow:0:99:good:10:1 to 60
 T:bolt:0:99:good:10:1 to 60
 
 N:168:prefix:Silver
 F:HURT_UNDEAD
-T:hafted:0:99:good:20:6 to 56
-T:polearm:0:99:good:20:6 to 56
-T:sword:0:99:good:20:6 to 56
+T:hafted:10:99:good:20:6 to 76
+T:polearm:0:99:good:20:6 to 76
+T:sword:0:99:good:20:6 to 76
 T:shot:0:99:good:10:1 to 60
 T:arrow:0:99:good:10:1 to 60
 T:bolt:0:99:good:10:1 to 60
 
 N:170:prefix:Crystal
 C:0:1+d2M3:0
-T:hafted:10:99:good:20:16 to 100
-T:polearm:0:99:good:20:16 to 100
-T:sword:0:99:good:20:16 to 100
+T:hafted:10:99:good:30:16 to 100
+T:polearm:0:99:good:30:16 to 100
+T:sword:0:99:good:30:16 to 100
 T:shot:0:99:good:15:15 to 100
 T:arrow:0:99:good:15:15 to 100
 T:bolt:0:99:good:15:15 to 100
@@ -839,45 +854,57 @@ D:It is made from the toughest rock.
 
 N:171:prefix:Emerald
 F:BRAND_FIZZ
-T:hafted:10:99:great:20:36 to 100
-T:polearm:0:99:great:20:36 to 100
-T:sword:0:99:great:20:36 to 100
+T:hafted:10:99:great:20:6 to 55
+T:polearm:0:99:great:20:6 to 55
+T:sword:0:99:great:20:6 to 55
+T:hafted:10:99:good:10:56 to 100
+T:polearm:0:99:good:10:56 to 100
+T:sword:0:99:good:10:56 to 100
 T:shot:0:99:great:10:45 to 100
 T:arrow:0:99:great:10:45 to 100
 T:bolt:0:99:great:10:45 to 100
 
 N:172:prefix:Topaz
 F:BRAND_BUZZ
-T:hafted:10:99:great:20:36 to 100
-T:polearm:0:99:great:20:36 to 100
-T:sword:0:99:great:20:36 to 100
+T:hafted:10:99:great:20:6 to 55
+T:polearm:0:99:great:20:6 to 55
+T:sword:0:99:great:20:6 to 55
+T:hafted:10:99:good:10:56 to 100
+T:polearm:0:99:good:10:56 to 100
+T:sword:0:99:good:10:56 to 100
 T:shot:0:99:great:10:45 to 100
 T:arrow:0:99:great:10:45 to 100
 T:bolt:0:99:great:10:45 to 100
 
 N:173:prefix:Ruby
 F:BRAND_WARM
-T:hafted:10:99:great:20:36 to 100
-T:polearm:0:99:great:20:36 to 100
-T:sword:0:99:great:20:36 to 100
+T:hafted:10:99:great:20:6 to 55
+T:polearm:0:99:great:20:6 to 55
+T:sword:0:99:great:20:6 to 55
+T:hafted:10:99:good:10:56 to 100
+T:polearm:0:99:good:10:56 to 100
+T:sword:0:99:good:10:56 to 100
 T:shot:0:99:great:10:45 to 100
 T:arrow:0:99:great:10:45 to 100
 T:bolt:0:99:great:10:45 to 100
 
 N:174:prefix:Sapphire
 F:BRAND_COOL
-T:hafted:10:99:great:20:36 to 100
-T:polearm:0:99:great:20:36 to 100
-T:sword:0:99:great:20:36 to 100
+T:hafted:10:99:great:20:6 to 55
+T:polearm:0:99:great:20:6 to 55
+T:sword:0:99:great:20:6 to 55
+T:hafted:10:99:good:10:56 to 100
+T:polearm:0:99:good:10:56 to 100
+T:sword:0:99:good:10:56 to 100
 T:shot:0:99:great:10:45 to 100
 T:arrow:0:99:great:10:45 to 100
 T:bolt:0:99:great:10:45 to 100
 
 N:175:prefix:Diamond
 C:0:3+d2M2:0
-T:hafted:10:99:good:20:26 to 100
-T:polearm:0:99:good:20:26 to 100
-T:sword:0:99:good:20:26 to 100
+T:hafted:10:99:good:30:26 to 100
+T:polearm:0:99:good:30:26 to 100
+T:sword:0:99:good:30:26 to 100
 T:bow:12:99:good:15:26 to 127
 T:shot:0:99:good:10:25 to 100
 T:arrow:0:99:good:10:25 to 100
@@ -968,9 +995,9 @@ T:shield:0:99:uber:10:51 to 100
 
 N:186:prefix:Arcane
 F:RES_DISEN
-T:soft armour:0:99:great:10:41 to 100
-T:hard armour:0:99:great:10:41 to 100
-T:shield:0:99:great:10:41 to 100
+T:soft armour:0:99:uber:10:70 to 100
+T:hard armour:0:99:uber:10:70 to 100
+T:shield:0:99:uber:10:70 to 100
 
 N:187:suffix:of Bodykeeping
 F:SUST_STR | SUST_DEX | SUST_CON
@@ -995,8 +1022,8 @@ T:hafted:0:99:great:10:11 to 100
 
 N:190:prefix:Silent
 F:RES_SOUND
-T:crown:0:99:great:10:25 to 127
-T:helm:0:99:great:10:25 to 127
+T:crown:0:99:uber:10:50 to 127
+T:helm:0:99:uber:10:50 to 127
 
 N:191:suffix:of Fortitude
 F:RES_STUN
@@ -1033,17 +1060,17 @@ D:It is designed with an eye towards defense.
 
 N:197:suffix:of Slicing
 C:0:0:0:0:0:3:1
-T:polearm:20:20:good:10:60 to 100
+T:polearm:0:99:uber:10:60 to 100
 
 N:198:suffix:of Chaos
 C:0:0:0:0:0:2:0
 F:RES_CHAOS
-T:sword:11:99:great:10:70 to 100
+T:sword:11:99:uber:10:70 to 100
 
-N:198:suffix:of Disruption
+N:207:suffix:of Disruption
 C:0:0:0:0:233:3:4
 F:SLAY_UNDEAD
-T:hafted:10:10:good:10:70 to 100
+T:hafted:0:99:uber:10:70 to 100
 
 N:199:prefix:Tough
 C:0:0:1+d2M3
