@@ -2,7 +2,7 @@
  * File: main-stats.c
  * Purpose: Pseudo-UI for stats generation (borrows heavily from main-test.c)
  *
- * Copyright (c) 2010-11 Robert Au <myshkin+angband@durak.net>
+ * Copyright (c) 2010-11 Robert Au <myshkin+angband@durak.net>, Chris Carr
  *
  * This work is free software; you can redistribute it and/or modify it
  * under the terms of either:
@@ -34,18 +34,18 @@
 #define OBJ_FEEL_MAX	 11
 #define MON_FEEL_MAX 	 10
 #define LEVEL_MAX 		101
-#define TOP_DICE		 21 /* highest catalogued values for wearables */
-#define TOP_SIDES		 11
+#define TOP_DICE		 15 /* highest catalogued values for wearables */
+#define TOP_SIDES		 15
 #define TOP_AC			146
 #define TOP_PLUS		 56
 #define TOP_POWER		999
 #define TOP_PVAL		 25
 #define RUNS_PER_CHECKPOINT	10000
 
-/* For ref, e_max is 128, a_max is 136, r_max is ~650,
+/* For ref, e_max is ~200, a_max is ~140, r_max is ~650,
 	ORIGIN_STATS is 14, OF_MAX is ~120 */
 
-/* There are 416 kinds, of which about 150-200 are wearable */
+/* There are ~400 kinds, of which about 150-200 are wearable */
 
 static int randarts = 0;
 static int no_selling = 0;
@@ -69,7 +69,8 @@ struct wearables_data {
 	u32b hit[TOP_PLUS];
 	u32b dam[TOP_PLUS];
 /*	u32b power[TOP_POWER]; not enough memory - add it later in bands */
-	u32b *egos;
+	u32b *affixes;
+	u32b *themes;
 	u32b flags[OF_MAX];
 	u32b *pval_flags[TOP_PVAL];
 };
@@ -130,8 +131,10 @@ static void alloc_memory()
 				= C_ZNEW(wearable_count + 1, struct wearables_data);
 
 			for (k = 0; k < wearable_count + 1; k++) {
-				level_data[i].wearables[j][k].egos
+				level_data[i].wearables[j][k].affixes
 					= C_ZNEW(z_info->e_max, u32b);
+				level_data[i].wearables[j][k].themes
+					= C_ZNEW(z_info->theme_max, u32b);
 				for (l = 0; l < TOP_PVAL; l++)
 					level_data[i].wearables[j][k].pval_flags[l]
 						= C_ZNEW(pval_flags_count + 1, u32b);
@@ -154,7 +157,8 @@ static void free_stats_memory(void)
 				for (l = 0; l < TOP_PVAL; l++) {
 					mem_free(level_data[i].wearables[j][k].pval_flags[l]);
 				}
-				mem_free(level_data[i].wearables[j][k].egos);
+				mem_free(level_data[i].wearables[j][k].affixes);
+				mem_free(level_data[i].wearables[j][k].themes);
 			}
 			mem_free(level_data[i].wearables[j]);
 		}
@@ -320,8 +324,13 @@ static void log_all_objects(int level)
 					w->dam[MIN(MAX(o_ptr->to_d, 0), TOP_PLUS - 1)]++;
 
 					/* Capture egos */
-					if (o_ptr->ego)
-						w->egos[o_ptr->ego->eidx]++;
+					if (o_ptr->theme)
+						w->themes[o_ptr->theme->index]++;
+
+					for (i = 0; i < MAX_AFFIXES; i++)
+						if (o_ptr->affix[i])
+							w->affixes[o_ptr->affix[i]->eidx]++;
+
 					/* Capture object flags */
 					for (i = of_next(o_ptr->flags, FLAG_START); i != FLAG_END;
 							i = of_next(o_ptr->flags, i + 1)) {
@@ -474,25 +483,25 @@ static int stats_dump_artifacts(void)
 	return SQLITE_OK;
 }
 
-static int stats_dump_egos(void)
+static int stats_dump_affixes(void)
 {
 	int err, idx, flag, i;
 	char sql_buf[256];
 	sqlite3_stmt *info_stmt, *flags_stmt, *pval_flags_stmt, *type_stmt;
 
-	strnfmt(sql_buf, 256, "INSERT INTO ego_info VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+	strnfmt(sql_buf, 256, "INSERT INTO affix_info VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 	err = stats_db_stmt_prep(&info_stmt, sql_buf);
 	if (err) return err;
 
-	strnfmt(sql_buf, 256, "INSERT INTO ego_flags_map VALUES (?,?);");
+	strnfmt(sql_buf, 256, "INSERT INTO affix_flags_map VALUES (?,?);");
 	err = stats_db_stmt_prep(&flags_stmt, sql_buf);
 	if (err) return err;
 
-	strnfmt(sql_buf, 256, "INSERT INTO ego_pval_flags_map VALUES (?,?,?,?);");
+	strnfmt(sql_buf, 256, "INSERT INTO affix_pval_flags_map VALUES (?,?,?,?);");
 	err = stats_db_stmt_prep(&pval_flags_stmt, sql_buf);
 	if (err) return err;
 
-	strnfmt(sql_buf, 256, "INSERT INTO ego_type_map VALUES (?,?,?,?);");
+	strnfmt(sql_buf, 256, "INSERT INTO affix_type_map VALUES (?,?,?,?,?,?,?,?);");
 	err = stats_db_stmt_prep(&type_stmt, sql_buf);
 	if (err) return err;
 
@@ -504,19 +513,19 @@ static int stats_dump_egos(void)
 
 		err = sqlite3_bind_int(info_stmt, 1, idx);
 		if (err) return err;
-		err = sqlite3_bind_text(info_stmt, 2, e_ptr->name, 
+		err = sqlite3_bind_text(info_stmt, 2, e_ptr->name,
 			strlen(e_ptr->name), SQLITE_STATIC);
 		if (err) return err;
-		err = stats_db_bind_rv(info_stmt, 3, e_ptr->to_h); 
+		err = stats_db_bind_rv(info_stmt, 3, e_ptr->to_h);
 		if (err) return err;
-		err = stats_db_bind_rv(info_stmt, 4, e_ptr->to_d); 
+		err = stats_db_bind_rv(info_stmt, 4, e_ptr->to_d);
 		if (err) return err;
-		err = stats_db_bind_rv(info_stmt, 5, e_ptr->to_a); 
+		err = stats_db_bind_rv(info_stmt, 5, e_ptr->to_a);
 		if (err) return err;
-		err = stats_db_bind_ints(info_stmt, 9, 5,
-			e_ptr->type, e_ptr->level,
-			e_ptr->num_pvals, e_ptr->min_to_h, 
-			e_ptr->min_to_d, e_ptr->min_to_a, e_ptr->num_randlines);
+		err = stats_db_bind_ints(info_stmt, 10, 5, e_ptr->type,
+			e_ptr->ac_mod, e_ptr->wgt_mod, e_ptr->dd, e_ptr->ds,
+			e_ptr->num_pvals, e_ptr->num_randlines, e_ptr->min_to_h,
+			e_ptr->min_to_d, e_ptr->min_to_a);
 		if (err) return err;
 		STATS_DB_STEP_RESET(info_stmt)
 
@@ -529,7 +538,7 @@ static int stats_dump_egos(void)
 				flag != FLAG_END;
 				flag = of_next(e_ptr->pval_flags[i], flag + 1))
 			{
-				err = stats_db_bind_ints(pval_flags_stmt, 3, 0, 
+				err = stats_db_bind_ints(pval_flags_stmt, 3, 0,
 					idx, flag, e_ptr->min_pval[i]);
 				if (err) return err;
 				err = stats_db_bind_rv(pval_flags_stmt, 4,
@@ -539,11 +548,14 @@ static int stats_dump_egos(void)
 			}
 		}
 
+/* TODO: dump R and R2 lines */
+
 		for (i = 0; i < EGO_TVALS_MAX; i++)
 		{
-			err = stats_db_bind_ints(type_stmt, 4, 0,
-				idx, e_ptr->tval[i], e_ptr->min_sval[i], 
-				e_ptr->max_sval[i]);
+			err = stats_db_bind_ints(type_stmt, 8, 0,
+				idx, e_ptr->tval[i], e_ptr->min_sval[i], e_ptr->max_sval[i],
+				e_ptr->level[i], e_ptr->alloc_prob[i], e_ptr->alloc_min[i],
+				e_ptr->alloc_max[i]);
 			if (err) return err;
 			STATS_DB_STEP_RESET(type_stmt)
 		}
@@ -976,9 +988,9 @@ static int stats_dump_info(void)
 	err = stats_dump_artifacts();
 	if (err) return err;
 
-	err = stats_dump_egos();
+	err = stats_dump_affixes();
 	if (err) return err;
-
+/* TODO: dump themes */
 	err = stats_dump_monsters();
 	if (err) return err;
 
@@ -1061,16 +1073,25 @@ static bool stats_prep_db(void)
 	err = stats_db_exec("CREATE TABLE artifact_pval_flags_map(a_idx INT, pval_flag INT, pval INT);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE ego_info(idx INT PRIMARY KEY, name TEXT, to_h TEXT, to_d TEXT, to_a TEXT, cost INT, level INT, rarity INT, rating INT, num_pvals INT, min_to_h INT, min_to_d INT, min_to_a INT, xtra INT);");
+	err = stats_db_exec("CREATE TABLE affix_info(idx INT PRIMARY KEY, name TEXT, type INT, to_h TEXT, to_d TEXT, to_a TEXT, ac_mod INT, wgt_mod INT, dice INT, sides INT, num_pvals INT, num_randlines INT, min_to_h INT, min_to_d INT, min_to_a INT);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE ego_flags_map(e_idx INT, o_flag INT);");
+	err = stats_db_exec("CREATE TABLE affix_flags_map(e_idx INT, o_flag INT);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE ego_pval_flags_map(e_idx INT, pval_flag INT, min_pval INT, pval TEXT);");
+	err = stats_db_exec("CREATE TABLE affix_pval_flags_map(e_idx INT, pval_flag INT, min_pval INT, pval TEXT);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE ego_type_map(e_idx INT, tval INT, min_sval INT, max_sval INT);");
+	err = stats_db_exec("CREATE TABLE affix_type_map(e_idx INT, tval INT, min_sval INT, max_sval INT, level INT, alloc_prob INT, alloc_min INT, alloc_max INT);");
+	if (err) return false;
+
+	err = stats_db_exec("CREATE TABLE theme_info(idx INT PRIMARY KEY, type INT, name TEXT);");
+	if (err) return false;
+
+	err = stats_db_exec("CREATE TABLE theme_type_map(idx INT, tval INT, min_sval INT, max_sval INT, alloc_min INT, alloc_max INT);");
+	if (err) return false;
+
+	err = stats_db_exec("CREATE TABLE theme_affixes_map(idx INT, affix INT, weighting INT);");
 	if (err) return false;
 
 	err = stats_db_exec("CREATE TABLE monster_base_flags_map(rb_idx INT, r_flag INT);");
@@ -1209,13 +1230,15 @@ static int stats_wearables_data_offsetof(const char *member)
 		return offsetof(struct wearables_data, hit);
 	else if (streq(member, "dam"))
 		return offsetof(struct wearables_data, dam);
-	else if (streq(member, "egos"))
-		return offsetof(struct wearables_data, egos);
+	else if (streq(member, "affixes"))
+		return offsetof(struct wearables_data, affixes);
+	else if (streq(member, "themes"))
+		return offsetof(struct wearables_data, themes);
 	else if (streq(member, "flags"))
 		return offsetof(struct wearables_data, flags);
 	else if (streq(member, "pval_flags"))
 		return offsetof(struct wearables_data, pval_flags);
-		
+
 	/* We should not get to this point. */
 	assert(0);
 }
@@ -1462,8 +1485,7 @@ static int stats_write_db_wearables_2d_array(const char *field,
 						if (!count) continue;
 
 						err = stats_db_bind_ints(sql_stmt, 6, 0,
-							level, count, k_idx, origin, 
-							i, real_j);
+							level, count, k_idx, origin, i, real_j);
 						if (err) return err;
 
 						STATS_DB_STEP_RESET(sql_stmt)
@@ -1502,8 +1524,7 @@ static int stats_write_db(u32b run)
 	err = stats_write_db_level_data("gold", ORIGIN_STATS);
 	if (err) return err;
 
-	err = stats_write_db_level_data_items("artifacts", z_info->a_max, 
-		false);
+	err = stats_write_db_level_data_items("artifacts", z_info->a_max, false);
 	if (err) return err;
 
 	err = stats_write_db_level_data_items("consumables", 
@@ -1525,7 +1546,9 @@ static int stats_write_db(u32b run)
 	err = stats_write_db_wearables_array("dam", TOP_PLUS, true);
 	if (err) return err;
 
-	err = stats_write_db_wearables_array("egos", z_info->e_max, false);
+	err = stats_write_db_wearables_array("affixes", z_info->e_max, false);
+	if (err) return err;
+	err = stats_write_db_wearables_array("themes", z_info->theme_max, false);
 	if (err) return err;
 
 	err = stats_write_db_wearables_array("flags", OF_MAX, true);
