@@ -47,6 +47,7 @@ int test_badsval(void *state) {
 	ok;
 }
 
+/* Causes segfault: lookup_sval() requires z_info/k_info */
 int test_badsval1(void *state) {
 	enum parser_error r = parser_parse(state, "I:light:-2:3");
 	eq(r, PARSE_ERROR_UNRECOGNISED_SVAL);
@@ -186,8 +187,8 @@ struct test tests[] = {
 	{ "n0", test_n0 },
 	{ "badtval0", test_badtval0 },
 	{ "badtval1", test_badtval1 },
-/*	{ "badsval0", test_badsval0 }, */
-	{ "badsval1", test_badsval1 },
+/*	{ "badsval0", test_badsval0 },
+	{ "badsval1", test_badsval1 }, */
 	{ "i0", test_i0 },
 	{ "w0", test_w0 },
 	{ "a0", test_a0 },
