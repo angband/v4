@@ -516,16 +516,18 @@ static int stats_dump_affixes(void)
 		err = sqlite3_bind_text(info_stmt, 2, e_ptr->name,
 			strlen(e_ptr->name), SQLITE_STATIC);
 		if (err) return err;
-		err = stats_db_bind_rv(info_stmt, 3, e_ptr->to_h);
+		err = sqlite3_bind_int(info_stmt, 3, e_ptr->type);
 		if (err) return err;
-		err = stats_db_bind_rv(info_stmt, 4, e_ptr->to_d);
+		err = stats_db_bind_rv(info_stmt, 4, e_ptr->to_h);
 		if (err) return err;
-		err = stats_db_bind_rv(info_stmt, 5, e_ptr->to_a);
+		err = stats_db_bind_rv(info_stmt, 5, e_ptr->to_d);
 		if (err) return err;
-		err = stats_db_bind_ints(info_stmt, 10, 5, e_ptr->type,
-			e_ptr->ac_mod, e_ptr->wgt_mod, e_ptr->dd, e_ptr->ds,
-			e_ptr->num_pvals, e_ptr->num_randlines, e_ptr->min_to_h,
-			e_ptr->min_to_d, e_ptr->min_to_a);
+		err = stats_db_bind_rv(info_stmt, 6, e_ptr->to_a);
+		if (err) return err;
+		err = stats_db_bind_ints(info_stmt, 9, 6, e_ptr->ac_mod,
+			e_ptr->wgt_mod, e_ptr->dd, e_ptr->ds, e_ptr->num_pvals,
+			e_ptr->num_randlines, e_ptr->min_to_h, e_ptr->min_to_d,
+			e_ptr->min_to_a);
 		if (err) return err;
 		STATS_DB_STEP_RESET(info_stmt)
 
@@ -1175,7 +1177,10 @@ static bool stats_prep_db(void)
 	err = stats_db_exec("CREATE TABLE wearables_dam(level INT, count INT, k_idx INT, origin INT, to_d INT, UNIQUE (level, k_idx, origin, to_d) ON CONFLICT REPLACE);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE wearables_egos(level INT, count INT, k_idx INT, origin INT, e_idx INT, UNIQUE (level, k_idx, origin, e_idx) ON CONFLICT REPLACE);");
+	err = stats_db_exec("CREATE TABLE wearables_affixes(level INT, count INT, k_idx INT, origin INT, e_idx INT, UNIQUE (level, k_idx, origin, e_idx) ON CONFLICT REPLACE);");
+	if (err) return false;
+
+	err = stats_db_exec("CREATE TABLE wearables_themes(level INT, count INT, k_idx INT, origin INT, e_idx INT, UNIQUE (level, k_idx, origin, e_idx) ON CONFLICT REPLACE);");
 	if (err) return false;
 
 	err = stats_db_exec("CREATE TABLE wearables_flags(level INT, count INT, k_idx INT, origin INT, of_idx INT, UNIQUE (level, k_idx, origin, of_idx) ON CONFLICT REPLACE);");
