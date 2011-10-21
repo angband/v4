@@ -1213,22 +1213,8 @@ void stair_creation(void)
  */
 static bool item_tester_hook_weapon(const object_type *o_ptr)
 {
-	switch (o_ptr->tval)
-	{
-		case TV_SWORD:
-		case TV_HAFTED:
-		case TV_POLEARM:
-		case TV_DIGGING:
-		case TV_BOW:
-		case TV_BOLT:
-		case TV_ARROW:
-		case TV_SHOT:
-		{
-			return (TRUE);
-		}
-	}
-
-	return (FALSE);
+	return kind_is_weapon(o_ptr->tval) || kind_is_ammo(o_ptr->tval) ||
+		kind_is_bow(o_ptr->tval);
 }
 
 
@@ -1237,23 +1223,7 @@ static bool item_tester_hook_weapon(const object_type *o_ptr)
  */
 static bool item_tester_hook_armour(const object_type *o_ptr)
 {
-	switch (o_ptr->tval)
-	{
-		case TV_DRAG_ARMOR:
-		case TV_HARD_ARMOR:
-		case TV_SOFT_ARMOR:
-		case TV_SHIELD:
-		case TV_CLOAK:
-		case TV_CROWN:
-		case TV_HELM:
-		case TV_BOOTS:
-		case TV_GLOVES:
-		{
-			return (TRUE);
-		}
-	}
-
-	return (FALSE);
+	return kind_is_armour(o_ptr->tval);
 }
 
 
@@ -1620,11 +1590,12 @@ bool recharge(int spell_strength)
 	/* Extract the object "level" */
 	lev = o_ptr->kind->level;
 
-	/* 
-	 * Chance of failure = 1 time in 
-	 * [Spell_strength + 100 - item_level - 10 * charge_per_item]/15 
+	/*
+	 * Chance of failure = 1 time in
+	 * [Spell_strength + 100 - item_level - 10 * charge_per_item]/15
 	 */
-	i = (spell_strength + 100 - lev - (10 * (o_ptr->pval[DEFAULT_PVAL] / o_ptr->number))) / 15;
+	i = (spell_strength + 100 - lev - (10 * (o_ptr->extent / o_ptr->number)))
+		/ 15;
 
 	/* Back-fire */
 	if ((i <= 1) || one_in_(i))
@@ -1658,7 +1629,7 @@ bool recharge(int spell_strength)
 		t = (spell_strength / (lev + 2)) + 1;
 
 		/* Recharge based on the power */
-		if (t > 0) o_ptr->pval[DEFAULT_PVAL] += 2 + randint1(t);
+		if (t > 0) o_ptr->extent += 2 + randint1(t);
 
 		/* We no longer think the item is empty */
 		o_ptr->ident &= ~(IDENT_EMPTY);
@@ -3097,16 +3068,19 @@ bool curse_weapon(void)
 void brand_object(object_type *o_ptr, int brand_type)
 {
 	int i, j;
-	ego_item_type *e_ptr;
+	ego_item_type *e_ptr = NULL;
 	bool ok = FALSE;
+	bitflag f[OF_SIZE];
 
-	/* you can never modify artifacts / ego-items */
-	/* you can never modify cursed / worthless items */
+	create_mask(f, FALSE, OFT_BRAND, OFT_MAX);
+	of_inter(f, o_ptr->flags);
+
+	/* you can never modify artifacts / themed / maxed ego-items */
+	/* you can never modify cursed / worthless / branded items */
 	if (o_ptr->kind && !cursed_p(o_ptr->flags) && o_ptr->kind->cost &&
-	    !o_ptr->artifact && !o_ptr->ego)
-	{
+	    	!o_ptr->artifact && !o_ptr->affix[MAX_AFFIXES - 1] &&
+			!o_ptr->theme && of_is_empty(f)) {
 		char o_name[80];
-		bitflag f[OF_SIZE];
 		const char *brand[SL_MAX];
 
 		object_desc(o_name, sizeof(o_name), o_ptr, ODESC_BASE);
@@ -3114,14 +3088,14 @@ void brand_object(object_type *o_ptr, int brand_type)
 		of_wipe(f);
 		of_on(f, brand_type);
 		i = list_slays(f, f, NULL, brand, NULL, FALSE);
-		
+
 		/* Describe */
 		msg("The %s %s surrounded with an aura of %s.", o_name,
 				(o_ptr->number > 1) ? "are" : "is", brand[0]);
 
-		/* Get the right ego type for the object - the first one
+		/* Get the right affix for the object - the first one
 		 * with the correct flag for this type of object - we assume
-		 * that anyone adding new ego types adds them after the
+		 * that anyone adding new affixes adds them after the
 		 * existing ones */
 		for (i = 0; i < z_info->e_max; i++) {
 			e_ptr = &e_info[i];
@@ -3135,9 +3109,14 @@ void brand_object(object_type *o_ptr, int brand_type)
 			if (ok) break;
 		}
 
-		o_ptr->ego = &e_info[i];
-		ego_apply_magic(o_ptr, 0);
-		object_notice_ego(o_ptr);
+		/* Use the first available affix */
+		for (j = 0; j < MAX_AFFIXES; j++)
+			if (!o_ptr->affix[j]) {
+				o_ptr->affix[j] = e_ptr;
+				ego_apply_magic(o_ptr, 0, e_ptr->eidx);
+/*				object_notice_ego(o_ptr); FIXME */
+				break;
+			}
 
 		/* Combine / Reorder the pack (later) */
 		p_ptr->notice |= (PN_COMBINE | PN_REORDER | PN_SORT_QUIVER);
@@ -3169,7 +3148,7 @@ void brand_weapon(void)
 
 	/* Select a brand */
 	flags_init(f, OF_SIZE, OF_BRAND_FIRE, OF_BRAND_COLD, FLAG_END);
-	s_ptr = random_slay(f);	
+	s_ptr = random_slay(f);
 
 	/* Brand the weapon */
 	brand_object(o_ptr, s_ptr->object_flag);
@@ -3181,17 +3160,7 @@ void brand_weapon(void)
  */
 static bool item_tester_hook_ammo(const object_type *o_ptr)
 {
-	switch (o_ptr->tval)
-	{
-		case TV_BOLT:
-		case TV_ARROW:
-		case TV_SHOT:
-		{
-			return (TRUE);
-		}
-	}
-
-	return (FALSE);
+	return kind_is_ammo(o_ptr->tval);
 }
 
 
@@ -3355,7 +3324,7 @@ void do_ident_item(int item, object_type *o_ptr)
 	p_ptr->redraw |= (PR_INVEN | PR_EQUIP);
 
 	/* Description */
-	object_desc(o_name, sizeof(o_name), o_ptr, ODESC_PREFIX | ODESC_FULL);
+	object_desc(o_name, sizeof(o_name), o_ptr, ODESC_ARTICLE | ODESC_FULL);
 
 	/* Determine the message type. */
 	/* CC: we need to think more carefully about how we define "bad" with

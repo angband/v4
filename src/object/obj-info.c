@@ -919,7 +919,7 @@ static bool describe_food(textblock *tb, const object_type *o_ptr,
 {
 	/* Describe boring bits */
 	if ((o_ptr->tval == TV_FOOD || o_ptr->tval == TV_POTION) &&
-		o_ptr->pval[DEFAULT_PVAL])
+		o_ptr->extent)
 	{
 		/* Sometimes adjust for player speed */
 		int multiplier = extract_energy[p_ptr->state.speed];
@@ -927,7 +927,7 @@ static bool describe_food(textblock *tb, const object_type *o_ptr,
 
 		if (object_is_known(o_ptr) || full) {
 			textblock_append(tb, "Nourishes for around ");
-			textblock_append_c(tb, TERM_L_GREEN, "%d", (o_ptr->pval[DEFAULT_PVAL] / 2) *
+			textblock_append_c(tb, TERM_L_GREEN, "%d", (o_ptr->extent / 2) *
 				multiplier / 10);
 			textblock_append(tb, " turns.\n");
 		} else {
@@ -1237,10 +1237,16 @@ static bool describe_origin(textblock *tb, const object_type *o_ptr)
 static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
 	bool ego)
 {
+	int i;
+
 	/* Display the known artifact description */
 	if (!OPT(birth_randarts) && o_ptr->artifact &&
 			object_is_known(o_ptr) && o_ptr->artifact->text)
 		textblock_append(tb, "%s\n\n", o_ptr->artifact->text);
+
+	else if (o_ptr->theme && o_ptr->theme->text &&
+			object_theme_is_known(o_ptr))
+		textblock_append(tb, "%s\n\n", o_ptr->theme->text);
 
 	/* Display the known object description */
 	else if (object_flavor_is_aware(o_ptr) || object_is_known(o_ptr) || ego)
@@ -1253,27 +1259,60 @@ static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
 			did_desc = TRUE;
 		}
 
-		/* Display an additional ego-item description */
-		if ((ego || object_ego_is_visible(o_ptr)) && o_ptr->ego->text)
-		{
-			if (did_desc) textblock_append(tb, "  ");
-			textblock_append(tb, "%s\n\n", o_ptr->ego->text);
-		}
-		else if (did_desc)
-		{
+		/* Display additional affix descriptions */
+		for (i = 0; i < MAX_AFFIXES; i++)
+			if (o_ptr->affix[i] && o_ptr->affix[i]->text && (ego ||
+					object_affix_is_known(o_ptr, o_ptr->affix[i]->eidx))) {
+				if (did_desc)
+					textblock_append(tb, " ");
+				textblock_append(tb, "%s", o_ptr->affix[i]->text);
+				did_desc = TRUE;
+			}
+
+		if (did_desc)
 			textblock_append(tb, "\n\n");
-		}
+	}
+
+	/* List the affixes on the item */
+	if (o_ptr->affix[0]) {
+		textblock_append(tb, "This item's properties are: ");
+		for (i = 0; i < MAX_AFFIXES; i++)
+			if (o_ptr->affix[i]) {
+				if (i > 0)
+					textblock_append(tb, ", ");
+				textblock_append(tb, "%s", o_ptr->affix[i]->name);
+			}
+		textblock_append(tb, ".\n\n");
 	}
 }
 
-
+/**
+ * Describe random powers on ego items
+ *
+ * \param tb is the description textblock we're building
+ * \param ego is the ego type we're analysing
+ */
 static bool describe_ego(textblock *tb, const struct ego_item *ego)
 {
-	if (ego && ego->xtra)
-	{
-		const char *xtra[] = { "sustain", "higher resistance", "ability" };
-		textblock_append(tb, "It provides one random %s.  ",
-				xtra[ego->xtra - 1]);
+	if (ego && ego->num_randlines) {
+		int i, of_type, tot = 0;
+		bitflag f[OF_SIZE];
+
+		for (i = 0; i < ego->num_randlines; i++) {
+			/* See whether we recognise the flagset for this choice */
+			of_type = obj_flag_type(of_next(ego->randmask[i], FLAG_START));
+			create_mask(f, FALSE, of_type, OFT_MAX);
+
+			if (of_is_equal(f, ego->randmask[i])) {
+				textblock_append(tb, "It provides %s random %s.  ",
+					ego->num_randflags[i] > 1 ? "more than one" : "one",
+					obj_flagtype_name(of_type));
+			} else /* We don't, so count the number for later */
+				tot += ego->num_randflags[i];
+		}
+		if (tot)
+			textblock_append(tb, "It provides %s random power.  ",
+				tot > 1 ? "more than one" : "one");
 
 		return TRUE;
 	}
@@ -1385,8 +1424,8 @@ textblock *object_info_ego(struct ego_item *ego)
 	obj.kind = kind;
 	obj.tval = kind->tval;
 	obj.sval = kind->sval;
-	obj.ego = ego;
-	ego_apply_magic(&obj, 0);
+	obj.affix[0] = ego;
+	ego_apply_magic(&obj, 0, ego->eidx);
 
 	return object_info_out(&obj, OINFO_FULL | OINFO_EGO | OINFO_DUMMY);
 }

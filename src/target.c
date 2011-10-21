@@ -780,7 +780,7 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 
 					/* Obtain an object description */
 					object_desc(o_name, sizeof(o_name), o_ptr,
-								ODESC_PREFIX | ODESC_FULL);
+								ODESC_ARTICLE | ODESC_FULL);
 
 					/* Describe the object */
 					if (p_ptr->wizard)
@@ -904,7 +904,7 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 
 				/* Obtain an object description */
 				object_desc(o_name, sizeof(o_name), o_ptr,
-							ODESC_PREFIX | ODESC_FULL);
+							ODESC_ARTICLE | ODESC_FULL);
 
 				/* Describe the object */
 				if (p_ptr->wizard)
