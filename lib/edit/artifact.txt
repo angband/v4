@@ -415,7 +415,7 @@ D:warding and stability deeply engraved into its surface.
 
 
 N:21:of the Rohirrim
-I:hard armour:Metal Brigandine Armour
+I:hard armour:Brigandine Armour
 W:30:3:200:30000
 A:300:45 to 100
 P:50:1d4:0:0:15
@@ -488,7 +488,7 @@ D:enhance body and mind lie within, and no door can bar the wearer's path.
 ### Light Armor ###
 
 N:26:of Himring
-I:soft armour:Hard Leather Armour
+I:soft armour:Banded Armour
 W:50:20:100:35000
 A:200:25 to 90
 P:20:0d0:0:0:15
@@ -500,7 +500,7 @@ D:unvanquished Himring, defiant fortress surrounded by the legions of Morgoth.
 
 
 N:27:'Hithlomir'
-I:soft armour:Soft Leather Armour
+I:soft armour:Jerkin
 W:20:3:80:45000
 A:200:20 to 80
 P:10:0d0:0:0:20
@@ -511,7 +511,7 @@ D:truly more than it appears.
 
 
 N:28:'Thalkettoth'
-I:soft armour:Leather Scale Mail
+I:soft armour:Splinted Armour
 W:20:3:60:25000
 A:200:30 to 100
 P:20:1d1:-1:0:25
@@ -525,7 +525,7 @@ D:hardened leather.  Those who wear it move with agility and assurance.
 
 # should be Shield of Deflection
 N:29:of Gil-galad
-I:shield:Mithril Shield
+I:shield:Bulwark
 W:70:4:80:65000
 A:125:70 to 127
 P:20:1d3:0:0:20
@@ -540,7 +540,7 @@ D:gates of the Dark Tower, and with whom came light even to Gorgoroth.
 
 
 N:30:of Thorin
-I:shield:Small Metal Shield
+I:shield:Small Shield
 W:40:6:65:60000
 A:64:40 to 127
 P:5:1d2:0:0:25
@@ -554,7 +554,7 @@ D:this little metal shield is proof against the Element of Earth.
 
 
 N:31:of Celegorm
-I:shield:Leather Shield
+I:shield:Kite Shield
 W:30:3:60:12000
 A:280:30 to 100
 P:8:1d2:0:0:20
@@ -566,7 +566,7 @@ D:containing the conflicts of the elements.
 
 
 N:32:of Anárion
-I:shield:Large Metal Shield
+I:shield:Tower Shield
 W:40:9:120:160000
 A:110:40 to 100
 P:12:1d3:0:0:20
@@ -579,7 +579,7 @@ D:even Sauron could not corrupt.
 ### Helmets and Crowns ###
 
 N:33:of Celebrimbor
-I:helm:Metal Cap
+I:helm:Hard Cap
 W:55:12:20:45000
 A:80:55 to 100
 P:3:1d1:0:0:18
@@ -609,7 +609,7 @@ D:greatest treasures of Middle-Earth.
 
 
 N:35:of Berúthiel
-I:crown:Iron Crown
+I:crown:Crown
 W:40:12:20:1
 A:80:45 to 100
 P:0:1d1:0:0:20
@@ -622,7 +622,7 @@ D:cost.
 
 
 N:36:of Thranduil
-I:helm:Hard Leather Cap
+I:helm:Soft Cap
 W:50:2:15:50000
 A:140:40 to 100
 P:2:0d0:0:0:10
@@ -633,7 +633,7 @@ D:his forest domain.
 
 
 N:37:of Thengel
-I:helm:Metal Cap
+I:helm:Soft Cap
 W:10:2:20:22000
 A:180:10 to 100
 P:3:1d1:0:0:12
@@ -644,7 +644,7 @@ D:engraved silver.  It grants the wearer nobility and understanding.
 
 
 N:38:of Hammerhand
-I:helm:Steel Helm
+I:helm:Full Helm
 W:20:8:60:45000
 A:110:40 to 127
 P:9:1d3:0:0:20
@@ -658,7 +658,7 @@ D:knew of his coming, none could stand against him.
 
 
 N:39:of Dor-Lómin
-I:helm:Iron Helm
+I:helm:Helm
 W:40:20:50:300000
 A:50:40 to 127
 P:7:1d3:0:0:20
@@ -675,7 +675,7 @@ D:hearts of the servants of Morgoth.
 
 
 N:40:'Holhenneth'
-I:helm:Iron Helm
+I:helm:Helm
 W:20:5:50:100000
 A:180:20 to 100
 P:7:1d3:0:0:10
@@ -688,7 +688,7 @@ D:awareness.
 
 
 N:41:of Gorlim
-I:helm:Iron Helm
+I:helm:Helm
 W:20:5:75:1
 A:180:20 to 75
 P:7:1d3:8:8:10
@@ -848,7 +848,7 @@ D:with magics he could channel in battle.
 
 
 N:52:'Cambeleg'
-I:gloves:Set of Leather Gloves
+I:gloves:Set of Gloves
 W:10:6:5:36000
 A:20:10 to 100
 P:1:0d0:8:8:15
@@ -858,7 +858,7 @@ D:A hero's handgear that lends great prowess in battle.
 
 
 N:53:'Cammithrim'
-I:gloves:Set of Leather Gloves
+I:gloves:Set of Gloves
 W:10:3:5:30000
 A:180:10 to 80
 P:1:0d0:5:5:10
@@ -943,10 +943,10 @@ D:Morgoth seven mighty wounds and pain that will last until the end of Arda.
 ### Boots ###
 
 N:60:of Fëanor
-I:boots:Pair of Leather Boots
-W:40:120:20:300000
+I:boots:Pair of Hard Boots
+W:40:120:35:300000
 A:4:40 to 127
-P:2:1d1:0:0:20
+P:3:1d1:0:0:20
 F:RES_NEXUS
 E:HASTE1:200
 M:Your {kind} glow{s} bright green...
@@ -959,7 +959,7 @@ D:no other."
 
 
 N:61:'Dal-i-thalion'
-I:boots:Pair of Leather Boots
+I:boots:Pair of Sandals
 W:10:25:20:40000
 A:24:50 to 100
 P:2:1d1:0:0:15
@@ -973,7 +973,7 @@ D:against the powers of corruption and withering.
 
 
 N:62:of Thrór
-I:boots:Pair of Steel Shod Boots
+I:boots:Pair of Greaves
 W:30:25:60:12000
 A:50:30 to 100
 P:7:1d1:0:0:20
@@ -985,7 +985,7 @@ D:Dwarven king-in-exile who wore them.
 
 
 N:63:of Wormtongue
-I:boots:Pair of Leather Boots
+I:boots:Pair of Slippers
 W:10:15:20:17000
 A:80:15 to 80
 P:2:1d1:-1:-1:0
@@ -2002,7 +2002,7 @@ D:the field with all his kin, and was at first believed to be mortally wounded.
 
 
 N:134:of the Haradrim
-I:shield:Leather Shield
+I:shield:Large Shield
 W:35:12:90:25000
 A:50:35 to 127
 P:9:1d2:5:5:15
@@ -2017,10 +2017,10 @@ D:also draw attention to himself.
 
 
 N:135:of Elros
-I:shield:Wicker Shield
-W:40:6:30:60000
+I:shield:Buckler
+W:40:6:20:60000
 A:100:50 to 127
-P:2:1d1:0:0:20
+P:1:1d1:0:0:20
 F:RES_ELEC | RES_SHARD | RES_CONFU | HOLD_LIFE
 L:4:CON
 L:1:WIS | INT
@@ -2043,7 +2043,7 @@ D:himself, whom no mortal man could hinder.
 
 
 N:137:of Radagast
-I:boots:Pair of Leather Boots
+I:boots:Pair of Soft Boots
 W:10:25:20:7000
 A:80:15 to 70
 P:2:1d1:0:0:12
@@ -2087,10 +2087,10 @@ D: Sauron for what he was.
 
 
 N:140:of The Sun
-I:shield:Large Metal Shield
-W:40:9:120:160000 
+I:shield:Large Shield
+W:40:9:60:160000 
 A:80:40 to 100
-P:12:1d3:0:0:20 
+P:5:1d3:0:0:20 
 F:RES_FIRE | RES_FEAR | FREE_ACT
 L:3:LIGHT | SPEED
 E:SUN_HERO:300+4d50

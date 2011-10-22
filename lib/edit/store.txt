@@ -8,25 +8,25 @@
 
 # Armoury
 S:2:33
-I:2:boots:Pair of Leather Sandals
-I:2:boots:Pair of Leather Boots
-I:1:boots:Pair of Iron Shod Boots
-I:2:helm:Hard Leather Cap
-I:1:helm:Metal Cap
-I:1:helm:Iron Helm
+I:2:boots:Pair of Sandals
+I:2:boots:Pair of Soft Boots
+I:1:boots:Pair of Hard Boots
+I:2:helm:Soft Cap
+I:1:helm:Hard Cap
+I:1:helm:Helm
 I:2:soft armour:Robe
-I:4:soft armour:Soft Leather Armour
-I:2:soft armour:Studded Leather Armour
-I:2:soft armour:Hard Leather Armour
-I:2:soft armour:Leather Scale Mail
-I:1:hard armour:Metal Scale Mail
+I:4:soft armour:Jerkin
+I:2:soft armour:Studded Armour
+I:2:soft armour:Banded Armour
+I:2:soft armour:Splinted Armour
+I:1:hard armour:Ring Mail
 I:1:hard armour:Chain Mail
 I:2:cloak:Cloak
-I:2:gloves:Set of Leather Gloves
+I:2:gloves:Set of Gloves
 I:1:gloves:Set of Gauntlets
-I:2:shield:Wicker Shield
-I:1:shield:Small Metal Shield
-I:2:shield:Leather Shield
+I:2:shield:Small Shield
+I:1:shield:Large Shield
+I:2:shield:Kite Shield
 
 # Weaponsmith
 S:3:33
@@ -55,7 +55,7 @@ I:1:bow:Sling
 I:1:bow:Short Bow
 I:1:bow:Long Bow
 I:1:bow:Light Crossbow
-I:2:shot:Iron Shot
+I:2:shot:Sling Shot
 I:2:arrow:Arrow
 I:2:bolt:Bolt
 

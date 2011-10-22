@@ -320,8 +320,8 @@ G:|:W
 I:23:2
 W:3:0:30:45
 A:20:3 to 100
-P:0:1d5:0:0:0
-D:A parrying-dagger for the left hand.
+P:3:1d4:0:0:0
+D:A parrying dagger for the left hand.
 
 N:32:& Rapier~
 G:|:W
@@ -706,7 +706,7 @@ N:101:& Seeker Arrow~
 G:{:G
 I:17:2
 W:55:0:2:20
-A:25:55 to 100
+A:20:55 to 100
 M:100:7d7
 P:0:4d4:0:0:0
 F:GOOD
@@ -717,7 +717,7 @@ G:{:B
 I:17:3
 W:55:0:2:25
 M:100:7d7
-A:20:50 to 100
+#A:20:50 to 100
 P:0:3d4:0:0:0
 F:IGNORE_ACID | IGNORE_FIRE | GOOD
 D:A dwarven arrow of the most durable metal.
@@ -738,7 +738,7 @@ G:{:g
 I:18:2
 W:65:0:3:25
 M:100:5d7
-A:25:65 to 100
+A:20:65 to 100
 P:0:4d5:0:0:0
 F:GOOD
 D:A bolt that is designed to pierce through any material.
@@ -748,7 +748,7 @@ G:{:B
 I:18:3
 W:50:0:2:30
 M:100:5d7
-A:20:60 to 100
+#A:20:60 to 100
 P:0:3d5:0:0:0
 F:IGNORE_ACID | GOOD
 D:A dwarven bolt of the most durable metal.
@@ -762,21 +762,21 @@ A:30:0 to 100
 P:0:1d2:0:0:0
 D:A smooth stone that flies straight. It can be shot with a sling.
 
-N:111:& Iron Shot~
+N:111:& Sling Shot~
 G:{:s
 I:16:1
 W:3:0:5:2
 M:100:5d7
 A:25:3 to 100
 P:0:1d4:0:0:0
-D:A heavy iron ball. It can be shot with a sling.
+D:A heavy ball. It can be shot with a sling.
 
 N:112:& Mithril Shot~
 G:{:B
 I:16:2
 W:40:0:4:20
 M:100:5d7
-A:20:40 to 100
+#A:20:40 to 100
 P:0:2d4:5:5:0
 F:IGNORE_ACID | GOOD
 D:A heavy mithril ball. It can be shot with a sling.
@@ -812,97 +812,92 @@ D:Two sharp blades on a pole, used for mining or combat.
 
 ##### Armor #####
 
-N:130:& Pair~ of Leather Sandals
+N:130:& Pair~ of Sandals
 G:]:U
 I:30:1
 W:0:0:15:4
 A:20:1 to 100
-P:1:1d1:0:0:0
+P:2:1d1:0:0:0
 D:A set of open-topped footgear with soft calfskin lacings and a sturdy 
-D: cured leather base.
+D: padded base.
 
-N:131:& Pair~ of Leather Boots
+N:131:& Pair~ of Soft Boots
 G:]:U
 I:30:2
 W:3:0:20:7
 A:20:3 to 100
-P:2:1d1:0:0:0
-D:A set of closed footgear with a sturdy cured leather base.
+P:3:1d1:0:0:0
+D:A set of closed footgear with a padded base.
 
-N:132:& Pair~ of Iron Shod Boots
+N:132:& Pair~ of Hard Boots
 G:]:U
 I:30:3
 W:5:0:35:12
 A:20:5 to 100
 P:4:1d1:0:0:0
-F:IGNORE_FIRE
-D:A set of closed footgear, covered in iron to protect from fire.
+D:A set of closed footgear, covered to protect from fire.
 
-N:133:& Pair~ of Steel Shod Boots
+N:133:& Pair~ of Greaves
 G:]:s
 I:30:4
 W:20:0:60:50
 A:20:20 to 100
 P:7:1d1:0:0:0
-F:IGNORE_FIRE
-D:A heavy set of closed footgear, covered in tempered steel.
+D:A heavy set of closed footgear, covered in several protective layers.
 
 N:134:& Pair~ of Mithril Shod Boots
 G:]:B
 I:30:5
 W:60:0:40:500
-A:20:60 to 100
+#A:20:60 to 100
 P:8:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_FIRE
 D:A set of dwarven footgear covered in Dwarven mithril. It is the
 D: most protective and durable of all boots.
 
-N:135:& Pair~ of Ethereal Slippers
+N:135:& Pair~ of Slippers
 G:]:U
 I:30:6
 W:0:0:0:4
-A:10:30 to 100
-P:0:0d0:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
-D:A set of light, aery footgear made from an indeterminate, transparent fabric.
-D: You cannot feel its weight.
-
+A:20:10 to 100
+P:1:0d0:0:0:0
+D:A set of light, airy footgear made from soft fabric.
 
 ### Headgear ###
 
-N:140:& Hard Leather Cap~
+N:140:& Soft Cap~
 G:]:u
 I:32:2
 W:3:0:20:12
 A:20:3 to 100
 P:2:0d0:0:0:0
-D:A piece of headgear made of tough, cured leather.
+D:A simple cloth head covering.
 
-N:141:& Metal Cap~
+N:141:& Hard Cap~
 G:]:s
 I:32:3
 W:10:0:25:30
 A:20:10 to 100
 P:3:1d1:0:0:0
-D:A piece of headgear made from soft metal.
+D:A stout piece of headgear.
 
-N:142:& Iron Helm~
+N:142:& Helm~
 G:]:s
 I:32:5
 W:20:0:50:75
 A:20:20 to 100
 P:7:1d3:0:0:0
-D:A heavy piece of headgear made from hard iron.
+D:A heavy piece of headgear covering the whole face.
 
-N:143:& Steel Helm~
+N:143:& Full Helm~
 G:]:W
 I:32:6
 W:40:0:60:200
 A:20:40 to 100
 P:9:1d3:0:0:0
-D:A complete covering of the head and shoulders made from tempered steel.
+D:A complete covering of the head, neck and shoulders.
 
-N:144:& Iron Crown~
+N:144:& Crown~
 G:]:s
 I:33:10
 W:45:0:20:500
@@ -914,9 +909,8 @@ N:145:& Golden Crown~
 G:]:y
 I:33:11
 W:45:0:30:1000
-A:10:45 to 100
+#A:10:45 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID
 D:The symbol of kings. It is an open-topped headgear made from the purest gold.
 
 N:146:& Jewel Encrusted Crown~
@@ -925,7 +919,6 @@ I:33:12
 W:50:0:40:2000
 A:10:50 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID
 D:The symbol of ancient emperors.  It is an open-topped headgear covered with
 D: rubies, sapphires and emeralds.
 
@@ -937,47 +930,47 @@ I:36:2
 W:1:0:20:4
 A:20:1 to 100
 P:2:0d0:0:0:0
-D:An unrestrictive tunic of soft-fabric.
+D:An unrestrictive tunic of soft fabric.
 
-N:151:Soft Leather Armour~
+N:151:& Jerkin~
 G:(:U
 I:36:4
 W:3:0:80:20
 A:20:3 to 100
 P:8:0d0:0:0:0
-D:A leather jerkin that covers the vital organs.
+D:A soft jerkin that covers the vital organs.
 
-N:152:Studded Leather Armour~
+N:152:Studded Armour~
 G:(:U
 I:36:7
 W:10:0:100:100
 A:20:5 to 100
 P:12:1d1:-1:0:0
-D:A leather jerkin fastened with metal for extra protection.
+D:A jerkin fastened with metal for extra protection.
 
-N:153:Hard Leather Armour~
+N:153:Banded Armour~
 G:(:U
 I:36:6
 W:5:0:120:150
 A:20:10 to 100
 P:16:1d2:-1:0:0
-D:A leather jerkin made from tough, inflexible leather.
+D:A cured jerkin reinforced with horizontal bands.
 
-N:154:Leather Scale Mail~
+N:154:Splinted Armour~
 G:(:U
 I:36:11
 W:15:0:140:370
 A:20:15 to 100
 P:20:1d1:-1:0:0
-D:A set of cured leather bodywear made from overlapping leather scales.
+D:A set of cured bodywear made from overlapping scales splinted together.
 
-N:155:Metal Scale Mail~
+N:155:Ring Mail~
 G:[:s
 I:37:1
 W:25:0:250:550
 A:20:25 to 100
 P:38:1d4:-2:0:0
-D:A leather jerkin covered with overlapping metal scales.
+D:A leather jerkin covered with heavy overlapping metal rings.
 
 N:156:Chain Mail~
 G:[:s
@@ -993,18 +986,17 @@ I:37:3
 W:30:0:270:900
 A:20:35 to 100
 P:42:1d4:-2:0:0
-D:Chain mail with tougher alloys and covered by plates in key locations.
+D:Chain mail covered by plates in key locations.
 
-#Seriously guessing what this is, the internet is of no help#
-N:158:Bar Chain Mail~
+N:158:Partial Plate Armour~
 G:[:s
 I:37:4
 W:35:0:280:950
 A:20:40 to 100
 P:45:1d4:-2:0:0
-D:Chain mail reinforced by sturdy metal bars.
+D:A breastplate with shoulder and thigh guards. 
 
-N:159:Metal Brigandine Armour~
+N:159:Brigandine Armour~
 G:[:s
 I:37:5
 W:35:0:290:1100
@@ -1012,15 +1004,15 @@ A:20:45 to 100
 P:48:1d4:-3:0:0
 D:A cloth jerkin covered with thick metal plates.
 
-N:160:Partial Plate Armour~
+N:160:& Breastplate~
 G:[:W
 I:37:6
 W:45:0:260:1200
 A:20:30 to 100
 P:40:1d6:-3:0:0
-D:Two large plates of metal used to cover the torso. 
+D:A torso covering of two thick metal plates.
 
-N:161:Metal Lamellar Armour~
+N:161:Lamellar Armour~
 G:[:W
 I:37:7
 W:45:0:340:1250
@@ -1083,19 +1075,19 @@ A:20:1 to 100
 P:1:0d0:0:0:0
 D:A traveller's sturdy outer garment.
 
-N:171:& Fur Cloak~
+N:171:& Heavy Cloak~
 G:(:o
 I:35:2
 W:1:0:25:600
 A:20:20 to 100
 P:3:0d0:0:0:0
-D:A heavy cloak made from fur and lined with leather; a luxury.
+D:A heavy cloak, warm and lined; a luxury.
 
 N:172:& Elven Cloak~
 G:(:D
 I:35:3
 W:60:0:5:2000
-A:8:40 to 100
+#A:8:40 to 100
 P:6:0d0:0:0:0
 F:GOOD
 L:1:STEALTH | SPEED
@@ -1106,7 +1098,7 @@ N:173:& Ethereal Cloak~
 G:(:W
 I:35:4
 W:50:0:0:4500
-A:10:70 to 100
+#A:10:70 to 100
 P:0:0d0:0:0:10
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
 D:This unearthly, completely transparent body mantle folds and drapes in
@@ -1116,13 +1108,13 @@ D: iridescent patterns around you.  It weighs absolutely nothing.
 
 ### The Gloves ###
 
-N:174:& Set~ of Leather Gloves
+N:174:& Set~ of Gloves
 G:]:U
 I:31:1
 W:0:0:10:5
 A:20:1 to 100
 P:1:0d0:0:0:0
-D:A set of handgear made from soft leather.
+D:A set of soft, flexible handgear.
 
 N:175:& Set~ of Gauntlets
 G:]:s
@@ -1130,16 +1122,15 @@ I:31:2
 W:0:0:25:45
 A:20:10 to 100
 P:3:1d1:0:0:0
-D:A set of handgear made from iron.
+D:A set of sturdy handgear.
 
-N:176:& Set~ of Mithril Gauntlets
+N:176:& Set~ of Bracers
 G:]:B
 I:31:3
 W:0:0:25:700
 A:20:40 to 100
 P:6:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_FIRE
-D:An incredibly protective and durable set of handgear.
+D:A very protective set of handgear, covering the entire arm.
 
 N:177:& Set~ of Caestus
 G:]:U
@@ -1147,14 +1138,14 @@ I:31:4
 W:0:0:40:100
 A:10:20 to 100
 P:5:1d1:0:d3:0
-D:An ancient battle glove designed for hand-to-hand fighting.  Its layered
+D:An ancient battle glove designed for hand-to-hand fighting. Its layered
 D: leather thongs are enhanced for combat by bloody-looking spikes.
 
 N:178:& Set~ of Alchemist's Gloves
 G:]:R
 I:31:5
 W:0:0:5:500
-A:10:50 to 100
+#A:10:50 to 100
 P:0:1d1:0:0:2
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:SPELLS_OK | GOOD
@@ -1171,55 +1162,53 @@ D:Highly protective gloves designed for an alchemist's elemental magics.
 
 ### The shields ###
 
-#N:180:& Buckler~
-#G:):U
-#I:34:1
-#W:3:0:20:30
-#A:100:3 to 100
-#P:1:1d1:0:0:0
-#D:A small round shield designed to be useful in deflecting enemy swords.
+N:180:& Buckler~
+G:):U
+I:34:1
+W:3:0:20:30
+A:20:3 to 100
+P:1:1d1:0:0:0
+D:A small round shield designed to be useful in deflecting enemy swords.
 
-N:181:& Wicker Shield~
+N:181:& Small Shield~
 G:):U
 I:34:2
 W:1:0:30:20
 A:20:1 to 100
 P:2:1d1:0:0:0
-D:A light circular frame of wood surrounding fine-grained wickerwork.
+D:A small round shield work on the forearm.
 
-N:182:& Small Metal Shield~
+N:182:& Large Shield~
 G:):s
 I:34:3
 W:10:0:60:80
 A:20:15 to 100
 P:5:1d2:0:0:0
-D:A metal shield designed to protect from enemy attacks.
+D:A large round shield designed to protect from enemy attacks.
 
-N:183:& Leather Shield~
+N:183:& Kite Shield~
 G:):U
 I:34:4
 W:15:0:90:200
 A:20:10 to 100
 P:8:1d3:0:0:0
-D:A thick leather shield designed to protect from enemy attacks.
+D:A thick triangular shield designed to protect from enemy attacks.
 
-N:184:& Large Metal Shield~
+N:184:& Tower Shield~
 G:):s
 I:34:5
 W:30:0:120:500
 A:20:30 to 100
 P:12:1d5:0:0:0
-D:An oversized metal shield.  You can fit your entire body behind it.
+D:A huge rectangular metal shield.
 
-N:185:& Mithril Shield~
+N:185:& Bulwark~
 G:):B
 I:34:10
 W:70:0:100:10000
 A:10:70 to 100
 P:16:1d4:0:0:10
-F:IGNORE_ACID | GOOD
-D:A gleaming Dwarven shield that can repel all but the strongest attacks 
-D: and will never corrode.
+D:A massive barrier shield. You can fit your entire body behind it.
 
 ##### Rings #####
 
