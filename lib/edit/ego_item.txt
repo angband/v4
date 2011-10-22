@@ -37,9 +37,14 @@
 # http://trac.rephial.org/ticket/1451.
 
 # 'N' indicates the beginning of an entry. The serial number must 
-# increase for each new item. type is prefix or suffix. name is the 
-# textual name, which is used in ego_themes.txt - it is important that
-# no two affixes have identical names.
+# increase for each new item. All magical properties are suffixes.  A
+# material can have many magical properties.  All non-magical properties
+# are prefixes.  These are subdivided into material, make, and quality.
+# Material defines the materials that the item is made out of.
+# Make defines who the object is designed for (i.e. dwarven, elven, trollish)
+# Quality defines how good the object is, (sharp, rusty, etc.)
+# An object can only have one of each of these categories, to prevent having
+# meaningless objects like rusty, sharp daggers, or hobbitish, giant hammers.
 
 # 'C' is for combat values - to-hit, to-dam, to-ac. All of these fields 
 # accept randomized values. base_ac_mod and weight_mod are percentages 
