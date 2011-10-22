@@ -151,7 +151,7 @@ F:AGGRAVATE
 
 ### Crowns and Helms ###
 
-N:23:prefix:Sophisticated
+N:23:suffix:of Sophistication
 F:SUST_INT
 T:helm:0:99:great:20:5 to 100
 T:crown:0:99:great:10:45 to 70
@@ -172,7 +172,7 @@ T:polearm:0:99:great:10:21 to 100
 T:sword:0:99:great:10:21 to 100
 T:hafted:0:99:great:10:21 to 100
 
-N:26:prefix:Intuitive
+N:26:suffix:of Intuition
 F:SUST_WIS
 T:helm:0:99:great:20:5 to 100
 T:crown:0:99:great:10:45 to 70
@@ -183,7 +183,7 @@ L:d3:0:CHR
 T:helm:0:99:good:20:1 to 40
 T:crown:0:99:great:10:45 to 70
 
-N:29:prefix:Revealing
+N:29:suffix:of Observation
 F:SEE_INVIS
 T:helm:0:99:great:20:10 to 50
 T:polearm:0:99:great:10:21 to 100
@@ -324,7 +324,7 @@ L:-d10:0:SPEED | STEALTH
 
 ### Weapons ###
 
-N:66:prefix:Pious
+N:66:suffix:of Piety
 F:BLESSED
 T:hafted:0:99:good:19:1 to 60
 T:polearm:0:99:good:19:1 to 60
@@ -496,7 +496,7 @@ T:light:0:99:great:20:1 to 55
 T:crown:0:99:great:20:25 to 70
 T:helm:0:99:great:20:25 to 70
 
-N:98:prefix:Everburning
+N:98:suffix:of Everburning
 F:NO_FUEL
 T:light:0:99:great:12:10 to 100
 
@@ -1012,7 +1012,7 @@ T:crown:0:99:great:10:45 to 127
 #T:ring:0:99:good:10:25 to 127
 T:soft armour:2:2:uber:10:50 to 127
 
-N:189:prefix:Fearless
+N:189:suffix:of Fearlessness
 F:RES_FEAR
 T:crown:0:99:great:10:15 to 127
 T:helm:0:99:great:10:15 to 127
@@ -1020,7 +1020,7 @@ T:polearm:0:99:great:10:11 to 100
 T:sword:0:99:great:10:11 to 100
 T:hafted:0:99:great:10:11 to 100
 
-N:190:prefix:Silent
+N:190:suffix:of Silence
 F:RES_SOUND
 T:crown:0:99:uber:10:50 to 127
 T:helm:0:99:uber:10:50 to 127
@@ -1100,19 +1100,19 @@ N:201:suffix:of Dweomercraft
 R:1:MISC | PROT
 # only available on themed items
 
-N:202:prefix:Protective
+N:202:suffix:of Sustainment
 R:1:SUST
 # only available on themed items
 
-N:203:prefix:Robust
+N:203:suffix:of Robustness
 F:SUST_STR
 # not sure yet
 
-N:204:prefix:Hale
+N:204:suffix:of Health
 F:SUST_CON
 # ditto
 
-N:205:prefix:Dextrous
+N:205:suffix:of Adroitness
 F:SUST_DEX
 # ditto
 
