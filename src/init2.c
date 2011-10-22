@@ -1217,23 +1217,33 @@ struct file_parser f_parser = {
 /* Parsing functions for ego-item.txt */
 static int ego_find_type(const char *type)
 {
-	if (!my_stricmp(type, "prefix") || streq(type, "1"))
+	if (!my_stricmp(type, "make") || streq(type, "1"))
 		return 1;
-	if (!my_stricmp(type, "suffix") || streq(type, "2"))
+	if (!my_stricmp(type, "material") || streq(type, "2"))
 		return 2;
+	if (!my_stricmp(type, "quality") || streq(type, "3"))
+		return 3;
+	if (!my_stricmp(type, "suffix") || streq(type, "4"))
+		return 4;
+	if (!my_stricmp(type, "prefix") || streq(type, "5"))
+		return 5;
 	return 0;
 }
 
 static int ego_find_level(const char *level)
 {
-	if (!my_stricmp(level, "good") || streq(level, "1"))
+	if (!my_stricmp(level, "bad") || streq(level, "1"))
 		return 1;
-	if (!my_stricmp(level, "great") || streq(level, "2"))
+	if (!my_stricmp(level, "average") || streq(level, "2"))
 		return 2;
-	if (!my_stricmp(level, "uber") || streq(level, "3"))
+	if (!my_stricmp(level, "good") || streq(level, "3"))
 		return 3;
-	if (!my_stricmp(level, "artifact") || streq(level, "4"))
+	if (!my_stricmp(level, "great") || streq(level, "4"))
 		return 4;
+	if (!my_stricmp(level, "uber") || streq(level, "5"))
+		return 5;
+	if (!my_stricmp(level, "artifact") || streq(level, "6"))
+		return 6;
 	return 0;
 }
 

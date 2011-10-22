@@ -35,32 +35,31 @@ void obj_affix_names(object_type *o_ptr)
 	o_ptr->prefix = NULL;
 	o_ptr->suffix = NULL;
 
-	for (i = 0; i < MAX_AFFIXES; i++) {
-		if (o_ptr->affix[i]) {
-			best = 0;
-			theme_has = FALSE;
-			/* Find the affix level of this affix for this object */
-			for (j = 0; j < EGO_TVALS_MAX; j++)
-				if (o_ptr->tval == o_ptr->affix[i]->tval[j] &&
-						o_ptr->sval >= o_ptr->affix[i]->min_sval[j] &&
-						o_ptr->sval <= o_ptr->affix[i]->max_sval[j] &&
-						o_ptr->affix[i]->level[j] > best)
-					best = o_ptr->affix[i]->level[j];
+	for (i = 0; i < MAX_AFFIXES && o_ptr->affix[i]; i++) {
+		best = 0;
+		theme_has = FALSE;
+		/* Find the affix level of this affix for this object */
+		for (j = 0; j < EGO_TVALS_MAX; j++)
+			if (o_ptr->tval == o_ptr->affix[i]->tval[j] &&
+					o_ptr->sval >= o_ptr->affix[i]->min_sval[j] &&
+					o_ptr->sval <= o_ptr->affix[i]->max_sval[j] &&
+					o_ptr->affix[i]->level[j] > best)
+				best = o_ptr->affix[i]->level[j];
 
-			/* See if the object's theme has this affix */
-			for (j = 0; o_ptr->theme && j < o_ptr->theme->num_affixes; j++)
-				if (o_ptr->theme->affix[j] == o_ptr->affix[i]->eidx)
-					theme_has = TRUE;
+		/* See if the object's theme has this affix */
+		for (j = 0; o_ptr->theme && j < o_ptr->theme->num_affixes; j++)
+			if (o_ptr->theme->affix[j] == o_ptr->affix[i]->eidx)
+				theme_has = TRUE;
 
-			/* Track the best affixes which are not in the theme */
-			if (o_ptr->affix[i]->type == 1 && best > pref_lev && !theme_has) {
-				pref_lev = best;
-				best_pref = i;
-			} else if (o_ptr->affix[i]->type == 2 && best > suf_lev &&
-					!theme_has) {
-				suf_lev = best;
-				best_suf = i;
-			}
+		/* Track the best affixes which are not in the theme */
+		if (affix_is_prefix(o_ptr->affix[i]->eidx) && best > pref_lev &&
+				!theme_has) {
+			pref_lev = best;
+			best_pref = i;
+		} else if (affix_is_suffix(o_ptr->affix[i]->eidx) && best > suf_lev &&
+				!theme_has) {
+			suf_lev = best;
+			best_suf = i;
 		}
 	}
 
@@ -385,7 +384,7 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 		o_ptr->kind->everseen = TRUE;
 
 	if (mode & ODESC_AFFIX && (spoil || object_prefix_is_visible(o_ptr))) {
-		if (o_ptr->theme && o_ptr->theme->type == 1)
+		if (o_ptr->theme && theme_is_prefix(o_ptr->theme->index))
 			prefix =  o_ptr->theme->name;
 		else if	(o_ptr->prefix)
 			prefix =  o_ptr->prefix->name;
@@ -413,7 +412,7 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 		strnfcat(buf, max, &end, " %s", o_ptr->artifact->name);
 
 	else if (mode & ODESC_AFFIX && (spoil || object_suffix_is_visible(o_ptr))) {
-		if (o_ptr->theme && o_ptr->theme->type == 2)
+		if (o_ptr->theme && theme_is_suffix(o_ptr->theme->index))
 			strnfcat(buf, max, &end, " %s", o_ptr->theme->name);
 		else if	(o_ptr->suffix)
 			strnfcat(buf, max, &end, " %s", o_ptr->suffix->name);

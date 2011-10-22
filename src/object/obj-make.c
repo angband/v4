@@ -93,6 +93,75 @@ static int get_new_attr(bitflag flags[OF_SIZE], bitflag newf[OF_SIZE])
 }
 
 /**
+ * Functions to check affix types
+ */
+bool affix_is_quality(int i)
+{
+	ego_item_type *affix = &e_info[i];
+
+	if (affix->type == AFFIX_QUALITY)
+		return TRUE;
+
+	return FALSE;
+}
+bool affix_is_material(int i)
+{
+	ego_item_type *affix = &e_info[i];
+
+	if (affix->type == AFFIX_MATERIAL)
+		return TRUE;
+
+	return FALSE;
+}
+bool affix_is_make(int i)
+{
+	ego_item_type *affix = &e_info[i];
+
+	if (affix->type == AFFIX_MAKE)
+		return TRUE;
+
+	return FALSE;
+}
+bool affix_is_suffix(int i)
+{
+	ego_item_type *affix = &e_info[i];
+
+	if (affix->type == AFFIX_SUFFIX)
+		return TRUE;
+
+	return FALSE;
+}
+bool affix_is_prefix(int i)
+{
+	ego_item_type *affix = &e_info[i];
+
+	if (affix->type == AFFIX_QUALITY || affix->type == AFFIX_MAKE ||
+			affix->type == AFFIX_MATERIAL)
+		return TRUE;
+
+	return FALSE;
+}
+bool theme_is_suffix(int i)
+{
+	struct theme *theme = &themes[i];
+
+	if (theme->type == AFFIX_SUFFIX)
+		return TRUE;
+
+	return FALSE;
+}
+bool theme_is_prefix(int i)
+{
+	struct theme *theme = &themes[i];
+
+	if (theme->type == AFFIX_PREFIX)
+		return TRUE;
+
+	return FALSE;
+}
+
+
+/**
  * Check item flags for legality. This function currently does three things:
  *  - checks slay_table for slay & brand contradictions (dedup_slays)
  *  - checks gf_table for imm/res/vuln contradictions (dedup_gf_flags)
@@ -134,8 +203,19 @@ static int obj_find_affix(object_type *o_ptr, int level, int affix_lev)
 	long total = 0L;
 	alloc_entry *table;
 	ego_item_type *ego;
+	bool material = FALSE, make = FALSE, quality = FALSE;
 
 	table = C_ZNEW(z_info->e_max, alloc_entry);
+
+	/* Look through an item's existing affixes for material/make/quality */
+	for (i = 0; i < MAX_AFFIXES && o_ptr->affix[i]; i++) {
+		if (affix_is_quality(o_ptr->affix[i]->eidx))
+			quality = TRUE;
+		if (affix_is_make(o_ptr->affix[i]->eidx))
+			make = TRUE;
+		if (affix_is_material(o_ptr->affix[i]->eidx))
+			material = TRUE;
+	}
 
 	/* Go through all possible affixes and find ones legal for this item */
 	for (i = 0; i < z_info->e_max; i++) {
@@ -148,6 +228,10 @@ static int obj_find_affix(object_type *o_ptr, int level, int affix_lev)
 					o_ptr->sval <= ego->max_sval[j] &&
 					level >= ego->alloc_min[j] &&
 					level <= ego->alloc_max[j] &&
+					((affix_is_quality(i) && !quality) ||
+					(affix_is_make(i) && !make) ||
+					(affix_is_material(i) && !material) ||
+					(affix_is_suffix(i))) &&
 					affix_lev >= ego->level[j]) {
 				table[i].prob3 = ego->alloc_prob[j];
 				table[i].index = ego->eidx;
@@ -340,7 +424,7 @@ static void obj_apply_theme(object_type *o_ptr, int level, int this_one)
 		for (j = 0; j < MAX_AFFIXES; j++) {
 			if (!o_ptr->affix[j]) continue;
 			if ((o_ptr->affix[j]->eidx == o_ptr->theme->affix[i]) &&
-					(o_ptr->theme->affix[i] != o_ptr->theme->affix[i-1]))
+					(o_ptr->theme->affix[i] != o_ptr->theme->affix[i - 1]))
 				gotit = TRUE;
 		}
 		if (!gotit)
@@ -630,7 +714,7 @@ void object_prep(object_type *o_ptr, struct object_kind *k, int lev,
 s16b apply_magic(object_type *o_ptr, int lev, bool allow_artifacts,
 		bool good, bool great)
 {
-	int i, affix_lev = 1, affixes;
+	int i, affix_lev = 3, affixes;
 	bool art = FALSE;
 
 	/* Set the number and quality of affixes this item will have */

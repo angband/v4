@@ -37,14 +37,15 @@
 # http://trac.rephial.org/ticket/1451.
 
 # 'N' indicates the beginning of an entry. The serial number must 
-# increase for each new item. All magical properties are suffixes.  A
-# material can have many magical properties.  All non-magical properties
-# are prefixes.  These are subdivided into material, make, and quality.
-# Material defines the materials that the item is made out of.
-# Make defines who the object is designed for (i.e. dwarven, elven, trollish)
-# Quality defines how good the object is, (sharp, rusty, etc.)
-# An object can only have one of each of these categories, to prevent having
-# meaningless objects like rusty, sharp daggers, or hobbitish, giant hammers.
+# increase for each new item. All magical properties are suffixes. A 
+# material can have many magical properties. All non-magical properties 
+# are prefixes. These are subdivided into material, make, and quality. 
+# Material defines the material(s) from which the item is made. Make 
+# defines the intended users of the object (i.e. dwarven, elven, 
+# trollish). Quality defines how good the object is (sharp, rusty, 
+# etc.). An object can only have one of each of these categories, to 
+# prevent having meaningless objects like rusty+sharp daggers, or 
+# hobbitish+giant hammers.
 
 # 'C' is for combat values - to-hit, to-dam, to-ac. All of these fields 
 # accept randomized values. base_ac_mod and weight_mod are percentages 
@@ -391,16 +392,16 @@ T:arrow:0:99:great:12:10 to 100
 T:bolt:0:99:great:12:10 to 100
 
 N:77:suffix:of Enchantment
-C:M6:M6
+C:M6:M6:0
 T:hafted:0:99:good:100:1 to 100
 T:polearm:0:99:good:100:1 to 100
 T:sword:0:99:good:100:1 to 100
 T:bow:0:99:good:100:1 to 100
 T:shot:0:99:good:100:1 to 100
 T:arrow:0:99:good:100:1 to 100
-T:bolt:0:99:good:00:1 to 100
+T:bolt:0:99:good:100:1 to 100
 
-N:78:suffix:of Enchantment
+N:78:suffix:of Sorcery
 C:0:0:M8
 T:soft armour:0:99:good:100:1 to 100
 T:hard armour:0:99:good:100:1 to 100
@@ -792,7 +793,7 @@ T:polearm:0:99:good:10:56 to 100
 T:sword:0:99:good:10:56 to 100
 T:arrow:0:99:good:10:1 to 60
 
-N:160:quality:Good
+N:160:quality:Journeyman's
 C:1+M5:1+M5:0:0:0:0:0
 T:hafted:0:99:good:20:6 to 100
 T:polearm:0:99:good:20:6 to 100
@@ -1034,7 +1035,7 @@ T:crown:0:99:great:10:45 to 127
 #T:ring:0:99:good:10:25 to 127
 T:soft armour:2:2:uber:10:50 to 127
 
-N:189:suffix:of Fearlessness
+N:189:suffix:of Bravery
 F:RES_FEAR
 T:crown:0:99:great:10:15 to 127
 T:helm:0:99:great:10:15 to 127
@@ -1122,7 +1123,7 @@ N:201:suffix:of Dweomercraft
 R:1:MISC | PROT
 # only available on themed items
 
-N:202:suffix:of Sustainment
+N:202:suffix:of Support
 R:1:SUST
 # only available on themed items
 

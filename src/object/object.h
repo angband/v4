@@ -48,18 +48,26 @@ enum {
 #define ORIGIN_SIZE FLAG_SIZE(ORIGIN_MAX)
 #define ORIGIN_BYTES 4 /* savefile bytes - room for 32 origin types */
 
-/* Maximum number of affixes and pvals on objects (and therefore of L: lines in
+/* Maximum number pvals on objects (and therefore of L: lines in
    object.txt and ego-item.txt) */
-#define MAX_AFFIXES 	8
 #define MAX_PVALS 		3
 #define DEFAULT_PVAL	0 /* TODO: remove this */
 
 /* Maximum number of T: and R/R2: lines in ego-item.txt, and no-op value for
-   missing M: lines, and max affixes per theme */
+   missing M: lines, and constants about affixes */
 #define EGO_TVALS_MAX 	  9
 #define EGO_RANDFLAGS_MAX 4
 #define NO_MINIMUM 		225
 #define THEME_AFFIX_MAX  16
+#define MAX_AFFIXES 	  8
+enum {
+	AFFIX_NULL = 0,
+	AFFIX_MAKE,
+	AFFIX_MATERIAL,
+	AFFIX_QUALITY,
+	AFFIX_SUFFIX,
+	AFFIX_PREFIX
+};
 
 /* Maximum number of attempts to create artifacts, and number of A: lines in
    artifact.txt */
@@ -601,6 +609,13 @@ void make_gold(object_type *j_ptr, int lev, int coin_type);
 void copy_artifact_data(object_type *o_ptr, const artifact_type *a_ptr);
 void ego_apply_magic(object_type *o_ptr, int level, int affix);
 void ego_min_pvals(object_type *o_ptr);
+bool affix_is_quality(int i);
+bool affix_is_make(int i);
+bool affix_is_material(int i);
+bool affix_is_suffix(int i);
+bool affix_is_prefix(int i);
+bool theme_is_suffix(int i);
+bool theme_is_prefix(int i);
 
 /* obj-ui.c */
 void show_inven(olist_detail_t mode);

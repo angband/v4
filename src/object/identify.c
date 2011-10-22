@@ -166,7 +166,7 @@ bool object_name_is_visible(const object_type *o_ptr)
  */
 bool object_prefix_is_visible(const object_type *o_ptr)
 {
-	if (o_ptr->theme && o_ptr->theme->type == 1 &&
+	if (o_ptr->theme && theme_is_prefix(o_ptr->theme->index) &&
 			object_theme_is_known(o_ptr))
 		return TRUE;
 
@@ -182,7 +182,7 @@ bool object_prefix_is_visible(const object_type *o_ptr)
  */
 bool object_suffix_is_visible(const object_type *o_ptr)
 {
-	if (o_ptr->theme && o_ptr->theme->type == 2 &&
+	if (o_ptr->theme && theme_is_suffix(o_ptr->theme->index) &&
 			object_theme_is_known(o_ptr))
 		return TRUE;
 
@@ -283,14 +283,17 @@ bool object_theme_is_known(const object_type *o_ptr)
 	if (!o_ptr->theme)
 		return FALSE;
 
-	if (o_ptr->ident & IDENT_KNOWN || o_ptr->ident & IDENT_STORE)
+	if (o_ptr->ident & IDENT_KNOWN || o_ptr->ident & IDENT_STORE) {
+		o_ptr->theme->everseen = TRUE;
 		return TRUE;
+	}
 
 	/* We know a theme when we know all its affixes */
 	for (i = 0; i < o_ptr->theme->num_affixes; i++)
 		if (!object_affix_is_known(o_ptr, o_ptr->theme->affix[i]))
 			return FALSE;
 
+	o_ptr->theme->everseen = TRUE;
 	return TRUE;
 }
 
