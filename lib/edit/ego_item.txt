@@ -390,9 +390,26 @@ T:shot:0:99:great:12:10 to 100
 T:arrow:0:99:great:12:10 to 100
 T:bolt:0:99:great:12:10 to 100
 
-# 77 (unused)
+N:77:suffix:of Enchantment
+C:M6:M6
+T:hafted:0:99:good:100:1 to 100
+T:polearm:0:99:good:100:1 to 100
+T:sword:0:99:good:100:1 to 100
+T:bow:0:99:good:100:1 to 100
+T:shot:0:99:good:100:1 to 100
+T:arrow:0:99:good:100:1 to 100
+T:bolt:0:99:good:00:1 to 100
 
-# 78 (unused)
+N:78:suffix:of Enchantment
+C:0:0:M8
+T:soft armour:0:99:good:100:1 to 100
+T:hard armour:0:99:good:100:1 to 100
+T:dragon armour:0:99:good:100:31 to 100
+T:shield:0:99:good:100:1 to 100
+T:cloak:0:99:good:100:1 to 100
+T:gloves:0:99:good:100:1 to 100
+T:boots:0:99:good:100:1 to 100
+T:helm:0:99:good:100:1 to 100
 
 # 79 (unused)
 
