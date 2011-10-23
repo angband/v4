@@ -209,13 +209,14 @@ s16b which_affix(const object_type *o_ptr, u16b idx)
 
 /**
  * \returns whether a given object affix is known
- * This may not be foolproof, but it's a start. Note that modifications to
- * dice, sides, base AC or weight are all assumed obvious.
+ * Note that modifications to dice, sides, base AC or weight are all assumed
+ * obvious. This will not work reliably if object kinds ever provide random
+ * flags.
  */
 bool object_affix_is_known(const object_type *o_ptr, u16b idx)
 {
 	int i;
-	bitflag f[OF_SIZE];
+	bitflag f[OF_SIZE], f2[OF_SIZE];
 	ego_item_type *affix = &e_info[idx];
 	ego_item_type *theme_affix;
 
@@ -244,17 +245,22 @@ bool object_affix_is_known(const object_type *o_ptr, u16b idx)
 			of_union(f, theme_affix->flags);
 		}
 
+	/* Then we add kind and base flags */
+	of_union(f, o_ptr->kind->base->flags);
+	of_union(f, o_ptr->kind->flags);
+
 	/* Then we subtract these from the object's flags - what's left is a
  	   set of flags which have come from random flags */
-	of_diff(f, o_ptr->flags);
+	object_flags(o_ptr, f2);
+	of_diff(f2, f);
 
 	/* Finally we look at the randmasks for this affix to see which was
 	   awarded */
 	for (i = 0; i < affix->num_randlines; i++)
-		of_inter(f, affix->randmask[i]);
+		of_inter(f2, affix->randmask[i]);
 
 	/* If we don't know all these, we don't know the affix */
-	if (!of_is_subset(o_ptr->known_flags, f))
+	if (!of_is_subset(o_ptr->known_flags, f2))
 		return FALSE;
 
 	/* We have to know the combat mods, if there are any. Since these are
@@ -404,11 +410,12 @@ static bool object_add_ident_flags(object_type *o_ptr, u32b flags)
 bool object_check_for_ident(object_type *o_ptr)
 {
 	bitflag flags[OF_SIZE], known_flags[OF_SIZE], f2[OF_SIZE];
-	
+
 	object_flags(o_ptr, flags);
 	object_flags_known(o_ptr, known_flags);
 
 	/* Some flags are irrelevant or never learned or too hard to learn */
+	/* CC: with rune-based ID, the ignore and hates flags could be done */
 	create_mask(f2, FALSE, OFT_INT, OFT_IGNORE, OFT_HATES, OFT_MAX);
 
 	of_diff(flags, f2);
@@ -431,14 +438,6 @@ bool object_check_for_ident(object_type *o_ptr)
 			object_notice_everything(o_ptr);
 			return TRUE;
 		}
-	}
-
-	/* We still know all the flags, so we still know if it's an ego */
-	if (o_ptr->ego)
-	{
-		/* require worn status so you don't learn launcher of accuracy or gloves of slaying before wield */
-		if (object_was_worn(o_ptr))
-			object_notice_ego(o_ptr);
 	}
 
 	return FALSE;
@@ -495,6 +494,7 @@ void object_flavor_tried(object_type *o_ptr)
 void object_know_all_flags(object_type *o_ptr)
 {
 	of_setall(o_ptr->known_flags);
+	of_union(p_ptr->known_runes, o_ptr->flags);
 }
 
 
@@ -526,7 +526,7 @@ bool object_is_not_known_consistently(const object_type *o_ptr)
 
 
 /**
- * Mark as object as fully known, a.k.a identified. 
+ * Mark as object as fully known, a.k.a identified.
  *
  * \param o_ptr is the object to mark as identified
  */
@@ -713,6 +713,7 @@ bool object_notice_flag(object_type *o_ptr, int flag)
 	if (!of_has(o_ptr->known_flags, flag))
 	{
 		of_on(o_ptr->known_flags, flag);
+		of_on(p_ptr->known_runes, flag);
 		/* XXX Eddie don't want infinite recursion if object_check_for_ident sets more flags,
 		 * but maybe this will interfere with savefile repair
 		 */
@@ -735,6 +736,7 @@ bool object_notice_flags(object_type *o_ptr, bitflag flags[OF_SIZE])
 	if (!of_is_subset(o_ptr->known_flags, flags))
 	{
 		of_union(o_ptr->known_flags, flags);
+		of_union(p_ptr->known_runes, flags);
 		/* XXX Eddie don't want infinite recursion if object_check_for_ident sets more flags,
 		 * but maybe this will interfere with savefile repair
 		 */

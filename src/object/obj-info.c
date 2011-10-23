@@ -1237,7 +1237,7 @@ static bool describe_origin(textblock *tb, const object_type *o_ptr)
 static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
 	bool ego)
 {
-	int i;
+	int i, count = 0;
 
 	/* Display the known artifact description */
 	if (!OPT(birth_randarts) && o_ptr->artifact &&
@@ -1275,14 +1275,18 @@ static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
 
 	/* List the affixes on the item */
 	if (o_ptr->affix[0]) {
-		textblock_append(tb, "This item's properties are: ");
 		for (i = 0; i < MAX_AFFIXES; i++)
-			if (o_ptr->affix[i]) {
-				if (i > 0)
+			if (o_ptr->affix[i] &&
+					object_affix_is_known(o_ptr, o_ptr->affix[i]->eidx)) {
+				if (count == 0)
+					textblock_append(tb, "This item's known properties are: ");
+				else
 					textblock_append(tb, ", ");
 				textblock_append(tb, "%s", o_ptr->affix[i]->name);
+				count++;
 			}
-		textblock_append(tb, ".\n\n");
+		if (count)
+			textblock_append(tb, ".\n\n");
 	}
 }
 

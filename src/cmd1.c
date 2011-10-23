@@ -292,7 +292,7 @@ static bool auto_pickup_okay(const object_type *o_ptr)
 static void py_pickup_aux(int o_idx, bool domsg)
 {
 	int slot, quiver_slot = 0;
-
+	bitflag f[OF_SIZE];
 	char o_name[80];
 	object_type *o_ptr = object_byid(o_idx);
 
@@ -329,6 +329,12 @@ static void py_pickup_aux(int o_idx, bool domsg)
 	/* Log artifacts if found */
 	if (o_ptr->artifact)
 		history_add_artifact(o_ptr->artifact, object_is_known(o_ptr), TRUE);
+
+	/* Notice known runes immediately */
+	of_wipe(f);
+	object_flags(o_ptr, f);
+	of_inter(f, p_ptr->known_runes);
+	of_union(o_ptr->known_flags, f);
 
 	/* Optionally, display a message */
 	if (domsg && !quiver_slot)
