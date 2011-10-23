@@ -514,7 +514,7 @@ T:sword:0:99:uber:20:67 to 100
 #L:d2:0:STEALTH
 
 N:97:suffix:of Brightness
-F:LIGHT
+L:1:1:LIGHT
 T:light:0:99:great:20:1 to 55
 T:crown:0:99:great:20:25 to 70
 T:helm:0:99:great:20:25 to 70
@@ -647,7 +647,7 @@ D:It is lighter than normal.
 
 N:134:material:Golden
 C:0:0:0:10:20
-F:LIGHT
+L:1:1:LIGHT
 T:hard armour:0:99:good:20:10 to 95
 T:dragon armour:0:99:good:20:10 to 95
 T:hafted:0:99:good:20:6 to 76
