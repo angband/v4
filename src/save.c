@@ -322,7 +322,7 @@ void wr_object_memory(void)
 
 void wr_quests(void)
 {
-	int i;
+	size_t i;
 	u16b tmp16u;
 
 	/* Hack -- Dump the quests */
@@ -340,7 +340,7 @@ void wr_quests(void)
 
 void wr_artifacts(void)
 {
-	int i;
+	size_t i;
 	u16b tmp16u;
 
 	/* Hack -- Dump the artifacts */
@@ -359,7 +359,7 @@ void wr_artifacts(void)
 
 void wr_player(void)
 {
-	int i;
+	size_t i;
 
 	wr_string(op_ptr->full_name);
 
@@ -439,6 +439,14 @@ void wr_player(void)
 	wr_u32b(p_ptr->total_energy);
 	/* # of turns spent resting */
 	wr_u32b(p_ptr->resting_turn);
+
+	/* Write the known object flags ("runes") */
+	wr_byte(OF_SIZE);
+	wr_byte(OF_BYTES);
+
+	for (i = 0; i < OF_BYTES && i < OF_SIZE; i++)
+		wr_byte(p_ptr->known_runes[i]);
+	if (i < OF_BYTES) pad_bytes(OF_BYTES - i);
 
 	/* Future use */
 	for (i = 0; i < 8; i++) wr_u32b(0L);

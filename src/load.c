@@ -82,7 +82,9 @@ static int rd_item_5(object_type *o_ptr)
 	rd_byte(&max_pvals);
 	if (max_pvals > MAX_PVALS) return -1;
 	rd_byte(&of_size);
+	if (of_size > OF_SIZE) return -1;
 	rd_byte(&of_bytes);
+	if (of_bytes > OF_BYTES) return -1;
 	rd_byte(&max_affixes);
 	if (max_affixes > MAX_AFFIXES) return -1;
 
@@ -1309,7 +1311,7 @@ int rd_artifacts(void)
 	for (i = 0; i < tmp16u; i++)
 	{
 		byte tmp8u;
-		
+
 		rd_byte(&tmp8u);
 		a_info[i].created = tmp8u;
 		rd_byte(&tmp8u);
@@ -1324,7 +1326,158 @@ int rd_artifacts(void)
 
 
 /*
- * Read the "extra" information
+ * Read the player information, version 3 (includes known_runes)
+ */
+int rd_player_3(void)
+{
+	int i;
+	byte num, of_bytes = 0, of_size = 0;
+
+	rd_string(op_ptr->full_name, sizeof(op_ptr->full_name));
+	rd_string(p_ptr->died_from, 80);
+	p_ptr->history = mem_zalloc(250);
+	rd_string(p_ptr->history, 250);
+
+	/* Player race */
+	rd_byte(&num);
+	p_ptr->race = player_id2race(num);
+
+	/* Verify player race */
+	if (!p_ptr->race) {
+		note(format("Invalid player race (%d).", num));
+		return -1;
+	}
+
+	/* Player class */
+	rd_byte(&num);
+	p_ptr->class = player_id2class(num);
+
+	if (!p_ptr->class) {
+		note(format("Invalid player class (%d).", num));
+		return -1;
+	}
+
+	/* Player gender */
+	rd_byte(&p_ptr->psex);
+	p_ptr->sex = &sex_info[p_ptr->psex];
+
+	/* Numeric name suffix */
+	rd_byte(&op_ptr->name_suffix);
+
+	/* Special Race/Class info */
+	rd_byte(&p_ptr->hitdie);
+	rd_byte(&p_ptr->expfact);
+
+	/* Age/Height/Weight */
+	rd_s16b(&p_ptr->age);
+	rd_s16b(&p_ptr->ht);
+	rd_s16b(&p_ptr->wt);
+
+	/* Read the stat info */
+	for (i = 0; i < A_MAX; i++) rd_s16b(&p_ptr->stat_max[i]);
+	for (i = 0; i < A_MAX; i++) rd_s16b(&p_ptr->stat_cur[i]);
+	for (i = 0; i < A_MAX; i++) rd_s16b(&p_ptr->stat_birth[i]);
+
+	rd_s16b(&p_ptr->ht_birth);
+	rd_s16b(&p_ptr->wt_birth);
+	rd_s16b(&p_ptr->sc_birth);
+	rd_s32b(&p_ptr->au_birth);
+
+	strip_bytes(4);
+
+	rd_s32b(&p_ptr->au);
+
+	rd_s32b(&p_ptr->max_exp);
+	rd_s32b(&p_ptr->exp);
+	rd_u16b(&p_ptr->exp_frac);
+
+	rd_s16b(&p_ptr->lev);
+
+	/* Verify player level */
+	if ((p_ptr->lev < 1) || (p_ptr->lev > PY_MAX_LEVEL))
+	{
+		note(format("Invalid player level (%d).", p_ptr->lev));
+		return (-1);
+	}
+
+	rd_s16b(&p_ptr->mhp);
+	rd_s16b(&p_ptr->chp);
+	rd_u16b(&p_ptr->chp_frac);
+
+	rd_s16b(&p_ptr->msp);
+	rd_s16b(&p_ptr->csp);
+	rd_u16b(&p_ptr->csp_frac);
+
+	rd_s16b(&p_ptr->max_lev);
+	rd_s16b(&p_ptr->max_depth);
+
+	/* Hack -- Repair maximum player level */
+	if (p_ptr->max_lev < p_ptr->lev) p_ptr->max_lev = p_ptr->lev;
+
+	/* Hack -- Repair maximum dungeon level */
+	if (p_ptr->max_depth < 0) p_ptr->max_depth = 1;
+
+	/* More info */
+	strip_bytes(8);
+	rd_s16b(&p_ptr->sc);
+	p_ptr->sc_birth = p_ptr->sc;
+	strip_bytes(2);
+
+	/* Read the flags */
+	rd_s16b(&p_ptr->food);
+	rd_s16b(&p_ptr->energy);
+	rd_s16b(&p_ptr->word_recall);
+	rd_s16b(&p_ptr->state.see_infra);
+	rd_byte(&p_ptr->confusing);
+	rd_byte(&p_ptr->searching);
+
+	/* Find the number of timed effects */
+	rd_byte(&num);
+
+	if (num <= TMD_MAX)
+	{
+		/* Read all the effects */
+		for (i = 0; i < num; i++)
+			rd_s16b(&p_ptr->timed[i]);
+
+		/* Initialize any entries not read */
+		if (num < TMD_MAX)
+			C_WIPE(p_ptr->timed + num, TMD_MAX - num, s16b);
+	}
+	else
+	{
+		/* Probably in trouble anyway */
+		for (i = 0; i < TMD_MAX; i++)
+			rd_s16b(&p_ptr->timed[i]);
+
+		/* Discard unused entries */
+		strip_bytes(2 * (num - TMD_MAX));
+		note("Discarded unsupported timed effects");
+	}
+
+	/* Total energy used so far */
+	rd_u32b(&p_ptr->total_energy);
+	/* # of turns spent resting */
+	rd_u32b(&p_ptr->resting_turn);
+
+    /* read the known object flags ("runes") */
+	rd_byte(&of_size);
+	if (of_size > OF_SIZE) return -1;
+	rd_byte(&of_bytes);
+	if (of_bytes > OF_BYTES) return -1;
+
+    for (i = 0; i < of_bytes && i < of_size; i++)
+        rd_byte(&p_ptr->known_runes[i]);
+    if (i < of_bytes) pad_bytes(of_bytes - i);
+
+	/* Future use */
+	strip_bytes(32);
+
+	return 0;
+}
+
+/*
+ * Read the player information - this is version *2*
  */
 int rd_player(void)
 {

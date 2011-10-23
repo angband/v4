@@ -209,6 +209,9 @@ typedef struct player
 	u16b quiver_slots;
 	u16b quiver_remainder;
 
+	/* ID knowledge of object flags ("runes") */
+	bitflag known_runes[OF_SIZE];
+
 	struct object *inventory;
 } player_type;
 
