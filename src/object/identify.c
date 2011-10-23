@@ -271,7 +271,7 @@ bool object_affix_is_known(const object_type *o_ptr, u16b idx)
 			!object_attack_plusses_are_visible(o_ptr))
 		return FALSE;
 
-	if (!(!randcalc_varies(affix->to_a) && randcalc_valid(affix->to_a, 0)) ||
+	if (!(!randcalc_varies(affix->to_a) && randcalc_valid(affix->to_a, 0)) &&
 			!object_defence_plusses_are_visible(o_ptr))
 		return FALSE;
 
