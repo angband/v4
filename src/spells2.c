@@ -2276,7 +2276,7 @@ void earthquake(int cy, int cx, int r)
 			/* Process monsters */
 			if (cave->m_idx[yy][xx] > 0)
 			{
-				monster_type *m_ptr = cave_monster(cave, cave->m_idx[yy][xx]);
+				monster_type *m_ptr = cave_monster_at(cave, yy, xx);
 				monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
 				/* Most monsters cannot co-exist with rock */
@@ -2489,7 +2489,7 @@ static void cave_light(struct point_set *ps)
 		{
 			int chance = 25;
 
-			monster_type *m_ptr = cave_monster(cave, cave->m_idx[y][x]);
+			monster_type *m_ptr = cave_monster_at(cave, y, x);
 			monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
 			/* Stupid monsters rarely wake up */
