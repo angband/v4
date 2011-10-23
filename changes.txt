@@ -1,66 +1,64 @@
-Angband 3.4.0-dev
-=================
-
-Welcome to the changelog for Angband 3.4. This paragraph will be rewritten
-nearer to release. In the meantime, this file tracks at a high level the
-changes made since 3.3.0
-
-Bugs fixed
+Angband-v4
 ==========
-  #1461 Fix saving and loading so that savefile.{old|new} are ignored
-  #1462 Fix loading of graphics pref files in non-graphics mode (Blubaron)
-  #1487 Prevent spoiler calls messing with everseen info
-  #1506 Stop the hidden level-feeling tiles being displayed by accident
-  #1515 Ensure that devices IDd on unseen monsters provide feedback
-  #1516 Prevent excessive durations of monster timed effects
-  #1517 Increase MAX_ITEMLIST to cope with new ignore/squelch approach
-  #1518 Correct logic error in randart slay frequency calculation
-  #1533 Stop scrolls of light segfaulting on BSD (thanks vext01)
-  #1537 Make sure that turning off randarts at birth works properly
-9541bb7 Make pref file writing work with setgid installs
-559e486 Save progress towards level feelings
-52a331e Fix buggy earthquake logic
-c2d9fee Make Heroism and Berserk spells grant boldness, like the potions
+
+Welcome to the changelog for Angband-v4. This file tracks changes at a 
+high level. 
+
+For a more detailed record of changes made, go to 
+http://trac.rephial.org/query?status=closed&milestone=4.0
+
+For an even more detailed record, go to 
+http://github.com/angband/v4/commits/v4-master.
+
+
+Gameplay changes
+================
+
+ * Base objects. Base weapon and armour objects have been renamed to 
+avoid most adjectives and the word "of". In particular, adjectives 
+specifying materials have been removed (Mithril, Adamantite, Wicker, 
+Lead-Filled, Fur, Leather, Metal, Dragon Scale). Also removed: Elven 
+Cloaks, Blades of Chaos, Scythes of Slicing, Maces of Disruption. These 
+are all still in the game, but no longer as headache-inducing base 
+objects. They are generated using affixes.
+
+ * Ego items. The concept of an "ego item" has been split into two 
+concepts: affixes and themes. For a detailed explanation, go to
+http://trac.rephial.org/wiki/NewEgos.
+
+ * Affixes. All generation of magical items is now done using affixes, 
+which are contained in lib/edit/ego_item.txt. Affixes can affect any 
+properties of an item: dice, sides, base ac, weight, plusses, pvals, 
+flags, but generally only change one or two things. (TODO: extent, 
+number.) Affixes come in four types (make, material and quality are all 
+prefixes; suffices are all magical mods) and six levels (bad, average, 
+good, great, uber, artifact-only). An object can have up to MAX_AFFIXES 
+(currently 8). Some affixes replicate the old "low-end" one-trick ego 
+types (of Resist Acid, of Slay Dragon, etc.), but there are many more. 
+Known affixes are browseable in the ego knowledge menu.
+
+ * Themes. Themes are collections of affixes, which are acquired 
+randomly during item generation. Themes are detailed in 
+lib/edit/ego_themes.txt. Once an object has a theme, it may not acquire 
+any further affixes. Themes are what used to be known as the "high-end" 
+ego types (Elvenkind, Westernesse, Gondolin, etc.). (TODO: themes don't 
+currently show up on the knowledge menu.)
+
+ * Artifacts. Artifacts look much the same as before (though some base 
+items have been renamed, as noted above). But they are now generated 
+using a unified system, so there is no distinction between an artifact 
+ring, amulet or light source and an artifact weapon or armour piece. 
+Artifact rings, amulets and light sources no longer need "dummy" 
+INSTA_ART entries in object.txt.
+
+
 
 User interface
 ==============
-  #1485 Remove HIDE_TYPE
-  #1491 Make "purple uniques" display correctly
-  #1498 Nomad's updated tiles
-  #1511 Make shift+keypad work in the GTK port (thanks to Daniel Santos)
-ec47e94 et seq. Blubaron's improved tile support (graphics.txt)
-744c7a6 et seq. New Cocoa front-end for Macs (thanks ridiculous_fish)
-  
-Gameplay changes
-================
-   #572 Prevent instadeaths from IDing summon scrolls/staves by use
-  #1113 Rebalance stealth and monster detection (thanks Jens & fizzix)
-  #1156 Revisit stacks of consumables (thanks Jens)
-  #1507 Rebalance to-hit vs. AC (take two, thanks Jens)
-  #1513 Ensure that PDSM can't get the Resistance ego
-bf5d943 fizzix's summoning changes
-e8b48d5 et seq. CunningGabe's improvements to pits
-8d7ea27 fizzix's animal toughening tweaks
-7cef0aa Angels replaced by Ainu (thanks to Jeff Greene)
-ef38e0f Increase max penalty on =Mouse, remove dam&AC mods on =Dog
-983ead5 CunningGabe's mimic updates
-fd5e3b8 et seq. Various difficulty tweaks:
-		- reduce MAX_STACK_SIZE to 25
-		- make DSM slightly rarer/deeper
-		- make stuff more expensive to buy
-		- reduce drops from apprentices/cutpurses
-		- prevent Deep Descent and Teleport Level being sold in stacks
+
+ 
+
 
 Coding changes
 ==============
-  #1221 Switch over to UTF-8 (thanks Noz)
-  #1512 Change S_IREAD and S_IWRITE for Android compatibility
-91be218 Aerdan's updates to buildsys
-fbe0ef4 CunningGabe's cleanup of monster code
-3dd44a4 Update wiz-stats
-1aa93be Remove most of limits.txt
 
-Documentation changes
-=====================
-f345482 Convert in-game docs to RST (thanks fph)
-        Instructions for compiling on various platforms
