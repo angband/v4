@@ -330,11 +330,12 @@ static void py_pickup_aux(int o_idx, bool domsg)
 	if (o_ptr->artifact)
 		history_add_artifact(o_ptr->artifact, object_is_known(o_ptr), TRUE);
 
-	/* Notice known runes immediately */
+	/* Notice known runes immediately, and check for identification */
 	of_wipe(f);
 	object_flags(o_ptr, f);
 	of_inter(f, p_ptr->known_runes);
 	of_union(o_ptr->known_flags, f);
+	object_check_for_ident(o_ptr);
 
 	/* Optionally, display a message */
 	if (domsg && !quiver_slot)
