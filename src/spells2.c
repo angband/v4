@@ -3115,7 +3115,6 @@ void brand_object(object_type *o_ptr, int brand_type)
 			if (!o_ptr->affix[j]) {
 				o_ptr->affix[j] = e_ptr;
 				ego_apply_magic(o_ptr, 0, e_ptr->eidx);
-/*				object_notice_ego(o_ptr); FIXME */
 				break;
 			}
 

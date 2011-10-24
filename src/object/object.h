@@ -565,7 +565,6 @@ void object_flavor_aware(object_type *o_ptr);
 void object_flavor_tried(object_type *o_ptr);
 void object_notice_everything(object_type *o_ptr);
 void object_notice_indestructible(object_type *o_ptr);
-void object_notice_ego(object_type *o_ptr);
 void object_notice_sensing(object_type *o_ptr);
 void object_sense_artifact(object_type *o_ptr);
 void object_notice_effect(object_type *o_ptr);

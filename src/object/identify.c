@@ -563,41 +563,6 @@ void object_notice_indestructible(object_type *o_ptr)
 
 
 /*
- * Notice the ego on an ego item.
- */
-void object_notice_ego(object_type *o_ptr)
-{
-	int i;
-	bitflag learned_flags[OF_SIZE];
-
-	if (!o_ptr->ego)
-		return;
-
-	/* XXX Eddie print a message on notice ego if not already noticed? */
-	/* XXX Eddie should we do something about everseen of egos here? */
-
-	/* Learn ego flags */
-	of_union(o_ptr->known_flags, o_ptr->ego->flags);
-
-	/* Learn all flags except random abilities */
-	of_setall(learned_flags);
-
-	for (i = 0; i < o_ptr->ego->num_randlines; i++)
-		of_diff(learned_flags, o_ptr->ego->randmask[i]);
-
-	of_union(o_ptr->known_flags, learned_flags);
-
-	if (object_add_ident_flags(o_ptr, IDENT_NAME))
-	{
-		/* if you know the ego, you know which it is of excellent or splendid */
-		object_notice_sensing(o_ptr);
-
-		object_check_for_ident(o_ptr);
-	}
-}
-
-
-/*
  * Mark an object as sensed.
  */
 void object_notice_sensing(object_type *o_ptr)
@@ -814,7 +779,7 @@ void object_notice_on_firing(object_type *o_ptr)
  *
  * XXX Eddie should messages be adhoc all over the place?  perhaps the main
  * loop should check for change in inventory/wieldeds and all messages be
- * printed from one place
+ * printed from one place (CC: see #1502)
  */
 void object_notice_on_wield(object_type *o_ptr)
 {
@@ -834,13 +799,7 @@ void object_notice_on_wield(object_type *o_ptr)
 	if (object_add_ident_flags(o_ptr, IDENT_WORN))
 		object_check_for_ident(o_ptr);
 
-	/* CC: may wish to be more subtle about this once we have ego lights
-	 * with multiple pvals */
-	if (kind_is_light(o_ptr->tval) && o_ptr->ego)
-		object_notice_ego(o_ptr);
-
-	if (object_flavor_is_aware(o_ptr) && easy_know(o_ptr))
-	{
+	if (object_flavor_is_aware(o_ptr) && easy_know(o_ptr)) {
 		object_notice_everything(o_ptr);
 		return;
 	}
@@ -869,7 +828,8 @@ void object_notice_on_wield(object_type *o_ptr)
 	object_notice_slays(o_ptr, obvious_mask);
 
 	/* Learn about obvious flags */
-	of_union(o_ptr->known_flags, obvious_mask);
+	of_inter(f, obvious_mask);
+	of_union(o_ptr->known_flags, f);
 
 	/* XXX Eddie should these next NOT call object_check_for_ident due to worries about repairing? */
 
@@ -927,15 +887,11 @@ void object_notice_on_wield(object_type *o_ptr)
 		msg("It glows!");
 	if (of_has(f, OF_TELEPATHY))
 		msg("Your mind feels strangely sharper!");
-
-	/* WARNING -- masking f by obvious mask -- this should be at the end of this function */
-	/* CC: I think this can safely go, but just in case ... */
-/*	flags_mask(f, OF_SIZE, OF_OBVIOUS_MASK, FLAG_END); */
+	if (of_has(f, OF_NO_FUEL))
+		msg("Your light needs no fuel.");
 
 	/* Remember the flags */
 	object_notice_sensing(o_ptr);
-
-	/* XXX Eddie should we check_for_ident here? */
 }
 
 
