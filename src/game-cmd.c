@@ -433,7 +433,7 @@ void process_command(cmd_context ctx, bool no_request)
 					type2 = "items";
 				}
 
-				strnfmt(prompt, sizeof(prompt), "%^s which %s?", verb, type);
+				strnfmt(prompt, sizeof(prompt), "%s which %s?", verb, type);
 				strnfmt(none, sizeof(none), "You have no %s you can %s.",
 						type2, verb);
 
