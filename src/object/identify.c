@@ -425,11 +425,14 @@ bool object_check_for_ident(object_type *o_ptr)
 
 	/* If we know attack bonuses, and defence bonuses, and effect, then
 	 * we effectively know everything, so mark as such */
-	if ((object_attack_plusses_are_visible(o_ptr) || (object_was_sensed(o_ptr) && o_ptr->to_h == 0 && o_ptr->to_d == 0)) &&
-	    (object_defence_plusses_are_visible(o_ptr) || (object_was_sensed(o_ptr) && o_ptr->to_a == 0)) &&
-	    (object_effect_is_known(o_ptr) || !object_effect(o_ptr)))
+	if ((object_attack_plusses_are_visible(o_ptr) || (object_was_sensed(o_ptr)
+			&& o_ptr->to_h == 0 && o_ptr->to_d == 0)) &&
+	    	(object_defence_plusses_are_visible(o_ptr) ||
+			(object_was_sensed(o_ptr) && o_ptr->to_a == 0)) &&
+	    	(object_effect_is_known(o_ptr) || !object_effect(o_ptr)))
 	{
-		/* In addition to knowing the pval flags, it is necessary to know the pvals to know everything */
+		/* In addition to knowing the pval flags, it is necessary to know the
+		 * pvals to know everything */
 		int i;
 		for (i = 0; i < o_ptr->num_pvals; i++)
 			if (!object_this_pval_is_visible(o_ptr, i))
@@ -1048,6 +1051,7 @@ bool object_FA_would_be_obvious(const object_type *o_ptr)
  */
 obj_pseudo_t object_pseudo(const object_type *o_ptr)
 {
+	size_t i;
 	bitflag flags[OF_SIZE], f2[OF_SIZE];
 
 	/* Get the known and obvious flags on the object,
@@ -1086,14 +1090,15 @@ obj_pseudo_t object_pseudo(const object_type *o_ptr)
 	if (!object_is_known(o_ptr) && !object_was_sensed(o_ptr))
 		return INSCRIP_NULL;
 
-	if (o_ptr->ego)
-	{
-		/* uncursed bad egos are not excellent */
-		if (of_is_inter(o_ptr->ego->flags, f2))
-			return INSCRIP_STRANGE; /* XXX Eddie need something worse */
-		else
-			return INSCRIP_EXCELLENT;
-	}
+	/* Affixes with flags pseudo as excellent, unless cursed */
+	for (i = 0; i < MAX_AFFIXES && o_ptr->affix[i]; i++)
+		if (!of_is_empty(o_ptr->affix[i]->flags) ||
+				o_ptr->affix[i]->num_pvals || o_ptr->affix[i]->num_randlines) {
+			if (of_is_inter(o_ptr->affix[i]->flags, f2))
+				return INSCRIP_STRANGE; /* XXX Eddie need something worse */
+			else
+				return INSCRIP_EXCELLENT;
+		}
 
 	if (o_ptr->to_a == randcalc(o_ptr->kind->to_a, 0, MINIMISE) &&
 	    o_ptr->to_h == randcalc(o_ptr->kind->to_h, 0, MINIMISE) &&
@@ -1120,7 +1125,7 @@ obj_pseudo_t object_pseudo(const object_type *o_ptr)
 void sense_inventory(void)
 {
 	int i;
-	
+
 	char o_name[80];
 	
 	unsigned int rate;
