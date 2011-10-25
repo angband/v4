@@ -62,7 +62,6 @@ N:1:suffix:of Resistance
 T:shield:0:99:25 to 100
 T:soft armour:0:99:25 to 100
 T:hard armour:0:99:25 to 100
-T:dragon armour:7:29:70 to 100
 A:of Resist Acid:7
 A:of Resist Fire:7
 A:of Resist Lightning:7
@@ -74,7 +73,6 @@ N:2:suffix:of Elvenkind
 T:shield:0:99:50 to 100
 T:soft armour:0:99:50 to 100
 T:hard armour:0:99:50 to 100
-T:dragon armour:7:29:70 to 100
 A:Light:1
 A:Reinforced:2
 A:of Resist Acid:3
@@ -109,11 +107,10 @@ A:of Warding:10
 
 N:5:prefix:Dwarven
 T:hard armour:0:99:40 to 127
-T:dragon armour:0:99:40 to 127
 T:shield:3:3:40 to 127
 A:Reinforced:2
 A:Spiked:8
-A:of Craftsmanship:3
+A:Masterwork:3
 A:of Durability:2
 A:of Strength:6
 A:of Hardiness:6
@@ -424,3 +421,49 @@ A:of Slay Demon:7
 A:of Slay Evil:7
 A:of Slay Undead:7
 A:of Durability:1
+
+N:37:prefix:Multihued Dragon Scale
+T:boots:3:4:75 to 100
+T:helm:5:6:75 to 100
+T:soft armour:6:11:75 to 100
+T:hard armour:3:9:75 to 100
+T:gloves:2:4:75 to 100
+T:shield:0:99:75 to 100
+A:Black Dragon Scale:10
+A:White Dragon Scale:10
+A:Blue Dragon Scale:10
+A:Red Dragon Scale:10
+A:Green Dragon Scale:10
+A:of Resist Acid:1
+A:of Resist Cold:1
+A:of Resist Fire:1
+A:of Resist Lightning:1
+
+N:38:prefix:Balance Dragon Scale
+T:boots:3:4:95 to 100
+T:helm:5:6:95 to 100
+T:soft armour:6:11:95 to 100
+T:hard armour:3:9:95 to 100
+T:gloves:2:4:95 to 100
+T:shield:0:99:95 to 100
+A:Law Dragon Scale:4
+A:Chaos Dragon Scale:4
+A:of Durability:1
+
+N:39:prefix:Power Dragon Scale
+T:boots:3:4:100 to 100
+T:helm:5:6:100 to 100
+T:soft armour:6:11:100 to 100
+T:hard armour:3:9:100 to 100
+T:gloves:2:4:100 to 100
+T:shield:0:99:100 to 100
+A:Pseudo-dragon Scale:10
+A:Law Dragon Scale:10
+A:Green Dragon Scale:10
+A:Black Dragon Scale:10
+A:White Dragon Scale:10
+A:Blue Dragon Scale:10
+A:Red Dragon Scale:10
+A:of Chaos:100
+A:of Arcana:1
+A:of Certainty:1

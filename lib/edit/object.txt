@@ -900,7 +900,7 @@ N:144:& Crown~
 G:]:s
 I:33:10
 W:45:0:20:500
-A:20:45 to 100
+A:35:45 to 100
 P:0:1d1:0:0:0
 D:An open-topped headgear used by lesser royalty.
 
@@ -916,7 +916,7 @@ N:146:& Jewel Encrusted Crown~
 G:]:v
 I:33:12
 W:50:0:40:2000
-A:10:50 to 100
+#A:10:50 to 100
 P:0:1d1:0:0:0
 D:The symbol of ancient emperors.  It is an open-topped headgear covered with
 D: rubies, sapphires and emeralds.
@@ -987,13 +987,13 @@ A:20:35 to 100
 P:42:1d4:-2:0:0
 D:Chain mail covered by plates in key locations.
 
-N:158:Partial Plate Armour~
+N:158:Plate Mail~
 G:[:s
 I:37:4
 W:35:0:280:950
 A:20:40 to 100
 P:45:1d4:-2:0:0
-D:A breastplate with shoulder and thigh guards. 
+D:A breastplate with shoulder guards, over a suit of chainmail. 
 
 N:159:Brigandine Armour~
 G:[:s
@@ -3638,7 +3638,7 @@ N:500:Black Dragon Scale Mail~
 G:[:s
 I:38:1
 W:50:0:120:40000
-A:8:35 to 100
+#A:8:35 to 100
 P:16:2d4:-2:0:10
 F:RES_ACID |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3648,7 +3648,7 @@ N:501:Blue Dragon Scale Mail~
 G:[:b
 I:38:2
 W:50:0:100:40000
-A:8:25 to 100
+#A:8:25 to 100
 P:12:2d4:-2:0:10
 F:RES_ELEC |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3658,7 +3658,7 @@ N:502:White Dragon Scale Mail~
 G:[:w
 I:38:3
 W:50:0:110:40000
-A:8:30 to 100
+#A:8:30 to 100
 P:14:2d4:-2:0:10
 F:RES_COLD |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3668,7 +3668,7 @@ N:503:Red Dragon Scale Mail~
 G:[:r
 I:38:4
 W:50:0:160:40000
-A:8:40 to 100
+#A:8:40 to 100
 P:24:2d4:-2:0:10
 F:RES_FIRE |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3678,7 +3678,7 @@ N:504:Green Dragon Scale Mail~
 G:[:g
 I:38:5
 W:60:0:140:60000
-A:8:60 to 100
+#A:8:60 to 100
 P:20:2d4:-2:0:10
 F:RES_POIS |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3688,7 +3688,7 @@ N:505:Multi-Hued Dragon Scale Mail~
 G:[:v
 I:38:6
 W:90:0:260:150000
-A:5:75 to 100
+#A:5:75 to 100
 P:45:2d4:-2:0:10
 F:RES_ACID | RES_ELEC | RES_FIRE | RES_COLD | RES_POIS |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3698,7 +3698,7 @@ N:506:Pseudo-Dragon Scale Mail~
 G:[:o
 I:38:10
 W:65:0:200:60000
-A:6:75 to 100
+#A:6:75 to 100
 P:32:2d4:-2:0:10
 F:RES_LIGHT | RES_DARK |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3708,7 +3708,7 @@ N:507:Law Dragon Scale Mail~
 G:[:B
 I:38:12
 W:80:0:220:80000
-A:6:80 to 100
+#A:6:80 to 100
 P:36:2d4:-2:0:10
 F:RES_SOUND | RES_SHARD |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3718,8 +3718,7 @@ N:508:Bronze Dragon Scale Mail~
 G:[:U
 I:38:14:0
 W:50:0:130:40000
-A:0:55 to 100
-# was 10
+#A:10:55 to 100
 P:18:2d4:-2:0:10
 F:RES_CONFU |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3729,7 +3728,7 @@ N:509:Gold Dragon Scale Mail~
 G:[:y
 I:38:16
 W:50:0:180:40000
-A:8:70 to 100
+#A:8:70 to 100
 P:28:2d4:-2:0:10
 F:RES_SOUND |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3739,7 +3738,7 @@ N:510:Chaos Dragon Scale Mail~
 G:[:v
 I:38:18
 W:80:0:240:80000
-A:5:85 to 100
+#A:5:85 to 100
 P:40:2d4:-2:0:10
 F:RES_CHAOS | RES_DISEN |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3749,7 +3748,7 @@ N:511:Balance Dragon Scale Mail~
 G:[:v
 I:38:20
 W:95:0:280:100000
-A:3:95 to 100
+#A:3:95 to 100
 P:50:2d4:-2:0:10
 F:RES_SOUND | RES_SHARD | RES_CHAOS | RES_DISEN |
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD | GOOD
@@ -3759,7 +3758,7 @@ N:512:Power Dragon Scale Mail~
 G:[:v
 I:38:30
 W:100:0:300:300000
-A:1:100 to 100
+#A:1:100 to 100
 P:60:2d4:-3:0:15
 F:RES_ACID | RES_FIRE | RES_COLD | RES_ELEC | RES_POIS |
 F:RES_CONFU | RES_DISEN | RES_SOUND | RES_SHARD |
