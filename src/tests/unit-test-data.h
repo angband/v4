@@ -501,6 +501,7 @@ static struct player TEST_DATA test_player = {
 	.is_dead = 0,
 	.wizard = 0,
 	.inventory = &test_inven[0],
+	.known_runes = {0},
 };
 
 #endif /* !UNIT_TEST_DATA */
