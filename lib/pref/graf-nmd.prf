@@ -188,6 +188,14 @@ K:0:0:129:151
 
 K:light:Wooden Torch:0x89:0x80
 K:light:Lantern:0x89:0x81
+K:light:Phial:0x8A:0x80
+K:light:Star:0x8A:0x81
+K:light:Arkenstone:0x8A:0x82
+K:light:Palantír:0x8A:0x83
+
+
+
+
 K:flask:Flask of oil:0x89:0x83
 K:spike:Iron Spike:0x89:0x94
 
@@ -204,7 +212,7 @@ K:food:Piece of Elvish Waybread:0x89:0x8A
 
 
 ### The shrooms, an interesting collection ###
-# Graphics are sourced from flavor entries in flvr-new.prf
+# Graphics are sourced from flavor entries in flvr-nmd.prf
 
 
 
@@ -286,7 +294,7 @@ K:bow:Sling:0x90:0x84
 
 K:arrow:Arrow:0x90:0x90
 K:bolt:Bolt:0x90:0x91
-K:shot:Iron Shot:0x90:0x92
+K:shot:Sling Shot:0x90:0x92
 K:arrow:Mithril Arrow:0x90:0x93
 K:bolt:Mithril Bolt:0x90:0x94
 K:shot:Mithril Shot:0x90:0x95
@@ -308,22 +316,22 @@ K:digger:Shovel:0x89:0x92
 ### Body armours ###
 
 K:soft armor:Robe:0x95:0x80
-K:soft armor:Hard Leather Armour:0x95:0x81
-K:soft armor:Leather Scale Mail:0x95:0x82
-K:soft armor:Soft Leather Armour:0x95:0x83
-K:soft armor:Studded Leather Armour:0x95:0x84
+K:soft armor:Banded Armour:0x95:0x81
+K:soft armor:Splinted Armour:0x95:0x82
+K:soft armor:Jerkin:0x95:0x83
+K:soft armor:Studded Armour:0x95:0x84
 
 K:hard armor:Adamantite Plate Mail:0x95:0x90
 K:hard armor:Augmented Chain Mail:0x95:0x91
-K:hard armor:Bar Chain Mail:0x95:0x92
+K:hard armor:Breastplate:0x95:0x92
 K:hard armor:Chain Mail:0x95:0x93
 K:hard armor:Full Plate Armour:0x95:0x94
-K:hard armor:Metal Brigandine Armour:0x95:0x95
-K:hard armor:Metal Lamellar Armour:0x95:0x96
-K:hard armor:Metal Scale Mail:0x95:0x97
+K:hard armor:Brigandine Armour:0x95:0x95
+K:hard armor:Lamellar Armour:0x95:0x96
+K:hard armor:Ring Mail:0x95:0x97
 K:hard armor:Mithril Chain Mail:0x95:0x98
 K:hard armor:Mithril Plate Mail:0x95:0x99
-K:hard armor:Partial Plate Armour:0x95:0x9A
+K:hard armor:Plate Mail:0x95:0x9A
 K:hard armor:Ribbed Plate Armour:0x95:0x9B
 
 
@@ -333,28 +341,28 @@ K:hard armor:Ribbed Plate Armour:0x95:0x9B
 K:cloak:Cloak:0x94:0x80
 K:cloak:Elven Cloak:0x94:0x81
 K:cloak:Ethereal Cloak:0x94:0x82
-K:cloak:Fur Cloak:0x94:0x83
+K:cloak:Heavy Cloak:0x94:0x83
 
 
 ### The Shields ###
 
-#K:shield:Buckler:0x92:0x80
-K:shield:Large Metal Shield:0x92:0x81
-K:shield:Leather Shield:0x92:0x82
-K:shield:Mithril Shield:0x92:0x83
-K:shield:Small Metal Shield:0x92:0x84
-K:shield:Wicker Shield:0x92:0x85
+K:shield:Buckler:0x92:0x80
+K:shield:Tower Shield:0x92:0x81
+K:shield:Large Shield:0x92:0x82
+K:shield:Bulwark:0x92:0x83
+K:shield:Kite Shield:0x92:0x84
+K:shield:Small Shield:0x92:0x85
 
 
 ### Headgear ###
 
-K:helm:Hard Leather Cap:0x92:0x90
-K:helm:Iron Helm:0x92:0x91
-K:helm:Metal Cap:0x92:0x92
-K:helm:Steel Helm:0x92:0x93
+K:helm:Soft Cap:0x92:0x90
+K:helm:Helm:0x92:0x91
+K:helm:Hard Cap:0x92:0x92
+K:helm:Full Helm:0x92:0x93
 
 K:crown:Golden Crown:0x92:0x98
-K:crown:Iron Crown:0x92:0x99
+K:crown:Crown:0x92:0x99
 K:crown:Jewel Encrusted Crown:0x92:0x9A
 
 
@@ -364,19 +372,19 @@ K:crown:Jewel Encrusted Crown:0x92:0x9A
 K:gloves:Set of Alchemist's Gloves:0x93:0x80
 K:gloves:Set of Caestus:0x93:0x81
 K:gloves:Set of Gauntlets:0x93:0x82
-K:gloves:Set of Leather Gloves:0x93:0x83
+K:gloves:Set of Gloves:0x93:0x83
 #K:gloves:Set of Mining Gloves:0x93:0x84
-K:gloves:Set of Mithril Gauntlets:0x93:0x85
+K:gloves:Set of Bracers:0x93:0x85
 
 
 ##### The Boots #####
 
-K:boots:Pair of Ethereal Slippers:0x93:0x90
-K:boots:Pair of Iron Shod Boots:0x93:0x91
-K:boots:Pair of Leather Boots:0x93:0x92
-K:boots:Pair of Leather Sandals:0x93:0x93
+K:boots:Pair of Slippers:0x93:0x90
+K:boots:Pair of Hard Boots:0x93:0x91
+K:boots:Pair of Soft Boots:0x93:0x92
+K:boots:Pair of Sandals:0x93:0x93
 K:boots:Pair of Mithril Shod Boots:0x93:0x94
-K:boots:Pair of Steel Shod Boots:0x93:0x95
+K:boots:Pair of Greaves:0x93:0x95
 
 
 
@@ -384,13 +392,13 @@ K:boots:Pair of Steel Shod Boots:0x93:0x95
 
 
 ##### Rings #####
-# Graphics are sourced from flavor entries in flvr-new.prf
+# Graphics are sourced from flavor entries in flvr-nmd.prf
 
 
 
 
 ##### Amulets #####
-# Graphics are sourced from flavor entries in flvr-new.prf
+# Graphics are sourced from flavor entries in flvr-nmd.prf
 
 
 
@@ -477,25 +485,25 @@ K:scroll:Trap Creation:0x87:0x91
 
 
 ##### Potions #####
-# Graphics are sourced from flavor entries in flvr-new.prf
+# Graphics are sourced from flavor entries in flvr-nmd.prf
 
 
 
 
 ##### Wands #####
-# Graphics are sourced from flavor entries in flvr-new.prf
+# Graphics are sourced from flavor entries in flvr-nmd.prf
 
 
 
 
 ##### Staffs #####
-# Graphics are sourced from flavor entries in flvr-new.prf
+# Graphics are sourced from flavor entries in flvr-nmd.prf
 
 
 
 
 ##### Rods #####
-# Graphics are sourced from flavor entries in flvr-new.prf
+# Graphics are sourced from flavor entries in flvr-nmd.prf
 
 
 
@@ -607,39 +615,39 @@ K:crown:Massive Iron Crown:0x8A:0x89
 # These artifacts use numeric SVALs to ensure unique matches
 
 # The Phial of Galadriel
-K:light:4:0x8A:0x80
+#K:light:4:0x8A:0x80
 
 # The Star of Elendil
-K:light:5:0x8A:0x81
+#K:light:5:0x8A:0x81
 
 # The Arkenstone of Thrain
-K:light:6:0x8A:0x82
+#K:light:6:0x8A:0x82
 
 # The Palantir of Westernesse
-K:light:7:0x8A:0x83
+#K:light:7:0x8A:0x83
 
 
 
 # These settings currently overridden by flavor graphics:
 
 # The Amulet of Carlammas
-K:amulet:50:0x84:0x9E
+#K:amulet:50:0x84:0x9E
 
 # The Amulet of Ingwe
-K:amulet:51:0x84:0x96
+#K:amulet:51:0x84:0x96
 
 # The Necklace of the Dwarves
-K:amulet:52:0x84:0x91
+#K:amulet:52:0x84:0x91
 
 # The Jewel 'Evenstar'
-K:amulet:54:0x84:0x90
+#K:amulet:54:0x84:0x90
 
 # The Elfstone 'Elessar'
-K:amulet:53:0x84:0x9C
+#K:amulet:53:0x84:0x9C
 
 
 # The Ring of Barahir
-K:ring:50:0x84:0x83
+#K:ring:50:0x84:0x83
 
 # The Ring of Tulkas
 #K:ring:51:0x84:0x84
@@ -654,7 +662,7 @@ K:ring:50:0x84:0x83
 #K:ring:54:0x84:0x8B
 
 # The Ring of Power 'The One Ring'
-K:ring:55:0x84:0x8A
+#K:ring:55:0x84:0x8A
 
 
 
