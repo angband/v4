@@ -57,7 +57,7 @@ enum {
    missing M: lines, and constants about affixes */
 #define EGO_TVALS_MAX 	  9
 #define EGO_RANDFLAGS_MAX 4
-#define NO_MINIMUM 		225
+#define NO_MINIMUM 		255
 #define THEME_AFFIX_MAX  16
 #define MAX_AFFIXES 	  8
 enum {
@@ -394,9 +394,9 @@ typedef struct ego_item {
 	s16b dd;								/* Extra dice */
 	s16b ds;								/* Extra sides */
 											/* M: */
-	byte min_to_h;							/* Minimum to-hit value */
-	byte min_to_d;							/* Minimum to-dam value */
-	byte min_to_a;							/* Minimum to-ac value */
+	s16b min_to_h;							/* Minimum to-hit value */
+	s16b min_to_d;							/* Minimum to-dam value */
+	s16b min_to_a;							/* Minimum to-ac value */
 											/* F: */
 	bitflag flags[OF_SIZE];					/* Flags */
 											/* L: */

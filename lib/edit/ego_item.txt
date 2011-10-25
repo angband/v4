@@ -53,9 +53,9 @@
 # sides are self-explanatory. The last four fields are optional.
 
 # 'M' is for minimum values - minimum allowed to-hit, to-dam, to-ac. The 
-# value of 225 is special, meaning "there is no minimum". This allows 
+# value of 255 is special, meaning "there is no minimum". This allows 
 # zero to be a valid minimum (e.g. for mixed-blessing items). All minima 
-# are assumed to be no-ops (225) if the line is missing. This is 
+# are assumed to be no-ops (255) if the line is missing. This is 
 # necessary to preserve the intrinsic to-hit penalties of heavy armour.
 
 # 'F' is for flags not associated with any pval. These are fairly 
@@ -66,7 +66,7 @@
 # and its flags need a line to themselves. MAX_PVALS is defined in 
 # src/defines.h - you will need to recompile if you wish to change this 
 # value. A pval can take a random value. The min_pval must be present,
-# but can be 0. As with 'M' above, 225 means "do not apply a minimum".
+# but can be 0. As with 'M' above, 255 means "do not apply a minimum".
 # If random pvals result in duplication, identical pvals will be merged.
 
 # 'R' is for random non-pval flags. num is the number of random flags to 
@@ -77,7 +77,7 @@
 
 # 'Z' is for random pval flags. num is the number of random flags to 
 # add; pval is the pval to apply, which can take a random value. min 
-# pval must be present, and 225 is used to mean "no minimum". flag-type 
+# pval must be present, and 255 is used to mean "no minimum". flag-type 
 # is the OFT_ flag type(s) from which to select. If num > 1, all will 
 # use the same pval; if you want different random and/or minimum pvals, 
 # use multiple Z: lines - but remember MAX_PVALS.
@@ -389,7 +389,7 @@ T:bolt:0:99:great:12:10 to 100
 
 N:77:suffix:of Slaying
 C:M6:M6:0
-M:1:1:225
+M:1:1:255
 T:hafted:0:99:good:50:1 to 100
 T:polearm:0:99:good:50:1 to 100
 T:sword:0:99:good:50:1 to 100
@@ -402,7 +402,7 @@ D:Magically boosts your ability to hit and damage enemies.
 
 N:78:suffix:of Protection
 C:0:0:M8
-M:225:225:1
+M:255:255:1
 T:soft armour:0:99:good:50:1 to 100
 T:hard armour:0:99:good:50:1 to 100
 T:shield:0:99:good:50:1 to 100
@@ -550,7 +550,7 @@ F:HOLD_LIFE | DRAIN_EXP | SLAY_UNDEAD | BRAND_POIS
 
 N:104:suffix:of Accuracy
 C:d15:d5:0
-M:15:225:0
+M:15:255:255
 T:bow:0:99:great:20:5 to 100
 T:sword:0:99:uber:10:55 to 100
 T:polearm:0:99:uber:10:55 to 100
@@ -558,7 +558,7 @@ D:It is magically aided with unerring accuracy.
 
 N:105:suffix:of Power
 C:d5:d15:0
-M:225:15:0
+M:255:15:255
 T:bow:0:99:great:20:10 to 100
 T:hafted:0:99:uber:10:55 to 100
 T:polearm:0:99:uber:10:55 to 100
@@ -1142,114 +1142,114 @@ T:hafted:0:99:good:10:1 to 100
 
 N:208:material:Black Dragon Scale
 C:-2:0:0:6:6
-M:-2:225:225
+M:-2:255:255
 F:RES_ACID | IGNORE_ACID
 #E:ACID_BALL:100+d100
-T:boots:3:4:great:8:35 to 100
-T:helm:5:6:great:8:35 to 100
-T:soft armour:6:11:great:8:35 to 100
-T:hard armour:3:9:great:8:35 to 100
-T:gloves:2:4:great:8:35 to 100
-T:shield:0:99:great:8:35 to 100
+T:boots:3:4:great:6:35 to 100
+T:helm:5:6:great:6:35 to 100
+T:soft armour:6:11:great:6:35 to 100
+T:hard armour:3:9:great:6:35 to 100
+T:gloves:2:4:great:6:35 to 100
+T:shield:0:99:great:6:35 to 100
 
 N:209:material:White Dragon Scale
 C:-2:0:0:4:4
-M:-2:225:225
+M:-2:255:255
 F:RES_COLD | IGNORE_COLD
 #E:COLD_BALL100:100+d100
-T:boots:3:4:great:8:30 to 100
-T:helm:5:6:great:8:30 to 100
-T:soft armour:6:11:great:8:30 to 100
-T:hard armour:3:9:great:8:30 to 100
-T:gloves:2:4:great:8:30 to 100
-T:shield:0:99:great:8:30 to 100
+T:boots:3:4:great:6:30 to 100
+T:helm:5:6:great:6:30 to 100
+T:soft armour:6:11:great:6:30 to 100
+T:hard armour:3:9:great:6:30 to 100
+T:gloves:2:4:great:6:30 to 100
+T:shield:0:99:great:6:30 to 100
 
 N:210:material:Blue Dragon Scale
 C:-2:0:0:2:2
-M:-2:225:225
+M:-2:255:255
 F:RES_ELEC | IGNORE_ELEC
 #E:DRAGON_BLUE:100+d100
-T:boots:3:4:great:8:25 to 100
-T:helm:5:6:great:8:25 to 100
-T:soft armour:6:11:great:8:25 to 100
-T:hard armour:3:9:great:8:25 to 100
-T:gloves:2:4:great:8:25 to 100
-T:shield:0:99:great:8:25 to 100
+T:boots:3:4:great:6:25 to 100
+T:helm:5:6:great:6:25 to 100
+T:soft armour:6:11:great:6:25 to 100
+T:hard armour:3:9:great:6:25 to 100
+T:gloves:2:4:great:6:25 to 100
+T:shield:0:99:great:6:25 to 100
 
 N:211:material:Red Dragon Scale
 C:-2:0:0:10:10
-M:-2:225:225
+M:-2:255:255
 F:RES_FIRE | IGNORE_FIRE
 #E:DRAGON_RED:100+d100
-T:boots:3:4:great:8:40 to 100
-T:helm:5:6:great:8:40 to 100
-T:soft armour:6:11:great:8:40 to 100
-T:hard armour:3:9:great:8:40 to 100
-T:gloves:2:4:great:8:40 to 100
-T:shield:0:99:great:8:40 to 100
+T:boots:3:4:great:6:40 to 100
+T:helm:5:6:great:6:40 to 100
+T:soft armour:6:11:great:6:40 to 100
+T:hard armour:3:9:great:6:40 to 100
+T:gloves:2:4:great:6:40 to 100
+T:shield:0:99:great:6:40 to 100
 
 N:212:material:Green Dragon Scale
 C:-2:0:0:8:8
-M:-2:225:225
+M:-2:255:255
 F:RES_POIS
 #E:DRAGON_GREEN:100+d100
-T:boots:3:4:great:8:60 to 100
-T:helm:5:6:great:8:60 to 100
-T:soft armour:6:11:great:8:60 to 100
-T:hard armour:3:9:great:8:60 to 100
-T:gloves:2:4:great:8:60 to 100
-T:shield:0:99:great:8:60 to 100
+T:boots:3:4:great:6:60 to 100
+T:helm:5:6:great:6:60 to 100
+T:soft armour:6:11:great:6:60 to 100
+T:hard armour:3:9:great:6:60 to 100
+T:gloves:2:4:great:6:60 to 100
+T:shield:0:99:great:6:60 to 100
 
 N:213:material:Gold Dragon Scale
 C:-2:0:0:12:12
-M:-2:225:225
+M:-2:255:255
 F:RES_SOUND
 #E:DRAGON_GOLD:100+d100
-T:boots:3:4:great:8:70 to 100
-T:helm:5:6:great:8:70 to 100
-T:soft armour:6:11:great:8:70 to 100
-T:hard armour:3:9:great:8:70 to 100
-T:gloves:2:4:great:8:70 to 100
-T:shield:0:99:great:8:70 to 100
+T:boots:3:4:great:6:70 to 100
+T:helm:5:6:great:6:70 to 100
+T:soft armour:6:11:great:6:70 to 100
+T:hard armour:3:9:great:6:70 to 100
+T:gloves:2:4:great:6:70 to 100
+T:shield:0:99:great:6:70 to 100
 
 N:214:material:Pseudo-dragon Scale
 C:-2:0:0:14:14
-M:-2:225:225
+M:-2:255:255
 F:RES_LIGHT | RES_DARK
 #E:DRAGON_SHINING:100+d100
-T:boots:3:4:uber:6:75 to 100
-T:helm:5:6:uber:6:75 to 100
-T:soft armour:6:11:uber:6:75 to 100
-T:hard armour:3:9:uber:6:75 to 85
-T:hard armour:3:9:great:6:86 to 100
-T:gloves:2:4:uber:6:75 to 100
-T:shield:0:99:uber:6:75 to 100
+T:boots:3:4:uber:5:75 to 100
+T:helm:5:6:uber:5:75 to 100
+T:soft armour:6:11:uber:5:75 to 100
+T:hard armour:3:9:uber:5:75 to 85
+T:hard armour:3:9:great:5:86 to 100
+T:gloves:2:4:uber:5:75 to 100
+T:shield:0:99:uber:5:75 to 100
 
 N:215:material:Law Dragon Scale
 C:-2:0:0:16:16
-M:-2:225:225
+M:-2:255:255
 F:RES_SOUND | RES_SHARD
 #E:DRAGON_LAW:100+d100
-T:boots:3:4:uber:6:80 to 100
-T:helm:5:6:uber:6:80 to 100
-T:soft armour:6:11:uber:6:80 to 100
-T:hard armour:3:9:uber:6:80 to 90
-T:hard armour:3:9:great:6:91 to 100
-T:gloves:2:4:uber:6:80 to 100
-T:shield:0:99:uber:6:80 to 100
+T:boots:3:4:uber:5:80 to 100
+T:helm:5:6:uber:5:80 to 100
+T:soft armour:6:11:uber:5:80 to 100
+T:hard armour:3:9:uber:5:80 to 90
+T:hard armour:3:9:great:5:91 to 100
+T:gloves:2:4:uber:5:80 to 100
+T:shield:0:99:uber:5:80 to 100
 
 N:216:material:Chaos Dragon Scale
 C:-2:0:0:18:18
-M:-2:225:225
+M:-2:255:255
 F:RES_CHAOS | RES_DISEN
 #E:DRAGON_CHAOS:100+d100
-T:boots:3:4:uber:5:85 to 100
-T:helm:5:6:uber:5:85 to 100
-T:soft armour:6:11:uber:5:85 to 100
-T:hard armour:3:9:uber:5:85 to 90
-T:hard armour:3:9:great:5:95 to 100
-T:gloves:2:4:uber:5:85 to 100
-T:shield:0:99:uber:5:85 to 100
+T:boots:3:4:uber:4:85 to 100
+T:helm:5:6:uber:4:85 to 100
+T:soft armour:6:11:uber:4:85 to 100
+T:hard armour:3:9:uber:4:85 to 90
+T:hard armour:3:9:great:4:95 to 100
+T:gloves:2:4:uber:4:85 to 100
+T:shield:0:99:uber:4:85 to 100
 
 N:217:quality:Ethereal
 C:0:0:10:0:-100

@@ -438,6 +438,7 @@ A:of Resist Acid:1
 A:of Resist Cold:1
 A:of Resist Fire:1
 A:of Resist Lightning:1
+A:Jewel Encrusted:60
 
 N:38:prefix:Balance Dragon Scale
 T:boots:3:4:95 to 100
@@ -464,6 +465,6 @@ A:Black Dragon Scale:10
 A:White Dragon Scale:10
 A:Blue Dragon Scale:10
 A:Red Dragon Scale:10
-A:of Chaos:100
+A:of Chaos:80
 A:of Arcana:1
 A:of Certainty:1
