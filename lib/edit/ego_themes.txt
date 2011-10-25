@@ -37,14 +37,15 @@
 # 'A' is for affixes, one per line. Each affix has a weighting of its
 # importance in this theme (1-100). The number of lines is limited by
 # THEME_AFFIX_MAX in object.h. The formula used for the theme is
-#  percent chance = x * (x * 4 / y)
+#   percent chance = x * (x * 4 / y)
 # where x is the total weighting of relevant affixes present on the item 
 # and y is the total weighting of all affixes germane to the theme ... 
 # so it is important that y is at least 25. A weighting of 0 means that 
 # the affix cannot contribute to the award of the theme, but is applied 
 # once the theme is awarded. The same affix may be specified more than 
 # once (e.g. to boost hit/dam/ac), but all occurrences of one affix must 
-# be consecutive.
+# be consecutive. The affix "Null" may be used to adjust the 
+# probabilities without changing the item properties.
 
 # 'D' is a textual flavour description of the theme, for use in 'I'nspect.
 
@@ -398,8 +399,8 @@ A:of Agility:8
 
 N:34:suffix:of True Sight
 T:light:0:99:20 to 127
-A:of Observation:100
-A:of Seeing:100
+A:of Observation:15
+A:of Seeing:15
 
 N:35:prefix:Blessed
 T:hafted:0:99:21 to 100
@@ -438,7 +439,7 @@ A:of Resist Acid:1
 A:of Resist Cold:1
 A:of Resist Fire:1
 A:of Resist Lightning:1
-A:Jewel Encrusted:60
+A:Null:60
 
 N:38:prefix:Balance Dragon Scale
 T:boots:3:4:95 to 100
@@ -465,6 +466,8 @@ A:Black Dragon Scale:10
 A:White Dragon Scale:10
 A:Blue Dragon Scale:10
 A:Red Dragon Scale:10
-A:of Chaos:80
+A:of Chaos:1
 A:of Arcana:1
 A:of Certainty:1
+A:Null:60
+
