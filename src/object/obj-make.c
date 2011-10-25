@@ -411,7 +411,7 @@ void ego_apply_magic(object_type *o_ptr, int level, int affix)
  * \param level is the effective generation level.
  * \param this_one is the theme to apply.
  */
-static void obj_apply_theme(object_type *o_ptr, int level, int this_one)
+void obj_apply_theme(object_type *o_ptr, int level, int this_one)
 {
 	size_t i, j;
 

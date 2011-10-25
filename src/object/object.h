@@ -608,6 +608,7 @@ bool make_object(struct cave *c, object_type *j_ptr, int lev, bool good, bool gr
 void make_gold(object_type *j_ptr, int lev, int coin_type);
 void copy_artifact_data(object_type *o_ptr, const artifact_type *a_ptr);
 void ego_apply_magic(object_type *o_ptr, int level, int affix);
+void obj_apply_theme(object_type *o_ptr, int level, int this_one);
 void ego_min_pvals(object_type *o_ptr);
 bool affix_is_quality(int i);
 bool affix_is_make(int i);

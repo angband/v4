@@ -611,7 +611,7 @@ static void wiz_create_item(void)
 	menu_select(menu, 0, FALSE);
 
 	screen_load();
-	
+
 	/* Redraw map */
 	p_ptr->redraw |= (PR_MAP | PR_ITEMLIST);
 	handle_stuff(p_ptr);
@@ -648,20 +648,34 @@ static void wiz_tweak_item(object_type *o_ptr)
 	WIZ_TWEAK(to_h);
 	WIZ_TWEAK(to_d);
 
-/* FIXME
-	p = "Enter new ego item index: ";
+	for (i = 0; i < MAX_AFFIXES; i++) {
+		p = "Enter new affix index: ";
+		strnfmt(tmp_val, sizeof(tmp_val), "0");
+		if (o_ptr->affix[i])
+			strnfmt(tmp_val, sizeof(tmp_val), "%d", o_ptr->affix[i]->eidx);
+		if (!get_string(p, tmp_val, 6)) return;
+		val = atoi(tmp_val);
+		if (val) {
+			o_ptr->affix[i] = &e_info[val];
+			ego_apply_magic(o_ptr, p_ptr->depth, val);
+		} else
+			o_ptr->affix[i] = NULL;
+		wiz_display_item(o_ptr, TRUE);
+	}
+
+	p = "Enter new theme index: ";
 	strnfmt(tmp_val, sizeof(tmp_val), "0");
-	if (o_ptr->ego)
-		strnfmt(tmp_val, sizeof(tmp_val), "%d", o_ptr->ego->eidx);
+	if (o_ptr->theme)
+		strnfmt(tmp_val, sizeof(tmp_val), "%d", o_ptr->theme->index);
 	if (!get_string(p, tmp_val, 6)) return;
 	val = atoi(tmp_val);
 	if (val) {
-		o_ptr->affix[0] = &e_info[val].eidx;
-		ego_apply_magic(o_ptr, p_ptr->depth, o_ptr->affix[0]);
+		o_ptr->theme = &themes[val];
+		obj_apply_theme(o_ptr, p_ptr->depth, val);
 	} else
-		o_ptr->affix[0] = 0;
+		o_ptr->theme = NULL;
 	wiz_display_item(o_ptr, TRUE);
-*/
+
 	p = "Enter new artifact index: ";
 	strnfmt(tmp_val, sizeof(tmp_val), "0");
 	if (o_ptr->artifact)
