@@ -291,9 +291,9 @@ A:of Strength:8
 A:of Extra Attacks:8
 
 N:22:suffix:of *Slay Animal*
-T:hafted:0:99:20 to 60
-T:polearm:0:99:20 to 60
-T:sword:0:99:20 to 60
+T:hafted:0:99:20 to 80
+T:polearm:0:99:20 to 80
+T:sword:0:99:20 to 80
 A:of Slay Animal:10
 A:of Slow Digestion:7
 A:of Intelligence:7
@@ -336,25 +336,25 @@ A:of Adroitness:5
 A:of Agility:5
 
 N:27:suffix:of *Slay Troll*
-T:hafted:0:99:36 to 66
-T:polearm:0:99:36 to 66
-T:sword:0:99:36 to 66
+T:hafted:0:99:26 to 66
+T:polearm:0:99:26 to 66
+T:sword:0:99:26 to 66
 A:of Slay Troll:15
 A:of Regeneration:5
 A:of Strength:5
 
 N:28:suffix:of *Slay Giant*
-T:hafted:0:99:39 to 100
-T:polearm:0:99:39 to 100
-T:sword:0:99:39 to 100
+T:hafted:0:99:29 to 100
+T:polearm:0:99:29 to 100
+T:sword:0:99:29 to 100
 A:of Slay Giant:15
 A:of Robustness:5
 A:of Strength:5
 
 N:29:suffix:of *Slay Dragon*
-T:hafted:0:99:39 to 100
-T:polearm:0:99:39 to 100
-T:sword:0:99:39 to 100
+T:hafted:0:99:29 to 100
+T:polearm:0:99:29 to 100
+T:sword:0:99:29 to 100
 A:of Slay Dragon:5
 A:of Dragonbane:10
 A:of Bravery:5

@@ -753,7 +753,7 @@ T:bolt:0:99:great:5:45 to 100
 D:It is tremendously large but clumsy to wield.
 
 N:154:quality:Broken
-C:-5:-3:0:0:-50:-1:-2
+C:-d5:-d3:0:0:-50:0:0
 T:hafted:0:99:bad:20:1 to 36
 T:polearm:0:99:bad:20:1 to 36
 T:sword:0:99:bad:20:1 to 36

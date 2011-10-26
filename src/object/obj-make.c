@@ -36,8 +36,8 @@
 #define GREAT_EGO   20
 
 /* One_in_ chances of creating an artifact from a normal/good/great item */
-#define ART_NORMAL 1000
-#define ART_GOOD	200
+#define ART_NORMAL  500
+#define ART_GOOD	100
 #define ART_GREAT	 20
 
 /**
@@ -195,9 +195,11 @@ void check_flags(object_type *o_ptr)
  *
  * \param o_ptr is the object looking for an affix.
  * \param level is the effective generation level (not necc. dungeon level)
- * \param affix_lev is the highest quality of affix we're allowed.
+ * \param max_lev is the highest quality of affix we're allowed.
+ * \param min_lev is the lowest quality of affix we're allowed.
  */
-static int obj_find_affix(object_type *o_ptr, int level, int affix_lev)
+static int obj_find_affix(object_type *o_ptr, int level, int max_lev,
+	int min_lev)
 {
 	int i, j, success = 0;
 	long total = 0L;
@@ -232,7 +234,8 @@ static int obj_find_affix(object_type *o_ptr, int level, int affix_lev)
 					(affix_is_make(i) && !make) ||
 					(affix_is_material(i) && !material) ||
 					(affix_is_suffix(i))) &&
-					affix_lev >= ego->level[j]) {
+					max_lev >= ego->level[j] &&
+					min_lev <= ego->level[j]) {
 				table[i].prob3 = ego->alloc_prob[j];
 				table[i].index = ego->eidx;
 				break;
@@ -438,7 +441,8 @@ void obj_apply_theme(object_type *o_ptr, int level, int this_one)
  * Try to find an affix for an object, setting o_ptr->affix[n] if successful
  * and checking for a theme for the object.
  */
-static void obj_add_affix(object_type *o_ptr, int level, int affix_lev)
+static void obj_add_affix(object_type *o_ptr, int level, int max_lev,
+	int min_lev)
 {
 	int i, chosen;
 	object_type object_type_body;
@@ -458,7 +462,7 @@ static void obj_add_affix(object_type *o_ptr, int level, int affix_lev)
 	for (i = 0; i < MAX_AFFIXES; i++)
 		if (!o_ptr->affix[i]) {
 			/* Try to get a legal affix for this item */
-			chosen = obj_find_affix(o_ptr, level, affix_lev);
+			chosen = obj_find_affix(o_ptr, level, max_lev, min_lev);
 
 			/* Actually apply the affix to the item */
 			if (chosen) {
@@ -724,16 +728,20 @@ void object_prep(object_type *o_ptr, struct object_kind *k, int lev,
 s16b apply_magic(object_type *o_ptr, int lev, bool allow_artifacts,
 		bool good, bool great)
 {
-	int i, affix_lev = 3, affixes;
+	int i, max_lev = 3, min_lev = 1, affixes;
 	bool art = FALSE;
 
 	/* Set the number and quality of affixes this item will have */
-	if (randint0(100) < 10 + lev)
-		affix_lev++;
+	if (randint0(100) < 20 + lev)
+		max_lev++;
 	if (great || (good && one_in_(4)))
-		affix_lev++;
+		max_lev++;
+	if (great || good || randint0(100) < 10 + lev)
+		min_lev++;
+	if (great)
+		min_lev++;
 
-	affixes = randint0(2 + lev / 25);
+	affixes = randint0(3 + lev / 25);
 	if (great)
 		affixes += 2 + randint1(2);
 	else if (good)
@@ -748,7 +756,7 @@ s16b apply_magic(object_type *o_ptr, int lev, bool allow_artifacts,
 	if (allow_artifacts) {
 		if (great && one_in_(ART_GREAT))
 			art = TRUE;
-		else if (affix_lev > 1 && one_in_(ART_GOOD))
+		else if (max_lev > 3 && one_in_(ART_GOOD))
 			art = TRUE;
 		else if (one_in_(ART_NORMAL))
 			art = TRUE;
@@ -758,7 +766,7 @@ s16b apply_magic(object_type *o_ptr, int lev, bool allow_artifacts,
 
 	/* Generate and apply affixes, stopping if we acquire a theme */
 	for (i = 0; i < affixes && !o_ptr->theme; i++)
-		obj_add_affix(o_ptr, lev, affix_lev);
+		obj_add_affix(o_ptr, lev, max_lev, min_lev);
 
 	/* Apply special-case magic */
 	switch (o_ptr->tval) {
