@@ -508,8 +508,18 @@ void copy_artifact_data(object_type *o_ptr, const artifact_type *a_ptr)
 	o_ptr->to_d = a_ptr->to_d;
 	o_ptr->weight = a_ptr->weight;
 	of_union(o_ptr->flags, a_ptr->flags);
-}
 
+    /* Set the prefix or suffix, if the artifact has an affix */
+	if (a_ptr->affix && affix_is_prefix(a_ptr->affix->eidx))
+		o_ptr->prefix = a_ptr->affix;
+
+	if (a_ptr->affix && affix_is_suffix(a_ptr->affix->eidx))
+		o_ptr->suffix = a_ptr->affix;
+
+	/* Set the theme, if it has one */
+	if (a_ptr->theme)
+		o_ptr->theme = a_ptr->theme;
+}
 
 /**
  * Attempt to create an artifact.  If the object is already set to be an

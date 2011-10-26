@@ -383,7 +383,8 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 	if (aware && !o_ptr->kind->everseen && !spoil)
 		o_ptr->kind->everseen = TRUE;
 
-	if (mode & ODESC_AFFIX && (spoil || object_prefix_is_visible(o_ptr))) {
+	if (mode & ODESC_AFFIX && (known || object_prefix_is_visible(o_ptr) ||
+			(o_ptr->artifact && object_name_is_visible(o_ptr)))) {
 		if (o_ptr->theme && theme_is_prefix(o_ptr->theme->index))
 			prefix =  o_ptr->theme->name;
 		else if	(o_ptr->prefix)
@@ -407,17 +408,18 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 			(o_ptr->number != 1 || (mode & ODESC_PLURAL)));
 
 	/** Append extra names of various kinds **/
-
-	if ((object_name_is_visible(o_ptr) || known) && o_ptr->artifact)
-		strnfcat(buf, max, &end, " %s", o_ptr->artifact->name);
-
-	else if (mode & ODESC_AFFIX && (spoil || object_suffix_is_visible(o_ptr))) {
+	if (mode & ODESC_AFFIX && (known || object_suffix_is_visible(o_ptr) ||
+			(o_ptr->artifact && object_name_is_visible(o_ptr)))) {
 		if (o_ptr->theme && theme_is_suffix(o_ptr->theme->index))
 			strnfcat(buf, max, &end, " %s", o_ptr->theme->name);
 		else if	(o_ptr->suffix)
 			strnfcat(buf, max, &end, " %s", o_ptr->suffix->name);
+	}
 
-	} else if (aware && !o_ptr->artifact &&
+	if ((object_name_is_visible(o_ptr) || known) && o_ptr->artifact)
+		strnfcat(buf, max, &end, " %s", o_ptr->artifact->name);
+
+	if (aware && !o_ptr->artifact &&
 			(o_ptr->kind->flavor || o_ptr->kind->tval == TV_SCROLL))
 		strnfcat(buf, max, &end, " of %s", o_ptr->kind->name);
 

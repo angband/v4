@@ -9,7 +9,7 @@
   #ifdef __GNUC__
     #define TEST_DATA __attribute__ ((unused))
   #else
-    #define TEST_DATA 
+    #define TEST_DATA
   #endif
 #endif /* TEST_DATA */
 
@@ -44,6 +44,8 @@ static struct artifact TEST_DATA test_artifact_sword = {
 	.ds = 5,
 	.weight = 16,
 	.cost = 40,
+	.affix = NULL,
+	.theme = NULL,
 };
 
 static struct object_kind TEST_DATA test_longsword = {
