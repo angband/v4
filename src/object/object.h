@@ -340,6 +340,9 @@ typedef struct artifact {
 
 	struct artifact *next;
 
+	struct ego_item *affix;	/* Affix for use in name */
+	struct theme *theme;	/* Theme for use in name */
+
 	byte tval;    /**< General artifact type (see TV_ macros) */
 	byte sval;    /**< Artifact sub-type (see SV_ macros) */
 	s16b pval[MAX_PVALS];    /**< Power for any flags which need it */

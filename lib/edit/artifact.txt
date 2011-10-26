@@ -17,6 +17,8 @@
 # M: message when activated
 # L: pval : flag | flag | etc.
 # D: description
+# affix: affix
+# theme: theme
 
 # 'N' indicates the beginning of an entry. The serial number must
 # increase for each new item.
@@ -56,6 +58,16 @@
 # Contributors: Jeff Butler, Neal Hackler, Ethan Sicotte, Pat Tracy,
 # Yuanli Zhou 
 
+# 'affix' is for the affix to be used in the artifact's name (e.g. Of 
+# Disruption, Mithril, Jewel Encrusted). It must be a valid name of an 
+# affix in ego_item.txt. Note that this affix is used only in the 
+# artifact name, and does not change its properties at all.
+
+# 'theme' is for the theme to be used in the artifact's name (e.g. 
+# Multihued Dragon Scale). It must be a valid name of a theme in 
+# ego_themes.txt. Note that this theme is used only in the artifact 
+# name, and does not change its properties at all.
+
 # Any changes or additions to the file will have influence on randarts
 # and may break savefile compatibility for old savegames with randarts.  If
 # using random artifacts, finish your existing game before making any
@@ -63,7 +75,7 @@
 
 # Version stamp (required)
 
-V:3.4.0
+V:4.0
 
 # The Phial of Galadriel
 
@@ -339,7 +351,7 @@ D:return to the Shire.
 ### Dragon Scale Mails ###
 
 N:16:'Razorback'
-I:dragon armour:Multi-Hued Dragon Scale Mail
+I:hard armour:Breastplate
 W:90:9:200:400000
 A:20:90 to 127
 P:50:2d4:-4:0:25
@@ -353,10 +365,11 @@ M:Lightning surrounds your {kind}!
 D:A massive suit of heavy dragon scales deeply saturated with many colors.   
 D:It throbs with angry energies, and you feel the raw elemental might of 
 D:untamed Lightning as you put it on.
+theme:Multihued Dragon Scale
 
 
 N:17:'Bladeturner'
-I:dragon armour:Power Dragon Scale Mail
+I:hard armour:Full Plate Armour
 W:100:16:250:500000
 A:1:100 to 127
 P:80:2d4:-8:0:35
@@ -368,10 +381,11 @@ E:RAGE_BLESS_RESIST:50
 M:{name} glow{s} many colors...
 D:An adamant suit with scales of every color.  Untrammelled powers elemental 
 D:and ethereal swirl around it in an inextricably intermingled nimbus.
+theme:Power Dragon Scale
 
 
 N:18:'Mediator'
-I:dragon armour:Balance Dragon Scale Mail
+I:hard armour:Lamellar Armour
 W:95:12:250:400000
 A:15:95 to 127
 P:60:2d4:-4:0:25
@@ -382,12 +396,13 @@ E:STAR_BALL:50
 M:Lightning surrounds your {kind}!
 D:A great suit of dragon hide, set with scales of many hues.  Even the 
 D:mightiest wyrms of Law and Chaos fear the judgement of its wearer.
+theme:Balance Dragon Scale
 
 
 ### Heavy Armor ###
 
 N:19:'Soulkeeper'
-I:hard armour:Adamantite Plate Mail
+I:hard armour:Plate Mail
 W:75:9:420:300000
 A:15:75 to 127
 P:90:2d4:-4:0:20
@@ -400,6 +415,7 @@ L:2:CON
 D:A suit of imperishable adamant with unconquerable strength to endure evil 
 D:and disruptive magics.  It protects the life force of its wearer as 
 D:nothing else can.
+affix:Adamantite
 
 
 N:20:of Isildur
@@ -428,7 +444,7 @@ D:the Young, matchless in combat, you feel his spirit surround you.
 
 
 N:22:'Belegennon'
-I:hard armour:Mithril Chain Mail
+I:hard armour:Chain Mail
 W:40:3:150:105000
 A:90:55 to 127
 P:35:1d4:-1:0:20
@@ -440,10 +456,11 @@ L:2:STEALTH
 D:This wondrous suit of fine-linked chain shimmers as though of pure silver.  
 D:It stands untouched amidst the fury of the elements, and a power of 
 D:concealment rests within.
+affix:Mithril
 
 
 N:23:of Celeborn
-I:hard armour:Mithril Plate Mail
+I:hard armour:Plate Mail
 W:40:3:250:150000
 A:90:65 to 127
 P:65:2d4:-3:0:25
@@ -456,6 +473,7 @@ L:4:CHR
 D:A shimmering suit of true-silver, forged long ago by dwarven smiths of 
 D:legend. It gleams with purest white as you gaze upon it, and mighty are 
 D:its powers to protect and banish.
+affix:Mithril
 
 
 N:24:of Arvedui
@@ -619,6 +637,7 @@ L:-3:STR | DEX
 D:The midnight-hued steel circlet of the sorceress-queen Berúthiel.  It 
 D:grants extraordinary powers of sight and awareness at a terrible physical 
 D:cost.
+affix:Iron
 
 
 N:36:of Thranduil
@@ -672,6 +691,7 @@ D:The legendary Dragon-helm, forged by one of the legendary Dwarven smiths
 D:of the First Age.  The visage of mighty Glaurung forms its crest, and the 
 D:mere sight of the helm, borne by Túrin Turambar, struck dread into the 
 D:hearts of the servants of Morgoth.
+affix:Iron
 
 
 N:40:'Holhenneth'
@@ -685,6 +705,7 @@ M:{name} forms an image in your mind...
 L:2:INT | WIS | SEARCH
 D:A famous forged iron helm granting extraordinary powers of mind and 
 D:awareness.
+affix:Iron
 
 
 N:41:of Gorlim
@@ -703,7 +724,7 @@ D:needed succor.
 
 
 N:42:of Gondor
-I:crown:Golden Crown
+I:crown:Crown
 W:40:40:30:100000
 A:30:45 to 127
 P:0:1d1:0:0:15
@@ -717,10 +738,11 @@ L:2:WIS
 L:1:LIGHT
 D:From dying Númenor, Elendil brought this shining winged circlet, emblem 
 D:of Gondor through an age of the world.
+affix:Golden
 
 
 N:43:of Númenor
-I:crown:Jewel Encrusted Crown
+I:crown:Crown
 W:60:30:40:50000
 A:40:60 to 127
 P:0:1d1:0:0:18
@@ -734,6 +756,7 @@ L:2:DEX
 L:1:LIGHT
 D:A massive golden crown, set with wondrous jewels of thought and warding, 
 D:once worn by the kings of ancient Númenor.
+affix:Jewel Encrusted
 
 
 ### Cloaks and Shadow Cloaks ###
@@ -803,7 +826,7 @@ D:of Law.  Seldom will its wearer be diverted from his mission.
 
 
 N:49:of Lúthien
-I:cloak:Elven Cloak
+I:cloak:Cloak
 W:40:40:5:45000
 A:20:40 to 127
 P:6:0d0:0:0:20
@@ -817,10 +840,11 @@ D:The opaque midnight folds of this cloak, inlaid with a multitude of tiny
 D:diamonds, swirl around you, and you feel a hint, a fragment of the 
 D:restorative magics of Lúthien, the most beautiful being who ever knew 
 D:death.
+affix:Elven
 
 
 N:50:of Tuor
-I:cloak:Ethereal Cloak
+I:cloak:Cloak
 W:40:40:0:35000
 A:20:70 to 127
 P:6:0d0:0:0:12
@@ -829,6 +853,7 @@ L:4:STEALTH | DEX
 D:From the ruin of Gondolin, through secret ways and travail, did Tuor 
 D:escape, mantled by sea-commanding Ulmo's kingly gift from a multitude 
 D:of hostile eyes.
+affix:Ethereal
 
 
 ### Gloves and Gauntlets ###
@@ -1368,7 +1393,7 @@ D:Brethil.
 
 
 N:91:'Doomcaller'
-I:sword:Blade of Chaos
+I:sword:Katana
 W:70:25:180:200000
 A:15:70 to 127
 P:0:6d5:18:28:-50
@@ -1379,6 +1404,7 @@ F:RES_CHAOS | SEE_INVIS | TELEPATHY | AGGRAVATE | SHOW_MODS
 D:This weapon of wrath, wrought by a desperate berserker gang, dives hungrily 
 D:into the yielding flesh of your enemies.  You yourself fall under the 
 D:shadow of death even as you inflict wounds that will not heal.
+affix:Of Chaos
 
 
 ### Polearms ###
@@ -1807,7 +1833,7 @@ D:deals.
 
 
 N:121:'Deathwreaker'
-I:hafted:Mace of Disruption
+I:hafted:Mace
 W:80:38:400:400000
 A:5:80 to 127
 P:0:7d8:18:18:0
@@ -1822,6 +1848,7 @@ D:the might of giants within you as you heft it.  As you grip the handle
 D:of ebony and steel, coronas of fire blaze, and mighty spells to preserve 
 D:magic surge around you.  You wield the Fear of Dragons and the Despair 
 D:of the Undead!
+affix:Of Disruption
 
 
 N:122:'Turmil'
@@ -2056,7 +2083,7 @@ D: boots possess the magic of Radagast, friend of birds and nature.
 
 
 N:138:'Stormwalker'
-I:boots:Pair of Mithril Shod Boots
+I:boots:Pair of Hard Boots
 W:30:25:40:40000
 A:30:60 to 127
 P:8:1d1:0:0:24
@@ -2070,6 +2097,7 @@ D: of Nargothrond, the brother of Gelmir. Now his wrath was kindled to
 D: madness, and he leapt forth on horseback, and many riders with him;
 D: and they pursued the heralds and slew them, and drove on deep into
 D: the main host.
+affix:Mithril
 
 
 N:139:of Amandil

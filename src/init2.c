@@ -853,6 +853,54 @@ static enum parser_error parse_a_d(struct parser *p) {
 	return PARSE_ERROR_NONE;
 }
 
+static enum parser_error parse_a_affix(struct parser *p) {
+	struct artifact *a = parser_priv(p);
+	const char *sym = parser_getsym(p, "affix");
+	struct ego_item *affix;
+	size_t i;
+
+	if (!a)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+
+	for (i = 0; i < z_info->e_max; i++) {
+		affix = &e_info[i];
+		if (affix->eidx && (!my_stricmp(sym, affix->name) ||
+				atoi(sym) == affix->eidx)) {
+			a->affix = affix;
+			break;
+		}
+	}
+
+	if (i == z_info->e_max)
+		return PARSE_ERROR_INVALID_VALUE;
+
+	return PARSE_ERROR_NONE;
+}
+
+static enum parser_error parse_a_theme(struct parser *p) {
+	struct artifact *a = parser_priv(p);
+	const char *sym = parser_getsym(p, "theme");
+	struct theme *theme;
+	size_t i;
+
+	if (!a)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+
+	for (i = 0; i < z_info->theme_max; i++) {
+		theme = &themes[i];
+		if (theme->index && (!my_stricmp(sym, theme->name) ||
+				atoi(sym) == theme->index)) {
+			a->theme = theme;
+			break;
+		}
+	}
+
+	if (i == z_info->theme_max)
+		return PARSE_ERROR_INVALID_VALUE;
+
+	return PARSE_ERROR_NONE;
+}
+
 struct parser *init_parse_a(void) {
 	struct parser *p = parser_new();
 	parser_setpriv(p, NULL);
@@ -867,6 +915,8 @@ struct parser *init_parse_a(void) {
 	parser_reg(p, "M str text", parse_a_m);
 	parser_reg(p, "L int pval str flags", parse_a_l);
 	parser_reg(p, "D str text", parse_a_d);
+	parser_reg(p, "affix sym affix", parse_a_affix);
+	parser_reg(p, "theme sym theme", parse_a_theme);
 	return p;
 }
 
@@ -1642,8 +1692,8 @@ static enum parser_error parse_t_a(struct parser *p) {
 
 	for (i = 0; i < z_info->e_max; i++) {
 		affix = &e_info[i];
-		if ((affix->eidx && !my_stricmp(sym, affix->name)) ||
-				streq(sym, format("%d", affix->eidx))) {
+		if (affix->eidx && (!my_stricmp(sym, affix->name) ||
+				atoi(sym) == affix->eidx)) {
 			t->affix[t->num_affixes] = affix->eidx;
 			break;
 		}
