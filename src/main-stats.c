@@ -40,7 +40,7 @@
 #define TOP_PLUS		 56
 #define TOP_POWER		999
 #define TOP_PVAL		 25
-#define RUNS_PER_CHECKPOINT	10000
+#define RUNS_PER_CHECKPOINT	20000
 
 /* For ref, e_max is ~200, a_max is ~140, r_max is ~650,
 	ORIGIN_STATS is 14, OF_MAX is ~120 */
@@ -572,6 +572,64 @@ static int stats_dump_affixes(void)
 	return SQLITE_OK;
 }
 
+static int stats_dump_themes(void)
+{
+	int err, idx, i;
+	char sql_buf[256];
+	sqlite3_stmt *info_stmt, *affixes_stmt, *type_stmt;
+
+	strnfmt(sql_buf, 256, "INSERT INTO theme_info VALUES (?,?,?);");
+	err = stats_db_stmt_prep(&info_stmt, sql_buf);
+	if (err) return err;
+
+	strnfmt(sql_buf, 256, "INSERT INTO theme_affixes_map VALUES (?,?,?);");
+	err = stats_db_stmt_prep(&affixes_stmt, sql_buf);
+	if (err) return err;
+
+	strnfmt(sql_buf, 256, "INSERT INTO theme_type_map VALUES (?,?,?,?,?,?);");
+	err = stats_db_stmt_prep(&type_stmt, sql_buf);
+	if (err) return err;
+
+	for (idx = 0; idx < z_info->theme_max; idx++) {
+		struct theme *t_ptr = &themes[idx];
+
+		if (!t_ptr->name) continue;
+
+		err = sqlite3_bind_int(info_stmt, 1, idx);
+		if (err) return err;
+
+		err = sqlite3_bind_text(info_stmt, 2, t_ptr->name,
+			strlen(t_ptr->name), SQLITE_STATIC);
+		if (err) return err;
+
+		err = sqlite3_bind_int(info_stmt, 3, t_ptr->type);
+		if (err) return err;
+
+		STATS_DB_STEP_RESET(info_stmt)
+
+		for (i = 0; i < EGO_TVALS_MAX; i++) {
+			err = stats_db_bind_ints(type_stmt, 6, 0,
+				idx, t_ptr->tval[i], t_ptr->min_sval[i], t_ptr->max_sval[i],
+				t_ptr->alloc_min[i], t_ptr->alloc_max[i]);
+			if (err) return err;
+			STATS_DB_STEP_RESET(type_stmt)
+		}
+
+		for (i = 0; i < t_ptr->num_affixes; i++) {
+			err = stats_db_bind_ints(affixes_stmt, 3, 0,
+				idx, t_ptr->affix[i], t_ptr->aff_wgt[i]);
+			if (err) return err;
+			STATS_DB_STEP_RESET(affixes_stmt)
+		}
+	}
+
+	STATS_DB_FINALIZE(info_stmt)
+	STATS_DB_FINALIZE(affixes_stmt)
+	STATS_DB_FINALIZE(type_stmt)
+
+	return SQLITE_OK;
+}
+
 static int stats_dump_objects(void)
 {
 	int err, idx, i, flag;
@@ -992,7 +1050,10 @@ static int stats_dump_info(void)
 
 	err = stats_dump_affixes();
 	if (err) return err;
-/* TODO: dump themes */
+
+	err = stats_dump_themes();
+	if (err) return err;
+
 	err = stats_dump_monsters();
 	if (err) return err;
 
@@ -1017,10 +1078,10 @@ static int stats_dump_info(void)
  *     artifact_info -- dump of artifact.txt
  *     artifact_flags_map -- map between artifacts and object flags
  *     artifact_pval_flags_map -- map between artifacts and pval flags, with pvals
- *     ego_info -- dump of ego_item.txt
- *     ego_flags_map -- map between egos and object flags
- *     ego_pval_flags_map -- map between egos and pval flags, with pvals and minima
- *     ego_type_map -- map between egos and tvals/svals
+ *     affix_info -- dump of ego_item.txt
+ *     affix_flags_map -- map between affixes and object flags
+ *     affix_pval_flags_map -- map between affixes and pval flags, with pvals and minima
+ *     affix_type_map -- map between affixes and tvals/svals, with level and alloc_prob/min/max
  *     monster_base_flags_map -- map between monster bases and monster flags
  *     monster_base_spell_flags_map -- map between monster bases and monster spell flags
  *     monster_info -- dump of monsters.txt
@@ -1037,6 +1098,9 @@ static int stats_dump_info(void)
  *     object_flags_list -- dump of list-object-flags.h
  *     object_slays_list -- dump of list-object-slays.h
  *     origin_flags_list -- dump of origin enum
+ *	   theme_info -- dump of ego_themes.txt
+ *     theme_affixes_map -- map of affixes in each theme
+ *     theme_type_map -- map between themes and tvals/svals, with alloc_min/max
  * Count tables:
  *     monsters
  *     obj_feelings
@@ -1052,6 +1116,7 @@ static int stats_dump_info(void)
  *     wearables_egos
  *     wearables_flags
  *     wearables_pval_flags
+ *	   wearables_themes
  */
 static bool stats_prep_db(void)
 {
@@ -1087,7 +1152,7 @@ static bool stats_prep_db(void)
 	err = stats_db_exec("CREATE TABLE affix_type_map(e_idx INT, tval INT, min_sval INT, max_sval INT, level INT, alloc_prob INT, alloc_min INT, alloc_max INT);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE theme_info(idx INT PRIMARY KEY, type INT, name TEXT);");
+	err = stats_db_exec("CREATE TABLE theme_info(idx INT PRIMARY KEY, name TEXT, type INT);");
 	if (err) return false;
 
 	err = stats_db_exec("CREATE TABLE theme_type_map(idx INT, tval INT, min_sval INT, max_sval INT, alloc_min INT, alloc_max INT);");
@@ -1214,13 +1279,13 @@ static int stats_level_data_offsetof(const char *member)
 		return offsetof(struct level_data, consumables);
 	else if (streq(member, "wearables"))
 		return offsetof(struct level_data, wearables);
-		
+
 	/* We should not get to this point. */
 	assert(0);
 }
 
 /**
- * Find the offset of the given member of the wearables_data struct. Not 
+ * Find the offset of the given member of the wearables_data struct. Not
  * elegant.
  */
 static int stats_wearables_data_offsetof(const char *member)
@@ -1512,8 +1577,8 @@ static int stats_write_db(u32b run)
 	err = stats_db_exec("BEGIN TRANSACTION;");
 	if (err) return err;
 
-	strnfmt(sql_buf, 256, 
-		"INSERT OR REPLACE INTO metadata VALUES('runs', %d);", run);
+	strnfmt(sql_buf, 256,
+		"INSERT OR REPLACE INTO metadata VALUES('runs', %d);", (run - 1));
 	err = stats_db_exec(sql_buf);
 	if (err) return err;
 
@@ -1532,7 +1597,7 @@ static int stats_write_db(u32b run)
 	err = stats_write_db_level_data_items("artifacts", z_info->a_max, false);
 	if (err) return err;
 
-	err = stats_write_db_level_data_items("consumables", 
+	err = stats_write_db_level_data_items("consumables",
 		consumable_count + 1, true);
 	if (err) return err;
 
@@ -1582,7 +1647,7 @@ void progress_bar(u32b run, time_t start) {
 
 	time_t delta = time(NULL) - start;
 	u32b togo = num_runs - run;
-	u32b expect = delta ? ((long long)delta * (long long)togo) / run 
+	u32b expect = delta ? ((long long)delta * (long long)togo) / run
 		: 0;
 
 	int h = expect / 3600;
@@ -1598,7 +1663,7 @@ void progress_bar(u32b run, time_t start) {
 
 /**
  * Clean up memory after each run. Should only affect character and
- * dungeon structs allocated during normal initialization, not persistent 
+ * dungeon structs allocated during normal initialization, not persistent
  * data like *_info.
  */
 
@@ -1613,7 +1678,7 @@ static errr run_stats(void)
 	artifact_type *a_info_save;
 	unsigned int i;
 	int err;
-	bool status; 
+	bool status;
 
 	time_t start;
 
