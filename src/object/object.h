@@ -182,6 +182,12 @@ typedef enum {
 #define INHIBIT_TO_DAM         41
 #define AMMO_RESCALER          20 /* this value is also used for torches */
 
+/* Values for struct object->marked */
+enum {
+	MARK_UNAWARE = 0,
+	MARK_AWARE = 1,
+	MARK_SEEN = 2
+};
 
 /*** Macros ***/
 
