@@ -477,6 +477,8 @@ void affix_set_squelch(ego_item_type *affix, int tval, bool state)
 	for (i = 0; i < EGO_TVALS_MAX; i++)
 		if (affix->tval[i] == tval)
 			affix->squelch[i] = state;
+
+	p_ptr->notice |= PN_SQUELCH;
 }
 
 void theme_set_squelch(struct theme *theme, int tval, bool state)
@@ -486,6 +488,8 @@ void theme_set_squelch(struct theme *theme, int tval, bool state)
 	for (i = 0; i < EGO_TVALS_MAX; i++)
 		if (theme->tval[i] == tval)
 			theme->squelch[i] = state;
+
+	p_ptr->notice |= PN_SQUELCH;
 }
 
 void affix_setall_squelch(ego_item_type *affix, bool state)
@@ -494,6 +498,8 @@ void affix_setall_squelch(ego_item_type *affix, bool state)
 
 	for (i = 0; i < EGO_TVALS_MAX; i++)
 		affix->squelch[i] = state;
+
+	p_ptr->notice |= PN_SQUELCH;
 }
 
 void theme_setall_squelch(struct theme *theme, bool state)
@@ -502,6 +508,8 @@ void theme_setall_squelch(struct theme *theme, bool state)
 
 	for (i = 0; i < EGO_TVALS_MAX; i++)
 		theme->squelch[i] = state;
+
+	p_ptr->notice |= PN_SQUELCH;
 }
 
 
@@ -511,6 +519,8 @@ void theme_setall_squelch(struct theme *theme, bool state)
 bool squelch_item_ok(const object_type *o_ptr)
 {
 	byte type;
+	size_t i;
+	bool squelch_by_affix = FALSE;
 
 	if (p_ptr->unignoring)
 		return FALSE;
@@ -539,10 +549,27 @@ bool squelch_item_ok(const object_type *o_ptr)
 		return FALSE;
 
 	/* Squelch items known not to be special */
-	if (object_is_known_not_artifact(o_ptr) && squelch_level[type] == SQUELCH_ALL)
+	if (object_is_known_not_artifact(o_ptr) &&
+			squelch_level[type] == SQUELCH_ALL)
 		return TRUE;
 
-	/* Get result based on the feeling and the squelch_level */
+	/* Squelch an item if all its affixes, and its theme if any, are
+	 * set to squelched */
+	if (o_ptr->theme && object_theme_is_known(o_ptr) &&
+			theme_is_squelched(o_ptr->theme, o_ptr->tval))
+		squelch_by_affix = TRUE;
+
+	for (i = 0; i < MAX_AFFIXES && o_ptr->affix[i] ; i++)
+		if (object_affix_is_known(o_ptr, o_ptr->affix[i]->eidx) &&
+				affix_is_squelched(o_ptr->affix[i], o_ptr->tval))
+			squelch_by_affix = TRUE;
+		else
+			squelch_by_affix = FALSE;
+
+	if (squelch_by_affix)
+		return TRUE;
+
+	/* Get result based on pseudo and the quality squelch level */
 	if (squelch_level_of(o_ptr) <= squelch_level[type])
 		return TRUE;
 	else
