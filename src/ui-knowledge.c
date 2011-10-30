@@ -1377,19 +1377,44 @@ static void do_cmd_knowledge_artifacts(const char *name, int row)
 /* static u16b *e_note(int oid) {return &e_info[default_join[oid].oid].note;} */
 static const char *ego_grp_name(int gid) { return object_text_order[gid].name; }
 
+static bool affix_is_theme(int oid)
+{
+	if (oid >= z_info->e_max)
+		return TRUE;
+	else
+		return FALSE;
+}
+
 static void display_ego_item(int col, int row, bool cursor, int oid)
 {
-	/* Access the object */
-	ego_item_type *e_ptr = &e_info[default_join[oid].oid];
+	byte attr;
+	bool everseen, squelched;
+	char *name;
+	struct theme *theme;
+	ego_item_type *e_ptr;
+
+	if (affix_is_theme(default_join[oid].oid)) {
+		theme = &themes[default_join[oid].oid - z_info->e_max];
+		everseen = theme->everseen;
+		name = theme->name;
+		squelched = theme_is_squelched(theme,
+			object_text_order[default_group(oid)].tval);
+	} else {
+		e_ptr = &e_info[default_join[oid].oid];
+		everseen = e_ptr->everseen;
+		name = e_ptr->name;
+		squelched = affix_is_squelched(e_ptr,
+			object_text_order[default_group(oid)].tval);
+	}
 
 	/* Choose a color */
-	byte attr = curs_attrs[0 != (int)e_ptr->everseen][0 != (int)cursor];
+	attr = curs_attrs[0 != (int)everseen][0 != (int)cursor];
 
 	/* Display the name */
-	c_prt(attr, e_ptr->name, row, col);
+	c_prt(attr, name, row, col);
 
 	/* Show squelch status */
-	if (affix_is_squelched(e_ptr, object_text_order[default_group(oid)].tval))
+	if (squelched)
 		c_put_str(attr, "Yes", row, 46);
 }
 
@@ -1412,19 +1437,39 @@ static void desc_ego_fake(int oid)
 	textblock_free(tb);
 }
 
-/* TODO? Currently ego items will order by e_idx */
+/* Currently ego items will order by affix e_idx then by theme */
 static int e_cmp_tval(const void *a, const void *b)
 {
-	const ego_item_type *ea = &e_info[default_join[*(const int *)a].oid];
-	const ego_item_type *eb = &e_info[default_join[*(const int *)b].oid];
 
-	/* Group by */
-	int c = default_join[*(const int *)a].gid -
+	int c = 0;
+	char *aname = NULL;
+	char *bname = NULL;
+	int oid_a = default_join[*(const int *)a].oid;
+	int oid_b = default_join[*(const int *)b].oid;
+
+	/* Order affixes/themes by tval */
+	c = default_join[*(const int *)a].gid -
 		default_join[*(const int *)b].gid;
 	if (c) return c;
 
-	/* Order by */
-	return strcmp(ea->name, eb->name);
+	/* Sort themes separately from affixes */
+	if (affix_is_theme(oid_a) && !affix_is_theme(oid_b))
+		return 1;
+	else if (!affix_is_theme(oid_a) && affix_is_theme(oid_b))
+		return -1;
+
+	/* Sort by name within same tval */
+	if (affix_is_theme(oid_a))
+		aname = themes[oid_a - z_info->e_max].name;
+	else
+		aname = e_info[oid_a].name;
+
+	if (affix_is_theme(oid_b))
+		bname = themes[oid_b - z_info->e_max].name;
+	else
+		bname = e_info[oid_b].name;
+
+	return strcmp(aname, bname);
 }
 
 /*
@@ -1465,24 +1510,37 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 
 	int *egoitems;
 	int e_count = 0;
-	int i, j;
+	int i, j, gid = 0;
 
-	egoitems = C_ZNEW(z_info->e_max * EGO_TVALS_MAX, int);
-	default_join = C_ZNEW(z_info->e_max * EGO_TVALS_MAX, join_t);
+	egoitems = C_ZNEW((z_info->e_max + z_info->theme_max) * EGO_TVALS_MAX, int);
+	default_join = C_ZNEW((z_info->e_max + z_info->theme_max) * EGO_TVALS_MAX,
+		join_t);
 
-	for (i = 0; i < z_info->e_max; i++)
-	{
-		if (e_info[i].everseen || OPT(cheat_xtra))
-		{
-			for (j = 0; j < EGO_TVALS_MAX && e_info[i].tval[j]; j++)
-			{
-				int gid = obj_group_order[e_info[i].tval[j]];
+	for (i = 0; i < z_info->e_max; i++) {
+		if (e_info[i].everseen || OPT(cheat_xtra)) {
+			for (j = 0; j < EGO_TVALS_MAX && e_info[i].tval[j]; j++) {
+				gid = obj_group_order[e_info[i].tval[j]];
 
 				/* Ignore duplicate gids */
 				if (j > 0 && gid == default_join[e_count - 1].gid) continue;
 
 				egoitems[e_count] = e_count;
 				default_join[e_count].oid = i;
+				default_join[e_count++].gid = gid;
+			}
+		}
+	}
+
+	for (i = 0; i < z_info->theme_max; i++) {
+		if (themes[i].everseen || OPT(cheat_xtra)) {
+			for (j = 0; j < EGO_TVALS_MAX && themes[i].tval[j]; j++) {
+				gid = obj_group_order[themes[i].tval[j]];
+
+				/* Ignore duplicate gids */
+				if (j > 0 && gid == default_join[e_count - 1].gid) continue;
+
+				egoitems[e_count] = e_count;
+				default_join[e_count].oid = z_info->e_max + i;
 				default_join[e_count++].gid = gid;
 			}
 		}
