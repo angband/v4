@@ -420,10 +420,9 @@ typedef struct ego_item {
 	byte alloc_min[EGO_TVALS_MAX];  		/* Min depth (can appear earlier) */
 	byte alloc_max[EGO_TVALS_MAX];  		/* Max depth (cannot appear deeper) */
 	bool squelch[EGO_TVALS_MAX];			/* Do we squelch this affix for this tval */
+	bool everseen[EGO_TVALS_MAX];			/* Do not spoil knowledge menus */
 											/* D: */
 	char *text;								/* Descriptive text */
-
-	bool everseen;							/* Do not spoil knowledge menus */
 } ego_item_type;
 
 /*
@@ -529,6 +528,7 @@ struct theme {
 	byte alloc_min[EGO_TVALS_MAX];  		/* Min depth (can appear earlier) */
 	byte alloc_max[EGO_TVALS_MAX];  		/* Max depth (cannot appear deeper) */
 	bool squelch[EGO_TVALS_MAX];			/* Do we squelch this theme on this tval */
+	bool everseen[EGO_TVALS_MAX];			/* Do not spoil knowledge */
 											/* A: */
 	u16b affix[THEME_AFFIX_MAX];			/* Affixes germane to this theme */
 	byte aff_wgt[THEME_AFFIX_MAX];			/* Weighting of each affix 1-100 */
@@ -536,8 +536,6 @@ struct theme {
 	byte num_affixes;						/* Number of A: lines */
 											/* D: */
 	char *text;								/* Descriptive text */
-
-	bool everseen;							/* Has this savefile seen one */
 };
 
 /*** Functions ***/
@@ -744,6 +742,8 @@ void pack_overflow(void);
 extern struct object *object_byid(s16b oidx);
 extern void objects_init(void);
 extern void objects_destroy(void);
+
+int which_ego_tval(int idx, int tval, bool is_theme);
 
 /* obj-power.c and randart.c */
 s32b object_power(const object_type *o_ptr, int verbose, ang_file *log_file, bool known);

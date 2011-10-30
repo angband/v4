@@ -1623,50 +1623,44 @@ int rd_player(void)
  */
 int rd_squelch(void)
 {
-	size_t i;
+	size_t i, j;
 	byte tmp8u = 24;
 	u16b file_e_max;
 	u16b inscriptions;
-	
+
 	/* Read how many squelch bytes we have */
 	rd_byte(&tmp8u);
-	
+
 	/* Check against current number */
 	if (tmp8u != squelch_size)
-	{
 		strip_bytes(tmp8u);
-	}
 	else
-	{
 		for (i = 0; i < squelch_size; i++)
 			rd_byte(&squelch_level[i]);
-	}
-		
+
 	/* Read the number of saved ego-item */
 	rd_u16b(&file_e_max);
-		
+
 	for (i = 0; i < file_e_max; i++)
-	{
-		if (i < z_info->e_max)
-		{
+		if (i < z_info->e_max) {
 			byte flags;
-			
+
 			/* Read and extract the flag */
 			rd_byte(&flags);
-			e_info[i].everseen |= (flags & 0x02);
+			for (j = 0; j < EGO_TVALS_MAX; j++)
+				e_info[i].everseen[j] |= (flags & 0x02);
 		}
-	}
-	
+
 	/* Read the current number of auto-inscriptions */
 	rd_u16b(&inscriptions);
-	
+
 	/* Read the autoinscriptions array */
 	for (i = 0; i < inscriptions; i++)
 	{
 		char tmp[80];
 		s16b kidx;
 		struct object_kind *k;
-		
+
 		rd_s16b(&kidx);
 		k = objkind_byid(kidx);
 		if (!k)
@@ -1674,7 +1668,70 @@ int rd_squelch(void)
 		rd_string(tmp, sizeof(tmp));
 		k->note = quark_add(tmp);
 	}
-	
+
+	return 0;
+}
+
+/*
+ * Read squelch and autoinscription submenu for all known objects
+ * version 2 - loads everseen & squelch ego by tval for affixes & themes
+ */
+int rd_squelch_2(void)
+{
+	size_t i, j;
+	byte tmp8u = 24;
+	u16b file_e_max;
+	u16b file_t_max;
+	u16b inscriptions;
+	byte flags;
+	byte file_tvals_max;
+
+	/* Read how many squelch bytes we have */
+	rd_byte(&tmp8u);
+
+	/* Check against current number */
+	if (tmp8u != squelch_size)
+		strip_bytes(tmp8u);
+	else
+		for (i = 0; i < squelch_size; i++)
+			rd_byte(&squelch_level[i]);
+
+	/* Read affix everseen & squelch bits */
+	rd_byte(&file_tvals_max);
+	rd_u16b(&file_e_max);
+	for (i = 0; i < file_e_max && i < z_info->e_max; i++)
+		for (j = 0; j < file_tvals_max && j < EGO_TVALS_MAX; j++) {
+			rd_byte(&flags);
+			e_info[i].everseen[j] |= (flags & 0x02);
+			e_info[i].squelch[j] |= (flags & 0x04);
+		}
+
+	/* Read theme everseen & squelch bits */
+	rd_u16b(&file_t_max);
+	for (i = 0; i < file_t_max && i < z_info->theme_max; i++)
+		for (j = 0; j < file_tvals_max && j < EGO_TVALS_MAX; j++) {
+			rd_byte(&flags);
+			themes[i].everseen[j] |= (flags & 0x02);
+			themes[i].squelch[j] |= (flags & 0x04);
+		}
+
+	/* Read the current number of auto-inscriptions */
+	rd_u16b(&inscriptions);
+
+	/* Read the autoinscriptions array */
+	for (i = 0; i < inscriptions; i++) {
+		char tmp[80];
+		s16b kidx;
+		struct object_kind *k;
+
+		rd_s16b(&kidx);
+		k = objkind_byid(kidx);
+		if (!k)
+			quit_fmt("objkind_byid(%d) failed", kidx);
+		rd_string(tmp, sizeof(tmp));
+		k->note = quark_add(tmp);
+	}
+
 	return 0;
 }
 
@@ -1682,7 +1739,7 @@ int rd_squelch(void)
 int rd_misc(void)
 {
 	byte tmp8u;
-	
+
 	/* Read the randart version */
 	strip_bytes(4);
 

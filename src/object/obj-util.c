@@ -4431,3 +4431,23 @@ void objects_destroy(void)
 {
 	mem_free(o_list);
 }
+
+/* For an affix or theme, return the first T: line which contains this tval */
+int which_ego_tval(int idx, int tval, bool is_theme)
+{
+	struct theme *theme;
+	ego_item_type *affix;
+	size_t i;
+
+	if (is_theme)
+		theme = &themes[idx];
+	else
+		affix = &e_info[idx];
+
+	for (i = 0; i < EGO_TVALS_MAX; i++)
+		if ((is_theme && theme->tval[i] == tval) ||
+				(!is_theme && affix->tval[i] == tval))
+			return i;
+
+	return -1;
+}

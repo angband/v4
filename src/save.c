@@ -455,30 +455,39 @@ void wr_player(void)
 
 void wr_squelch(void)
 {
-	size_t i, n;
+	size_t i, j, n = 0;
+	byte flags = 0;
 
 	/* Write number of squelch bytes */
 	wr_byte(squelch_size);
 	for (i = 0; i < squelch_size; i++)
 		wr_byte(squelch_level[i]);
 
-	/* Write ego-item squelch bits */
+	/* Write affix everseen & squelch bits */
+	wr_byte(EGO_TVALS_MAX);
 	wr_u16b(z_info->e_max);
 	for (i = 0; i < z_info->e_max; i++)
-	{
-		byte flags = 0;
+		for (j = 0; j < EGO_TVALS_MAX; j++) {
+			flags = 0;
+			if (e_info[i].everseen[j]) flags |= 0x02;
+			if (e_info[i].squelch[j]) flags |= 0x04;
+			wr_byte(flags);
+		}
 
-		/* Figure out and write the everseen flag */
-		if (e_info[i].everseen) flags |= 0x02; /* XXX Ugh - where is this set?*/
-		wr_byte(flags);
-	}
+	/* Write theme everseen & squelch bits */
+	wr_u16b(z_info->theme_max);
+	for (i = 0; i < z_info->theme_max; i++)
+		for (j = 0; j < EGO_TVALS_MAX; j++) {
+			flags = 0;
+			if (themes[i].everseen[j]) flags |= 0x02;
+			if (themes[i].squelch[j]) flags |= 0x04;
+			wr_byte(flags);
+		}
 
-	n = 0;
+	/* Calculate and write the current number of auto-inscriptions */
 	for (i = 0; i < z_info->k_max; i++)
 		if (k_info[i].note)
 			n++;
-
-	/* Write the current number of auto-inscriptions */
 	wr_u16b(n);
 
 	/* Write the autoinscriptions array */

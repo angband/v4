@@ -1400,19 +1400,21 @@ static void display_ego_item(int col, int row, bool cursor, int oid)
 	char *name;
 	struct theme *theme;
 	ego_item_type *e_ptr;
+	int index;
+	int tval = object_text_order[default_group(oid)].tval;
 
 	if (affix_is_theme(default_join[oid].oid)) {
-		theme = &themes[index_to_theme(default_join[oid].oid)];
-		everseen = theme->everseen;
+		index = index_to_theme(default_join[oid].oid);
+		theme = &themes[index];
+		everseen = theme->everseen[which_ego_tval(index, tval, TRUE)];
 		name = theme->name;
-		squelched = theme_is_squelched(theme,
-			object_text_order[default_group(oid)].tval);
+		squelched = theme_is_squelched(theme, tval);
 	} else {
-		e_ptr = &e_info[default_join[oid].oid];
-		everseen = e_ptr->everseen;
+		index = default_join[oid].oid;
+		e_ptr = &e_info[index];
+		everseen = e_ptr->everseen[which_ego_tval(index, tval, FALSE)];
 		name = e_ptr->name;
-		squelched = affix_is_squelched(e_ptr,
-			object_text_order[default_group(oid)].tval);
+		squelched = affix_is_squelched(e_ptr, tval);
 	}
 
 	/* Choose a color */
@@ -1559,8 +1561,8 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 		join_t);
 
 	for (i = 0; i < z_info->e_max; i++) {
-		if (e_info[i].everseen || OPT(cheat_xtra)) {
-			for (j = 0; j < EGO_TVALS_MAX && e_info[i].tval[j]; j++) {
+		for (j = 0; j < EGO_TVALS_MAX && e_info[i].tval[j]; j++) {
+			if (e_info[i].everseen[j] || OPT(cheat_xtra)) {
 				gid = obj_group_order[e_info[i].tval[j]];
 
 				/* Ignore duplicate gids */
@@ -1574,8 +1576,8 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 	}
 
 	for (i = 0; i < z_info->theme_max; i++) {
-		if (themes[i].everseen || OPT(cheat_xtra)) {
-			for (j = 0; j < EGO_TVALS_MAX && themes[i].tval[j]; j++) {
+		for (j = 0; j < EGO_TVALS_MAX && themes[i].tval[j]; j++) {
+			if (themes[i].everseen[j] || OPT(cheat_xtra)) {
 				gid = obj_group_order[themes[i].tval[j]];
 
 				/* Ignore duplicate gids */
@@ -2103,7 +2105,7 @@ void textui_knowledge_init(void)
  */
 void textui_browse_knowledge(void)
 {
-	int i;
+	size_t i, j;
 	region knowledge_region = { 0, 0, -1, 18 };
 
 	/* Grey out menu items that won't display anything */
@@ -2114,13 +2116,17 @@ void textui_browse_knowledge(void)
 
 	knowledge_actions[2].flags = MN_ACT_GRAYED;
 	for (i = 0; i < z_info->e_max; i++)
-	{
-		if (e_info[i].everseen || OPT(cheat_xtra))
-		{
-			knowledge_actions[2].flags = 0;
-			break;
-		}
-	}
+		for (j = 0; j < EGO_TVALS_MAX; j++)
+			if (e_info[i].everseen[j] || OPT(cheat_xtra)) {
+				knowledge_actions[2].flags = 0;
+				break;
+			}
+	for (i = 0; i < z_info->theme_max; i++)
+		for (j = 0; j < EGO_TVALS_MAX; j++)
+			if (themes[i].everseen[j] || OPT(cheat_xtra)) {
+				knowledge_actions[2].flags = 0;
+				break;
+			}
 
 	if (count_known_monsters() > 0)
 		knowledge_actions[3].flags = 0;

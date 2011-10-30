@@ -221,7 +221,7 @@ bool object_affix_is_known(const object_type *o_ptr, u16b idx)
 	ego_item_type *theme_affix;
 
 	if (o_ptr->ident & IDENT_KNOWN || o_ptr->ident & IDENT_STORE) {
-		affix->everseen = TRUE;
+		affix->everseen[which_ego_tval(idx, o_ptr->tval, FALSE)] = TRUE;
 		return TRUE;
 	}
 
@@ -276,7 +276,7 @@ bool object_affix_is_known(const object_type *o_ptr, u16b idx)
 		return FALSE;
 
 	/* So we know everything */
-	affix->everseen = TRUE;
+	affix->everseen[which_ego_tval(idx, o_ptr->tval, FALSE)] = TRUE;
 	return TRUE;
 }
 /**
@@ -290,7 +290,8 @@ bool object_theme_is_known(const object_type *o_ptr)
 		return FALSE;
 
 	if (o_ptr->ident & IDENT_KNOWN || o_ptr->ident & IDENT_STORE) {
-		o_ptr->theme->everseen = TRUE;
+		o_ptr->theme->everseen[which_ego_tval(o_ptr->theme->index,
+			o_ptr->tval, TRUE)] = TRUE;
 		return TRUE;
 	}
 
@@ -299,7 +300,8 @@ bool object_theme_is_known(const object_type *o_ptr)
 		if (!object_affix_is_known(o_ptr, o_ptr->theme->affix[i]))
 			return FALSE;
 
-	o_ptr->theme->everseen = TRUE;
+	o_ptr->theme->everseen[which_ego_tval(o_ptr->theme->index,
+		o_ptr->tval, TRUE)] = TRUE;
 	return TRUE;
 }
 
