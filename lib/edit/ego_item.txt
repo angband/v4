@@ -791,8 +791,8 @@ D:It provides the wielder with accurate blows.
 N:159:make:Forester's
 F:BRAND_ICKY
 T:polearm:0:99:great:20:6 to 55
-T:sword:0:99:great:20:6 to 55
 T:polearm:0:99:good:10:56 to 100
+T:sword:0:99:great:20:6 to 55
 T:sword:0:99:good:10:56 to 100
 T:arrow:0:99:good:10:1 to 60
 
