@@ -1386,6 +1386,7 @@ static bool affix_is_theme(int oid)
 		return FALSE;
 }
 
+/* Convert an oid to a theme index */
 static inline int index_to_theme(int index)
 {
 	return index - z_info->e_max;
@@ -1433,7 +1434,7 @@ static void desc_ego_fake(int oid)
 	struct theme *theme;
 	char *name;
 	char *full_name;
-	bool prefix = false;
+	bool prefix = FALSE;
 
 	textblock *tb;
 	region area = { 0, 0, 0, 0 };
@@ -1442,25 +1443,22 @@ static void desc_ego_fake(int oid)
 		theme = &themes[index_to_theme(index)];
 		name = theme->name;
 		tb = object_info_theme(theme);
-		if (theme_is_prefix(index_to_theme(index))) {
-			prefix = true;
-		}
+		if (theme_is_prefix(index_to_theme(index)))
+			prefix = TRUE;
 	} else {
 		ego = &e_info[index];
 
 		/* List ego flags */
 		tb = object_info_ego(ego);
 		name = ego->name;
-		if (affix_is_prefix(index)) {
-			prefix = true;
-		}
+		if (affix_is_prefix(index))
+			prefix = TRUE;
 	}
 
-	if (prefix) {
+	if (prefix)
 		full_name = format("%s %s", name, ego_grp_name(default_group(oid)));
-	} else {
+	else
 		full_name = format("%s %s", ego_grp_name(default_group(oid)), name);
-	}
 	textui_textblock_show(tb, area, full_name);
 	textblock_free(tb);
 }
