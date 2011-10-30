@@ -164,20 +164,22 @@ N:20:prefix:Null
 N:23:suffix:of Sophistication
 F:SUST_INT
 T:helm:0:99:good:20:5 to 100
-T:crown:0:99:good:10:45 to 70
+T:crown:0:99:good:10:45 to 100
+T:cloak:0:99:great:10:40 to 100
 
 N:24:suffix:of Intelligence
 L:d2:0:INT
 T:helm:0:99:great:20:5 to 100
-T:crown:0:99:great:10:45 to 70
+T:crown:0:99:great:10:45 to 100
 T:polearm:0:99:great:10:21 to 100
 T:sword:0:99:great:10:21 to 100
 T:hafted:0:99:great:10:21 to 100
+T:cloak:0:99:uber:10:40 to 100
 
 N:25:suffix:of Wisdom
 L:d2:0:WIS
 T:helm:0:99:great:20:5 to 100
-T:crown:0:99:great:10:45 to 70
+T:crown:0:99:great:10:45 to 100
 T:polearm:0:99:great:10:21 to 100
 T:sword:0:99:great:10:21 to 100
 T:hafted:0:99:great:10:21 to 100
@@ -185,17 +187,17 @@ T:hafted:0:99:great:10:21 to 100
 N:26:suffix:of Intuition
 F:SUST_WIS
 T:helm:0:99:good:20:5 to 100
-T:crown:0:99:good:10:45 to 70
+T:crown:0:99:good:10:45 to 100
 
 N:27:suffix:of Beauty
 F:SUST_CHR
 L:d3:0:CHR
-T:helm:0:99:good:20:1 to 40
-T:crown:0:99:good:10:45 to 70
+T:helm:0:99:good:20:1 to 60
+T:crown:0:99:good:10:45 to 100
 
 N:29:suffix:of Observation
 F:SEE_INVIS
-T:helm:0:99:great:20:10 to 50
+T:helm:0:99:great:20:10 to 100
 T:polearm:0:99:great:10:21 to 100
 T:sword:0:99:great:10:21 to 100
 T:hafted:0:99:great:10:21 to 100
@@ -211,12 +213,12 @@ T:light:0:99:uber:10:41 to 100
 
 N:31:suffix:of Infravision
 L:d3:0:INFRA
-T:helm:0:99:good:20:10 to 50
+T:helm:0:99:good:20:10 to 100
 
 N:32:suffix:of Light
 F:RES_LIGHT
-T:crown:0:99:great:20:45 to 70
-T:helm:0:99:great:20:45 to 70
+T:crown:0:99:great:20:45 to 100
+T:helm:0:99:great:20:45 to 100
 
 N:33:suffix:of Telepathy
 F:TELEPATHY
@@ -256,7 +258,7 @@ D:It shields your body from deadly fragments.
 
 N:41:suffix:of Stealth
 L:d2:0:STEALTH
-T:cloak:0:99:great:20:1 to 55
+T:cloak:0:99:great:20:1 to 100
 T:boots:1:2:great:20:15 to 100
 T:boots:6:6:great:20:15 to 100
 
@@ -276,7 +278,7 @@ F:AGGRAVATE | SHOW_MODS | LIGHT_CURSE
 
 N:48:suffix:of Free Action
 F:FREE_ACT
-T:gloves:0:99:great:20:1 to 60
+T:gloves:0:99:great:20:1 to 100
 T:boots:0:99:great:16:10 to 100
 T:polearm:0:99:great:5:21 to 100
 T:sword:0:99:great:5:21 to 100
@@ -287,12 +289,12 @@ T:crown:0:99:uber:5:45 to 100
 
 N:50:suffix:of Agility
 L:d2:0:DEX
-T:gloves:0:99:great:12:10 to 95
-T:soft armour:0:99:uber:10:11 to 80
-T:hard armour:0:99:uber:10:11 to 80
-T:polearm:0:99:great:10:11 to 86
-T:sword:0:99:great:10:11 to 86
-T:hafted:0:99:great:10:11 to 86
+T:gloves:0:99:great:12:10 to 100
+T:soft armour:0:99:uber:10:11 to 100
+T:hard armour:0:99:uber:10:11 to 100
+T:polearm:0:99:great:10:11 to 100
+T:sword:0:99:great:10:11 to 100
+T:hafted:0:99:great:10:11 to 100
 T:bow:0:99:great:10:25 to 100
 T:crown:0:99:uber:5:45 to 100
 
@@ -523,9 +525,9 @@ T:sword:0:99:uber:20:67 to 100
 
 N:97:suffix:of Brightness
 L:1:1:LIGHT
-T:light:0:99:great:10:1 to 55
-T:crown:0:99:great:10:25 to 70
-T:helm:0:99:great:10:25 to 70
+T:light:0:99:great:10:10 to 100
+T:crown:0:99:great:10:25 to 100
+T:helm:0:99:great:10:25 to 100
 
 N:98:suffix:of Everburning
 F:NO_FUEL
@@ -535,7 +537,7 @@ T:light:0:99:great:12:10 to 100
 
 N:100:suffix:of Digging
 L:d2:1:TUNNEL
-T:digger:0:99:great:20:1 to 65
+T:digger:0:99:great:20:1 to 100
 T:gloves:0:99:great:5:10 to 100
 
 N:101:suffix:of Impact
@@ -556,7 +558,7 @@ F:HOLD_LIFE | DRAIN_EXP | SLAY_UNDEAD | BRAND_POIS
 
 N:104:suffix:of Accuracy
 C:d15:d5:0
-M:15:255:255
+M:10:255:255
 T:bow:0:99:great:20:5 to 100
 T:sword:0:99:uber:10:55 to 100
 T:polearm:0:99:uber:10:55 to 100
@@ -564,7 +566,7 @@ D:It is magically aided with unerring accuracy.
 
 N:105:suffix:of Power
 C:d5:d15:0
-M:255:15:255
+M:255:10:255
 T:bow:0:99:great:20:10 to 100
 T:hafted:0:99:uber:10:55 to 100
 T:polearm:0:99:uber:10:55 to 100
@@ -858,18 +860,18 @@ F:HURT_DEMON
 T:hafted:10:99:good:20:6 to 76
 T:polearm:0:99:good:20:6 to 76
 T:sword:0:99:good:20:6 to 76
-T:shot:0:99:good:10:1 to 60
-T:arrow:0:99:good:10:1 to 60
-T:bolt:0:99:good:10:1 to 60
+T:shot:0:99:good:10:1 to 100
+T:arrow:0:99:good:10:1 to 100
+T:bolt:0:99:good:10:1 to 100
 
 N:168:material:Silver
 F:HURT_UNDEAD
 T:hafted:10:99:good:20:6 to 76
 T:polearm:0:99:good:20:6 to 76
 T:sword:0:99:good:20:6 to 76
-T:shot:0:99:good:10:1 to 60
-T:arrow:0:99:good:10:1 to 60
-T:bolt:0:99:good:10:1 to 60
+T:shot:0:99:good:10:1 to 100
+T:arrow:0:99:good:10:1 to 100
+T:bolt:0:99:good:10:1 to 100
 
 N:170:material:Crystal
 C:0:1+d2M3:0

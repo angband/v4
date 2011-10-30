@@ -1070,7 +1070,7 @@ N:170:& Cloak~
 G:(:g
 I:35:1
 W:1:0:10:3
-A:20:1 to 100
+A:25:1 to 100
 P:1:0d0:0:0:0
 D:A traveller's sturdy outer garment.
 
@@ -1078,7 +1078,7 @@ N:171:& Heavy Cloak~
 G:(:o
 I:35:2
 W:1:0:25:600
-A:20:20 to 100
+A:25:20 to 100
 P:3:0d0:0:0:0
 D:A heavy cloak, warm and lined; a luxury.
 
@@ -1165,7 +1165,7 @@ N:180:& Buckler~
 G:):U
 I:34:1
 W:3:0:20:30
-A:20:3 to 100
+A:20:1 to 100
 P:1:1d1:0:0:0
 D:A small round shield designed to be useful in deflecting enemy swords.
 
@@ -1173,7 +1173,7 @@ N:181:& Small Shield~
 G:):U
 I:34:2
 W:1:0:30:20
-A:20:1 to 100
+A:20:5 to 100
 P:2:1d1:0:0:0
 D:A small round shield work on the forearm.
 
@@ -1189,7 +1189,7 @@ N:183:& Kite Shield~
 G:):U
 I:34:4
 W:15:0:90:200
-A:20:10 to 100
+A:20:20 to 100
 P:8:1d3:0:0:0
 D:A thick triangular shield designed to protect from enemy attacks.
 
@@ -1377,7 +1377,7 @@ G:=:d
 I:45:23
 W:20:0:2:500
 A:30:20 to 100
-P:0:0d0:0:5+d3M7:0
+P:0:0d0:0:2+d4M9:0
 D:It boosts your to-dam value.
 
 N:213:Accuracy
@@ -1385,7 +1385,7 @@ G:=:d
 I:45:24
 W:20:0:2:500
 A:30:20 to 100
-P:0:0d0:10+d6M7:0:0
+P:0:0d0:6+d8M9:0:0
 D:It boosts your to-hit value.
 
 N:214:Slaying
@@ -1420,7 +1420,7 @@ G:=:d
 I:45:28
 W:0:0:2:200
 A:30:10 to 50
-P:0:0d0:2+d3:2+d3:-8+4d3
+P:0:0d0:1+d2M2:1+d2M2:-6+4d2
 
 N:218:Open Wounds
 G:=:d

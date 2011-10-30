@@ -24,9 +24,9 @@ I:1:hard armour:Chain Mail
 I:2:cloak:Cloak
 I:2:gloves:Set of Gloves
 I:1:gloves:Set of Gauntlets
+I:1:shield:Buckler
 I:2:shield:Small Shield
 I:1:shield:Large Shield
-I:2:shield:Kite Shield
 
 # Weaponsmith
 S:3:33
