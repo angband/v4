@@ -1377,6 +1377,7 @@ static void do_cmd_knowledge_artifacts(const char *name, int row)
 /* static u16b *e_note(int oid) {return &e_info[default_join[oid].oid].note;} */
 static const char *ego_grp_name(int gid) { return object_text_order[gid].name; }
 
+/* Distinguish between affixes and themes */
 static bool affix_is_theme(int oid)
 {
 	if (oid >= z_info->e_max)
@@ -1385,6 +1386,7 @@ static bool affix_is_theme(int oid)
 		return FALSE;
 }
 
+/* Display a line in the list */
 static void display_ego_item(int col, int row, bool cursor, int oid)
 {
 	byte attr;
@@ -1418,9 +1420,7 @@ static void display_ego_item(int col, int row, bool cursor, int oid)
 		c_put_str(attr, "Yes", row, 46);
 }
 
-/*
- * Describe fake ego item "lore"
- */
+/* Describe fake ego item "lore" */
 static void desc_ego_fake(int oid)
 {
 	int e_idx = default_join[oid].oid;
@@ -1485,16 +1485,32 @@ static const char *e_xtra_prompt(int oid)
  */
 static void e_xtra_act(struct keypress ch, int oid)
 {
-	ego_item_type *e_ptr = &e_info[default_join[oid].oid];
+	ego_item_type *e_ptr = NULL;
+	struct theme *theme = NULL;
+
+	if (affix_is_theme(default_join[oid].oid))
+		theme = &themes[default_join[oid].oid - z_info->e_max];
+	else
+		e_ptr = &e_info[default_join[oid].oid];
 
 	/* Toggle squelch */
-	if (ch.code == 's')
-		affix_set_squelch(e_ptr, object_text_order[default_group(oid)].tval,
-			!affix_is_squelched(e_ptr,
-			object_text_order[default_group(oid)].tval));
-	else if (ch.code == 'S')
-		affix_setall_squelch(e_ptr, !affix_is_squelched(e_ptr,
-			object_text_order[default_group(oid)].tval));
+	if (ch.code == 's') {
+		if (theme)
+			theme_set_squelch(theme, object_text_order[default_group(oid)].tval,
+				!theme_is_squelched(theme,
+				object_text_order[default_group(oid)].tval));
+		else if (e_ptr)
+			affix_set_squelch(e_ptr, object_text_order[default_group(oid)].tval,
+				!affix_is_squelched(e_ptr,
+				object_text_order[default_group(oid)].tval));
+	} else if (ch.code == 'S') {
+		if (theme)
+			theme_setall_squelch(theme, !theme_is_squelched(theme,
+				object_text_order[default_group(oid)].tval));
+		else if (e_ptr)
+			affix_setall_squelch(e_ptr, !affix_is_squelched(e_ptr,
+				object_text_order[default_group(oid)].tval));
+	}
 }
 
 /*
