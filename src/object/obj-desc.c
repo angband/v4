@@ -383,7 +383,7 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 	if (aware && !o_ptr->kind->everseen && !spoil)
 		o_ptr->kind->everseen = TRUE;
 
-	if (mode & ODESC_AFFIX && (known || object_prefix_is_visible(o_ptr) ||
+	if (mode & ODESC_AFFIX && (object_prefix_is_visible(o_ptr) || known ||
 			(o_ptr->artifact && object_name_is_visible(o_ptr)))) {
 		if (o_ptr->theme && theme_is_prefix(o_ptr->theme->index))
 			prefix =  o_ptr->theme->name;
@@ -408,7 +408,7 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 			(o_ptr->number != 1 || (mode & ODESC_PLURAL)));
 
 	/** Append extra names of various kinds **/
-	if (mode & ODESC_AFFIX && (known || object_suffix_is_visible(o_ptr) ||
+	if (mode & ODESC_AFFIX && (object_suffix_is_visible(o_ptr) || known ||
 			(o_ptr->artifact && object_name_is_visible(o_ptr)))) {
 		if (o_ptr->theme && theme_is_suffix(o_ptr->theme->index))
 			strnfcat(buf, max, &end, " %s", o_ptr->theme->name);
