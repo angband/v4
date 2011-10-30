@@ -555,18 +555,21 @@ bool squelch_item_ok(const object_type *o_ptr)
 
 	/* Squelch an item if all its affixes, and its theme if any, are
 	 * set to squelched */
-	if (o_ptr->theme && object_theme_is_known(o_ptr) &&
-			theme_is_squelched(o_ptr->theme, o_ptr->tval))
-		squelch_by_affix = TRUE;
-
 	for (i = 0; i < MAX_AFFIXES && o_ptr->affix[i] ; i++)
 		if (object_affix_is_known(o_ptr, o_ptr->affix[i]->eidx) &&
 				affix_is_squelched(o_ptr->affix[i], o_ptr->tval))
 			squelch_by_affix = TRUE;
-		else
+		else {
 			squelch_by_affix = FALSE;
+			break;
+		}
 
-	if (squelch_by_affix)
+	if (o_ptr->theme) {
+		/* Themed items *must* have affixes */
+		if (squelch_by_affix && object_theme_is_known(o_ptr) &&
+				theme_is_squelched(o_ptr->theme, o_ptr->tval))
+			return TRUE;
+	} else if (squelch_by_affix)
 		return TRUE;
 
 	/* Get result based on pseudo and the quality squelch level */
