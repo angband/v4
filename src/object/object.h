@@ -419,10 +419,11 @@ typedef struct ego_item {
 	byte alloc_prob[EGO_TVALS_MAX]; 		/* Chance of being generated */
 	byte alloc_min[EGO_TVALS_MAX];  		/* Min depth (can appear earlier) */
 	byte alloc_max[EGO_TVALS_MAX];  		/* Max depth (cannot appear deeper) */
+	bool squelch[EGO_TVALS_MAX];			/* Do we squelch this affix for this tval */
 											/* D: */
 	char *text;								/* Descriptive text */
 
-	bool everseen;							/* Do not spoil squelch menus */
+	bool everseen;							/* Do not spoil knowledge menus */
 } ego_item_type;
 
 /*
@@ -527,6 +528,7 @@ struct theme {
 	byte max_sval[EGO_TVALS_MAX];			/* Maximum legal sval */
 	byte alloc_min[EGO_TVALS_MAX];  		/* Min depth (can appear earlier) */
 	byte alloc_max[EGO_TVALS_MAX];  		/* Max depth (cannot appear deeper) */
+	bool squelch[EGO_TVALS_MAX];			/* Do we squelch this theme on this tval */
 											/* A: */
 	u16b affix[THEME_AFFIX_MAX];			/* Affixes germane to this theme */
 	byte aff_wgt[THEME_AFFIX_MAX];			/* Weighting of each affix 1-100 */

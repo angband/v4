@@ -424,6 +424,29 @@ void kind_squelch_clear(object_kind *k_ptr)
 	p_ptr->notice |= PN_SQUELCH;
 }
 
+/* Squelch testers */
+bool affix_is_squelched(ego_item_type *affix, int tval)
+{
+	size_t i;
+
+	for (i = 0; i < EGO_TVALS_MAX; i++)
+		if (affix->tval[i] == tval)
+			return affix->squelch[i];
+
+	return FALSE;
+}
+
+bool theme_is_squelched(struct theme *theme, int tval)
+{
+	size_t i;
+
+	for (i = 0; i < EGO_TVALS_MAX; i++)
+		if (theme->tval[i] == tval)
+			return theme->squelch[i];
+
+	return FALSE;
+}
+
 bool kind_is_squelched_aware(const object_kind *k_ptr)
 {
 	return (k_ptr->squelch & SQUELCH_IF_AWARE) ? TRUE : FALSE;
@@ -434,6 +457,7 @@ bool kind_is_squelched_unaware(const object_kind *k_ptr)
 	return (k_ptr->squelch & SQUELCH_IF_UNAWARE) ? TRUE : FALSE;
 }
 
+/* Squelch setters */
 void kind_squelch_when_aware(object_kind *k_ptr)
 {
 	k_ptr->squelch |= SQUELCH_IF_AWARE;
@@ -444,6 +468,40 @@ void kind_squelch_when_unaware(object_kind *k_ptr)
 {
 	k_ptr->squelch |= SQUELCH_IF_UNAWARE;
 	p_ptr->notice |= PN_SQUELCH;
+}
+
+void affix_set_squelch(ego_item_type *affix, int tval, bool state)
+{
+	size_t i;
+
+	for (i = 0; i < EGO_TVALS_MAX; i++)
+		if (affix->tval[i] == tval)
+			affix->squelch[i] = state;
+}
+
+void theme_set_squelch(struct theme *theme, int tval, bool state)
+{
+	size_t i;
+
+	for (i = 0; i < EGO_TVALS_MAX; i++)
+		if (theme->tval[i] == tval)
+			theme->squelch[i] = state;
+}
+
+void affix_setall_squelch(ego_item_type *affix, bool state)
+{
+	size_t i;
+
+	for (i = 0; i < EGO_TVALS_MAX; i++)
+		affix->squelch[i] = state;
+}
+
+void theme_setall_squelch(struct theme *theme, bool state)
+{
+	size_t i;
+
+	for (i = 0; i < EGO_TVALS_MAX; i++)
+		theme->squelch[i] = state;
 }
 
 

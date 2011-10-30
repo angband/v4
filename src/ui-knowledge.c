@@ -50,9 +50,9 @@ static const grouper object_text_order[] =
 	{TV_POLEARM,		"Polearm"		},
 	{TV_HAFTED,			"Hafted Weapon" },
 	{TV_BOW,			"Bow"			},
-	{TV_ARROW,			"Ammunition"	},
-	{TV_BOLT,			NULL			},
-	{TV_SHOT,			NULL			},
+	{TV_ARROW,			"Arrow"			},
+	{TV_BOLT,			"Bolt"			},
+	{TV_SHOT,			"Shot"			},
 	{TV_SHIELD,			"Shield"		},
 	{TV_CROWN,			"Crown"			},
 	{TV_HELM,			"Helm"			},
@@ -1379,7 +1379,7 @@ static const char *ego_grp_name(int gid) { return object_text_order[gid].name; }
 
 static void display_ego_item(int col, int row, bool cursor, int oid)
 {
-	/* HACK: Access the object */
+	/* Access the object */
 	ego_item_type *e_ptr = &e_info[default_join[oid].oid];
 
 	/* Choose a color */
@@ -1387,6 +1387,10 @@ static void display_ego_item(int col, int row, bool cursor, int oid)
 
 	/* Display the name */
 	c_prt(attr, e_ptr->name, row, col);
+
+	/* Show squelch status */
+	if (affix_is_squelched(e_ptr, object_text_order[default_group(oid)].tval))
+		c_put_str(attr, "Yes", row, 46);
 }
 
 /*
@@ -1403,7 +1407,8 @@ static void desc_ego_fake(int oid)
 	/* List ego flags */
 	tb = object_info_ego(ego);
 
-	textui_textblock_show(tb, area, format("%s %s", ego_grp_name(default_group(oid)), ego->name));
+	textui_textblock_show(tb, area, format("%s %s",
+		ego_grp_name(default_group(oid)), ego->name));
 	textblock_free(tb);
 }
 
@@ -1414,11 +1419,37 @@ static int e_cmp_tval(const void *a, const void *b)
 	const ego_item_type *eb = &e_info[default_join[*(const int *)b].oid];
 
 	/* Group by */
-	int c = default_join[*(const int *)a].gid - default_join[*(const int *)b].gid;
+	int c = default_join[*(const int *)a].gid -
+		default_join[*(const int *)b].gid;
 	if (c) return c;
 
 	/* Order by */
 	return strcmp(ea->name, eb->name);
+}
+
+/*
+ * Display special prompt for squelching.
+ */
+static const char *e_xtra_prompt(int oid)
+{
+	return ", 's' or 'S' to toggle squelch (by type or all), 'r'ecall";
+}
+
+/*
+ * Special key actions for affix/theme squelching.
+ */
+static void e_xtra_act(struct keypress ch, int oid)
+{
+	ego_item_type *e_ptr = &e_info[default_join[oid].oid];
+
+	/* Toggle squelch */
+	if (ch.code == 's')
+		affix_set_squelch(e_ptr, object_text_order[default_group(oid)].tval,
+			!affix_is_squelched(e_ptr,
+			object_text_order[default_group(oid)].tval));
+	else if (ch.code == 'S')
+		affix_setall_squelch(e_ptr, !affix_is_squelched(e_ptr,
+			object_text_order[default_group(oid)].tval));
 }
 
 /*
@@ -1429,13 +1460,13 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 	group_funcs obj_f =
 		{TV_GOLD, FALSE, ego_grp_name, e_cmp_tval, default_group, 0};
 
-	member_funcs ego_f = {display_ego_item, desc_ego_fake, 0, 0, recall_prompt, 0, 0};
+	member_funcs ego_f = {display_ego_item, desc_ego_fake, 0, 0, e_xtra_prompt,
+		e_xtra_act, 0};
 
 	int *egoitems;
 	int e_count = 0;
 	int i, j;
 
-	/* HACK: currently no more than 3 tvals for one ego type */
 	egoitems = C_ZNEW(z_info->e_max * EGO_TVALS_MAX, int);
 	default_join = C_ZNEW(z_info->e_max * EGO_TVALS_MAX, join_t);
 
@@ -1457,7 +1488,7 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 		}
 	}
 
-	display_knowledge("ego items", egoitems, e_count, obj_f, ego_f, NULL);
+	display_knowledge("ego items", egoitems, e_count, obj_f, ego_f, "Squelch");
 
 	FREE(default_join);
 	FREE(egoitems);
@@ -1528,7 +1559,6 @@ static void display_object(int col, int row, bool cursor, int oid)
 	if ((aware && kind_is_squelched_aware(kind)) ||
 		(!aware && kind_is_squelched_unaware(kind)))
 		c_put_str(attr, "Yes", row, 46);
-
 
 	/* Show autoinscription if around */
 	if (aware && inscrip)
@@ -1733,7 +1763,6 @@ static void o_xtra_act(struct keypress ch, int oid)
 		screen_load();
 	}
 }
-
 
 
 /*
