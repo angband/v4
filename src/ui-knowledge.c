@@ -1386,6 +1386,11 @@ static bool affix_is_theme(int oid)
 		return FALSE;
 }
 
+static inline int index_to_theme(int index)
+{
+	return index - z_info->e_max;
+}
+
 /* Display a line in the list */
 static void display_ego_item(int col, int row, bool cursor, int oid)
 {
@@ -1396,7 +1401,7 @@ static void display_ego_item(int col, int row, bool cursor, int oid)
 	ego_item_type *e_ptr;
 
 	if (affix_is_theme(default_join[oid].oid)) {
-		theme = &themes[default_join[oid].oid - z_info->e_max];
+		theme = &themes[index_to_theme(default_join[oid].oid)];
 		everseen = theme->everseen;
 		name = theme->name;
 		squelched = theme_is_squelched(theme,
@@ -1423,17 +1428,40 @@ static void display_ego_item(int col, int row, bool cursor, int oid)
 /* Describe fake ego item "lore" */
 static void desc_ego_fake(int oid)
 {
-	int e_idx = default_join[oid].oid;
-	struct ego_item *ego = &e_info[e_idx];
+	int index = default_join[oid].oid;
+	struct ego_item *ego;
+	struct theme *theme;
+	char *name;
+	char *full_name;
+	bool prefix = false;
 
 	textblock *tb;
 	region area = { 0, 0, 0, 0 };
 
-	/* List ego flags */
-	tb = object_info_ego(ego);
+	if (affix_is_theme(index)) {
+		theme = &themes[index_to_theme(index)];
+		name = theme->name;
+		tb = object_info_theme(theme);
+		if (theme_is_prefix(index_to_theme(index))) {
+			prefix = true;
+		}
+	} else {
+		ego = &e_info[index];
 
-	textui_textblock_show(tb, area, format("%s %s",
-		ego_grp_name(default_group(oid)), ego->name));
+		/* List ego flags */
+		tb = object_info_ego(ego);
+		name = ego->name;
+		if (affix_is_prefix(index)) {
+			prefix = true;
+		}
+	}
+
+	if (prefix) {
+		full_name = format("%s %s", name, ego_grp_name(default_group(oid)));
+	} else {
+		full_name = format("%s %s", ego_grp_name(default_group(oid)), name);
+	}
+	textui_textblock_show(tb, area, full_name);
 	textblock_free(tb);
 }
 
@@ -1460,12 +1488,12 @@ static int e_cmp_tval(const void *a, const void *b)
 
 	/* Sort by name within same tval */
 	if (affix_is_theme(oid_a))
-		aname = themes[oid_a - z_info->e_max].name;
+		aname = themes[index_to_theme(oid_a)].name;
 	else
 		aname = e_info[oid_a].name;
 
 	if (affix_is_theme(oid_b))
-		bname = themes[oid_b - z_info->e_max].name;
+		bname = themes[index_to_theme(oid_b)].name;
 	else
 		bname = e_info[oid_b].name;
 
@@ -1489,7 +1517,7 @@ static void e_xtra_act(struct keypress ch, int oid)
 	struct theme *theme = NULL;
 
 	if (affix_is_theme(default_join[oid].oid))
-		theme = &themes[default_join[oid].oid - z_info->e_max];
+		theme = &themes[index_to_theme(default_join[oid].oid)];
 	else
 		e_ptr = &e_info[default_join[oid].oid];
 

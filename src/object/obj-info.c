@@ -1434,7 +1434,31 @@ textblock *object_info_ego(struct ego_item *ego)
 	return object_info_out(&obj, OINFO_FULL | OINFO_EGO | OINFO_DUMMY);
 }
 
+/**
+ * Provide information on a theme type
+ */
 
+textblock *object_info_theme(struct theme *theme)
+{
+	object_kind *kind = NULL;
+	object_type obj = {0};
+	int i;
+
+	for (i = 0; i < z_info->k_max; i++) {
+		kind = &k_info[i];
+		if (!kind->name)
+			continue;
+		if (kind->tval == theme->tval[0])
+			break;
+	}
+
+	obj.kind = kind;
+	obj.tval = kind->tval;
+	obj.sval = kind->sval;
+	obj_apply_theme(&obj, 0, theme->index);
+
+	return object_info_out(&obj, OINFO_FULL | OINFO_EGO | OINFO_DUMMY);
+}
 
 /**
  * Provide information on an item suitable for writing to the character dump - keep it brief.

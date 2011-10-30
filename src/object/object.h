@@ -600,6 +600,7 @@ void obj_affix_names(object_type *o_ptr);
 /* obj-info.c */
 textblock *object_info(const object_type *o_ptr, oinfo_detail_t mode);
 textblock *object_info_ego(struct ego_item *ego);
+textblock *object_info_theme(struct theme *theme);
 void object_info_spoil(ang_file *f, const object_type *o_ptr, int wrap);
 void object_info_chardump(ang_file *f, const object_type *o_ptr, int indent, int wrap);
 
