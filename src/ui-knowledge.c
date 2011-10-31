@@ -1584,7 +1584,10 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 				gid = obj_group_order[themes[i].tval[j]];
 
 				/* Ignore duplicate gids */
-				if (j > 0 && gid == default_join[e_count - 1].gid) continue;
+				if (j > 0 &&
+					gid == default_join[e_count - 1].gid &&
+					i == default_join[e_count - 1].oid)
+					continue;
 
 				egoitems[e_count] = e_count;
 				default_join[e_count].oid = z_info->e_max + i;
