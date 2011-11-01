@@ -116,7 +116,7 @@ void squelch_init(void)
  */
 void squelch_birth_init(void)
 {
-	int i;
+	size_t i, j;
 
 	/* Reset squelch bits */
 	for (i = 0; i < z_info->k_max; i++)
@@ -125,6 +125,17 @@ void squelch_birth_init(void)
 	/* Clear the squelch bytes */
 	for (i = 0; i < TYPE_MAX; i++)
 		squelch_level[i] = SQUELCH_NONE;
+
+	/* Clear the affix squelch settings */
+	for (i = 0; i < z_info->e_max; i++)
+		for (j = 0; j < EGO_TVALS_MAX; j++)
+			e_info[i].squelch[j] = FALSE;
+
+	/* Clear the affix squelch settings */
+	for (i = 0; i < z_info->theme_max; i++)
+		for (j = 0; j < EGO_TVALS_MAX; j++)
+			themes[i].squelch[j] = FALSE;
+
 }
 
 
