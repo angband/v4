@@ -24,6 +24,7 @@
 #include "monster/mon-lore.h"
 #include "monster/monster.h"
 #include "object/tvalsval.h"
+#include "object/pval.h"
 #include "squelch.h"
 #include "store.h"
 #include "ui.h"
@@ -1910,6 +1911,76 @@ void textui_browse_object_knowledge(const char *name, int row)
 	FREE(objects);
 }
 
+/* =================== KNOWN RUNES ====================== */
+
+static void display_rune(int col, int row, bool cursor, int oid)
+{
+	byte attr = curs_attrs[1][(int)cursor];
+
+	c_prt(attr, flag_name(oid), row, col);
+}
+
+static void desc_rune(int oid)
+{
+	object_type object_type_body;
+	textblock *tb;
+	region area = { 0, 0, 0, 0 };
+
+	memset(&object_type_body, 0, sizeof(object_type_body));
+	object_type_body.kind = &k_info[0];
+	if (flag_uses_pval(oid)) {
+		object_add_pval(&object_type_body, 1, oid);
+	} else {
+		of_on(object_type_body.flags, oid);
+	}
+	of_on(object_type_body.known_flags, oid);
+	tb = object_info(&object_type_body, OINFO_FULL | OINFO_TERSE);
+
+	textui_textblock_show(tb, area, flag_name(oid));
+	textblock_free(tb);
+}
+
+static int of_cmp_flagtype(const void *a, const void *b)
+{
+	int flag_a = *(int *)a;
+	int flag_b = *(int *)b;
+
+	/* Group by */
+	int ta = obj_flag_type(flag_a);
+	int tb = obj_flag_type(flag_b);
+
+	int c = ta - tb;
+	if (c)
+		return c;
+
+	return strcmp(flag_name(flag_a), flag_name(flag_b));
+}
+
+static void do_cmd_knowledge_runes(const char *name, int row)
+{
+	group_funcs rune_groups = {OF_MAX, FALSE, obj_flagtype_name, of_cmp_flagtype, obj_flag_type, 0};
+	member_funcs runes_f = {display_rune, desc_rune, NULL, NULL, recall_prompt, NULL, false};
+
+	int *runes;
+	int count = 0;
+	int i;
+
+	runes = C_ZNEW(OF_MAX, int);
+
+	/* Flags start at 1 - the "0" flag is NONE */
+	for (i = 1; i < OF_MAX; i++)
+	{
+		/* Omit "internal" flags */
+		if (of_has(p_ptr->known_runes, i) && (obj_flag_type(i) != OFT_INT))
+		{
+			runes[count++] = i;
+		}
+	}
+
+	display_knowledge("known runes", runes, count, rune_groups, runes_f, NULL);
+	FREE(runes);
+}
+
 /* =================== TERRAIN FEATURES ==================================== */
 /* Many-to-one grouping */
 
@@ -2020,7 +2091,7 @@ static void do_cmd_knowledge_features(const char *name, int row)
 
 static void do_cmd_knowledge_store(const char *name, int row)
 {
-	store_knowledge = row - 5;
+	store_knowledge = row - 6;
 	do_cmd_store_knowledge();
 	store_knowledge = STORE_NONE;
 }
@@ -2046,6 +2117,7 @@ static menu_action knowledge_actions[] =
 { 0, 0, "Display object knowledge",   	   textui_browse_object_knowledge },
 { 0, 0, "Display artifact knowledge", 	   do_cmd_knowledge_artifacts },
 { 0, 0, "Display ego item knowledge", 	   do_cmd_knowledge_ego_items },
+{ 0, 0, "Display known runes",             do_cmd_knowledge_runes },
 { 0, 0, "Display monster knowledge",  	   do_cmd_knowledge_monsters  },
 { 0, 0, "Display feature knowledge",  	   do_cmd_knowledge_features  },
 { 0, 0, "Display contents of general store", do_cmd_knowledge_store     },
