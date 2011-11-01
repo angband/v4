@@ -1915,7 +1915,7 @@ void textui_browse_object_knowledge(const char *name, int row)
 
 static void display_rune(int col, int row, bool cursor, int oid)
 {
-	byte attr = curs_attrs[1][(int)cursor];
+	byte attr = curs_attrs[of_has(p_ptr->known_runes, oid)][(int)cursor];
 
 	c_prt(attr, flag_name(oid), row, col);
 }
@@ -1970,8 +1970,10 @@ static void do_cmd_knowledge_runes(const char *name, int row)
 	/* Flags start at 1 - the "0" flag is NONE */
 	for (i = 1; i < OF_MAX; i++)
 	{
-		/* Omit "internal" flags */
-		if (of_has(p_ptr->known_runes, i) && (obj_flag_type(i) != OFT_INT))
+		/* Omit "internal" and invalid flags */
+		if ((of_has(p_ptr->known_runes, i) || OPT(cheat_xtra)) &&
+			(obj_flag_type(i) != OFT_INT) &&
+			(obj_flag_type(i) != OFT_NONE))
 		{
 			runes[count++] = i;
 		}
