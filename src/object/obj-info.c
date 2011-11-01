@@ -94,6 +94,7 @@ static const flag_type pval_flags[] =
 	{ OF_BLOWS,   "attack speed" },
 	{ OF_SHOTS,   "shooting speed" },
 	{ OF_MIGHT,   "shooting power" },
+	{ OF_LIGHT,   "light radius" },
 };
 
 static const flag_type immunity_flags[] =
@@ -947,36 +948,20 @@ static bool describe_food(textblock *tb, const object_type *o_ptr,
 static bool describe_light(textblock *tb, const object_type *o_ptr,
 		const bitflag flags[OF_SIZE], oinfo_detail_t mode)
 {
-	int rad = 0;
-
 	bool artifact = o_ptr->artifact ? TRUE : FALSE;
 	bool no_fuel = of_has(flags, OF_NO_FUEL) ? TRUE : FALSE;
 	bool is_light = (o_ptr->tval == TV_LIGHT) ? TRUE : FALSE;
 	bool terse = mode & OINFO_TERSE;
 
-	if (!is_light && !of_has(flags, OF_LIGHT))
-		return FALSE;
-
-	/* Work out radius */
-	if (of_has(flags, OF_LIGHT))
-		rad = o_ptr->pval[which_pval(o_ptr, OF_LIGHT)];
-
-	/* Describe here */
-	textblock_append(tb, "Radius ");
-	textblock_append_c(tb, TERM_L_GREEN, format("%d", rad));
 	if (no_fuel && !artifact)
-		textblock_append(tb, " light.  No fuel required.");
-/*	else if (is_light && o_ptr->sval == SV_LIGHT_TORCH)
-		textblock_append(tb, " light, reduced when running out of fuel."); */
-	else
-		textblock_append(tb, " light.");
+		textblock_append(tb, "No fuel required.  ");
 
 	if (!terse && is_light && !no_fuel && o_ptr->sval != SV_LIGHT_TORCH)
 	{
 		const char *name = (o_ptr->sval == SV_LIGHT_TORCH) ? "torches" : "lanterns";
 		int turns = (o_ptr->sval == SV_LIGHT_TORCH) ? FUEL_TORCH : FUEL_LAMP;
 
-		textblock_append(tb, "  Refills other %s up to %d turns of fuel.", name, turns);
+		textblock_append(tb, "Refills other %s up to %d turns of fuel.", name, turns);
 	}
 
 	textblock_append(tb, "\n");
