@@ -1934,7 +1934,7 @@ static void desc_rune(int oid)
 		of_on(object_type_body.flags, oid);
 	}
 	of_on(object_type_body.known_flags, oid);
-	tb = object_info(&object_type_body, OINFO_FULL | OINFO_TERSE);
+	tb = object_info(&object_type_body, OINFO_FULL | OINFO_TERSE | OINFO_DUMMY);
 
 	textui_textblock_show(tb, area, flag_name(oid));
 	textblock_free(tb);
