@@ -1,7 +1,7 @@
 #ifndef BUILDID
 #define BUILDID
 
-#define VERSION_NAME	"Angband"
+#define VERSION_NAME	"Angband-v4"
 
 #ifdef BUILD_ID
 # define STR(x) #x
