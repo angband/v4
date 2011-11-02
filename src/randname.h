@@ -9,9 +9,10 @@ typedef enum
 {
 	RANDNAME_TOLKIEN = 1,
 	RANDNAME_SCROLL,
- 
+	RANDNAME_RUNE,
+
 	/* End of type marker - not a valid name type */
-	RANDNAME_NUM_TYPES 
+	RANDNAME_NUM_TYPES
 } randname_type;
 
 /*
