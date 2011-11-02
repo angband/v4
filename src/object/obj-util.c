@@ -4434,8 +4434,8 @@ void objects_destroy(void)
 /* For an affix or theme, return the first T: line which contains this tval */
 int which_ego_tval(int idx, int tval, bool is_theme)
 {
-	struct theme *theme;
-	ego_item_type *affix;
+	struct theme *theme = NULL;
+	ego_item_type *affix = NULL;
 	size_t i;
 
 	if (is_theme)
