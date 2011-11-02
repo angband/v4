@@ -335,7 +335,7 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 	/* This could (should?) be (void **) */
 	int *g_list, *g_offset;
 
-	const char **g_names;
+	char **g_names;
 
 	int g_name_len = 8;  /* group name length, minumum is 8 */
 
@@ -411,12 +411,13 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 
 
 	/* The compact set of group names, in display order */
-	g_names = C_ZNEW(grp_cnt, const char *);
+	g_names = C_ZNEW(grp_cnt, char *);
 
 	for (i = 0; i < grp_cnt; i++)
 	{
 		int len;
-		g_names[i] = g_funcs.name(g_list[i]);
+		g_names[i] = string_make(g_funcs.name(g_list[i]));
+		my_strcap(g_names[i]);
 		len = strlen(g_names[i]);
 		if (len > g_name_len) g_name_len = len;
 	}
@@ -657,6 +658,8 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 	if (!grp_cnt)
 		prt(format("No %s known.", title), 15, 0);
 
+	for (i = 0; i < grp_cnt; i++)
+		string_free(g_names[i]);
 	FREE(g_names);
 	FREE(g_offset);
 	FREE(g_list);
