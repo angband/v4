@@ -153,7 +153,7 @@ void object_notice_slays(object_type *o_ptr, const bitflag mask[OF_SIZE])
 	for (i = 0; i < SL_MAX; i++) {
 		const struct slay *s_ptr = &slay_table[i];
 		if (of_has(f, s_ptr->object_flag)) {
-			learned = object_notice_flag(o_ptr, s_ptr->object_flag);
+			learned = object_notice_flag(o_ptr, s_ptr->object_flag, TRUE);
 			if (EASY_LEARN && learned) {
 				object_desc(o_name, sizeof(o_name), o_ptr, ODESC_BASE);
 				msg("Your %s %s!", o_name, s_ptr->active_verb);

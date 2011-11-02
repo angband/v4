@@ -677,16 +677,19 @@ void object_notice_attack_plusses(object_type *o_ptr)
 
 /*
  * Notice a single flag - returns TRUE if anything new was learned
+ * \param present means are we learning a flag that is present or one that is
+ * absent.
  */
-bool object_notice_flag(object_type *o_ptr, int flag)
+bool object_notice_flag(object_type *o_ptr, int flag, bool present)
 {
-	if (!of_has(o_ptr->known_flags, flag))
-	{
+	if (!of_has(o_ptr->known_flags, flag)) {
 		of_on(o_ptr->known_flags, flag);
-		of_on(p_ptr->known_runes, flag);
+
+		if (present)
+			of_on(p_ptr->known_runes, flag);
+
 		/* XXX Eddie don't want infinite recursion if object_check_for_ident sets more flags,
-		 * but maybe this will interfere with savefile repair
-		 */
+		 * but maybe this will interfere with savefile repair */
 		object_check_for_ident(o_ptr);
 		event_signal(EVENT_INVENTORY);
 		event_signal(EVENT_EQUIPMENT);
@@ -701,12 +704,14 @@ bool object_notice_flag(object_type *o_ptr, int flag)
 /*
  * Notice a set of flags - returns TRUE if anything new was learned
  */
-bool object_notice_flags(object_type *o_ptr, bitflag flags[OF_SIZE])
+bool object_notice_flags(object_type *o_ptr, bitflag flags[OF_SIZE],
+	bool present)
 {
 	if (!of_is_subset(o_ptr->known_flags, flags))
 	{
 		of_union(o_ptr->known_flags, flags);
-		of_union(p_ptr->known_runes, flags);
+		if (present)
+			of_union(p_ptr->known_runes, flags);
 		/* XXX Eddie don't want infinite recursion if object_check_for_ident sets more flags,
 		 * but maybe this will interfere with savefile repair
 		 */
@@ -739,7 +744,7 @@ bool object_notice_curses(object_type *o_ptr)
 	of_inter(f, f2);
 
 	/* give knowledge of which curses are present */
-	object_notice_flags(o_ptr, f);
+	object_notice_flags(o_ptr, f, TRUE);
 
 	object_check_for_ident(o_ptr);
 
@@ -916,8 +921,7 @@ static void object_notice_after_time(void)
 	create_mask(timed_mask, TRUE, OFID_TIMED, OFT_MAX);
 
 	/* Check every item the player is wearing */
-	for (i = INVEN_WIELD; i < ALL_INVEN_TOTAL; i++)
-	{
+	for (i = INVEN_WIELD; i < ALL_INVEN_TOTAL; i++) {
 		o_ptr = &p_ptr->inventory[i];
 
 		if (!o_ptr->kind || object_is_known(o_ptr)) continue;
@@ -927,30 +931,25 @@ static void object_notice_after_time(void)
 		object_flags(o_ptr, f);
 		of_inter(f, timed_mask);
 
-		for (flag = of_next(f, FLAG_START); flag != FLAG_END; flag = of_next(f, flag + 1))
-		{
-			if (!of_has(o_ptr->known_flags, flag))
-			{
+		for (flag = of_next(f, FLAG_START); flag != FLAG_END;
+				flag = of_next(f, flag + 1)) {
+			if (!of_has(o_ptr->known_flags, flag)) {
 				/* Message */
 				flag_message(flag, o_name);
 
 				/* Notice the flag */
-				object_notice_flag(o_ptr, flag);
+				object_notice_flag(o_ptr, flag, TRUE);
 
 				if (object_is_jewelry(o_ptr) &&
-					 (!object_effect(o_ptr) || object_effect_is_known(o_ptr)))
-				{
+					 (!object_effect(o_ptr) || object_effect_is_known(o_ptr))) {
 					/* XXX this is a small hack, but jewelry with anything noticeable really is obvious */
 					/* XXX except, wait until learn activation if that is only clue */
 					object_flavor_aware(o_ptr);
 					object_check_for_ident(o_ptr);
 				}
-			}
-			else
-			{
+			} else
 				/* Notice the flag is absent */
-				object_notice_flag(o_ptr, flag);
-			}
+				object_notice_flag(o_ptr, flag, FALSE);
 		}
 
 		/* XXX Is this necessary? */
@@ -972,8 +971,7 @@ void wieldeds_notice_flag(struct player *p, int flag)
 	if (!flag) return;
 
 	/* XXX Eddie need different naming conventions for starting wieldeds at INVEN_WIELD vs INVEN_WIELD+2 */
-	for (i = INVEN_WIELD; i < ALL_INVEN_TOTAL; i++)
-	{
+	for (i = INVEN_WIELD; i < ALL_INVEN_TOTAL; i++)	{
 		object_type *o_ptr = &p->inventory[i];
 		bitflag f[OF_SIZE];
 
@@ -981,17 +979,15 @@ void wieldeds_notice_flag(struct player *p, int flag)
 
 		object_flags(o_ptr, f);
 
-		if (of_has(f, flag) && !of_has(o_ptr->known_flags, flag))
-		{
+		if (of_has(f, flag) && !of_has(o_ptr->known_flags, flag)) {
 			char o_name[80];
 			object_desc(o_name, sizeof(o_name), o_ptr, ODESC_BASE);
 
 			/* Notice the flag */
-			object_notice_flag(o_ptr, flag);
+			object_notice_flag(o_ptr, flag, TRUE);
 
 			/* XXX Eddie should this go before noticing the flag to avoid learning twice? */
-			if (EASY_LEARN && object_is_jewelry(o_ptr))
-			{
+			if (EASY_LEARN && object_is_jewelry(o_ptr))	{
 				/* XXX Eddie EASY_LEARN Possible concern: gets =teleportation just from +2 speed */
 				object_flavor_aware(o_ptr);
 				object_check_for_ident(o_ptr);
@@ -999,12 +995,9 @@ void wieldeds_notice_flag(struct player *p, int flag)
 
 			/* Message */
 			flag_message(flag, o_name);
-		}
-		else
-		{
+		} else
 			/* Notice that flag is absent */
-			object_notice_flag(o_ptr, flag);
-		}
+			object_notice_flag(o_ptr, flag, FALSE);
 
 		/* XXX Eddie should not need this, should be done in noticing, but will remove later */
 		object_check_for_ident(o_ptr);
