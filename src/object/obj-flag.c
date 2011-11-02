@@ -38,17 +38,6 @@ const struct object_flag_type flag_type_table[] =
 };
 
 /**
- * Object flag names
- */
-static const char *flag_names[] =
-{
-    #define OF(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u) #a,
-    #include "list-object-flags.h"
-    #undef OF
-    ""
-};
-
-/**
  * Create a "mask" of flags of a specific type or ID threshold.
  *
  * \param f is the flag array we're filling
@@ -140,11 +129,13 @@ bool check_state(struct player *p, int flag, bitflag *f)
 void log_flags(bitflag *f, ang_file *log_file)
 {
 	int i;
+	const struct object_flag *of_ptr;
 
 	file_putf(log_file, "Object flags are:\n");
-	for (i = 0; i < OF_MAX; i++)
-		if (of_has(f, i))
-			file_putf(log_file, "%s\n", flag_names[i]);
+	for (i = of_next(f, FLAG_START); i != FLAG_END; i = of_next(f, i + 1)) {
+		of_ptr = &object_flag_table[i];
+		file_putf(log_file, "%s\n", of_ptr->name);
+	}
 }
 
 /**
@@ -155,7 +146,9 @@ void log_flags(bitflag *f, ang_file *log_file)
  */
 const char *flag_name(int flag)
 {
-	return flag_names[flag];
+	const struct object_flag *of_ptr = &object_flag_table[flag];
+
+	return of_ptr->name;
 }
 
 /**
