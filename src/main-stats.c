@@ -885,8 +885,8 @@ static int stats_dump_lists(void)
 
 	struct object_flag object_flag_table[] =
 	{
-		#define OF(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s) \
-			{ OF_##a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, #a },
+		#define OF(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u) \
+			{ OF_##a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, #a },
 		#include "object/list-object-flags.h"
 		#undef OF
 	};

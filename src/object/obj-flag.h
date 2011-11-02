@@ -30,7 +30,7 @@
 
 /* The object flags */
 enum {
-    #define OF(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s) OF_##a,
+    #define OF(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u) OF_##a,
     #include "list-object-flags.h"
     #undef OF
 };
@@ -96,6 +96,8 @@ struct object_flag {
 	s16b hat;
 	s16b gloves;
 	s16b boots;
+	char *rune;				/* random name */
+	char *name;				/* actual name */
 	const char *message;	/* id message */
 };
 
