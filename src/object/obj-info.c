@@ -214,8 +214,7 @@ static bool describe_stats(textblock *tb, const object_type *o_ptr,
 	for (i = 0; i < o_ptr->num_pvals; i++) {
 		count = info_collect(tb, pval_flags, N_ELEMENTS(pval_flags), flags[i], descs);
 
-		if (count)
-		{
+		if (count) {
 			if ((object_this_pval_is_visible(o_ptr, i) || full) && !dummy)
 				textblock_append_c(tb, (o_ptr->pval[i] > 0) ? TERM_L_GREEN : TERM_RED,
 					"%+i ", o_ptr->pval[i]);
@@ -228,10 +227,9 @@ static bool describe_stats(textblock *tb, const object_type *o_ptr,
 			search = TRUE;
 	}
 
-	if (search)
-	{
-		if ((object_this_pval_is_visible(o_ptr, which_pval(o_ptr, OF_SEARCH)) || full) && !dummy)
-		{
+	if (search)	{
+		if ((object_this_pval_is_visible(o_ptr, which_pval(o_ptr, OF_SEARCH))
+				|| full) && !dummy)	{
 			textblock_append_c(tb, (o_ptr->pval[which_pval(o_ptr, OF_SEARCH)] > 0) ? TERM_L_GREEN : TERM_RED,
 				"%+i%% ", o_ptr->pval[which_pval(o_ptr, OF_SEARCH)] * 5);
 			textblock_append(tb, "to searching.\n");
@@ -1236,19 +1234,17 @@ static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
 		textblock_append(tb, "%s\n\n", o_ptr->theme->text);
 
 	/* Display the known object description */
-	else if (object_flavor_is_aware(o_ptr) || object_is_known(o_ptr) || ego)
-	{
+	else if (object_flavor_is_aware(o_ptr) || object_is_known(o_ptr) || ego) {
 		bool did_desc = FALSE;
 
-		if (!ego && o_ptr->kind->text)
-		{
+		if (!ego && o_ptr->kind->text) {
 			textblock_append(tb, "%s", o_ptr->kind->text);
 			did_desc = TRUE;
 		}
 
 		/* Display additional affix descriptions */
-		for (i = 0; i < MAX_AFFIXES; i++)
-			if (o_ptr->affix[i] && o_ptr->affix[i]->text && (ego ||
+		for (i = 0; i < MAX_AFFIXES && o_ptr->affix[i]; i++)
+			if (o_ptr->affix[i]->text && (ego ||
 					object_affix_is_known(o_ptr, o_ptr->affix[i]->eidx))) {
 				if (did_desc)
 					textblock_append(tb, " ");
@@ -1261,20 +1257,49 @@ static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
 	}
 
 	/* List the affixes on the item */
-	if (o_ptr->affix[0]) {
-		for (i = 0; i < MAX_AFFIXES; i++)
-			if (o_ptr->affix[i] &&
-					object_affix_is_known(o_ptr, o_ptr->affix[i]->eidx)) {
-				if (count == 0)
-					textblock_append(tb, "This item's known properties are: ");
-				else
-					textblock_append(tb, ", ");
-				textblock_append(tb, "%s", o_ptr->affix[i]->name);
-				count++;
-			}
-		if (count)
-			textblock_append(tb, ".\n\n");
-	}
+	for (i = 0; i < MAX_AFFIXES && o_ptr->affix[i]; i++)
+		if (object_affix_is_known(o_ptr, o_ptr->affix[i]->eidx)) {
+			if (count == 0)
+				textblock_append(tb, "This item's known properties are: ");
+			else
+				textblock_append(tb, ", ");
+			textblock_append(tb, "%s", o_ptr->affix[i]->name);
+			count++;
+		}
+	if (count)
+		textblock_append(tb, ".\n\n");
+
+	/* List the item's known runes */
+	count = 0;
+	for (i = 0; i < OF_MAX; i++)
+		if (of_has(o_ptr->flags, i) && of_has(p_ptr->known_runes, i) &&
+				obj_flag_type(i) != OFT_INT && obj_flag_type(i) != OFT_NONE &&
+				!ego) {
+			if (count == 0)
+				textblock_append(tb, "This item's known runes are: ");
+			else
+				textblock_append(tb, ", ");
+			textblock_append(tb, "%s", flag_name(i));
+			count++;
+		}
+	if (count)
+		textblock_append(tb, ".\n\n");
+
+	/* List the item's unknown runes */
+	count = 0;
+	for (i = 0; i < OF_MAX; i++)
+		if (of_has(o_ptr->flags, i) && !of_has(p_ptr->known_runes, i) &&
+				obj_flag_type(i) != OFT_INT && obj_flag_type(i) != OFT_NONE &&
+				!ego) {
+			if (count == 0)
+				textblock_append(tb, "This item's unknown runes are: ");
+			else
+				textblock_append(tb, ", ");
+			textblock_append(tb, "%s", flag_rune(i));
+			count++;
+		}
+	if (count)
+		textblock_append(tb, ".\n\n");
 }
 
 /**
