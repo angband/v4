@@ -16,12 +16,13 @@
  *    are included in all such copies.  Other copyrights may also apply.
  */
 #include "angband.h"
+#include "randname.h"
 
 /**
  * Details of the different object flags in the game.
  * See src/object/obj-flag.h for structure
  */
-const struct object_flag object_flag_table[] =
+struct object_flag object_flag_table[] =
 {
     #define OF(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u) \
             { OF_##a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u },
@@ -243,4 +244,48 @@ void create_pval_mask(bitflag *f)
 			of_on(f, i);
 
 	return;
+}
+
+/**
+ * Initialise the random rune names, 3 to 8 chars each, in quotes
+ */
+static char rune_adj[OF_MAX][12];
+
+void init_rune_names(void)
+{
+	struct object_flag *of_ptr;
+	size_t i, j;
+
+	/* Generate the names and put them in the rune_adj array */
+    for (i = 0; i < OF_MAX; i++) {
+        char buf[12];
+        char *end = buf + 1;
+        int wordlen = 0;
+        bool okay = TRUE;
+
+        strcpy(buf, "\"");
+        wordlen = randname_make(RANDNAME_RUNE, 3, 8, end, 9, name_sections);
+        buf[wordlen] = '"';
+        buf[wordlen + 1] = '\0';
+
+        /* Check this name hasn't already been generated */
+        for (j = 0; j < i; j++) {
+            if (streq(buf, rune_adj[j])) {
+                okay = FALSE;
+                break;
+            }
+        }
+
+        if (okay)
+            my_strcpy(rune_adj[i], buf, sizeof(rune_adj[0]));
+        else
+            /* Have another go at making a name */
+            i--;
+	}
+
+	/* Now set the of_ptr->rune pointers to the rune_adj array */
+	for (i = 0; i < OF_MAX; i++) {
+		of_ptr = &object_flag_table[i];
+		of_ptr->rune = rune_adj[i];
+	}
 }

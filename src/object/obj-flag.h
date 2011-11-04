@@ -121,5 +121,6 @@ int pval_mult(int flag);
 bool check_state(struct player *p, int flag, bitflag *f);
 const char *obj_flagtype_name(int of_type);
 void create_pval_mask(bitflag *f);
+void init_rune_names(void);
 
 #endif /* !INCLUDED_OBJFLAG_H */

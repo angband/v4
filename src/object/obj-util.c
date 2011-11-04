@@ -119,19 +119,21 @@ static void flavor_assign_random(byte tval)
  * can happen is when the current title has 6 letters and the new word
  * has 8 letters, which would result in a 6 letter scroll title.
  *
- * Hack -- make sure everything stays the same for each saved game
- * This is accomplished by the use of a saved "random seed", as in
- * "town_gen()".  Since no other functions are called while the special
- * seed is in effect, so this function is pretty "safe".
+ * We make sure everything stays the same for each saved game
+ * by the use of a saved random seed, as in town_gen().  Since no other
+ * functions are called while the special seed is in effect, this
+ * function is pretty safe.
+ *
+ * Also initialises rune names for rune-based ID.
  */
 void flavor_init(void)
 {
 	int i, j;
 
-	/* Hack -- Use the "simple" RNG */
+	/* Use the "simple" RNG */
 	Rand_quick = TRUE;
 
-	/* Hack -- Induce consistant flavors */
+	/* Induce consistent flavors */
 	Rand_value = seed_flavor;
 
 	flavor_assign_fixed();
@@ -145,8 +147,7 @@ void flavor_init(void)
 	flavor_assign_random(TV_POTION);
 
 	/* Scrolls (random titles, always white) */
-	for (i = 0; i < MAX_TITLES; i++)
-	{
+	for (i = 0; i < MAX_TITLES; i++) {
 		char buf[26];
 		char *end = buf + 1;
 		int titlelen = 0;
@@ -155,51 +156,48 @@ void flavor_init(void)
 
 		strcpy(buf, "\"");
 		wordlen = randname_make(RANDNAME_SCROLL, 2, 8, end, 24, name_sections);
-		while (titlelen + wordlen < (int)(sizeof(scroll_adj[0]) - 3))
-		{
+		while (titlelen + wordlen < (int)(sizeof(scroll_adj[0]) - 3)) {
 			end[wordlen] = ' ';
 			titlelen += wordlen + 1;
 			end += wordlen + 1;
-			wordlen = randname_make(RANDNAME_SCROLL, 2, 8, end, 24 - titlelen, name_sections);
+			wordlen = randname_make(RANDNAME_SCROLL, 2, 8, end, 24 - titlelen,
+				name_sections);
 		}
 		buf[titlelen] = '"';
 		buf[titlelen+1] = '\0';
 
 		/* Check the scroll name hasn't already been generated */
-		for (j = 0; j < i; j++)
-		{
-			if (streq(buf, scroll_adj[j]))
-			{
+		for (j = 0; j < i; j++)	{
+			if (streq(buf, scroll_adj[j])) {
 				okay = FALSE;
 				break;
 			}
 		}
 
 		if (okay)
-		{
 			my_strcpy(scroll_adj[i], buf, sizeof(scroll_adj[0]));
-		}
 		else
-		{
 			/* Have another go at making a name */
 			i--;
-		}
 	}
 	flavor_assign_random(TV_SCROLL);
 
-	/* Hack -- Use the "complex" RNG */
+	/* Runes (random short names) */
+	init_rune_names();
+
+	/* Switch back to the complex RNG */
 	Rand_quick = FALSE;
 
 	/* Analyze every object */
-	for (i = 1; i < z_info->k_max; i++)
-	{
+	for (i = 1; i < z_info->k_max; i++)	{
 		object_kind *k_ptr = &k_info[i];
 
 		/* Skip "empty" objects */
 		if (!k_ptr->name) continue;
 
 		/* No flavor yields aware */
-		if (!k_ptr->flavor) k_ptr->aware = TRUE;
+		if (!k_ptr->flavor)
+			k_ptr->aware = TRUE;
 	}
 }
 
