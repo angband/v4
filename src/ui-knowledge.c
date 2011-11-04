@@ -1920,7 +1920,10 @@ static void display_rune(int col, int row, bool cursor, int oid)
 {
 	byte attr = curs_attrs[of_has(p_ptr->known_runes, oid)][(int)cursor];
 
-	c_prt(attr, flag_name(oid), row, col);
+	if (of_has(p_ptr->known_runes, oid))
+		c_prt(attr, flag_name(oid), row, col);
+	else
+		c_prt(attr, flag_rune(oid), row, col);
 }
 
 static void desc_rune(int oid)
@@ -1970,17 +1973,11 @@ static void do_cmd_knowledge_runes(const char *name, int row)
 
 	runes = C_ZNEW(OF_MAX, int);
 
-	/* Flags start at 1 - the "0" flag is NONE */
+	/* Flags start at 1 - the 0 flag is NONE */
 	for (i = 1; i < OF_MAX; i++)
-	{
-		/* Omit "internal" and invalid flags */
-		if ((of_has(p_ptr->known_runes, i) || OPT(cheat_xtra)) &&
-			(obj_flag_type(i) != OFT_INT) &&
-			(obj_flag_type(i) != OFT_NONE))
-		{
+		/* Omit internal and invalid flags */
+		if ((obj_flag_type(i) != OFT_INT) && (obj_flag_type(i) != OFT_NONE))
 			runes[count++] = i;
-		}
-	}
 
 	display_knowledge("known runes", runes, count, rune_groups, runes_f, NULL);
 	FREE(runes);

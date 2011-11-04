@@ -140,16 +140,23 @@ void log_flags(bitflag *f, ang_file *log_file)
 }
 
 /**
- * Log the name of a flag to a file.
- *
- * \param flag is the flag to log.
- * \param log_file is ... oh come on how obvious does it need to be?
+ * Return the name of a flag.
  */
 const char *flag_name(int flag)
 {
 	const struct object_flag *of_ptr = &object_flag_table[flag];
 
 	return of_ptr->name;
+}
+
+/**
+ * Return the name of a flag's rune.
+ */
+const char *flag_rune(int flag)
+{
+	const struct object_flag *of_ptr = &object_flag_table[flag];
+
+	return of_ptr->rune;
 }
 
 /**
