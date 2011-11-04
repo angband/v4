@@ -1295,37 +1295,37 @@ static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
 	if (count)
 		textblock_append(tb, ".\n\n");
 
-	/* List the item's known runes */
-	count = 0;
-	for (i = 0; i < OF_MAX; i++)
-		if (of_has(o_ptr->flags, i) && of_has(p_ptr->known_runes, i) &&
-				obj_flag_type(i) != OFT_INT && obj_flag_type(i) != OFT_NONE &&
-				!ego) {
-			if (count == 0)
-				textblock_append(tb, "This item's known runes are: ");
-			else
-				textblock_append(tb, ", ");
-			textblock_append(tb, "%s", flag_name(i));
-			count++;
-		}
-	if (count)
-		textblock_append(tb, ".\n\n");
+	if (!ego && o_ptr->origin != ORIGIN_STORE) {
+		/* List the item's known runes */
+		count = 0;
+		for (i = 0; i < OF_MAX; i++)
+			if (of_has(o_ptr->flags, i) && of_has(p_ptr->known_runes, i) &&
+					obj_flag_type(i) != OFT_INT && obj_flag_type(i) != OFT_NONE) {
+				if (count == 0)
+					textblock_append(tb, "This item's known runes are: ");
+				else
+					textblock_append(tb, ", ");
+				textblock_append(tb, "%s", flag_name(i));
+				count++;
+			}
+		if (count)
+			textblock_append(tb, ".\n\n");
 
-	/* List the item's unknown runes */
-	count = 0;
-	for (i = 0; i < OF_MAX; i++)
-		if (of_has(o_ptr->flags, i) && !of_has(p_ptr->known_runes, i) &&
-				obj_flag_type(i) != OFT_INT && obj_flag_type(i) != OFT_NONE &&
-				!ego) {
-			if (count == 0)
-				textblock_append(tb, "This item's unknown runes are: ");
-			else
-				textblock_append(tb, ", ");
-			textblock_append(tb, "%s", flag_rune(i));
-			count++;
-		}
-	if (count)
-		textblock_append(tb, ".\n\n");
+		/* List the item's unknown runes */
+		count = 0;
+		for (i = 0; i < OF_MAX; i++)
+			if (of_has(o_ptr->flags, i) && !of_has(p_ptr->known_runes, i) &&
+					obj_flag_type(i) != OFT_INT && obj_flag_type(i) != OFT_NONE) {
+				if (count == 0)
+					textblock_append(tb, "This item's unknown runes are: ");
+				else
+					textblock_append(tb, ", ");
+				textblock_append(tb, "%s", flag_rune(i));
+				count++;
+			}
+		if (count)
+			textblock_append(tb, ".\n\n");
+	}
 }
 
 /**
