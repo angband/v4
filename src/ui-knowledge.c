@@ -1932,6 +1932,9 @@ static void desc_rune(int oid)
 	textblock *tb;
 	region area = { 0, 0, 0, 0 };
 
+	if (!of_has(p_ptr->known_runes,oid))
+		return;
+
 	memset(&object_type_body, 0, sizeof(object_type_body));
 	object_type_body.kind = &k_info[0];
 	if (flag_uses_pval(oid)) {
