@@ -1962,6 +1962,14 @@ static int of_cmp_flagtype(const void *a, const void *b)
 	if (c)
 		return c;
 
+	/* Sort known runes separately from unknown */
+	if (of_has(p_ptr->known_runes, flag_a) &&
+			!of_has(p_ptr->known_runes, flag_b))
+		return -1;
+	else if (!of_has(p_ptr->known_runes, flag_a) &&
+			of_has(p_ptr->known_runes, flag_b))
+		return 1;
+
 	return strcmp(flag_name(flag_a), flag_name(flag_b));
 }
 
