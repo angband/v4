@@ -41,8 +41,8 @@ Known affixes are browseable in the ego knowledge menu.
 randomly during item generation. Themes are detailed in 
 lib/edit/ego_themes.txt. Once an object has a theme, it may not acquire 
 any further affixes. Themes are what used to be known as the "high-end" 
-ego types (Elvenkind, Westernesse, Gondolin, etc.). (TODO: themes don't 
-currently show up on the knowledge menu.)
+ego types (Elvenkind, Westernesse, Gondolin, etc.). They also show up in 
+the ego knowledge menu.
 
  * Artifacts. Artifacts look much the same as before (though some base 
 items have been renamed, as noted above). But they are now generated 
@@ -51,11 +51,18 @@ ring, amulet or light source and an artifact weapon or armour piece.
 Artifact rings, amulets and light sources no longer need "dummy" 
 INSTA_ART entries in object.txt.
 
+ * ID. We have moved to "rune-based" ID. This means that any given item 
+property is discernible on any item which has it. Once you've learned 
+that your shield has RES_FIRE, you'll instantly know RES_FIRE when you 
+see it on any other item, because you've learned the rune for it. Runes 
+have random names, visible in the new rune knowledge menu. Once you 
+learn them, they go by the names you would expect (like "Resist Fire"). 
+Inspecting items will show their known and unknown runes - but items 
+sold in stores have their runes scratched off.
 
 
 User interface
 ==============
-
  
 
 
