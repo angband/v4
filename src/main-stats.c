@@ -893,13 +893,13 @@ static int stats_dump_lists(void)
 
 	struct slay slay_table[] =
 	{
-		#define SLAY(a, b, c, d, e, f, g, h, i, j) \
-			{ SL_##a, b, c, d, e, f, g, h, #a, j},
+		#define SLAY(a, b, c, d, e, f, g, h, i, j, k) \
+			{ SL_##a, b, c, d, e, f, g, h, #a, j, k},
 		#include "object/list-slays.h"
 		#undef SLAY
 	};
 
-	err = stats_db_stmt_prep(&sql_stmt, 
+	err = stats_db_stmt_prep(&sql_stmt,
 		"INSERT INTO effects_list VALUES(?,?,?,?);");
 	if (err) return err;
 
@@ -907,7 +907,7 @@ static int stats_dump_lists(void)
 	{
 		if (! effects[idx].desc) continue;
 
-		err = stats_db_bind_ints(sql_stmt, 3, 0, idx, 
+		err = stats_db_bind_ints(sql_stmt, 3, 0, idx,
 			effects[idx].aim, effects[idx].power);
 		if (err) return err;
 		err = sqlite3_bind_text(sql_stmt, 4, effects[idx].desc,

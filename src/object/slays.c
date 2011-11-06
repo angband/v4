@@ -25,8 +25,8 @@
  */
 const struct slay slay_table[] =
 {
-	#define SLAY(a, b, c, d, e, f, g, h, i, j) \
-		{ SL_##a, b, c, d, e, f, g, h, i, j},
+	#define SLAY(a, b, c, d, e, f, g, h, i, j, k) \
+		{ SL_##a, b, c, d, e, f, g, h, i, j, k},
 	#include "list-slays.h"
 	#undef SLAY
 };
@@ -217,7 +217,8 @@ void improve_attack_modifier(object_type *o_ptr, const monster_type
 		/* If the monster doesn't resist or the slay flag matches */
 		if ((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
 				(s_ptr->monster_flag && rf_has(r_ptr->flags,
-				s_ptr->monster_flag))) {
+				s_ptr->monster_flag)) || (s_ptr->vuln_flag &&
+				rf_has(r_ptr->flags, s_ptr->vuln_flag))) {
 
 			/* compare multipliers to determine best attack */
 			if ((*best_s_ptr == NULL) || ((*best_s_ptr)->mult < s_ptr->mult))

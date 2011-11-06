@@ -193,7 +193,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 
 	/* Handle normal weapon */
 	if (o_ptr->kind) {
-		int i;
+		int i, mult = 1;
 		const struct slay *best_s_ptr = NULL;
 
 		hit_verb = "hit";
@@ -211,7 +211,15 @@ static bool py_attack_real(int y, int x, bool *fear) {
 			hit_verb = best_s_ptr->melee_verb;
 
 		dmg = damroll(o_ptr->dd, o_ptr->ds);
-		dmg *= (best_s_ptr == NULL) ? 1 : best_s_ptr->mult;
+
+		if (best_s_ptr) {
+			mult = best_s_ptr->mult;
+			if (best_s_ptr->vuln_flag &&
+					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
+				mult += 1;
+		}
+
+		dmg *= mult;
 
 		dmg += o_ptr->to_d;
 		dmg = critical_norm(o_ptr->weight, o_ptr->to_h, dmg, &msg_type);
