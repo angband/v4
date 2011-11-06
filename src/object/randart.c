@@ -24,19 +24,13 @@
 #include "effects.h"
 #include "randname.h"
 
-/*
- * Original random artifact generator (randart) by Greg Wooledge.
- * Updated by Chris Carr / Chris Robertson 2001-2010.
- */
 #define ART_MIN_NORMAL 16
-#define ART_POWER 13
 /* Both the above two will go in the rewrite - CC 4/10/11 */
+
 #define BUFLEN 1024
 
 #define MIN_NAME_LEN 5
 #define MAX_NAME_LEN 9
-#define S_WORD 26
-#define E_WORD S_WORD
 
 /*
  * Inhibiting factors for large bonus values
@@ -502,6 +496,8 @@ static object_kind *choose_item(int a_idx)
 		of_copy(a_ptr->pval_flags[i], k_ptr->pval_flags[i]);
 	a_ptr->num_pvals = k_ptr->num_pvals;
 	a_ptr->effect = 0;
+	a_ptr->affix = NULL;
+	a_ptr->theme = NULL;
 
 	/* Artifacts ignore everything */
 	create_mask(f, FALSE, OFT_IGNORE, OFT_MAX);
