@@ -229,7 +229,7 @@ void improve_attack_modifier(object_type *o_ptr, const monster_type
 
 /**
  * React to slays which hurt a monster
- * 
+ *
  * \param obj_flags is the set of flags we're testing for slays
  * \param mon_flags is the set of flags we're adjusting as a result
  */
@@ -246,7 +246,7 @@ void react_to_slay(bitflag *obj_flags, bitflag *mon_flags)
 
 /**
  * Check the slay cache for a combination of slays and return a slay value
- * 
+ *
  * \param index is the set of slay flags to look for
  */
 s32b check_slay_cache(bitflag *index)
@@ -349,4 +349,24 @@ errr create_slay_cache(struct ego_item *items)
 void free_slay_cache(void)
 {
 	mem_free(slay_cache);
+}
+
+/**
+ * Return whether a given flagset contains a flag which hurts this
+ * monster
+ */
+bool obj_hurts_mon(bitflag *flags, const monster_type *m_ptr)
+{
+	monster_race *r_ptr = &r_info[m_ptr->r_idx];
+	size_t i;
+
+	for (i = 0; i < SL_MAX; i++) {
+		const struct slay *s_ptr = &slay_table[i];
+		if (of_has(flags, s_ptr->object_flag) && ((s_ptr->monster_flag
+				&& rf_has(r_ptr->flags,	s_ptr->monster_flag)) ||
+				(s_ptr->resist_flag && !rf_has(r_ptr->flags,
+				s_ptr->resist_flag))))
+			return TRUE;
+	}
+	return FALSE;
 }

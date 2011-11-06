@@ -69,5 +69,6 @@ errr create_slay_cache(struct ego_item *items);
 s32b check_slay_cache(bitflag *index);
 bool fill_slay_cache(bitflag *index, s32b value);
 void free_slay_cache(void);
+bool obj_hurts_mon(bitflag *flags, const monster_type *m_ptr);
 
 #endif /* INCLUDED_SLAYS_H */

@@ -23,6 +23,7 @@
 #include "monster/mon-make.h"
 #include "monster/mon-timed.h"
 #include "monster/mon-util.h"
+#include "object/slays.h"
 #include "object/tvalsval.h"
 
 /**
@@ -565,7 +566,7 @@ static bool mon_create_drop(int m_idx, byte origin)
 
 	object_type *i_ptr;
 	object_type object_type_body;
-	
+
 	assert(m_idx > 0);
 	m_ptr = cave_monster(cave, m_idx);
 	r_ptr = &r_info[m_ptr->r_idx];
@@ -618,11 +619,14 @@ static bool mon_create_drop(int m_idx, byte origin)
 		i_ptr = &object_type_body;
 		object_wipe(i_ptr);
 
-		if (gold_ok && (!item_ok || (randint0(100) < 50))) {
+		if (gold_ok && (!item_ok || (randint0(100) < 50)))
 			make_gold(i_ptr, level, SV_GOLD_ANY);
-		} else {
-			if (!make_object(cave, i_ptr, level, good, great, NULL)) continue;
-		}
+		else if (!make_object(cave, i_ptr, level, good, great, NULL))
+			continue;
+
+		/* Do not create objects which would hurt the monster */
+		if (obj_hurts_mon(i_ptr->flags, m_ptr))
+			continue;
 
 		i_ptr->origin = origin;
 		i_ptr->origin_depth = p_ptr->depth;
