@@ -45,7 +45,7 @@ static const char *wd_his[3] = { "its", "his", "her" };
 
 /**
  * Prints `num` elements from `list` using color attribute `attr`, and joins
- * them with the given conjunction ("and" or "or"). 
+ * them with the given conjunction ("and" or "or").
  */
 static void output_list(const char *list[], int num, byte attr,
 		const char *conjunction)
@@ -71,9 +71,9 @@ static void output_list(const char *list[], int num, byte attr,
 
 /**
  * Prints `num` elements from `list` using the given colors and damage amounts,
- * and joins them with the given conjunction ("and" or "or"). 
+ * and joins them with the given conjunction ("and" or "or").
  */
-static void output_list_dam(const char *list[], int num, int col[], 
+static void output_list_dam(const char *list[], int num, int col[],
 		int dam[], const char *conjunction)
 {
 	int i;
@@ -1425,11 +1425,10 @@ static void describe_monster_abilities(const monster_race *r_ptr,
 	vn = 0;
 	if (rf_has(f, RF_HURT_ROCK)) descs[vn++] = "rock remover";
 	if (rf_has(f, RF_HURT_LIGHT)) descs[vn++] = "bright light";
-	if (rf_has(f, RF_HURT_FIRE)) descs[vn++] = "fire";
-	if (rf_has(f, RF_HURT_COLD)) descs[vn++] = "cold";
+	if (rf_has(f, RF_HURT_FIRE) && !rf_has(f, RF_IM_FIRE)) descs[vn++] = "fire";
+	if (rf_has(f, RF_HURT_COLD) && !rf_has(f, RF_IM_COLD)) descs[vn++] = "cold";
 
-	if (vn)
-	{
+	if (vn)	{
 		/* Output connecting text */
 		text_out("%s is hurt by ", wd_he[msex]);
 		output_list(descs, vn, TERM_VIOLET, "and ");
@@ -1455,8 +1454,7 @@ static void describe_monster_abilities(const monster_race *r_ptr,
 	if (rf_has(l_ptr->flags, RF_HURT_ROCK) && !rf_has(f, RF_HURT_ROCK))
 		descs[vn++] = "rock remover";
 
-	if (vn)
-	{
+	if (vn)	{
 		/* Output connecting text */
 		if (prev)
 			text_out(", but resists ");
