@@ -1654,11 +1654,7 @@ static void display_object(int col, int row, bool cursor, int oid)
 	byte a = use_flavour ? kind->flavor->x_attr : kind->x_attr;
 	wchar_t c = use_flavour ? kind->flavor->x_char : kind->x_char;
 
-	/* Display known artifacts differently */
-	if (of_has(kind->flags, OF_INSTA_ART) && artifact_is_known(get_artifact_from_kind(kind)))
-		get_artifact_display_name(o_name, sizeof(o_name), get_artifact_from_kind(kind));
-	else
- 		object_kind_name(o_name, sizeof(o_name), kind, OPT(cheat_xtra));
+	object_kind_name(o_name, sizeof(o_name), kind, OPT(cheat_xtra));
 
 	/* If the type is "tried", display that */
 	if (kind->tried && !aware)
@@ -1676,9 +1672,8 @@ static void display_object(int col, int row, bool cursor, int oid)
 	if (aware && inscrip)
 		c_put_str(TERM_YELLOW, inscrip, row, 55);
 
-	if (tile_height == 1) {
+	if (tile_height == 1)
 		big_pad(76, row, a, c);
-	}
 }
 
 /*
@@ -1694,13 +1689,6 @@ static void desc_obj_fake(int k_idx)
 
 	textblock *tb;
 	region area = { 0, 0, 0, 0 };
-
-	/* Check for known artifacts, display them as artifacts */
-	if (of_has(kind->flags, OF_INSTA_ART) && artifact_is_known(get_artifact_from_kind(kind)))
-	{
-		desc_art_fake(get_artifact_from_kind(kind));
-		return;
-	}
 
 	/* Update the object recall window */
 	track_object_kind(k_idx);
@@ -1883,7 +1871,8 @@ static void o_xtra_act(struct keypress ch, int oid)
 void textui_browse_object_knowledge(const char *name, int row)
 {
 	group_funcs kind_f = {TV_GOLD, FALSE, kind_name, o_cmp_tval, obj2gid, 0};
-	member_funcs obj_f = {display_object, desc_obj_fake, o_xchar, o_xattr, o_xtra_prompt, o_xtra_act, 0};
+	member_funcs obj_f = {display_object, desc_obj_fake, o_xchar, o_xattr,
+		o_xtra_prompt, o_xtra_act, 0};
 
 	int *objects;
 	int o_count = 0;
@@ -1892,24 +1881,23 @@ void textui_browse_object_knowledge(const char *name, int row)
 
 	objects = C_ZNEW(z_info->k_max, int);
 
-	for (i = 0; i < z_info->k_max; i++)
-	{
+	for (i = 0; i < z_info->k_max; i++)	{
 		kind = &k_info[i];
 		/* It's in the list if we've ever seen it, or it has a flavour,
-		 * and either it's not one of the special artifacts, or if it is,
-		 * we're not aware of it yet. This way the flavour appears in the list
-		 * until it is found.
+		 * and either it's not one of the flavoured special artifacts, or if
+		 * it is. we're not aware of it yet. This way the flavour appears in
+		 * the list until it is found.
 		 */
 		if ((kind->everseen || kind->flavor || OPT(cheat_xtra)) &&
-				(!of_has(kind->flags, OF_INSTA_ART) ||
-				 !artifact_is_known(get_artifact_from_kind(kind))))
-		{
+				(!of_has(kind->flags, OF_INSTA_ART) || (kind->flavor &&
+				 !artifact_is_known(get_artifact_from_kind(kind))))) {
 			int c = obj_group_order[k_info[i].tval];
 			if (c >= 0) objects[o_count++] = i;
 		}
 	}
 
-	display_knowledge("known objects", objects, o_count, kind_f, obj_f, "Squelch  Inscribed          Sym");
+	display_knowledge("known objects", objects, o_count, kind_f, obj_f,
+		"Squelch  Inscribed          Sym");
 
 	FREE(objects);
 }
