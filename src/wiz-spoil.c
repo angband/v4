@@ -384,6 +384,9 @@ static const grouper group_artifact[] =
 	{ TV_AMULET,        "Amulets" },
 	{ TV_RING,          "Rings" },
 
+	{ TV_MAGIC_BOOK,	"Magic Books" },
+	{ TV_PRAYER_BOOK, 	"Prayer Books" },
+
 	{ 0, NULL }
 };
 
