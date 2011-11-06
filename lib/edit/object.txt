@@ -3423,94 +3423,84 @@ F:EASY_KNOW
 
 ##### Special Books (note resistances) #####
 
-N:468:[Resistances of Scarabtarices]
+N:468:Tome of High Magick
 G:?:r
 I:90:4
 W:40:0:30:10000
-A:30:40 to 100
+#A:30:40 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
-N:469:[Raal's Tome of Destruction]
+N:469:Tome of High Magick
 G:?:r
 I:90:5
 W:50:0:30:20000
-A:30:50 to 100
+#A:30:50 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
-N:470:[Mordenkainen's Escapes]
+N:470:Tome of High Magick
 G:?:r
 I:90:6
 W:60:0:30:30000
-A:30:60 to 100
+#A:30:60 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
-N:471:[Tenser's Transformations]
+N:471:Tome of High Magick
 G:?:r
 I:90:7
 W:70:0:30:50000
-A:30:70 to 100
+#A:30:70 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
-N:472:[Kelek's Grimoire of Power]
+N:472:Tome of High Magick
 G:?:r
 I:90:8
 W:80:0:30:90000
-A:10:90 to 100
+#A:10:90 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
-N:473:[Ethereal Openings]
+N:473:Book of High Prayer
 G:?:g
 I:91:4
 W:40:0:30:10000
-A:30:40 to 100
+#A:30:40 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
-N:474:[Godly Insights]
+N:474:Book of High Prayer
 G:?:g
 I:91:5
 W:50:0:30:20000
-A:30:50 to 100
+#A:30:50 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
-N:475:[Purifications and Healing]
+N:475:Book of High Prayer
 G:?:g
 I:91:6
 W:60:0:30:30000
-A:30:60 to 100
+#A:30:60 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
-N:476:[Holy Infusions]
+N:476:Book of High Prayer
 G:?:g
 I:91:7
 W:70:0:30:50000
-A:30:70 to 100
+#A:30:70 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
-N:477:[Wrath of God]
+N:477:Book of High Prayer
 G:?:g
 I:91:8
 W:80:0:30:90000
-A:10:90 to 100
+#A:10:90 to 100
 P:0:1d1:0:0:0
-F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
 
