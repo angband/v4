@@ -629,8 +629,8 @@ static errr finish_parse_k(struct parser *p) {
 	/* scan the list for the max id */
 	z_info->k_max -= 1;
 	/*z_info->k_max = 0; fails to load existing save file because of
-	too high value in old limits.txt.  Change to this line when save file 
-	compatibility changes and remove line from limits.txt */ 
+	too high value in old limits.txt.  Change to this line when save file
+	compatibility changes and remove line from limits.txt */
 	k = parser_priv(p);
 	while (k) {
 		if (k->kidx > z_info->k_max)
@@ -727,12 +727,25 @@ static enum parser_error parse_a_i(struct parser *p) {
 
 static enum parser_error parse_a_w(struct parser *p) {
 	struct artifact *a = parser_priv(p);
+	const char *random;
 	assert(a);
 
 	a->level = parser_getint(p, "level");
 	a->rarity = parser_getint(p, "rarity");
 	a->weight = parser_getint(p, "weight");
 	a->cost = parser_getint(p, "cost");
+
+	if (!parser_hasval(p, "randomise"))
+		a->random = TRUE;
+	else {
+		random = parser_getsym(p, "randomise");
+		if (!my_stricmp(random, "no"))
+			a->random = FALSE;
+		else if (!my_stricmp(random, "yes"))
+			a->random = TRUE;
+		else
+			return PARSE_ERROR_INVALID_VALUE;
+	}
 	return PARSE_ERROR_NONE;
 }
 
@@ -907,7 +920,8 @@ struct parser *init_parse_a(void) {
 	parser_reg(p, "V sym version", ignored);
 	parser_reg(p, "N int index str name", parse_a_n);
 	parser_reg(p, "I sym tval ?sym sval", parse_a_i);
-	parser_reg(p, "W int level int rarity int weight int cost", parse_a_w);
+	parser_reg(p, "W int level int rarity int weight int cost ?sym randomise",
+		parse_a_w);
 	parser_reg(p, "A int common str minmax", parse_a_a);
 	parser_reg(p, "P int ac rand hd int to-h int to-d int to-a", parse_a_p);
 	parser_reg(p, "F ?str flags", parse_a_f);

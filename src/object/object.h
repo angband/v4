@@ -383,6 +383,7 @@ typedef struct artifact {
 	char *effect_msg;
 
 	random_value time;  /**< Recharge time (if appropriate) */
+	bool random;	/* Whether this artifact can ever be randomised */
 } artifact_type;
 
 /*

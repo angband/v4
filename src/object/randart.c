@@ -302,12 +302,6 @@ char *artifact_gen_name(struct artifact *a, const char ***words) {
 		strnfmt(buf, sizeof(buf), "'%s'", word);
 	else
 		strnfmt(buf, sizeof(buf), "of %s", word);
-	if (a->aidx == ART_POWER)
-		strnfmt(buf, sizeof(buf), "of Power (The One Ring)");
-	if (a->aidx == ART_GROND)
-		strnfmt(buf, sizeof(buf), "'Grond'");
-	if (a->aidx == ART_MORGOTH)
-		strnfmt(buf, sizeof(buf), "of Morgoth");
 	return string_make(buf);
 }
 
@@ -319,33 +313,24 @@ static errr init_names(void)
 	int i;
 	struct artifact *a;
 
-	for (i = 0; i < z_info->a_max; i++)
-	{
+	for (i = 0; i < z_info->a_max; i++)	{
 		char desc[128] = "Based on ";
 
 		a = &a_info[i];
 		if (!a->tval || !a->sval || !a->name) continue;
 
-		if (prefix(a->name, "of Power"))
-		{
-			my_strcat(desc, a->name + 10, 
-				strlen(a->name) - 1);
-		}
-		else if (prefix(a->name, "of "))
-		{
-			my_strcat(desc, a->name + 3, 
-				strlen(a->name) + 7);
-		}
-		else
-		{
-			my_strcat(desc, a->name + 1, 
-				strlen(a->name) + 8);
-		}
+		if (a->random) {
+			if (prefix(a->name, "of Power"))
+				my_strcat(desc, a->name + 10, strlen(a->name) - 1);
+			else if (prefix(a->name, "of "))
+				my_strcat(desc, a->name + 3, strlen(a->name) + 7);
+			else
+				my_strcat(desc, a->name + 1, strlen(a->name) + 8);
 
-		a->text = string_make(desc);
-		a->name = artifact_gen_name(a, name_sections);
+			a->text = string_make(desc);
+			a->name = artifact_gen_name(a, name_sections);
+		}
 	}
-
 	return 0;
 }
 
@@ -733,9 +718,7 @@ static void parse_frequencies(void)
 		a_ptr = &a_info[i];
 
 		/* Special cases -- don't parse these! */
-		if ((i == ART_POWER) ||
-			(i == ART_GROND) ||
-			(i == ART_MORGOTH))
+		if (!a_ptr->random)
 			continue;
 
 		/* Also don't parse cursed or null items */
@@ -2729,9 +2712,7 @@ static void scramble_artifact(int a_idx)
 	bitflag f[OF_SIZE];
 
 	/* Special cases -- don't randomize these! */
-	if ((a_idx == ART_POWER) ||
-	    (a_idx == ART_GROND) ||
-	    (a_idx == ART_MORGOTH))
+	if (!a_ptr->random)
 		return;
 
 	/* Skip unused artifacts, too! */

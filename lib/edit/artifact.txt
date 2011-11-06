@@ -9,7 +9,7 @@
 
 # N: serial number : item name
 # I: tval : sval
-# W: depth : rarity : weight : cost
+# W: depth : rarity : weight : cost : randomise
 # A: allocation probability : min depth : max depth
 # P: base armor class : base damage : plus to-hit : plus to-dam : plus to-ac
 # F: flag | flag | etc
@@ -27,7 +27,9 @@
 # sval identifies the subtype.
 
 # 'W' is for extra information. Depth and rarity are not currently used,
-# weight is in tenth-pounds and cost is the item's value.
+# weight is in tenth-pounds and cost is the item's value. Randomise is
+# whether this artifact is randomised in randart games (if absent, value
+# is Yes).
 
 # 'A' is for allocation details. alloc_prob is the relative chance of
 # being generated, min depth is the earliest it is normally found, max
@@ -291,7 +293,7 @@ D:hidden by the Elves from Sauron.
 
 N:13:of Power 'The One Ring'
 I:ring:49
-W:100:100:2:5000000
+W:100:100:2:5000000:no
 A:1:100 to 127
 P:0:0d0:15:15:0
 # F: DRAIN_MANA | DRAIN_HP | 
@@ -611,7 +613,7 @@ D:enchantment will never be diminished.
 
 N:34:of Morgoth
 I:crown:Massive Iron Crown
-W:100:1:400:10000000
+W:100:1:400:10000000:no
 A:0:100 to 100
 P:0:1d1:0:0:0
 F:RES_ACID | RES_ELEC | RES_FIRE | RES_COLD | RES_POIS | 
@@ -1694,7 +1696,7 @@ D:come again!"
 
 N:111:'Grond'
 I:hafted:Mighty Hammer
-W:100:1:1000:500000
+W:100:1:1000:500000:no
 A:0:100 to 100
 P:0:9d9:5:25:10
 F:KILL_DRAGON | SLAY_ANIMAL | SLAY_EVIL | IMPACT | KILL_UNDEAD | 
@@ -2133,70 +2135,70 @@ D: lo! it shone like an image of the sun. 
 
 N:141:[Resistances of Scarabtarices]
 I:90:4
-W:40:0:30:10000
+W:40:0:30:10000:no
 A:300:40 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 
 N:142:[Raal's Tome of Destruction]
 I:90:5
-W:50:0:30:20000
+W:50:0:30:20000:no
 A:300:50 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 
 N:143:[Mordenkainen's Escapes]
 I:90:6
-W:60:0:30:30000
+W:60:0:30:30000:no
 A:300:60 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 
 N:144:[Tenser's Transformations]
 I:90:7
-W:70:0:30:50000
+W:70:0:30:50000:no
 A:300:70 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 
 N:145:[Kelek's Grimoire of Power]
 I:90:8
-W:80:0:30:90000
+W:80:0:30:90000:no
 A:100:90 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 
 N:146:[Ethereal Openings]
 I:91:4
-W:40:0:30:10000
+W:40:0:30:10000:no
 A:300:40 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 
 N:147:[Godly Insights]
 I:91:5
-W:50:0:30:20000
+W:50:0:30:20000:no
 A:300:50 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 
 N:148:[Purifications and Healing]
 I:91:6
-W:60:0:30:30000
+W:60:0:30:30000:no
 A:300:60 to 100
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:EASY_KNOW | GOOD
 
 N:149:[Holy Infusions]
 I:91:7
-W:70:0:30:50000
+W:70:0:30:50000:no
 A:300:70 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 
 N:150:[Wrath of God]
 I:91:8
-W:80:0:30:90000
+W:80:0:30:90000:no
 A:100:90 to 100
 P:0:1d1:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
