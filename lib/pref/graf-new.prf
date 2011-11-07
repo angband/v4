@@ -617,16 +617,16 @@ K:prayer book:[Exorcism and Dispelling]:0x8C:0x92
 
 ##### Special Books (note resistances) #####
 
-K:magic book:[Resistances of Scarabtarices]:0x8C:0x8A
-K:magic book:[Raal's Tome of Destruction]:0x8C:0x8B
-K:magic book:[Mordenkainen's Escapes]:0x8C:0x8C
-K:magic book:[Tenser's Transformations]:0x8C:0x8D
-K:magic book:[Kelek's Grimoire of Power]:0x8C:0x8E
-K:prayer book:[Ethereal Openings]:0x8C:0x93
-K:prayer book:[Godly Insights]:0x8C:0x94
-K:prayer book:[Purifications and Healing]:0x8C:0x95
-K:prayer book:[Holy Infusions]:0x8C:0x96
-K:prayer book:[Wrath of God]:0x8C:0x97
+K:magic book:4:0x8C:0x8A
+K:magic book:5:0x8C:0x8B
+K:magic book:6:0x8C:0x8C
+K:magic book:7:0x8C:0x8D
+K:magic book:8:0x8C:0x8E
+K:prayer book:4:0x8C:0x93
+K:prayer book:5:0x8C:0x94
+K:prayer book:6:0x8C:0x95
+K:prayer book:7:0x8C:0x96
+K:prayer book:8:0x8C:0x97
 
 
 
