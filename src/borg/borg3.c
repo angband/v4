@@ -4520,7 +4520,7 @@ void borg_init_3(void)
 
         /* Describe a "plural" object */
         hack.number = 2;
-        object_desc(buf, sizeof(buf), &hack, ODESC_PREFIX | ODESC_FULL | ODESC_SPOIL);
+        object_desc(buf, sizeof(buf), &hack, ODESC_ARTICLE | ODESC_FULL | ODESC_SPOIL);
 
         /* Save an entry */
         text[size] = string_make(buf);
@@ -4579,7 +4579,7 @@ void borg_init_3(void)
 
         /* Describe a "singular" object */
         hack.number = 1;
-        object_desc(buf, sizeof(buf), &hack, ODESC_PREFIX | ODESC_FULL | ODESC_SPOIL);
+        object_desc(buf, sizeof(buf), &hack, ODESC_ARTICLE | ODESC_FULL | ODESC_SPOIL);
 
         /* Save an entry */
         text[size] = string_make(buf);
@@ -4626,7 +4626,7 @@ void borg_init_3(void)
 
         /* Describe a "singular" object */
         hack.number = 1;
-        object_desc(buf, sizeof(buf), &hack, ODESC_PREFIX | ODESC_FULL | ODESC_SPOIL);
+        object_desc(buf, sizeof(buf), &hack, ODESC_ARTICLE | ODESC_FULL | ODESC_SPOIL);
 
         /* Extract the "suffix" length */
         n = strlen(name) + 1;
