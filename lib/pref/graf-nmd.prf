@@ -347,11 +347,11 @@ K:cloak:Heavy Cloak:0x94:0x83
 ### The Shields ###
 
 K:shield:Buckler:0x92:0x80
-K:shield:Tower Shield:0x92:0x81
-K:shield:Large Shield:0x92:0x82
+K:shield:Tower Shield:0x92:0x89
+K:shield:Large Shield:0x92:0x88
 K:shield:Bulwark:0x92:0x83
-K:shield:Kite Shield:0x92:0x84
-K:shield:Small Shield:0x92:0x85
+K:shield:Kite Shield:0x92:0x87
+K:shield:Small Shield:0x92:0x86
 
 
 ### Headgear ###
@@ -374,7 +374,7 @@ K:gloves:Set of Caestus:0x93:0x81
 K:gloves:Set of Gauntlets:0x93:0x82
 K:gloves:Set of Gloves:0x93:0x83
 #K:gloves:Set of Mining Gloves:0x93:0x84
-K:gloves:Set of Bracers:0x93:0x85
+K:gloves:Set of Bracers:0x93:0x86
 
 
 ##### The Boots #####
@@ -524,16 +524,16 @@ K:prayer book:[Exorcism and Dispelling]:0x88:0x83
 
 ##### Special Books (note resistances) #####
 
-K:magic book:[Resistances of Scarabtarices]:0x88:0x94
-K:magic book:[Raal's Tome of Destruction]:0x88:0x95
-K:magic book:[Mordenkainen's Escapes]:0x88:0x96
-K:magic book:[Tenser's Transformations]:0x88:0x97
-K:magic book:[Kelek's Grimoire of Power]:0x88:0x98
-K:prayer book:[Ethereal Openings]:0x88:0x84
-K:prayer book:[Godly Insights]:0x88:0x85
-K:prayer book:[Purifications and Healing]:0x88:0x86
-K:prayer book:[Holy Infusions]:0x88:0x87
-K:prayer book:[Wrath of God]:0x88:0x88
+K:magic book:4:0x88:0x94
+K:magic book:5:0x88:0x95
+K:magic book:6:0x88:0x96
+K:magic book:7:0x88:0x97
+K:magic book:8:0x88:0x98
+K:prayer book:4:0x88:0x84
+K:prayer book:5:0x88:0x85
+K:prayer book:6:0x88:0x86
+K:prayer book:7:0x88:0x87
+K:prayer book:8:0x88:0x88
 
 
 
