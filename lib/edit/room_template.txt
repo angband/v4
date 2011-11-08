@@ -1,0 +1,124 @@
+# File: room_template.txt
+
+
+# This file is used to initialize the "room template" information 
+# for the Angband game.
+
+# Do not modify this file unless you know exactly what you are doing,
+# unless you wish to risk possible system crashes and broken savefiles.
+
+# Note that the "spacing" in the "description" lines is very important!
+
+# === Understanding room_template.txt ===
+
+# N:serial number:room name
+# X:room type:rating:rows:columns
+# D:lines giving full layout of room using symbols below
+
+# 'N' indicates the beginning of an entry. The serial number must
+# increase for each new room.
+
+# 'X' is for extra information - room type, rating, rows, and
+# columns. Type and rating are not currently used.
+
+# 'D' lines describe the layout of the room. Lines must be padded
+# with spaces to fill the dimensions specified. Rooms are described
+# with the following symbols:
+
+#    % - outside of the room, where corridors may be connected
+#    # - granite
+#    + - door
+
+# Use this to measure columns      
+#          1         2         3   
+# 123456789012345678901234567890123
+
+# Version stamp (required)
+
+V:4.0
+
+### Templated rooms -- maximum size 33x11 ###
+
+N:1:Jail
+X:1:1:11:33
+D:%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+D:%...............................%
+D:%.##+###+###+###+###+###+###+##.%
+D:%.#...#...#...#...#...#...#...#.%
+D:%.#...#...#...#...#...#...#...#.%
+D:%.#############################.%
+D:%.#...#...#...#...#...#...#...#.%
+D:%.#...#...#...#...#...#...#...#.%
+D:%.##+###+###+###+###+###+###+##.%
+D:%...............................%
+D:%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+N:2:Sixblock
+X:1:1:11:17
+D:%%%%%%%%%%%%%%%%%
+D:%...............%
+D:%.##+###+###+##.%
+D:%.#...#...#...#.%
+D:%.#...#...#...#.%
+D:%.#############.%
+D:%.#...#...#...#.%
+D:%.#...#...#...#.%
+D:%.##+###+###+##.%
+D:%...............%
+D:%%%%%%%%%%%%%%%%%
+
+N:3:Box room
+X:1:1:11:17
+D:%%%%%%%%%%%%%%%%%
+D:%...............%
+D:%.######+######.%
+D:%.#...........#.%
+D:%.#....#+#....#.%
+D:%.+....+.+....+.%
+D:%.#....#+#....#.%
+D:%.#...........#.%
+D:%.######+######.%
+D:%...............%
+D:%%%%%%%%%%%%%%%%%
+
+N:4:Pyramid
+X:1:1:10:17
+D:       #%#       
+D:      ##.##      
+D:     ##...##     
+D:    ##.....##    
+D:   ##.......##   
+D:  ##.........##  
+D: ##...........## 
+D:##.............##
+D:%...............%
+D:##%%%%%%%%%%%%%##
+
+N:5:Hex
+X:1:1:9:17
+D:   ###%%%%%###   
+D:  ##.........##  
+D: ##...........## 
+D:##.............##
+D:%...............%
+D:##.............##
+D: ##...........## 
+D:  ##.........##  
+D:   ###%%%%%###   
+
+N:6:Zed
+X:1:1:11:16
+D:%%%#############
+D:%..............#
+D:%..............#
+D:###########...##
+D:      ###...### 
+D:    ###...###   
+D:  ###...###     
+D:###...##########
+D:#..............%
+D:#..............%
+D:############%%%%
+
+
+
