@@ -546,7 +546,7 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 		        bigcurs = TRUE;
 			display_visual_list(g_name_len + 3, 7, browser_rows-1,
 			                             wid - (g_name_len + 3), attr_top, char_left);
-			place_visual_list_cursor(g_name_len + 3, 7, *o_funcs.xattr(oid), 
+			place_visual_list_cursor(g_name_len + 3, 7, *o_funcs.xattr(oid),
 										*o_funcs.xchar(oid), attr_top, char_left);
 		}
 
@@ -723,7 +723,7 @@ static void place_visual_list_cursor(int col, int row, byte a, byte c, byte attr
 
 
 /*
- * Remove the visual list and clear the screen 
+ * Remove the visual list and clear the screen
  */
 static void remove_visual_list(int col, int row, bool *visual_list_ptr, int width, int height)
 {
@@ -1964,7 +1964,7 @@ static int of_cmp_flagtype(const void *a, const void *b)
 static void do_cmd_knowledge_runes(const char *name, int row)
 {
 	group_funcs rune_groups = {OF_MAX, FALSE, obj_flagtype_name, of_cmp_flagtype, obj_flag_type, 0};
-	member_funcs runes_f = {display_rune, desc_rune, NULL, NULL, recall_prompt, NULL, false};
+	member_funcs runes_f = {display_rune, desc_rune, NULL, NULL, recall_prompt, NULL, FALSE};
 
 	int *runes;
 	int count = 0;
@@ -2045,7 +2045,7 @@ static void f_xtra_act(struct keypress ch, int oid)
 				case FEAT_LIGHTING_LIT:  f_uik_lighting = FEAT_LIGHTING_BRIGHT; break;
 				case FEAT_LIGHTING_BRIGHT:  f_uik_lighting = FEAT_LIGHTING_DARK; break;
 				default:	f_uik_lighting = FEAT_LIGHTING_LIT; break;
-		}		
+		}
 	} else if (ch.code == 'L') {
 		switch (f_uik_lighting) {
 				case FEAT_LIGHTING_DARK:  f_uik_lighting = FEAT_LIGHTING_BRIGHT; break;
@@ -2053,7 +2053,7 @@ static void f_xtra_act(struct keypress ch, int oid)
 				default:	f_uik_lighting = FEAT_LIGHTING_LIT; break;
 		}
 	}
-	
+
 }
 
 
