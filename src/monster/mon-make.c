@@ -596,7 +596,12 @@ static bool mon_create_drop(int m_idx, byte origin)
 
 		i_ptr = &object_type_body;
 		if (drop->artifact) {
-			if (drop->artifact->created) continue;
+			/* Do not create already-found artifacts. Note that this creates
+			 * a small chance of a specified artifact being created twice on
+			 * the same level - once as a random item and once as a specified
+			 * drop. This could be avoided by object accessors such as object_
+			 * _is_on_floor() or object_is_carried_by_mon() */
+			if (drop->artifact->seen) continue;
 			object_prep(i_ptr, objkind_get(drop->artifact->tval,
 				drop->artifact->sval), level, RANDOMISE);
 			i_ptr->artifact = drop->artifact;
