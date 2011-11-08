@@ -205,22 +205,18 @@ static bool py_attack_real(int y, int x, bool *fear) {
 			if (obj->kind)
 				improve_attack_modifier(obj, m_ptr, &best_s_ptr, TRUE, FALSE);
 		}
-
 		improve_attack_modifier(o_ptr, m_ptr, &best_s_ptr, TRUE, FALSE);
-		if (best_s_ptr != NULL)
-			hit_verb = best_s_ptr->melee_verb;
 
 		dmg = damroll(o_ptr->dd, o_ptr->ds);
 
 		if (best_s_ptr) {
+			hit_verb = best_s_ptr->melee_verb;
 			mult = best_s_ptr->mult;
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 				mult += 1;
 		}
-
 		dmg *= mult;
-
 		dmg += o_ptr->to_d;
 		dmg = critical_norm(o_ptr->weight, o_ptr->to_h, dmg, &msg_type);
 
@@ -547,6 +543,9 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 	if (best_s_ptr != NULL) {
 		result.hit_verb = best_s_ptr->range_verb;
 		multiplier += best_s_ptr->mult;
+		if (best_s_ptr->vuln_flag &&
+				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
+			multiplier += 1;
 	}
 
 	/* Apply damage: multiplier, slays, criticals, bonuses */
@@ -588,6 +587,9 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	if (best_s_ptr != NULL) {
 		result.hit_verb = best_s_ptr->range_verb;
 		multiplier += best_s_ptr->mult;
+		if (best_s_ptr->vuln_flag &&
+				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
+			multiplier += 1;
 	}
 
 	/* Apply damage: multiplier, slays, criticals, bonuses */

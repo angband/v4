@@ -193,6 +193,10 @@ void improve_attack_modifier(object_type *o_ptr, const monster_type
 		if ((known_only && !of_has(known_f, s_ptr->object_flag)) ||
 				(!known_only && !of_has(f, s_ptr->object_flag))) continue;
 
+		/* Disallow forbidden off-weapon slays/brands */
+		if (wield_slot(o_ptr) > INVEN_BOW && wield_slot(o_ptr) < INVEN_TOTAL
+ 				&& !s_ptr->nonweap) continue;
+
 		/* In a real attack, learn about monster resistance or slay match if:
 		 * EITHER the slay flag on the object is known,
 		 * OR the monster is vulnerable to the slay/brand
@@ -200,7 +204,8 @@ void improve_attack_modifier(object_type *o_ptr, const monster_type
 		if (real && (of_has(known_f, s_ptr->object_flag) || (s_ptr->monster_flag
 				&& rf_has(r_ptr->flags,	s_ptr->monster_flag)) ||
 				(s_ptr->resist_flag && !rf_has(r_ptr->flags,
-				s_ptr->resist_flag)))) {
+				s_ptr->resist_flag)) || (s_ptr->vuln_flag &&
+				rf_has(r_ptr->flags, s_ptr->vuln_flag)))) {
 
 			/* notice any brand or slay that would affect monster */
 			of_wipe(note_f);
@@ -212,6 +217,9 @@ void improve_attack_modifier(object_type *o_ptr, const monster_type
 
 			if (m_ptr->ml && s_ptr->resist_flag)
 				rf_on(l_ptr->flags, s_ptr->resist_flag);
+
+			if (m_ptr->ml && s_ptr->vuln_flag)
+				rf_on(l_ptr->flags, s_ptr->vuln_flag);
 		}
 
 		/* If the monster doesn't resist or the slay flag matches */
@@ -366,7 +374,8 @@ bool obj_hurts_mon(bitflag *flags, const monster_type *m_ptr)
 		if (of_has(flags, s_ptr->object_flag) && ((s_ptr->monster_flag
 				&& rf_has(r_ptr->flags,	s_ptr->monster_flag)) ||
 				(s_ptr->resist_flag && !rf_has(r_ptr->flags,
-				s_ptr->resist_flag))))
+				s_ptr->resist_flag)) || (s_ptr->vuln_flag &&
+				rf_has(r_ptr->flags, s_ptr->vuln_flag))))
 			return TRUE;
 	}
 	return FALSE;

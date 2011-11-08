@@ -39,8 +39,8 @@ struct slay {
 	int monster_flag;			/* Which monster flag(s) make it vulnerable */
 	int resist_flag;			/* Which monster flag(s) make it resist */
 	int vuln_flag;				/* Which monster flag(s) make it extra vuln */
-	bool offweap;				/* Can this slay be found on nonweapons? */
 	int mult;					/* Slay multiplier */
+	bool nonweap;				/* Can this slay be found on nonweapons? */
 	const char *range_verb;		/* attack verb for ranged hits */
 	const char *melee_verb; 	/* attack verb for melee hits */
 	const char *active_verb; 	/* verb for when the object is active */

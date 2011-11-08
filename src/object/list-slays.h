@@ -11,14 +11,14 @@
  * resist flag - monsters with this ignore the brand
  * vuln flag - monsters with this take extra damage (mult += 1)
  * multiplier
- * offweap - whether or not this slay/brand can be provided by nonweapons
+ * nonweap - whether or not this slay/brand can be provided by nonweapons
  * ranged verb - when missiles have this slay
  * melee verb - when melee weapons have this slay
  * verb describing what the thing does when it is active
  * description of affected creatures
  * brand name
  */
-/*   name		object flag		mon flag	res flag 	vuln flag		mlt offweap	ranged verb			melee verb			active verb			affected creatures							brand name */
+/*   name		object flag		mon flag	res flag 	vuln flag		mlt nonweap	ranged verb			melee verb			active verb			affected creatures							brand name */
 SLAY(XXX, 		FLAG_END,       FLAG_END,  	FLAG_END,	FLAG_END,		0,	FALSE,	NULL,	    		NULL,      			NULL,         		NULL, 										NULL)
 SLAY(IMPACT,	OF_IMPACT,		FLAG_END,	FLAG_END,	RF_HURT_ROCK,	1,	TRUE,	"bores into",		"hack at",			"hums",				"creatures made of stone",					NULL)
 SLAY(TUNNEL,	OF_TUNNEL,		FLAG_END,	FLAG_END,	RF_HURT_ROCK,	1,	FALSE,	"bores into",		"hack at",			"hums",				"creatures made of stone",					NULL)
