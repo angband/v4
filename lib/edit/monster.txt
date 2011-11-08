@@ -6287,6 +6287,7 @@ S:BR_ACID | BR_COLD | BR_CHAO | BR_ELEC | BR_FIRE | BR_GRAV
 S:BR_NEXU | BR_SHAR | BR_SOUN
 D:A large dragon with a selection of heads, all shouting and arguing as they
 D: look for prey, but each with its own deadly breath weapon.
+drop-artifact:[Resistances of Scarabtarices]
 
 N:426:7-headed hydra
 T:hydra
@@ -6554,6 +6555,7 @@ F:OPEN_DOOR | BASH_DOOR | MOVE_BODY
 F:IM_POIS
 D:A tall black cloaked Ringwraith, he is a master of horsemanship.  He longs to
 D: taste your blood.
+drop-artifact:[Ethereal Openings]
 
 N:441:Minotaur
 T:hybrid
@@ -7510,7 +7512,7 @@ D:A lord of the Teleri, Eöl is a mighty metalsmith, the only one to ever
 D: forge weapons of meteorite iron.  The mortal enemy of the Eldar, he is
 D: currently fleeing their wrath, following the murder of Princess Aredhel of
 D: Gondolin.
-
+drop-artifact:[Raal's Tome of Destruction]
 
 
 ########## DUNGEON LEVELS 50-59 ##########
@@ -7561,6 +7563,8 @@ S:S_DEMON | S_UNDEAD
 D:A huge Balrog surrounded by raging pillars of fire, this is indeed a terrible
 D: opponent.  Wielding a great whip of fire and a blazing sword, his fury
 D: blisters your skin and melts your flesh!
+drop-artifact:[Godly Insights]
+
 
 ### Dungeon level 51 ###
 
@@ -8137,6 +8141,7 @@ S:S_ANIMAL | S_DEMON | S_HI_DRAGON | S_MONSTERS | S_UNDEAD
 D:Originally known as the White, Saruman fell prey to Sauron's wiles.  He seeks
 D: to emulate him and breeds orcs and trolls to fight for him.  He searches
 D: forever for the One Ring, to become a mighty Sorcerer-King of the world.
+drop-artifact:[Mordenkainen's Escapes]
 
 ### Dungeon level 61 ###
 
@@ -8187,6 +8192,7 @@ D:The Maia who sails the Sun across the sky has descended into Angband to kill
 D: you. She wears no mortal shell; her body is made of fiery golden light,
 D: painfully bright even when you close your eyes, and hot enough to melt armor
 D: and flesh alike.
+drop-artifact:[Purifications and Healing]
 
 N:568:Bile Demon
 T:major demon
@@ -8780,6 +8786,7 @@ D:Glaurung is the father of all dragons, and was for a long time the most
 D: powerful.  Though this is no longer so, he still has full command over his
 D: brood and can command them to appear whenever he so wishes.  He is the
 D: definition of dragonfire.
+drop-artifact:[Tenser's Transformations]
 
 ### Dungeon level 71 ###
 
@@ -8841,6 +8848,7 @@ S:BO_MANA
 S:S_HI_UNDEAD
 D:A warrior-king of the East.  Khamûl is a powerful opponent, his skill in
 D: combat awesome and his form twisted by evil cunning.
+drop-artifact:[Holy Infusions]
 
 N:571:Horned Reaper
 T:major demon
@@ -9425,6 +9433,7 @@ S:S_HI_DEMON | S_UNDEAD
 D:A massive form cloaked in flame.  Lungorthin stares balefully at you with eyes
 D: that smoulder red.  The dungeon floor where he stands is scorched by the heat
 D: of his body.
+drop-artifact:[Kelek's Grimoire of Power]
 
 
 ########## DUNGEON LEVELS 90-100 ##########
@@ -9496,6 +9505,7 @@ S:BO_MANA
 S:S_HI_DEMON | S_HI_UNDEAD | S_KIN | S_MONSTERS
 D:The greatest of all undead sorcerers, even the gods once feared him.  This
 D: ancient shadow of death wilts every living thing it passes.
+drop-artifact:[Wrath of God]
 
 ### Dungeon level 95 ###
 
