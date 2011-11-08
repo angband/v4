@@ -596,6 +596,7 @@ static bool mon_create_drop(int m_idx, byte origin)
 
 		i_ptr = &object_type_body;
 		if (drop->artifact) {
+			if (drop->artifact->created) continue;
 			object_prep(i_ptr, objkind_get(drop->artifact->tval,
 				drop->artifact->sval), level, RANDOMISE);
 			i_ptr->artifact = drop->artifact;
