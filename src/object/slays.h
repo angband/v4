@@ -22,7 +22,7 @@
 /* Types of slay (including brands) */
 typedef enum
 {
-	#define SLAY(a, b, c, d, e, f, g, h, i, j, k)    SL_##a,
+	#define SLAY(a, b, c, d, e, f, g, h, i, j, k, l)    SL_##a,
 	#include "list-slays.h"
 	#undef SLAY
 
@@ -39,6 +39,7 @@ struct slay {
 	int monster_flag;			/* Which monster flag(s) make it vulnerable */
 	int resist_flag;			/* Which monster flag(s) make it resist */
 	int vuln_flag;				/* Which monster flag(s) make it extra vuln */
+	bool offweap;				/* Can this slay be found on nonweapons? */
 	int mult;					/* Slay multiplier */
 	const char *range_verb;		/* attack verb for ranged hits */
 	const char *melee_verb; 	/* attack verb for melee hits */

@@ -25,8 +25,8 @@
  */
 const struct slay slay_table[] =
 {
-	#define SLAY(a, b, c, d, e, f, g, h, i, j, k) \
-		{ SL_##a, b, c, d, e, f, g, h, i, j, k},
+	#define SLAY(a, b, c, d, e, f, g, h, i, j, k, l) \
+		{ SL_##a, b, c, d, e, f, g, h, i, j, k, l},
 	#include "list-slays.h"
 	#undef SLAY
 };
