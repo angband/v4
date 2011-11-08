@@ -1241,9 +1241,11 @@ static bool describe_origin(textblock *tb, const object_type *o_ptr)
  * real object)
  */
 static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
-	bool ego)
+	oinfo_detail_t mode)
 {
 	int i, count = 0;
+	bool ego = mode & OINFO_EGO;
+	bool subj = mode & OINFO_SUBJ;
 
 	/* Display the known artifact description */
 	if (!OPT(birth_randarts) && o_ptr->artifact &&
@@ -1290,7 +1292,7 @@ static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
 	if (count)
 		textblock_append(tb, ".\n\n");
 
-	if (!ego && o_ptr->origin != ORIGIN_STORE) {
+	if (!ego && subj && o_ptr->origin != ORIGIN_STORE) {
 		/* List the item's known runes */
 		count = 0;
 		for (i = 0; i < OF_MAX; i++)
@@ -1385,7 +1387,7 @@ static textblock *object_info_out(const object_type *o_ptr, oinfo_detail_t mode)
 	}
 
 	if (subjective) describe_origin(tb, o_ptr);
-	if (!terse) describe_flavor_text(tb, o_ptr, ego);
+	if (!terse) describe_flavor_text(tb, o_ptr, mode);
 
 	if (!full && !known)
 	{
