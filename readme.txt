@@ -18,7 +18,7 @@ and will remain largely written in C. Sorry Python fans!
 	
 - it isn't a variant with a theme - we're not suddenly going for a 
 Cthulhu or Cyberpunk or McAffrey flavour. It will remain a 100-level 
-Tolkein/D&D-esque dungeon romp based on V, with the same basic 
+Tolkien/D&D-esque dungeon romp based on V, with the same basic 
 fantasy/mythical races/classes/monsters. Probably.
 	
 Other than that, there are no other strictures - anything could go in, 
