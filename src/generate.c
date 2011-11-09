@@ -1894,12 +1894,17 @@ static bool build_pit(struct cave *c, int y0, int x0)
  */
 
 
-static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xmax, const char *data)
+static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xmax, int doors, const char *data)
 {
-	int dx, dy, x, y;
+	int dx, dy, x, y, rnddoors, doorpos;
 	const char *t;
 
 	assert(c);
+
+	/* set the random door position here so it generates doors in all squares
+	 * marked with the same number */
+
+    rnddoors = randint1(doors);
 
     /* generate_room(c, y0, x0, ymax, xmax, light) */
 
@@ -1924,6 +1929,27 @@ static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xm
 				case '%': cave_set_feat(c, y, x, FEAT_WALL_OUTER); break;
 				case '#': cave_set_feat(c, y, x, FEAT_WALL_SOLID); break;
                 case '+': place_secret_door(c, y, x); break;
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9': {
+
+                    /* Check if this is chosen random door position */
+
+                    doorpos = atoi(t);
+
+                    if (doorpos == rnddoors)
+                        place_secret_door(c, y, x);
+                    else
+                        cave_set_feat(c, y, x, FEAT_WALL_SOLID);
+
+                    break;
+                }
             }
 
         /* Part of a room */
@@ -1947,10 +1973,10 @@ static bool build_room_template_type(struct cave*c, int y0, int x0, int typ, con
 	ROOM_LOG("Room template (%s)", t_ptr->name);
 
 	/* Boost the rating */
-	c->mon_rating += t_ptr->rat;
+	/* c->mon_rating += t_ptr->rat; */
 
 	/* Build the room */
-	build_room_template(c, y0, x0, t_ptr->hgt, t_ptr->wid, t_ptr->text);
+	build_room_template(c, y0, x0, t_ptr->hgt, t_ptr->wid, t_ptr->dor, t_ptr->text);
 
 	return TRUE;
 }

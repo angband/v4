@@ -135,6 +135,7 @@ typedef struct room_template {
 
 	byte hgt;			/* Room height */
 	byte wid;			/* Room width */
+	byte dor;           /* Random door options */
 } room_template_type;
 
 
