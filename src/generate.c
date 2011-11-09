@@ -1896,7 +1896,7 @@ static bool build_pit(struct cave *c, int y0, int x0)
 
 static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xmax, int doors, const char *data)
 {
-	int dx, dy, x, y, rnddoors, doorpos;
+	int dx, dy, x, y, rnddoors, rndwalls, doorpos;
 	const char *t;
 
 	assert(c);
@@ -1905,17 +1905,16 @@ static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xm
 	 * marked with the same number */
 
     rnddoors = randint1(doors);
+    rndwalls = one_in_(2);
 
-    /* generate_room(c, y0, x0, ymax, xmax, light) */
-
-	/* Place dungeon features and objects */
+    /* Place dungeon features and objects */
 	for (t = data, dy = 0; dy < ymax && *t; dy++) {
 		for (dx = 0; dx < xmax && *t; dx++, t++) {
 			/* Extract the location */
 			x = x0 - (xmax / 2) + dx;
 			y = y0 - (ymax / 2) + dy;
 
-						/* Skip non-grids */
+			/* Skip non-grids */
 			if (*t == ' ') continue;
 
 			/* Lay down a floor */
@@ -1929,6 +1928,16 @@ static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xm
 				case '%': cave_set_feat(c, y, x, FEAT_WALL_OUTER); break;
 				case '#': cave_set_feat(c, y, x, FEAT_WALL_SOLID); break;
                 case '+': place_secret_door(c, y, x); break;
+                case 'x': {
+                    if (rndwalls)
+                        cave_set_feat(c, y, x, FEAT_WALL_SOLID);
+                    break;
+                }
+                case '|': {
+                    if (rndwalls)
+                        place_secret_door(c, y, x);
+                    break;
+                }
                 case '1':
                 case '2':
                 case '3':
