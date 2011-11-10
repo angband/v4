@@ -1979,10 +1979,10 @@ static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xm
                     /* And maybe a bit of treasure */
 
                     if (one_in_(2))
-                        vault_objects(c, y - 2, x + 2, c->depth, 1 + randint0(3));
+                        vault_objects(c, y - 2, x + 2, c->depth, 1 + randint0(2));
 
                     if (one_in_(2))
-                        vault_objects(c, y + 2, x - 2, c->depth, 1 + randint0(3));
+                        vault_objects(c, y + 2, x - 2, c->depth, 1 + randint0(2));
 
                     break;
 
