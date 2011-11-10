@@ -1901,11 +1901,11 @@ static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xm
 
 	assert(c);
 
-	/* set the random door position here so it generates doors in all squares
+	/* Set the random door position here so it generates doors in all squares
 	 * marked with the same number */
 	rnddoors = randint1(doors);
 
-	/* decide whether optional walls will be generated this time */
+	/* Decide whether optional walls will be generated this time */
 	bool rndwalls = one_in_(2) ? TRUE : FALSE;
 
 	/* Occasional light */
@@ -1930,7 +1930,7 @@ static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xm
 			/* Debugging assertion */
 			assert(cave_isempty(c, y, x));
 
-				/* Analyze the grid */
+			/* Analyze the grid */
 			switch (*t) {
 				case '%': cave_set_feat(c, y, x, FEAT_WALL_OUTER); break;
 				case '#': cave_set_feat(c, y, x, FEAT_WALL_SOLID); break;
@@ -2030,9 +2030,6 @@ static bool build_room_template_type(struct cave*c, int y0, int x0, int typ, con
 	}
 
 	ROOM_LOG("Room template (%s)", t_ptr->name);
-
-	/* Boost the rating */
-	/* c->mon_rating += t_ptr->rat; */
 
 	/* Build the room */
 	build_room_template(c, y0, x0, t_ptr->hgt, t_ptr->wid, t_ptr->dor, t_ptr->text);
