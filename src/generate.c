@@ -1896,16 +1896,23 @@ static bool build_pit(struct cave *c, int y0, int x0)
 
 static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xmax, int doors, const char *data)
 {
-	int dx, dy, x, y, rnddoors, rndwalls, doorpos;
+	int dx, dy, x, y, rnddoors, doorpos;
 	const char *t;
 
 	assert(c);
 
 	/* set the random door position here so it generates doors in all squares
 	 * marked with the same number */
-
     rnddoors = randint1(doors);
-    rndwalls = one_in_(2);
+
+    /* decide whether optional walls will be generated this time */
+    bool rndwalls = one_in_(2) ? TRUE : FALSE;
+
+    /* Occasional light */
+	bool light = c->depth <= randint1(25) ? TRUE : FALSE;
+
+    /* Mark interior squares as being in a room (optionally lit) */
+	int info = CAVE_ROOM | (light ? CAVE_GLOW : 0);
 
     /* Place dungeon features and objects */
 	for (t = data, dy = 0; dy < ymax && *t; dy++) {
@@ -1929,14 +1936,56 @@ static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xm
 				case '#': cave_set_feat(c, y, x, FEAT_WALL_SOLID); break;
                 case '+': place_secret_door(c, y, x); break;
                 case 'x': {
+
+                    /* If optional walls are generated, put a wall in this square */
+
                     if (rndwalls)
                         cave_set_feat(c, y, x, FEAT_WALL_SOLID);
                     break;
                 }
-                case '|': {
+                case '=': {
+
+                    /* If optional walls are generated, put a door in this square */
+
                     if (rndwalls)
                         place_secret_door(c, y, x);
                     break;
+                }
+                case '~': {
+
+                    /* Put something nice in this square
+                     * Object (80%) or Stairs (20%) */
+                    if (randint0(100) < 80)
+                        place_object(c, y, x, c->depth, FALSE, FALSE, ORIGIN_SPECIAL);
+                    else
+                        place_random_stairs(c, y, x);
+
+                    /* Some monsters to guard it */
+                    vault_monsters(c, y, x, c->depth + 2, randint0(2) + 3);
+
+                    /* And some traps too */
+                    vault_traps(c, y, x, 4, 4, randint0(3) + 2);
+
+                    break;
+                }
+                case '!': {
+
+                    /* Create some interesting stuff nearby */
+
+                    /* A few monsters */
+                    vault_monsters(c, y - 3, x - 3, c->depth + randint0(2), randint1(2));
+                    vault_monsters(c, y + 3, x + 3, c->depth + randint0(2), randint1(2));
+
+                    /* And maybe a bit of treasure */
+
+                    if (one_in_(2))
+                        vault_objects(c, y - 2, x + 2, c->depth, 1 + randint0(3));
+
+                    if (one_in_(2))
+                        vault_objects(c, y + 2, x - 2, c->depth, 1 + randint0(3));
+
+                    break;
+
                 }
                 case '1':
                 case '2':
@@ -1962,7 +2011,8 @@ static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xm
             }
 
         /* Part of a room */
-        c->info[y][x] |= CAVE_ROOM;
+        c->info[y][x] |= info;
+
 		}
 	}
 }
