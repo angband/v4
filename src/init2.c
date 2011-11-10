@@ -93,13 +93,13 @@ static struct history_chart *findchart(struct history_chart *hs, unsigned int id
  * Find the default paths to all of our important sub-directories.
  *
  * All of the sub-directories should, by default, be located inside
- * the main directory, whose location is very system dependant and is 
+ * the main directory, whose location is very system dependant and is
  * set by the ANGBAND_PATH environment variable, if it exists. (On multi-
  * user systems such as Linux this is not the default - see config.h for
  * more info.)
  *
  * This function takes a writable buffers, initially containing the
- * "path" to the "config", "lib" and "data" directories, for example, 
+ * "path" to the "config", "lib" and "data" directories, for example,
  * "/etc/angband/", "/usr/share/angband" and "/var/games/angband" -
  * or a system dependant string, for example, ":lib:".  The buffer
  * must be large enough to contain at least 32 more characters.
@@ -2320,13 +2320,88 @@ struct file_parser v_parser = {
 	cleanup_v
 };
 
+/* Parsing functions for room_template.txt */
+static enum parser_error parse_room_n(struct parser *p) {
+	struct room_template *h = parser_priv(p);
+	struct room_template *t = mem_zalloc(sizeof *t);
+
+	t->tidx = parser_getuint(p, "index");
+	t->name = string_make(parser_getstr(p, "name"));
+	t->next = h;
+	parser_setpriv(p, t);
+	return PARSE_ERROR_NONE;
+}
+
+static enum parser_error parse_room_x(struct parser *p) {
+	struct room_template *t = parser_priv(p);
+
+	if (!t)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+	t->typ = parser_getuint(p, "type");
+	t->rat = parser_getint(p, "rating");
+	t->hgt = parser_getuint(p, "height");
+	t->wid = parser_getuint(p, "width");
+	t->dor = parser_getuint(p, "doors");
+
+	return PARSE_ERROR_NONE;
+}
+
+static enum parser_error parse_room_d(struct parser *p) {
+	struct room_template *t = parser_priv(p);
+
+	if (!t)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+	t->text = string_append(t->text, parser_getstr(p, "text"));
+	return PARSE_ERROR_NONE;
+}
+
+struct parser *init_parse_room(void) {
+	struct parser *p = parser_new();
+	parser_setpriv(p, NULL);
+	parser_reg(p, "V sym version", ignored);
+	parser_reg(p, "N uint index str name", parse_room_n);
+	parser_reg(p, "X uint type int rating uint height uint width uint doors", parse_room_x);
+	parser_reg(p, "D str text", parse_room_d);
+	return p;
+}
+
+static errr run_parse_room(struct parser *p) {
+	return parse_file(p, "room_template");
+}
+
+static errr finish_parse_room(struct parser *p) {
+	room_templates = parser_priv(p);
+	parser_destroy(p);
+	return 0;
+}
+
+static void cleanup_room(void)
+{
+	struct room_template *t, *next;
+	for (t = room_templates; t; t = next) {
+		next = t->next;
+		mem_free(t->name);
+		mem_free(t->text);
+		mem_free(t);
+	}
+}
+
+struct file_parser room_parser = {
+	"room_template",
+	init_parse_room,
+	run_parse_room,
+	finish_parse_room,
+	cleanup_room
+};
+
+
 /* Parsing functions for p_hist.txt */
 static enum parser_error parse_h_n(struct parser *p) {
 	struct history_chart *oc = parser_priv(p);
 	struct history_chart *c;
 	struct history_entry *e = mem_zalloc(sizeof *e);
 	unsigned int idx = parser_getuint(p, "chart");
-	
+
 	if (!(c = findchart(oc, idx))) {
 		c = mem_zalloc(sizeof *c);
 		c->next = oc;
@@ -2710,7 +2785,7 @@ static errr run_parse_mp(struct parser *p) {
 
 static errr finish_parse_mp(struct parser *p) {
 	struct monster_pain *mp, *n;
-		
+
 	/* scan the list for the max id */
 	z_info->mp_max = 0;
 	mp = parser_priv(p);
@@ -3282,7 +3357,11 @@ void init_arrays(void)
 	event_signal_string(EVENT_INITSTATUS, "Initializing arrays... (monster pits)");
 	if (run_parser(&pit_parser)) quit("Cannot initialize monster pits");
 
-	/* Initialize feature info */
+	/* Initialize room template info */
+	event_signal_string(EVENT_INITSTATUS, "Initializing arrays... (room templates)");
+	if (run_parser(&room_parser)) quit("Cannot initialize room templates");
+
+	/* Initialize vault info */
 	event_signal_string(EVENT_INITSTATUS, "Initializing arrays... (vaults)");
 	if (run_parser(&v_parser)) quit("Cannot initialize vaults");
 

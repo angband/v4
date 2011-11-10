@@ -12,6 +12,7 @@ void place_secret_door(struct cave *c, int y, int x);
 void place_closed_door(struct cave *c, int y, int x);
 void place_random_door(struct cave *c, int y, int x);
 
+extern struct room_template *random_room_template(int typ);
 extern struct vault *random_vault(int typ);
 
 struct tunnel_profile {
@@ -25,7 +26,7 @@ struct tunnel_profile {
 
 struct streamer_profile {
 	const char *name;
-    int den; /* Density of streamers */    
+    int den; /* Density of streamers */
     int rng; /* Width of streamers */
     int mag; /* Number of magma streamers */
     int mc; /* 1/chance of treasure per magma */
@@ -82,7 +83,7 @@ struct pit_color_profile {
 
 struct pit_forbidden_monster {
 	struct pit_forbidden_monster *next;
-	
+
 	int r_idx;
 };
 
@@ -98,8 +99,8 @@ typedef struct pit_profile {
 	bitflag flags[RF_SIZE];         /* Required flags */
 	bitflag forbidden_flags[RF_SIZE];
 	bitflag spell_flags[RSF_SIZE];  /* Required spell flags */
-	bitflag forbidden_spell_flags[RSF_SIZE]; 
-	int n_bases; 
+	bitflag forbidden_spell_flags[RSF_SIZE];
+	int n_bases;
 	struct monster_base *base[MAX_RVALS];
 	struct pit_color_profile *colors;
 	struct pit_forbidden_monster *forbidden_monsters;
