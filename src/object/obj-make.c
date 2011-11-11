@@ -229,7 +229,7 @@ static int obj_find_affix(object_type *o_ptr, int level, int max_lev,
 					o_ptr->sval >= ego->min_sval[j] &&
 					o_ptr->sval <= ego->max_sval[j] &&
 					level >= ego->alloc_min[j] &&
-					level <= ego->alloc_max[j] &&
+					p_ptr->depth <= ego->alloc_max[j] &&
 					((affix_is_quality(i) && !quality) ||
 					(affix_is_make(i) && !make) ||
 					(affix_is_material(i) && !material) ||
@@ -280,7 +280,7 @@ static int obj_find_theme(object_type *o_ptr, int level)
 					o_ptr->sval >= theme->min_sval[j] &&
 					o_ptr->sval <= theme->max_sval[j] &&
 					level >= theme->alloc_min[j] &&
-					level <= theme->alloc_max[j]) {
+					p_ptr->depth <= theme->alloc_max[j]) {
 				table[i].index = theme->index;
 				break;
 			}
