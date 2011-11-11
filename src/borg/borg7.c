@@ -216,7 +216,7 @@ bool borg_item_icky(borg_item *item)
             item = &borg_items[slot];
 
             /* Is my item an ego or artifact? */
-            if (item->name2 || item->name1) return (TRUE);
+            if (item->has_affix || item->name1) return (TRUE);
         }
     /* Assume not icky, I should have extra ID for the item */
     return (FALSE);
@@ -1052,7 +1052,7 @@ static bool borg_enchant_to_h(void)
 		 */
 		if (i == INVEN_BOW &&  /* bow */
 			my_ammo_power < 3 && /* 3x shooter */
-			(!item->name1 && !item->name2)) /* Not artifact or ego */
+			(!item->name1 && !item->has_affix)) /* Not artifact or ego */
 			continue;
 
         /* Find the least enchanted item */
@@ -1107,7 +1107,7 @@ static bool borg_enchant_to_h(void)
 			/* Only enchant ammo if we have a good shooter,
 			 * otherwise, store the enchants in the home.
 			 */
-			if (my_ammo_power < 3 || (!borg_items[INVEN_BOW].name1 && !borg_items[INVEN_BOW].name2)) continue;
+			if (my_ammo_power < 3 || (!borg_items[INVEN_BOW].name1 && !borg_items[INVEN_BOW].has_affix)) continue;
 
             /* Only enchant if qty >= 5 */
             if (item->iqty < 5) continue;
@@ -1234,7 +1234,7 @@ static bool borg_enchant_to_d(void)
 		 */
 		if (i == INVEN_BOW &&  /* bow */
 			my_ammo_power < 3 && /* 3x shooter */
-			(!item->name1 && !item->name2)) /* Not artifact or ego */
+			(!item->name1 && !item->has_affix)) /* Not artifact or ego */
 			continue;
 
         /* Find the least enchanted item */
@@ -1291,7 +1291,7 @@ static bool borg_enchant_to_d(void)
 			/* Only enchant ammo if we have a good shooter,
 			 * otherwise, store the enchants in the home.
 			 */
-			if (my_ammo_power < 3 || (!borg_items[INVEN_BOW].name1 && !borg_items[INVEN_BOW].name2)) continue;
+			if (my_ammo_power < 3 || (!borg_items[INVEN_BOW].name1 && !borg_items[INVEN_BOW].has_affix)) continue;
 
 			/* Only enchant ammo if we have a good shooter,
 			 * otherwise, store the enchants in the home.
@@ -1393,7 +1393,7 @@ static bool borg_brand_weapon(void)
             a = item->to_h;
 
             /* Skip branded items */
-            if (item->name2) continue;
+            if (item->has_affix) continue;
 
             /* Find the most enchanted item */
             if ((b_i >= 0) && (b_a > a)) continue;
@@ -1964,7 +1964,7 @@ bool borg_crush_junk(void)
             (item->tval == TV_WAND && item->sval == SV_WAND_DRAIN_LIFE) ||
             (item->tval == TV_WAND && item->sval == SV_WAND_ANNIHILATION) ||
             (item->tval == TV_WAND && item->sval == SV_WAND_TELEPORT_AWAY && borg_class == CLASS_WARRIOR) ||
-            (item->tval == TV_CLOAK && item->name2 == EGO_AMAN) ||
+            (item->tval == TV_CLOAK && item->has_affix /*TODO Did test for EGO_AMAN */) ||
             (item->tval == TV_SCROLL && item->sval == SV_SCROLL_TELEPORT_LEVEL &&
              borg_skill[BI_ATELEPORTLVL] < 1000) ||
             (item->tval == TV_SCROLL && item->sval == SV_SCROLL_PROTECTION_FROM_EVIL))
@@ -2204,7 +2204,7 @@ bool borg_crush_hole(void)
         if (item->tval == TV_SCROLL && item->sval == SV_SCROLL_RUNE_OF_PROTECTION) continue;
         if (item->tval == TV_SCROLL && item->sval == SV_SCROLL_TELEPORT_LEVEL &&
             borg_skill[BI_ATELEPORTLVL] < 1000 ) continue;
-        if (item->tval == TV_CLOAK && item->name2 == EGO_AMAN) continue;
+        if (item->tval == TV_CLOAK && item->has_affix /* TODO did test for EGO_AMAN*/) continue;
         if (item->tval == TV_ROD && (item->sval == SV_ROD_HEALING ||
             (item->sval == SV_ROD_MAPPING && borg_class == CLASS_WARRIOR)) &&
             item->iqty <= 5) continue;
@@ -2292,7 +2292,7 @@ bool borg_crush_hole(void)
                     p -= (item->iqty * value * 5);
                     break;
                 case TV_CLOAK:
-                    if (item->name2 != EGO_AMAN)
+                    if (item->has_affix /* TODO did test for EGO_AMAN */)
                     p -=(item->iqty *(300000L));
                     else
                     p -= (item->iqty * value);
@@ -2731,8 +2731,7 @@ bool borg_test_stuff(void)
         if (item->fully_identified) continue;
         if (item->ident && item->needs_I) continue;
 
-		if (e_info[borg_items[INVEN_OUTER].name2].xtra == OBJECT_XTRA_TYPE_RESIST ||
-				e_info[borg_items[INVEN_OUTER].name2].xtra == OBJECT_XTRA_TYPE_POWER)
+		if (borg_items[INVEN_OUTER].has_affix)
 	        {
 					v = item->value + 100000L;
             }
@@ -3628,7 +3627,7 @@ bool borg_stack_quiver(void)
 			if (p == i) continue;
 
 			/* Compare the slots */
-			if (item->name2 == slot->name2 &&
+			if (item->has_affix == slot->has_affix &&
 				item->to_d == slot->to_d &&
 				item->to_h == slot->to_h &&
 				item->dd == slot->dd &&
@@ -4269,13 +4268,12 @@ bool borg_wear_quiver(void)
 			{
 				slot = &borg_items[p];
 
-				if (item->name2 == slot->name2 &&
+				if (item->has_affix == slot->has_affix &&
 					item->dd  == slot->dd &&
 					item->ds  == slot->ds &&
 					item->to_d  == slot->to_d &&
 					item->to_h  == slot->to_h)
 				{
-					match = TRUE;
 					b_i = i;
 				}
 			}

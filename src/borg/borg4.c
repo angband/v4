@@ -370,7 +370,7 @@ static void borg_notice_aux1(void)
          * thus encouraging him to remove the non-helpful-non-harmful but
          * heavy-none-the-less item.
          */
-        if ((!item->name1 && !item->name2) &&
+        if ((!item->name1 && !item->has_affix) &&
              item->ac >= 1 && item->to_a + item->ac <= 0)
         {
             item->to_a = -20;
@@ -726,7 +726,7 @@ static void borg_notice_aux1(void)
 		 */
 		if (i == INVEN_BOW &&  /* bow */
 			my_ammo_power < 3 && /* 3x shooter */
-			(!item->name1 && !item->name2)) /* Not Ego or Artifact */
+			(!item->name1 && !item->has_affix)) /* Not Ego or Artifact */
 			continue;
 
         /* Enchant all weapons (to hit) */
@@ -874,7 +874,7 @@ static void borg_notice_aux1(void)
 				 borg_spell_legal_fail(7, 5, 65)) &&
 			  item->iqty >=5 &&
 			  /* Skip artifacts and ego-items */
-			  !item->name2 &&
+			  !item->has_affix &&
 			  !item->name1 &&
 			  item->ident &&
 			  item->tval == my_ammo_tval)
@@ -1492,7 +1492,7 @@ static void borg_notice_aux2(void)
             if (item->value <= 0) break;
 
             /* Count plain missiles */
-            if (!item->name2) borg_skill[BI_AMISSILES] += item->iqty;
+            if (!item->has_affix) borg_skill[BI_AMISSILES] += item->iqty;
 
 			/* Only enchant ammo if we have a good shooter,
 			 * otherwise, store the enchants in the home.
@@ -1504,7 +1504,7 @@ static void borg_notice_aux2(void)
               item->iqty >=5 &&
               /* Skip artifacts and ego-items */
               !item->name1 &&
-              !item->name2 &&
+              !item->has_affix &&
               item->ident &&
               item->tval == my_ammo_tval)
               {
@@ -3112,7 +3112,6 @@ static void borg_notice_home_aux1(borg_item *in_item, bool no_items)
     num_duplicate_items = 0;
 }
 
-
 /*
  * This checks for duplicate items in the home
  */
@@ -3123,11 +3122,11 @@ static void borg_notice_home_dupe(borg_item *item, bool check_sval, int i)
 
     int dupe_count, x;
     borg_item *item2;
-	ego_item_type *e_ptr = &e_info[item->name2];
 
     /* check for a duplicate.  */
-    /* be carefull about extra powers (elvenkind/magi) */
-    if (e_ptr->xtra == OBJECT_XTRA_TYPE_RESIST || e_ptr->xtra == OBJECT_XTRA_TYPE_POWER) return;
+    /* be careful about extra powers (elvenkind/magi) */
+	if (item->has_affix)
+		return;
 
     /* if this is a stack of items then all after the first are a */
     /* duplicate */
@@ -3151,7 +3150,7 @@ static void borg_notice_home_dupe(borg_item *item, bool check_sval, int i)
         if ( (item->tval == item2->tval) &&
              (check_sval ? (item->sval == item2->sval) : TRUE) &&
              (item->name1 == item2->name1) &&
-             (item->name2 == item2->name2) )
+             (item->has_affix == item2->has_affix) )
         {
             dupe_count++;
         }
@@ -3303,8 +3302,7 @@ static void borg_notice_home_aux2(borg_item *in_item, bool no_items)
             num_artifact += item->iqty;
         }
         /* count egos that need *ID* */
-        if ((e_info[item->name2].xtra  == OBJECT_XTRA_TYPE_RESIST || e_info[item->name2].xtra == OBJECT_XTRA_TYPE_POWER) &&
-			!item->fully_identified)
+        if (item->has_affix && !item->fully_identified)
         {
             num_ego += item->iqty;
         }
@@ -4543,9 +4541,8 @@ static s32b borg_power_aux1(void)
 	 * this way he will pull it from the house and *ID* it.
 	 */
 	if (amt_ego ||
-	    ((e_info[borg_items[INVEN_OUTER].name2].xtra == OBJECT_XTRA_TYPE_RESIST ||
-	     e_info[borg_items[INVEN_OUTER].name2].xtra == OBJECT_XTRA_TYPE_POWER)) &&
-	     !borg_items[INVEN_OUTER].fully_identified) value += 999999L;
+	    (borg_items[INVEN_OUTER].has_affix &&
+	     !borg_items[INVEN_OUTER].fully_identified)) value += 999999L;
 
     /*** Penalize various things ***/
 

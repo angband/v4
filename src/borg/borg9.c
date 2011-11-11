@@ -3660,8 +3660,8 @@ static void borg_display_item(object_type *item2)
 	prt(format("pval = %-5d  toac = %-5d  tohit = %-4d  todam = %-4d",
 	           item->pval, item->to_a, item->to_h, item->to_d), 6, j);
 
-	prt(format("name1 = %-4d  name2 = %-4d  value = %d   cursed = %ld",
-	           item->name1, item->name2, (long)item->value, item->cursed), 7, j);
+	prt(format("name1 = %-4d  has_affix = %d  value = %d   cursed = %ld",
+	           item->name1, item->has_affix, (long)item->value, item->cursed), 7, j);
 
 	prt(format("*id*need = %d  ident = %d      fully_id = %d  timeout = %-d",
 	           item->needs_I, item->ident, item->fully_identified, item->timeout), 8, j);

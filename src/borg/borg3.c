@@ -1359,7 +1359,6 @@ bool borg_object_star_id( void )
     {
 
         borg_item *item = &borg_items[i];
-		ego_item_type *e_ptr = &e_info[item->name2];
 
         if (borg_items[i].needs_I)
         {
@@ -1368,7 +1367,7 @@ bool borg_object_star_id( void )
 
             /* inscribe certain objects */
             if (!borg_skill[BI_CDEPTH] &&
-                (e_ptr->xtra == OBJECT_XTRA_TYPE_RESIST || e_ptr->xtra == OBJECT_XTRA_TYPE_POWER) &&
+                item->has_affix &&
                 (streq(item->note, "{ }")  || streq(item->note, "")  || strstr(item->note, "uncursed")))
             {
 
@@ -1519,18 +1518,6 @@ static s32b borg_object_value_known(borg_item *item)
 
         /* Hack -- use the artifact cost */
         value = a_ptr->cost;
-    }
-
-    /* Hack -- add in ego-item bonus cost */
-    if (item->name2)
-    {
-        ego_item_type *e_ptr = &e_info[item->name2];
-
-        /* Worthless ego-items */
-        if (!e_ptr->cost) return (0L);
-
-        /* Hack -- reward the ego-item cost */
-        value += e_ptr->cost;
     }
 
     /* Analyze pval bonus */
@@ -1887,13 +1874,21 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
   	item->weight = real_item->weight;
 
 	/* Index known if ID'd */
-	if (item->ident)
+	if (item->ident && real_item->artifact)
 	{
   		/* Artifact Index --Only known if ID'd*/
   		item->name1 = real_item->artifact->aidx;
+	}
 
-  		/* Ego Index --Only known if ID'd*/
-  		item->name2 = real_item->ego->eidx;
+	if (item->fully_identified && real_item->affix[0])
+	{
+		for (i = 0; i < MAX_AFFIXES; i++)
+		{
+			if (real_item->affix[i] /* has interesting flags */) {
+				item->has_affix = true;
+				break;
+			}
+		}
 	}
 
 	/* Timeout, must wait for recharge */
@@ -2014,14 +2009,6 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
 
     }
 
-
-    /* Hack -- examine ego-items */
-    if (item->name2)
-    {
-        /* XXX Extract the weight */
-
-    }
-
     /* Special "discount" */
 /*     item->discount = real_item->discount */
 
@@ -2072,7 +2059,6 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
 	{
 		/* remove the name2 and replace it with correct name1 */
 		item->name1 = 7;
-		item->name2 = 0;
 		/* correct activation and pval */
 		item->activation = EFF_CLAIRVOYANCE;
 		item->pval = 2;
@@ -2086,17 +2072,11 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
 	{
 		/* remove the name2 and replace it with correct name1 */
 		item->name1 = 134;
-		item->name2 = 0;
 		/* correct activation and pval */
 		item->activation = EFF_BERSERKER;
 		item->pval = 2;
 	}
 #endif
-
-	/* Repair the Elvenkind items that are not Armour so that
-	 * the borg can correctly handle the high resists
-	 */
-	if (item->name2 == 61 || item->name2 == 21) item->name2 = 9;
 
     /* Hack -- examine artifacts */
     if (item->name1)

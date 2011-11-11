@@ -6629,7 +6629,7 @@ static int borg_attack_aux_launch(void)
         if (!item->iqty) break;
 
         /* Skip Ego branded items--they are looked at later */
-        if (item->name2) continue;
+        if (item->has_affix) continue;
 
         /* Skip bad missiles */
         if (item->tval != my_ammo_tval) continue;
@@ -7833,7 +7833,6 @@ static int borg_attack_aux_launch_wounding(void)
         if (!item->iqty) continue;
 
         if (item->sval == SV_AMMO_HEAVY) continue;
-        /* if (item->name2 != EGO_WOUNDING) continue; The wounding flag was removed in 330. */
 
         /* Skip bad missiles */
         if (item->tval != my_ammo_tval) continue;

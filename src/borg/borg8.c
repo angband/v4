@@ -240,7 +240,10 @@ static bool borg_object_similar(borg_item  *o_ptr, borg_item  *j_ptr)
             if (o_ptr->name1 != j_ptr->name1) return (FALSE);
 
             /* Require identical "ego-item" names */
-            if (o_ptr->name2 != j_ptr->name2) return (FALSE);
+            /* TODO: for now just fail the comparison if either has an ego.
+             * This needs to a real comparison, but borg_item doesn't yet have
+             * the information to do it. */
+            if (o_ptr->has_affix || j_ptr->has_affix) return (FALSE);
 
             /* Hack -- Never stack "powerful" items */
             if (!of_is_empty(o_ptr->flags) || !of_is_empty(j_ptr->flags))
@@ -989,10 +992,8 @@ static bool borg_good_sell(borg_item *item, int who)
                       return (FALSE);
     }
     /* Do not sell stuff that is not fully id'd and should be  */
-    if (!item->fully_identified && item->name2)
+    if (!item->fully_identified && item->has_affix)
     {
-       if (e_info[borg_items[INVEN_OUTER].name2].xtra == OBJECT_XTRA_TYPE_RESIST ||
-			e_info[borg_items[INVEN_OUTER].name2].xtra == OBJECT_XTRA_TYPE_POWER)
 	   {
 			return (FALSE);
        }

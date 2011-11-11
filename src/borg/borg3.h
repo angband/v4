@@ -78,7 +78,7 @@ struct borg_item
     s16b weight;    /* Probable weight */
 
     byte name1;     /* Artifact index (if any) */
-    byte name2;     /* Ego-item index (if any) */
+    bool has_affix;	/* Item has any (known) affix */
 	byte activation; /* Artifact activation and effects*/
 
     s16b timeout;   /* Timeout counter */
