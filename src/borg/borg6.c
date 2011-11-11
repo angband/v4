@@ -558,7 +558,7 @@ static void borg_flow_enqueue_grid(int y, int x)
 
 
 /* Do a Stair-Flow.  Look at how far away this grid is to my closest stair */
-static borg_flow_cost_stair(int y, int x, int b_stair)
+static int borg_flow_cost_stair(int y, int x, int b_stair)
 {
 	int cost = 255;
 
@@ -2470,7 +2470,6 @@ static bool borg_heal(int danger )
 {
     int hp_down;
 	int pct_down;
-	int hp_healed;
     int allow_fail = 15;
     int chance;
 	int clw_heal = 15;
@@ -6110,7 +6109,6 @@ static int borg_launch_bolt_aux_hack(int i, int dam, int typ, int ammo_location)
  */
 static int borg_launch_bolt_aux(int y, int x, int rad, int dam, int typ, int max, int ammo_location)
 {
-    int i;
 	int ry, rx;
 
     int x1, y1;
@@ -6478,8 +6476,6 @@ static int borg_launch_bolt_aux(int y, int x, int rad, int dam, int typ, int max
  */
 static int borg_launch_bolt(int rad, int dam, int typ, int max, int ammo_location)
 {
-    int num = 0;
-
     int i=0;
 	int b_i = -1;
     int n=0;
@@ -6566,9 +6562,6 @@ static int borg_launch_bolt(int rad, int dam, int typ, int max, int ammo_locatio
 
                 /* Collect best attack */
                 if ((b_i >= 0) && (n < b_n)) continue;
-
-                /* Hack -- reset chooser */
-                if ((b_i >= 0) && (n > b_n)) num = 0;
 
 				/* Skip attacking farther monster if rewards are equal. */
 				if (n == b_n && d > b_d) continue;
@@ -8487,7 +8480,7 @@ static int borg_attack_aux_spell_dispel(int book, int what, int dam, int typ)
  */
 static int borg_attack_aux_staff_dispel(int sval, int rad, int dam, int typ)
 {
-    int i, b_n;
+    int b_n;
 
     /* No firing while blind, confused, or hallucinating */
     if (borg_skill[BI_ISBLIND] || borg_skill[BI_ISCONFUSED] || borg_skill[BI_ISIMAGE]) return (0);
@@ -8498,7 +8491,6 @@ static int borg_attack_aux_staff_dispel(int sval, int rad, int dam, int typ)
 
     /* look for the staff */
     if (!borg_equips_staff_fail(sval)) return (0);
-    i =  borg_slot(TV_STAFF, sval);
 
     /* Choose optimal location--radius defined as 10 */
     b_n = borg_launch_bolt(10, dam, typ, MAX_RANGE, 0);
@@ -9991,8 +9983,6 @@ bool borg_munchkin_mage(void)
 	int b_n = -1;
 
     borg_grid *ag;
-    monster_race *r_ptr;
-
 
 	/* Must be standing on a stair */
 	if (borg_grids[c_y][c_x].feat != FEAT_MORE && borg_grids[c_y][c_x].feat != FEAT_LESS) return (FALSE);
@@ -10019,7 +10009,6 @@ bool borg_munchkin_mage(void)
 
         /* Monster */
         kill = &borg_kills[i];
-        r_ptr = &r_info[kill->r_idx];
 
         /* Skip dead monsters */
         if (!kill->r_idx) continue;
@@ -10126,12 +10115,10 @@ bool borg_munchkin_melee(void)
 {
 
 	int i, x, y;
-	int a_y, a_x;
 
     int n = 0;
 
     borg_grid *ag;
-    monster_race *r_ptr;
 
 	/* No Mages for now */
 	if (borg_class == CLASS_MAGE) return (FALSE);
@@ -10161,17 +10148,12 @@ bool borg_munchkin_melee(void)
 
         /* Monster */
         kill = &borg_kills[i];
-        r_ptr = &r_info[kill->r_idx];
 
         /* Skip dead monsters */
         if (!kill->r_idx) continue;
 
         /* Require current knowledge */
         if (kill->when < borg_t - 2) continue;
-
-		/* Acquire location */
-        a_x = kill->x;
-        a_y = kill->y;
 
 		/* Not in town.  This should not be reached, but just in case we add it */
 		if (borg_skill[BI_CDEPTH] == 0) continue;
@@ -10240,7 +10222,7 @@ bool borg_munchkin_melee(void)
 /* Log the pathway and feature of the spell pathway
  * Useful for debugging beams and Tport Other spell
  */
-void static borg_log_spellpath(bool beam)
+static void borg_log_spellpath(bool beam)
 {
     int n_x, n_y, x, y;
 
@@ -11692,7 +11674,6 @@ static int borg_defend_aux_mass_genocide(int p1)
     int hit = 0, i= 0,p2;
     int b_p =0, p;
 
-    borg_grid *ag;
     borg_kill *kill;
     monster_race *r_ptr;
 
@@ -11716,8 +11697,6 @@ static int borg_defend_aux_mass_genocide(int p1)
         /* Monster */
         kill = &borg_kills[i];
         r_ptr = &r_info[kill->r_idx];
-
-        ag= &borg_grids[kill->y][kill->x];
 
         /* Skip dead monsters */
         if (!kill->r_idx) continue;
@@ -11820,8 +11799,6 @@ static int borg_defend_aux_genocide(int p1)
     char genocide_target = (char)0;
     char b_threat_id = (char)0;
 
-    borg_grid *ag;
-
     bool genocide_spell = FALSE;
     int fail_allowed = 25;
 
@@ -11890,8 +11867,6 @@ static int borg_defend_aux_genocide(int p1)
         /* Monster */
         kill = &borg_kills[i];
         r_ptr = &r_info[kill->r_idx];
-
-        ag= &borg_grids[kill->y][kill->x];
 
         /* Our char of the monster */
         u = r_ptr->d_char;
@@ -12151,11 +12126,9 @@ static int borg_defend_aux_genocide_nasties(int p1)
 static int borg_defend_aux_earthquake(int p1)
 {
     int p2 = 9999;
-    int x, y;
 	int i;
 	int threat_count = 0;
 
-    borg_grid *ag;
 	borg_kill *kill;
 
 
@@ -12394,11 +12367,9 @@ static int borg_defend_aux_banishment( int p1)
     for (i = 1; i < borg_kills_nxt; i++)
     {
         borg_kill *kill;
-        monster_race *r_ptr;
 
         /* Monster */
         kill = &borg_kills[i];
-        r_ptr = &r_info[kill->r_idx];
 
         ag= &borg_grids[kill->y][kill->x];
 
@@ -12819,7 +12790,6 @@ static int borg_defend_aux_panel_shift(void)
 static int borg_defend_aux_rest(void)
 {
 	int i;
-    borg_grid *ag;
 
 	if (!borg_morgoth_position && (!borg_as_position || borg_t - borg_t_antisummon >= 50)) return (0);
 
@@ -12853,9 +12823,6 @@ static int borg_defend_aux_rest(void)
 
         /* Minimal distance */
         if (d > MAX_RANGE) continue;
-
-		/* Get the grid */
-		ag = &borg_grids[kill->y][kill->x];
 
 		/* If I can see Morgoth or a guy with Ranged Attacks, don't rest. */
         if (borg_los(c_y, c_x, kill->y, kill->x) &&
@@ -13159,9 +13126,7 @@ static int borg_defend_aux_light_morgoth(void)
     int b_x = -1;
 	int count = 0;
 
-    borg_grid *ag;
     borg_kill *kill;
-    monster_race *r_ptr;
 
 	/* Only if on level 100 and in a sea of runes */
 	if (!borg_morgoth_position) return (0);
@@ -13184,7 +13149,6 @@ static int borg_defend_aux_light_morgoth(void)
     {
         /* Monster */
         kill = &borg_kills[i];
-	    r_ptr = &r_info[kill->r_idx];
 
         /* Skip dead monsters */
         if (!kill->r_idx) continue;
@@ -13198,9 +13162,6 @@ static int borg_defend_aux_light_morgoth(void)
         /* Acquire location */
         x = kill->x;
         y = kill->y;
-
-        /* Get grid */
-        ag = &borg_grids[y][x];
 
         /* Check the distance  */
         if (distance(c_y, c_x, y, x) > MAX_RANGE) continue;
@@ -15126,7 +15087,7 @@ static bool borg_play_step(int y2, int x2)
 
 
             /* No trap, or unknown trap that passed above checks - Open it */
-            if (o_ptr->pval < 0 || !object_is_known(o_ptr))
+            if (o_ptr->pval[DEFAULT_PVAL] < 0 || !object_is_known(o_ptr))
             {
                 borg_note(format("# Opening a '%s' at (%d,%d)",
                          k_info[take->k_idx].name,
@@ -15666,9 +15627,6 @@ bool borg_flow_old(int why)
 {
     int x, y;
 
-    borg_grid *ag;
-
-
     /* Continue */
     if (goal == why)
     {
@@ -15692,9 +15650,6 @@ bool borg_flow_old(int why)
             /* Grid in that direction */
             x = c_x + ddx_ddd[i];
             y = c_y + ddy_ddd[i];
-
-            /* Access the grid */
-            ag = &borg_grids[y][x];
 
             /* Flow cost at that grid */
             c = borg_data_flow->data[y][x] * 10;
@@ -16361,7 +16316,7 @@ bool borg_flow_vault(int nearness)
 bool borg_excavate_vault(int range)
 {
     int y,x,i,ii;
-	int b_y, b_x, b_n;
+	int b_y, b_x;
 
 	borg_grid *ag;
 
@@ -16369,7 +16324,6 @@ bool borg_excavate_vault(int range)
     borg_temp_n = 0;
     i=0;
 	ii = 0;
-	b_n = 0;
 
 	/* no need if no vault on level */
 	if (!vault_on_level) return (FALSE);
@@ -16480,11 +16434,11 @@ bool borg_excavate_vault(int range)
  */
 bool borg_flow_shop_visit(void)
 {
-    int i, x, y;
-
 	/* Borg is allowed to cheat the store inventory as of 320.  No need to visit each one */
 	return (FALSE);
 #if 0
+    int i, x, y;
+
     /* Must be in town */
     if (borg_skill[BI_CDEPTH]) return (FALSE);
 
@@ -16514,14 +16468,12 @@ bool borg_flow_shop_visit(void)
 				continue;
 			}
 
-#if 0
 			/* Skip Home */
 			if (i == 7)
 			{
 				borg_shops[i].when = borg_t;
 				continue;
 			}
-#endif
 		}
         /* Must not be visited */
         if (borg_shops[i].when) continue;
@@ -17353,7 +17305,6 @@ bool borg_flow_kill_corridor_2(bool viewable)
  */
 bool borg_flow_recover(bool viewable, int dist)
 {
-    int b_y = 0, b_x = 0;
 	int i, x, y;
 
     /* Sometimes we loop on this */
@@ -18537,8 +18488,6 @@ static bool borg_flow_dark_reachable(int y, int x)
 /* Dig a straight Tunnel to a close monster */
 bool borg_flow_kill_direct(bool viewable, bool twitchy)
 {
-    int b_y = 0, b_x = 0;
-    int perma_grids = 0;
 	int i;
 	int b_i = -1;
 	int d;
@@ -18548,11 +18497,11 @@ bool borg_flow_kill_direct(bool viewable, bool twitchy)
 
 
     /* Do not dig when weak. It takes too long */
-    if (!twitchy && (borg_skill[BI_DIG] < BORG_DIG && borg_items[weapon_swap].tval == TV_DIGGING) ||
-		(borg_skill[BI_DIG] < BORG_DIG + 20)) return (FALSE);
+    if (!twitchy && ((borg_skill[BI_DIG] < BORG_DIG && borg_items[weapon_swap].tval == TV_DIGGING) ||
+		(borg_skill[BI_DIG] < BORG_DIG + 20))) return (FALSE);
 
 	/* Not if Weak from hunger or no food */
-	if (!twitchy && borg_skill[BI_ISHUNGRY] || borg_skill[BI_ISWEAK] || borg_skill[BI_FOOD] == 0) return (FALSE);
+	if (!twitchy && (borg_skill[BI_ISHUNGRY] || borg_skill[BI_ISWEAK] || borg_skill[BI_FOOD] == 0)) return (FALSE);
 
 	/* Only when sitting for too long or twitchy */
     if (!twitchy && borg_t - borg_began < 3000 && borg_times_twitch < 5) return (FALSE);
@@ -18823,8 +18772,6 @@ extern void borg_flow_direct_dig(int y, int x)
 
     int shift;
 
-    borg_grid *ag;
-
 	int p, fear;
 
 #if 0
@@ -18900,10 +18847,6 @@ extern void borg_flow_direct_dig(int y, int x)
             /* Always move along major axis */
             x = (x2 < x1) ? (x1 - n) : (x1 + n);
         }
-
-
-        /* Access the grid */
-        ag = &borg_grids[y][x];
 
 
         /* Abort at "icky" grids */
@@ -19224,7 +19167,7 @@ static bool borg_flow_dark_3(int b_stair)
 
 			/* Check the distance to stair for this proposed grid */
 			if (borg_skill[BI_CDEPTH] >= borg_skill[BI_CLEVEL] - 5 &&
-				borg_flow_cost_stair(y,x, b_stair) > borg_skill[BI_CLEVEL] * 3 + 9 && borg_skill[BI_CLEVEL] < 20) continue;
+				cost > borg_skill[BI_CLEVEL] * 3 + 9 && borg_skill[BI_CLEVEL] < 20) continue;
 
 
             /* Careful -- Remember it */
