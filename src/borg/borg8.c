@@ -2221,8 +2221,6 @@ static bool borg_think_home_buy_swap_armour(void)
 {
     int hole;
 
-    int slot;
-
     int n, b_n = -1;
     s32b p, b_p = 0L;
     bool fix = FALSE;
@@ -2261,10 +2259,6 @@ static bool borg_think_home_buy_swap_armour(void)
 
         /* Skip empty items */
         if (!item->iqty) continue;
-
-        /* Obtain "slot".  Elimination of non armours in borg4.c*/
-        slot = borg_wield_slot(item);
-
 
         /* Save shop item */
         COPY(&safe_shops[7].ware[n], &borg_shops[7].ware[n], borg_item);
@@ -2342,9 +2336,6 @@ static bool borg_think_home_buy_swap_armour(void)
  */
 static bool borg_choose_shop(void)
 {
-    int i;
-
-
     /* Must be in town */
     if (borg_skill[BI_CDEPTH]) return (FALSE);
 
@@ -4363,9 +4354,6 @@ bool borg_think_dungeon(void)
 {
     int i, j;
     int b_j = -1;
-
-    byte feat = cave->feat[c_y][c_x];
-
 
 	/* Delay Factor */
     int msec = ((op_ptr->delay_factor * op_ptr->delay_factor) +
