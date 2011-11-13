@@ -609,7 +609,6 @@ int context_menu_command()
 
 int context_menu_player();
 int context_menu_cave(struct cave *cave, int y, int x, int adjacent);
-int get_direction_player (int y, int x);
 
 /**
  * Handle a textui mouseclick.
@@ -688,6 +687,8 @@ static void textui_process_click(ui_event e)
   					/* cmd_insert(CMD_LOOK);
 			  		   cmd_set_arg_point(cmd_get_top(), 0, y, x); */
       		} else {
+				/* pathfind does not work well on trap detection borders,
+				 * so if the click is next to the player, force a walk step */
         		if ((y-p_ptr->py >= -1) && (y-p_ptr->py <= 1) &&
           				(x-p_ptr->px >= -1) && (x-p_ptr->px <= 1)) {
 			    	cmd_insert(CMD_WALK);
