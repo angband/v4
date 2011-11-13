@@ -1889,7 +1889,7 @@ bool get_com_ex(const char *prompt, ui_event *command)
 	*command = ke;
 
 	/* Done */
-	if (ke.type == EVT_KBRD && ke.key.code != ESCAPE)
+	if ((ke.type == EVT_KBRD && ke.key.code != ESCAPE) || (ke.type == EVT_MOUSE))
 	  return TRUE;
 	return FALSE;
 }

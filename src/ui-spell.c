@@ -239,7 +239,7 @@ static void spell_menu_browse(menu_type *m, const char *noun)
  *
  * Returns the spell selected, or -1.
  */
-static int get_spell(const object_type *o_ptr, const char *verb,
+int get_spell(const object_type *o_ptr, const char *verb,
 		bool (*spell_test)(int spell))
 {
 	menu_type *m;
@@ -348,11 +348,5 @@ int textui_obj_cast(void)
 		cmd_insert(CMD_CAST);
 		cmd_set_arg_choice(cmd_get_top(), 0, spell);
 	}
-	return spell;
+  return spell;
 }
-
-void textui_obj_cast_wrapper(void)
-{
-	textui_obj_cast();
-}
-
