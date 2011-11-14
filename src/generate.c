@@ -1896,23 +1896,24 @@ static bool build_pit(struct cave *c, int y0, int x0)
 
 static void build_room_template(struct cave *c, int y0, int x0, int ymax, int xmax, int doors, const char *data)
 {
-	int dx, dy, x, y, rnddoors, doorpos;
+	int dx, dy, x, y, rnddoors, doorpos, info;
 	const char *t;
+	bool rndwalls, light;
 
 	assert(c);
+
+	/* Occasional light */
+	light = c->depth <= randint1(25) ? TRUE : FALSE;
+
+	/* Mark interior squares as being in a room (optionally lit) */
+	info = CAVE_ROOM | (light ? CAVE_GLOW : 0);
 
 	/* Set the random door position here so it generates doors in all squares
 	 * marked with the same number */
 	rnddoors = randint1(doors);
 
 	/* Decide whether optional walls will be generated this time */
-	bool rndwalls = one_in_(2) ? TRUE : FALSE;
-
-	/* Occasional light */
-	bool light = c->depth <= randint1(25) ? TRUE : FALSE;
-
-	/* Mark interior squares as being in a room (optionally lit) */
-	int info = CAVE_ROOM | (light ? CAVE_GLOW : 0);
+	rndwalls = one_in_(2) ? TRUE : FALSE;
 
 	/* Place dungeon features and objects */
 	for (t = data, dy = 0; dy < ymax && *t; dy++) {
