@@ -9627,7 +9627,7 @@ cptr borg_prepared(int depth)
       	return (borg_prepared_buffer);
 
     }
-    return "No reason";
+    return (cptr)NULL;
 }
 
 /*
