@@ -2805,6 +2805,8 @@ bool borg_think_dungeon_light(void)
 		(borg_skill[BI_CURLITE] <= 0 || borg_items[INVEN_LIGHT].timeout <= 3) &&
 		borg_skill[BI_CDEPTH] >= 1)
     {
+		enum borg_need need;
+
         /* I am recalling, sit here till it engages. */
         if (goal_recalling)
         {
@@ -2819,8 +2821,10 @@ bool borg_think_dungeon_light(void)
         if (borg_wear_stuff()) return (TRUE);
 	    if (borg_wear_quiver()) return (TRUE);
 
-        /* attempt to refuel */
-        if (borg_refuel_torch() || borg_refuel_lantern()) return (TRUE);
+        /* attempt to refuel/swap */
+        need = borg_maintain_light();
+        if (need == BORG_MET_NEED) return (TRUE);
+        if (need == BORG_NO_NEED) return (FALSE);
 
         /* Can I recall out with a rod */
         if (!goal_recalling && borg_zap_rod(SV_ROD_RECALL)) return (TRUE);
@@ -2965,7 +2969,7 @@ bool borg_think_stair_scum(bool from_town)
 
     byte feat = cave->feat[c_y][c_x];
 
-	borg_item *item = &borg_items[INVEN_LIGHT];
+	enum borg_need need;
 
     /* examine equipment and swaps */
     borg_notice(TRUE);
@@ -3034,31 +3038,11 @@ bool borg_think_stair_scum(bool from_town)
 	/** First deal with staying alive **/
 
     /* Hack -- require light */
-    if (item->tval == TV_LIGHT &&
-		(item->sval == SV_LIGHT_TORCH || item->sval == SV_LIGHT_LANTERN))
-    {
-
-        /* Must have light -- Refuel current torch */
-        if ((item->tval == TV_LIGHT) && (item->sval == SV_LIGHT_TORCH))
-        {
-            /* Try to refuel the torch */
-            if ((item->timeout < 500) &&
-                 borg_refuel_torch()) return (TRUE);
-        }
-
-        /* Must have light -- Refuel current lantern */
-        if ((item->tval == TV_LIGHT) && (item->sval == SV_LIGHT_LANTERN))
-        {
-            /* Try to refill the lantern */
-            if ((item->timeout < 1000) && borg_refuel_lantern()) return (TRUE);
-        }
-
-        if (item->timeout < 250)
-        {
-            borg_note("# Scum. (need fuel)");
-        }
-    }
-
+    need = borg_maintain_light();
+    if (need == BORG_MET_NEED)
+        return TRUE;
+    else if (need == BORG_UNMET_NEED)
+        borg_note("# Scum. (need fuel)");
 
 	/** Track down some interesting gear **/
 /* XXX Should we allow him great flexibility in retreiving loot? (not always safe?)*/
@@ -3225,7 +3209,7 @@ bool borg_think_dungeon_lunal(void)
 
     byte feat = cave->feat[c_y][c_x];
 
-	borg_item *item = &borg_items[INVEN_LIGHT];
+    enum borg_need need;
 
     /* examine equipment and swaps */
     borg_notice(TRUE);
@@ -3323,31 +3307,12 @@ bool borg_think_dungeon_lunal(void)
 
 	/** First deal with staying alive **/
 
-    /* Hack -- require light */
-    if (item->tval == TV_LIGHT &&
-		(item->sval == SV_LIGHT_TORCH || item->sval == SV_LIGHT_LANTERN))
-    {
-
-        /* Must have light -- Refuel current torch */
-        if ((item->tval == TV_LIGHT) && (item->sval == SV_LIGHT_TORCH))
-        {
-            /* Try to refuel the torch */
-            if ((item->timeout < 500) &&
-                 borg_refuel_torch()) return (TRUE);
-        }
-
-        /* Must have light -- Refuel current lantern */
-        if ((item->tval == TV_LIGHT) && (item->sval == SV_LIGHT_LANTERN))
-        {
-            /* Try to refill the lantern */
-            if ((item->timeout < 1000) && borg_refuel_lantern()) return (TRUE);
-        }
-
-        if (item->timeout < 250)
-        {
-            borg_note("# Lunal. (need fuel)");
-        }
-    }
+	/* Hack -- require light */
+	need = borg_maintain_light();
+	if (need == BORG_MET_NEED)
+		return TRUE;
+	else if (need == BORG_UNMET_NEED)
+		borg_note("# Lunal. (need fuel)");
 
 	/* No Light at all */
 	if (borg_skill[BI_CURLITE] == 0 && borg_items[INVEN_LIGHT].tval == 0)
@@ -3627,7 +3592,7 @@ bool borg_think_dungeon_munchkin(void)
 
     byte feat = cave->feat[c_y][c_x];
 
-	borg_item *item = &borg_items[INVEN_LIGHT];
+    enum borg_need need;
 
     /* examine equipment and swaps */
     borg_notice(TRUE);
@@ -3708,30 +3673,11 @@ bool borg_think_dungeon_munchkin(void)
 	/** First deal with staying alive **/
 
     /* Hack -- require light */
-    if (item->tval == TV_LIGHT &&
-		(item->sval == SV_LIGHT_TORCH || item->sval == SV_LIGHT_LANTERN))
-    {
-
-        /* Must have light -- Refuel current torch */
-        if ((item->tval == TV_LIGHT) && (item->sval == SV_LIGHT_TORCH))
-        {
-            /* Try to refuel the torch */
-            if ((item->timeout < 500) &&
-                 borg_refuel_torch()) return (TRUE);
-        }
-
-        /* Must have light -- Refuel current lantern */
-        if ((item->tval == TV_LIGHT) && (item->sval == SV_LIGHT_LANTERN))
-        {
-            /* Try to refill the lantern */
-            if ((item->timeout < 1000) && borg_refuel_lantern()) return (TRUE);
-        }
-
-        if (item->timeout < 250)
-        {
-            borg_note("# Munchkin. (need fuel)");
-        }
-    }
+	need = borg_maintain_light();
+	if (need == BORG_MET_NEED)
+		return TRUE;
+	else if (need == BORG_UNMET_NEED)
+		borg_note("# Munchkin. (need fuel)");
 
 	/* No Light at all */
 	if (borg_skill[BI_CURLITE] == 0)
@@ -4763,8 +4709,8 @@ bool borg_think_dungeon(void)
         /* First try to wear something */
         if (borg_skill[BI_CURLITE] == 0)
         {
-            /* attempt to refuel */
-            if (borg_refuel_torch() || borg_refuel_lantern()) return (TRUE);
+            /* attempt to refuel/swap */
+            if (borg_maintain_light() == BORG_MET_NEED) return (TRUE);
 
             /* wear stuff and see if it glows */
             if (borg_wear_stuff()) return (TRUE);
