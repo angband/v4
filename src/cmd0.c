@@ -732,13 +732,16 @@ static void textui_process_click(ui_event e)
 	else if (e.mouse.button == 2) {
     	int m_idx = cave->m_idx[y][x];
     	if (m_idx && target_able(m_idx)) {
-			health_track(p_ptr, m_idx);
+			monster_type *m_ptr = cave_monster(cave, m_idx);
+			/* Set up target information */
+			monster_race_track(m_ptr->r_idx);
+			health_track(p_ptr, m_ptr);
       		target_set_monster(m_idx);
     	} else
       		target_set_location(y,x);
     	if (e.mouse.mods & KC_MOD_SHIFT) {
       		/* shift-click - cast spell at target */
-      		if (textui_obj_cast() >= 0)
+      		if (textui_obj_cast_ret() >= 0)
 			  	cmd_set_arg_target(cmd_get_top(), 1, DIR_TARGET);
     	} else if (e.mouse.mods & KC_MOD_CONTROL) {
       		/* control-click - fire at target */
