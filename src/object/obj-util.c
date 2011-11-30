@@ -4155,13 +4155,26 @@ bool obj_can_activate(const object_type *o_ptr)
 	return FALSE;
 }
 
+/**
+ * Check if an object can be used to refuel other objects.
+ */
 bool obj_can_refill(const object_type *obj)
 {
 	const object_type *light = &p_ptr->inventory[INVEN_LIGHT];
+	bitflag flags[OF_SIZE];
+	bool no_fuel;
 
-	if (light->sval == SV_LIGHT_LANTERN &&
-			obj->tval == TV_FLASK)
-		return TRUE;
+	/* Get flags */
+	object_flags(obj, flags);
+	no_fuel = of_has(flags, OF_NO_FUEL) ? TRUE : FALSE;
+
+	/* A lantern can be refueled from a flask or another lantern */
+	if (light->sval == SV_LIGHT_LANTERN) {
+		if (obj->tval == TV_FLASK) return TRUE;
+		else if(obj->sval == SV_LIGHT_LANTERN &&
+		        obj->timeout > 0 &&
+		        !no_fuel) return TRUE;
+	}
 
 	return FALSE;
 }
@@ -4207,6 +4220,66 @@ bool obj_can_fire(const object_type *o_ptr)
 bool obj_has_inscrip(const object_type *o_ptr)
 {
 	return (o_ptr->note ? TRUE : FALSE);
+}
+
+bool obj_is_useable(const object_type *o_ptr)
+{
+  if ((o_ptr->tval == TV_ROD) || (o_ptr->tval == TV_WAND)
+    || (o_ptr->tval == TV_STAFF) || (o_ptr->tval == TV_SCROLL)
+    || (o_ptr->tval == TV_POTION) || (o_ptr->tval == TV_FOOD)) {
+    return TRUE;
+  }
+  if (object_effect(o_ptr))
+    return TRUE;
+  if ((o_ptr->tval == TV_BOLT) || (o_ptr->tval == TV_ARROW)
+    || (o_ptr->tval == TV_SHOT)) {
+    return o_ptr->tval == p_ptr->state.ammo_tval;
+  }
+
+	return FALSE;
+}
+
+bool obj_is_used_aimed(const object_type *o_ptr)
+{
+  //return obj_needs_aim(o_ptr);
+	int effect;
+  if (o_ptr->tval == TV_WAND) {
+    return TRUE;
+  }
+  if (o_ptr->tval == TV_ROD && !object_flavor_is_aware(o_ptr)) {
+    return TRUE;
+  }
+  if ((o_ptr->tval == TV_BOLT) || (o_ptr->tval == TV_ARROW)
+    || (o_ptr->tval == TV_SHOT)) {
+    return o_ptr->tval == p_ptr->state.ammo_tval;
+  }
+  effect = object_effect(o_ptr);
+  if (effect && effect_aim(effect)) {
+    return TRUE;
+  }
+
+	return FALSE;
+}
+bool obj_is_used_unaimed(const object_type *o_ptr)
+{
+	int effect;
+  if ((o_ptr->tval == TV_STAFF) || (o_ptr->tval == TV_SCROLL)
+    || (o_ptr->tval == TV_POTION) || (o_ptr->tval == TV_FOOD)) {
+    return TRUE;
+  }
+  if ((o_ptr->tval == TV_ROD) && !(!object_flavor_is_aware(o_ptr))) {
+    return TRUE;
+  }
+  if ((o_ptr->tval == TV_BOLT) || (o_ptr->tval == TV_ARROW)
+    || (o_ptr->tval == TV_SHOT)) {
+    return FALSE;
+  }
+  effect = object_effect(o_ptr);
+  if (!effect || !effect_aim(effect)) {
+    return TRUE;
+  }
+
+	return FALSE;
 }
 
 /*** Generic utility functions ***/

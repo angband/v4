@@ -443,7 +443,7 @@ static bool adjust_panel_help(int y, int x, bool help)
 	int j;
 
 	int screen_hgt_main = help ? (Term->hgt - ROW_MAP - 3) 
-							   : (Term->hgt - ROW_MAP - 1);
+			 : (Term->hgt - ROW_MAP - 1);
 
 	/* Scan windows */
 	for (j = 0; j < ANGBAND_TERM_MAX; j++)
@@ -590,7 +590,8 @@ static void target_display_help(bool monster, bool free)
  *
  * This function must handle blindness/hallucination.
  */
-static struct keypress target_set_interactive_aux(int y, int x, int mode)
+//static struct keypress target_set_interactive_aux(int y, int x, int mode)
+static ui_event target_set_interactive_aux(int y, int x, int mode)
 {
 	s16b this_o_idx = 0, next_o_idx = 0;
 
@@ -603,7 +604,8 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 	int floor_list[MAX_FLOOR_STACK];
 	int floor_num;
 
-	struct keypress query;
+	//struct keypress query;
+	ui_event press;
 
 	char out_val[256];
 
@@ -619,7 +621,9 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 	while (1)
 	{
 		/* Paranoia */
-		query.code = ' ';
+		press.type = EVT_KBRD;
+		press.key.code = ' ';
+		press.key.mods = 0;
 
 		/* Assume boring */
 		boring = TRUE;
@@ -629,10 +633,8 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 		s2 = "";
 		s3 = "";
 
-
 		/* The player */
-		if (cave->m_idx[y][x] < 0)
-		{
+		if (cave->m_idx[y][x] < 0) {
 			/* Description */
 			s1 = "You are ";
 
@@ -641,8 +643,7 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 		}
 
 		/* Hallucination messes things up */
-		if (p_ptr->timed[TMD_IMAGE])
-		{
+		if (p_ptr->timed[TMD_IMAGE]) {
 			const char *name = "something strange";
 
 			/* Display a message */
@@ -655,25 +656,23 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 
 			prt(out_val, 0, 0);
 			move_cursor_relative(y, x);
-			query = inkey();
+			press.key = inkey();
 
 			/* Stop on everything but "return" */
-			if (query.code == '\n' || query.code == '\r')
+			if (press.key.code == '\n' || press.key.code == '\r')
 				continue;
 
-			return query;
+			return press;
 		}
 
 		/* Actual monsters */
-		if (cave->m_idx[y][x] > 0)
-		{
+		if (cave->m_idx[y][x] > 0) {
 			monster_type *m_ptr = cave_monster_at(cave, y, x);
 			r_ptr = &r_info[m_ptr->r_idx];
 			l_ptr = &l_list[m_ptr->r_idx];
 
 			/* Visible */
-			if (m_ptr->ml && !m_ptr->unaware)
-			{
+			if (m_ptr->ml && !m_ptr->unaware) {
 				bool recall = FALSE;
 
 				char m_name[80];
@@ -694,11 +693,9 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 				handle_stuff(p_ptr);
 
 				/* Interact */
-				while (1)
-				{
+				while (1) {
 					/* Recall */
-					if (recall)
-					{
+					if (recall)	{
 						/* Save screen */
 						screen_save();
 
@@ -706,15 +703,11 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 						screen_roff(r_ptr, l_ptr);
 
 						/* Command */
-						query = inkey();
+						press = inkey_m();
 
 						/* Load screen */
 						screen_load();
-					}
-
-					/* Normal */
-					else
-					{
+					} else { /* Normal */
 						char buf[80];
 
 						/* Describe the monster */
@@ -722,17 +715,13 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 
 						/* Describe, and prompt for recall */
 						if (p_ptr->wizard)
-						{
 							strnfmt(out_val, sizeof(out_val),
 									"%s%s%s%s (%s), %s (%d:%d).",
 									s1, s2, s3, m_name, buf, coords, y, x);
-						}
 						else
-						{
 							strnfmt(out_val, sizeof(out_val),
 									"%s%s%s%s (%s), %s.",
 									s1, s2, s3, m_name, buf, coords);
-						}
 
 						prt(out_val, 0, 0);
 
@@ -740,22 +729,36 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 						move_cursor_relative(y, x);
 
 						/* Command */
-						query = inkey();
+						press = inkey_m();
 					}
 
 					/* Normal commands */
-					if (query.code == 'r')
+				  	if ((press.type == EVT_MOUSE) && (press.mouse.button == 1)
+							&& (KEY_GRID_X(press) == x) &&
+							(KEY_GRID_Y(press) == y))
+						recall = !recall;
+					else if ((press.type == EVT_KBRD) &&
+							(press.key.code == 'r'))
 						recall = !recall;
 					else
 						break;
 				}
 
-				/* Stop on everything but "return"/"space" */
-				if (query.code != '\n' && query.code != '\r' && query.code != ' ')
-					break;
+				if (press.type == EVT_MOUSE) {
+					/* Stop on right click */
+					if (press.mouse.button == 2)
+						break;
 
-				/* Sometimes stop at "space" key */
-				if ((query.code == ' ') && !(mode & (TARGET_LOOK))) break;
+					/* Sometimes stop at "space" key */
+					if (press.mouse.button && !(mode & (TARGET_LOOK))) break;
+				} else {
+					/* Stop on everything but "return"/"space" */
+					if (press.key.code != '\n' && press.key.code != '\r' && press.key.code != ' ')
+						break;
+
+					/* Sometimes stop at "space" key */
+					if ((press.key.code == ' ') && !(mode & (TARGET_LOOK))) break;
+				}
 
 				/* Take account of gender */
 				if (rf_has(r_ptr->flags, RF_FEMALE)) s1 = "She is ";
@@ -798,13 +801,22 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 
 					prt(out_val, 0, 0);
 					move_cursor_relative(y, x);
-					query = inkey();
+					press = inkey_m();
 
-					/* Stop on everything but "return"/"space" */
-					if ((query.code != '\n') && (query.code != '\r') && (query.code != ' ')) break;
+					if (press.type == EVT_MOUSE) {
+						/* Stop on right click */
+						if (press.mouse.button == 2)
+							break;
 
-					/* Sometimes stop at "space" key */
-					if ((query.code == ' ') && !(mode & (TARGET_LOOK))) break;
+						/* Sometimes stop at "space" key */
+						if (press.mouse.button && !(mode & (TARGET_LOOK))) break;
+					} else {
+						/* Stop on everything but "return"/"space" */
+						if ((press.key.code != '\n') && (press.key.code != '\r') && (press.key.code != ' ')) break;
+
+						/* Sometimes stop at "space" key */
+						if ((press.key.code == ' ') && !(mode & (TARGET_LOOK))) break;
+					}
 
 					/* Change the intro */
 					s2 = "also carrying ";
@@ -850,15 +862,15 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 
 				prt(out_val, 0, 0);
 				move_cursor_relative(y, x);
-				query = inkey();
+				press = inkey_m();
 
 				/* Display objects */
-				if (query.code == 'r')
-				{
+				if (((press.type == EVT_MOUSE) && (press.mouse.button == 1) &&
+						(KEY_GRID_X(press) == x) && (KEY_GRID_Y(press) == y)) ||
+						((press.type == EVT_KBRD) && (press.key.code == 'r'))) {
 					int rdone = 0;
 					int pos;
-					while (!rdone)
-					{
+					while (!rdone) {
 						/* Save screen */
 						screen_save();
 
@@ -867,14 +879,17 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 
 						/* Describe the pile */
 						prt(out_val, 0, 0);
-						query = inkey();
+						press = inkey_m();
 
 						/* Load screen */
 						screen_load();
 
-						pos = query.code - 'a';
-						if (0 <= pos && pos < floor_num)
-						{
+						if (press.type == EVT_MOUSE)
+							pos = press.mouse.y-1;
+						else
+							pos = press.key.code - 'a';
+
+						if (0 <= pos && pos < floor_num) {
 							track_object(-floor_list[pos]);
 							handle_stuff(p_ptr);
 							continue;
@@ -921,13 +936,13 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 
 				prt(out_val, 0, 0);
 				move_cursor_relative(y, x);
-				query = inkey();
+				press = inkey_m();
 
 				/* Stop on everything but "return"/"space" */
-				if ((query.code != '\n') && (query.code != '\r') && (query.code != ' ')) break;
+				if ((press.key.code != '\n') && (press.key.code != '\r') && (press.key.code != ' ')) break;
 
 				/* Sometimes stop at "space" key */
-				if ((query.code == ' ') && !(mode & (TARGET_LOOK))) break;
+				if ((press.key.code == ' ') && !(mode & (TARGET_LOOK))) break;
 
 				/* Change the intro */
 				s1 = "It is ";
@@ -989,18 +1004,28 @@ static struct keypress target_set_interactive_aux(int y, int x, int mode)
 
 			prt(out_val, 0, 0);
 			move_cursor_relative(y, x);
-			query = inkey();
+			press = inkey_m();
 
-			/* Stop on everything but "return"/"space" */
-			if ((query.code != '\n') && (query.code != '\r') && (query.code != ' ')) break;
+			if (press.type == EVT_MOUSE) {
+				/* Stop on right click */
+				if (press.mouse.button == 2)
+					break;
+			} else {
+				/* Stop on everything but "return"/"space" */
+				if ((press.key.code != '\n') && (press.key.code != '\r') && (press.key.code != ' ')) break;
+			}
 		}
 
 		/* Stop on everything but "return" */
-		if ((query.code != '\n') && (query.code != '\r')) break;
+		if (press.type == EVT_MOUSE) {
+				/* Stop on right click */
+				if (press.mouse.button != 2)
+					break;
+		} else if ((press.key.code != '\n') && (press.key.code != '\r')) break;
 	}
 
 	/* Keep going */
-	return (query);
+	return (press);
 }
 
 
@@ -1239,7 +1264,8 @@ bool target_set_interactive(int mode, int x, int y)
 	bool flag = TRUE;
 	bool help = FALSE;
 
-	struct keypress query;
+	//struct keypress query;
+  ui_event press;
 
 	/* These are used for displaying the path to the target */
 	wchar_t path_char[MAX_RANGE];
@@ -1307,7 +1333,7 @@ bool target_set_interactive(int mode, int x, int y)
 				path_drawn = draw_path(path_n, path_g, path_char, path_attr, py, px);
 
 			/* Describe and Prompt */
-			query = target_set_interactive_aux(y, x, mode);
+			press = target_set_interactive_aux(y, x, mode);
 
 			/* Remove the path */
 			if (path_drawn) load_path(path_n, path_g, path_char, path_attr);
@@ -1318,9 +1344,60 @@ bool target_set_interactive(int mode, int x, int y)
 			/* Assume no "direction" */
 			d = 0;
 
-
 			/* Analyze */
-			switch (query.code)
+			if (press.type == EVT_MOUSE) {
+        		if (press.mouse.button == 3) {
+          			/* give the target selection command */
+          			press.mouse.button = 2;
+          			press.mouse.mods = KC_MOD_CONTROL;
+        		}
+				if (press.mouse.button == 2) {
+					y = KEY_GRID_Y(press);//.mouse.y;
+					x = KEY_GRID_X(press);//.mouse.x;
+					if (press.mouse.mods & KC_MOD_CONTROL) {
+						/* same as keyboard target selection command below */
+						int m_idx = cave->m_idx[y][x];
+
+						if ((m_idx > 0) && target_able(m_idx)) {
+							monster_type *m_ptr = cave_monster(cave, m_idx);
+							/* Set up target information */
+							monster_race_track(m_ptr->r_idx);
+							health_track(p_ptr, m_ptr);
+							/*health_track(p_ptr, m_idx);*/
+							target_set_monster(m_idx);
+							done = TRUE;
+						} else {
+							bell("Illegal target!");
+						}
+					} else if (press.mouse.mods & KC_MOD_ALT) {
+						/* go to spot - same as 'g' command below */
+						cmd_insert(CMD_PATHFIND);
+						cmd_set_arg_point(cmd_get_top(), 0, y, x);
+						done = TRUE;
+					} else
+						/* cancel look mode */
+						done = TRUE;
+				} else
+				/* if (press.mouse.button == 3) {
+				} else */
+				{
+					y = KEY_GRID_Y(press);//.mouse.y;
+					x = KEY_GRID_X(press);//.mouse.x;
+					if (cave->m_idx[y][x] || cave->o_idx[y][x]){// || cave->feat[y][x]&) {
+						/* scan the interesting list and see if there in anything here */
+						for (i = 0; i < point_set_size(targets); i++) {
+							if ((y == targets->pts[i].y) && (x == targets->pts[i].x)) {
+								m = i;
+								flag = TRUE;
+								break;
+							}
+						}
+					} else {
+						flag = FALSE;
+					}
+				}
+			} else
+			switch (press.key.code)
 			{
 				case ESCAPE:
 				case 'q':
@@ -1415,7 +1492,7 @@ bool target_set_interactive(int mode, int x, int y)
 				default:
 				{
 					/* Extract direction */
-					d = target_dir(query);
+					d = target_dir(press.key);
 
 					/* Oops */
 					if (!d) bell("Illegal command for target mode!");
@@ -1485,7 +1562,7 @@ bool target_set_interactive(int mode, int x, int y)
 				path_drawn = draw_path (path_n, path_g, path_char, path_attr, py, px);
 
 			/* Describe and Prompt (enable "TARGET_LOOK") */
-			query = target_set_interactive_aux(y, x, mode | TARGET_LOOK);
+			press = target_set_interactive_aux(y, x, mode | TARGET_LOOK);
 
 			/* Remove the path */
 			if (path_drawn)  load_path(path_n, path_g, path_char, path_attr);
@@ -1497,7 +1574,98 @@ bool target_set_interactive(int mode, int x, int y)
 			d = 0;
 
 			/* Analyze the keypress */
-			switch (query.code)
+			if (press.type == EVT_MOUSE) {
+				if (press.mouse.button == 3) {
+					/* give the target selection command */
+					press.mouse.button = 2;
+					press.mouse.mods = KC_MOD_CONTROL;
+				}
+				if (press.mouse.button == 2) {
+					if (mode & (TARGET_KILL)) {
+						if ((y == KEY_GRID_Y(press))
+								&& (x == KEY_GRID_X(press))) {
+							d = -1;
+						}
+					}
+					y = KEY_GRID_Y(press);//.mouse.y;
+					x = KEY_GRID_X(press);//.mouse.x;
+					if (press.mouse.mods & KC_MOD_CONTROL) {
+						/* same as keyboard target selection command below */
+						target_set_location(y, x);
+						done = TRUE;
+					} else
+					if (press.mouse.mods & KC_MOD_ALT) {
+						/* go to spot - same as 'g' command below */
+						cmd_insert(CMD_PATHFIND);
+						cmd_set_arg_point(cmd_get_top(), 0, y, x);
+						done = TRUE;
+					} else
+					{
+						/* cancel look mode */
+						done = TRUE;
+						if (d == -1) {
+							target_set_location(y, x);
+							d = 0;
+						}
+					}
+				} else
+				/*if (press.mouse.button == 3) {
+				} else*/
+				{
+					int dungeon_hgt = (p_ptr->depth == 0) ? TOWN_HGT : DUNGEON_HGT;
+					int dungeon_wid = (p_ptr->depth == 0) ? TOWN_WID : DUNGEON_WID;
+
+					y = KEY_GRID_Y(press);//.mouse.y;
+					x = KEY_GRID_X(press);//.mouse.x;
+					if (Term) {
+						if (press.mouse.y <= 1) {
+							/* move the screen north */
+							y--;
+						} else
+						if (press.mouse.y >= (Term->hgt - 2)) {
+							/* move the screen south */
+							y++;
+						} else
+						if (press.mouse.x <= COL_MAP) {
+							/* move the screen in west */
+							x--;
+						} else
+						if (press.mouse.x >= (Term->wid - 2)) {
+							/* move the screen east */
+							x++;
+						}
+					}
+					if (y < 0) y = 0;
+					if (x < 0) x = 0;
+					if (y >= dungeon_hgt-1) y = dungeon_hgt-1;
+					if (x >= dungeon_wid-1) x = dungeon_wid-1;
+
+					/* Adjust panel if needed */
+					if (adjust_panel_help(y, x, help))
+					{
+						/* Handle stuff */
+						handle_stuff(p_ptr);
+
+						/* Recalculate interesting grids */
+						point_set_dispose(targets);
+						targets = target_set_interactive_prepare(mode);
+					}
+
+					if (cave->m_idx[y][x] || cave->o_idx[y][x]) {
+						/* scan the interesting list and see if there in anything here */
+						for (i = 0; i < point_set_size(targets); i++) {
+							if ((y == targets->pts[i].y) && (x == targets->pts[i].x)) {
+								m = i;
+								flag = TRUE;
+								break;
+							}
+						}
+					} else {
+						flag = FALSE;
+					}
+				}
+			} else
+			switch (press.key.code)
 			{
 				case ESCAPE:
 				case 'q':
@@ -1592,7 +1760,7 @@ bool target_set_interactive(int mode, int x, int y)
 				default:
 				{
 					/* Extract a direction */
-					d = target_dir(query);
+					d = target_dir(press.key);
 
 					/* Oops */
 					if (!d) bell("Illegal command for target mode!");
