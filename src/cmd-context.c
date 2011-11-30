@@ -497,38 +497,38 @@ int context_menu_object(const object_type *o_ptr, const int slot)
 		}
 	} else
 	if (obj_is_useable(o_ptr)) {
-		if (obj_is_wand(o_ptr)) {
+		if (kind_is_wand(o_ptr->tval)) {
 			if (obj_has_charges(o_ptr)) {
 				menu_dynamic_add(m, "Aim", 8);
 			} else {
 				menu_dynamic_add(m, "Aim (grey)", 8);
 			}
 		} else
-		if (obj_is_rod(o_ptr)) {
+		if (kind_is_rod(o_ptr->tval)) {
 			if (obj_can_zap(o_ptr)) {
 				menu_dynamic_add(m, "Zap", 8);
 			} else {
 				menu_dynamic_add(m, "Zap (grey)", 8);
 			}
 		} else
-		if (obj_is_staff(o_ptr)) {
+		if (kind_is_staff(o_ptr->tval)) {
 			if (obj_has_charges(o_ptr)) {
 				menu_dynamic_add(m, "Use", 8);
 			} else {
 				menu_dynamic_add(m, "Use (grey)", 8);
 			}
 		} else
-		if (obj_is_scroll(o_ptr)) {
+		if (kind_is_scroll(o_ptr->tval)) {
 			if (player_can_read()) {
 				menu_dynamic_add(m, "Read", 8);
 			} else {
 				menu_dynamic_add(m, "Read (grey)", 8);
 			}
 		} else
-		if (obj_is_potion(o_ptr)) {
+		if (kind_is_potion(o_ptr->tval)) {
 			menu_dynamic_add(m, "Quaff", 8);
 		} else
-		if (obj_is_food(o_ptr)) {
+		if (kind_is_food(o_ptr->tval)) {
 			menu_dynamic_add(m, "Eat", 8);
 		} else
 		if (obj_is_activatable(o_ptr)) {
@@ -593,7 +593,7 @@ int context_menu_object(const object_type *o_ptr, const int slot)
 
 		/* Display info */
 		tb = object_info(o_ptr, OINFO_NONE);
-		object_desc(header, sizeof(header), o_ptr, ODESC_PREFIX | ODESC_FULL);
+		object_desc(header, sizeof(header), o_ptr, ODESC_ARTICLE | ODESC_FULL);
 
 		textui_textblock_show(tb, area, format("%s", header));
 		textblock_free(tb);

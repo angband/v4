@@ -703,11 +703,11 @@ static void textui_process_click(ui_event e)
       		if (e.mouse.mods & KC_MOD_SHIFT) {
         		/* shift-click - run */
 			  	cmd_insert(CMD_RUN);
-			  	cmd_set_arg_direction(cmd_get_top(), 0, get_direction_player(y,x));
+			  	cmd_set_arg_direction(cmd_get_top(), 0, coords_to_dir(y, x));
       		} else if (e.mouse.mods & KC_MOD_CONTROL) {
         		/* control-click - alter */
   				cmd_insert(CMD_ALTER);
-			  	cmd_set_arg_direction(cmd_get_top(), 0, get_direction_player(y,x));
+			  	cmd_set_arg_direction(cmd_get_top(), 0, coords_to_dir(y, x));
       		} else if (e.mouse.mods & KC_MOD_ALT) {
         		/* alt-click - look */
 	      		if (target_set_interactive(TARGET_LOOK, x, y))
@@ -720,7 +720,7 @@ static void textui_process_click(ui_event e)
         		if ((y-p_ptr->py >= -1) && (y-p_ptr->py <= 1) &&
           				(x-p_ptr->px >= -1) && (x-p_ptr->px <= 1)) {
 			    	cmd_insert(CMD_WALK);
-			    	cmd_set_arg_direction(cmd_get_top(), 0, get_direction_player(y,x));
+			    	cmd_set_arg_direction(cmd_get_top(), 0, coords_to_dir(y, x));
         		} else {
 			    	cmd_insert(CMD_PATHFIND);
 			    	cmd_set_arg_point(cmd_get_top(), 0, y, x);

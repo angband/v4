@@ -1025,10 +1025,8 @@ bool get_item(int *cp, const char *pmt, const char *str, cmd_code cmd, int mode)
 							}
 						}
 						/* Allow player to "refuse" certain actions */
-						if (!get_item_allow(k, cmdkey, is_harmless))
-						{
+						if (!get_item_allow(k, cmdkey, cmd, is_harmless))
 							done = TRUE;
-						}
 
 						/* Accept that choice */
 						(*cp) = k;
@@ -1038,14 +1036,12 @@ bool get_item(int *cp, const char *pmt, const char *str, cmd_code cmd, int mode)
 				}
 				if (k >= 0) {
 					/* Validate the item */
-					if (!get_item_okay(k)) {
+					if (!get_item_okay(k))
 						bell("Illegal object choice (normal)!");
-					}
 
 					/* Allow player to "refuse" certain actions */
-					if (!get_item_allow(k, cmdkey, is_harmless)) {
+					if (!get_item_allow(k, cmdkey, cmd, is_harmless))
 						done = TRUE;
-					}
 
 					/* Accept that choice */
 					(*cp) = k;

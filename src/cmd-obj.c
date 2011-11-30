@@ -588,7 +588,7 @@ void do_cmd_use(cmd_code code, cmd_arg args[])
 		snd = MSG_ACT_ARTIFACT;
 		items_allowed = USE_EQUIP;
 	}
-	else if (obj_is_ammo(o_ptr))
+	else if (kind_is_ammo(o_ptr->tval))
 	{
 		do_cmd_fire(code,args);
 		return;
