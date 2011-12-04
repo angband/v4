@@ -529,7 +529,7 @@ static size_t obj_desc_combat(const object_type *o_ptr, char *buf, size_t max,
 	/* Show weapon bonuses */
 	if (spoil || object_attack_plusses_are_visible(o_ptr)) {
 		if (wield_slot(o_ptr) == INVEN_WIELD || wield_slot(o_ptr) == INVEN_BOW
-				|| obj_is_ammo(o_ptr) || o_ptr->to_d || o_ptr->to_h) {
+				|| kind_is_ammo(o_ptr->tval) || o_ptr->to_d || o_ptr->to_h) {
 			/* Make an exception for body armor with only a to-hit penalty */
 			if (o_ptr->to_h < 0 && o_ptr->to_d == 0 &&
 			    (o_ptr->tval == TV_SOFT_ARMOR ||
