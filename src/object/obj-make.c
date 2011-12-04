@@ -761,7 +761,8 @@ s16b apply_magic(object_type *o_ptr, int lev, bool allow_artifacts,
 		else if (one_in_(ART_NORMAL))
 			art = TRUE;
 
-		if (art && make_artifact(o_ptr, lev)) return MAX_AFFIXES + 1;
+		if (art && make_artifact(o_ptr, lev))
+			return MAX_AFFIXES + 1;
 	}
 
 	/* Generate and apply affixes, stopping if we acquire a theme */
@@ -961,7 +962,7 @@ object_kind *get_obj_num(int level, bool good)
 bool make_object(struct cave *c, object_type *j_ptr, int lev, bool good,
 	bool great, s32b *value)
 {
-	int base, art;
+	int base, art, div;
 	object_kind *kind;
 
 	/* Base level and artifact chance for the object */
@@ -976,8 +977,13 @@ bool make_object(struct cave *c, object_type *j_ptr, int lev, bool good,
 		base = lev;
 	}
 
+	/* Small hack to bring artifact frequencies at low depths in line with V */
+	div = 9 - p_ptr->depth;
+	if (div < 1)
+		div = 1;
+
 	/* Try to make an artifact */
-	if (one_in_(art)) {
+	if (one_in_(art * div)) {
 		if (make_artifact(j_ptr, lev)) {
 			if (value)
 				*value = object_value_real(j_ptr, 1, FALSE, TRUE);
