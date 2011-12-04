@@ -264,12 +264,12 @@ T:boots:6:6:great:20:15 to 100
 
 N:44:suffix:of Enveloping
 C:-d10:-d10:0
-F:SHOW_MODS | LIGHT_CURSE
+F:LIGHT_CURSE
 #T:cloak:0:99:bad:10:10 to 80
 
 N:46:suffix:of Irritation
 C:-d15:-d15:0
-F:AGGRAVATE | SHOW_MODS | LIGHT_CURSE
+F:AGGRAVATE | LIGHT_CURSE
 #T:cloak:0:99:bad:10:10 to 80
 
 # 47 (unused)

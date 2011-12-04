@@ -1974,7 +1974,6 @@ static void add_to_hit(artifact_type *a_ptr, int fixed, int random)
 		}
 	}
 	a_ptr->to_h += (s16b)(fixed + randint0(random));
-	if (a_ptr->to_h > 0) of_on(a_ptr->flags, OF_SHOW_MODS);
 	file_putf(log_file, "Adding ability: extra to_h (now %+d)\n", a_ptr->to_h);
 }
 
@@ -1998,7 +1997,6 @@ static void add_to_dam(artifact_type *a_ptr, int fixed, int random)
 		}
 	}
 	a_ptr->to_d += (s16b)(fixed + randint0(random));
-	if (a_ptr->to_d > 0) of_on(a_ptr->flags, OF_SHOW_MODS);
 	file_putf(log_file, "Adding ability: extra to_dam (now %+d)\n", a_ptr->to_d);
 }
 
