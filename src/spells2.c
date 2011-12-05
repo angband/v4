@@ -1252,16 +1252,19 @@ static bool item_tester_unknown(const object_type *o_ptr)
 /*
  * Used by the "enchant" function (chance of failure)
  */
-static const int enchant_table[16] =
+#define ENCHANT_MAX 20
+
+static const int enchant_table[ENCHANT_MAX + 1] =
 {
-	0, 10,  20, 40, 80,
-	160, 280, 400, 550, 700,
-	800, 900, 950, 970, 990,
+	0, 10,  20, 30, 60,
+	100, 150, 210, 280, 360,
+	450, 550, 660, 780, 910,
+	930, 950, 970, 990, 995,
 	1000
 };
 
 /**
- * Tries to increase an items bonus score, if possible.
+ * Tries to increase an item's bonus score, if possible.
  *
  * \returns true if the bonus was increased
  */
@@ -1274,7 +1277,7 @@ static bool enchant_score(s16b *score, bool is_artifact)
 
 	/* Figure out the chance to enchant */
 	if (*score < 0) chance = 0;
-	else if (*score > 15) chance = 1000;
+	else if (*score > ENCHANT_MAX) chance = 1000;
 	else chance = enchant_table[*score];
 
 	/* If we roll less-than-or-equal to chance, it fails */
@@ -1359,8 +1362,7 @@ bool enchant(object_type *o_ptr, int n, int eflag)
 		(o_ptr->tval == TV_SHOT)) prob = prob / 20;
 
 	/* Try "n" times */
-	for (i = 0; i < n; i++)
-	{
+	for (i = 0; i < n; i++)	{
 		/* Roll for pile resistance */
 		if (prob > 100 && randint0(prob) >= 100) continue;
 
@@ -1414,7 +1416,8 @@ bool enchant_spell(int num_hit, int num_dam, int num_ac)
 	/* Get an item */
 	q = "Enchant which item? ";
 	s = "You have nothing to enchant.";
-	if (!get_item(&item, q, s, 0, (USE_EQUIP | USE_INVEN | USE_FLOOR))) return (FALSE);
+	if (!get_item(&item, q, s, 0, (USE_EQUIP | USE_INVEN | USE_FLOOR)))
+		return (FALSE);
 
 	o_ptr = object_from_item_idx(item);
 
