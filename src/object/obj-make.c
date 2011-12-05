@@ -734,14 +734,14 @@ s16b apply_magic(object_type *o_ptr, int lev, bool allow_artifacts,
 	/* Set the number and quality of affixes this item will have */
 	if (randint0(100) < 20 + lev)
 		max_lev++;
-	if (great || (good && one_in_(4)))
+	if (great || (good && one_in_(3)))
 		max_lev++;
 	if (great || good || randint0(100) < 10 + lev)
 		min_lev++;
 	if (great)
 		min_lev++;
 
-	affixes = randint0(3 + lev / 25);
+	affixes = randint0(3 + lev / 20);
 	if (great)
 		affixes += 2 + randint1(2);
 	else if (good)

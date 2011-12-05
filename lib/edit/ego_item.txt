@@ -398,7 +398,7 @@ T:arrow:0:99:great:12:10 to 100
 T:bolt:0:99:great:12:10 to 100
 
 N:77:suffix:of Slaying
-C:M6:M6:0
+C:M10:M10:0
 M:1:1:255
 T:hafted:0:99:good:50:1 to 100
 T:polearm:0:99:good:50:1 to 100
@@ -684,14 +684,14 @@ T:shield:0:99:great:10:20 to 100
 D:It is covered in bloody-looking spikes.
 
 N:141:make:Elven
-C:2:0:0:0:-10
+C:d2M2:M4:0:0:-10
 T:sword:0:99:good:20:6 to 100
 T:bow:12:13:good:15:20 to 127
 T:arrow:0:99:good:10:10 to 100
 D:It is lighter and more accurate than usual, favoured by wood-elf hunters.
 
 N:142:make:Dwarven
-C:0:1:0:0:10:0:0
+C:0:1+M3:0:0:10:0:0
 L:1:1:TUNNEL
 T:digger:0:99:good:25:20 to 127
 T:hafted:0:99:good:20:16 to 100
@@ -713,14 +713,14 @@ T:hafted:0:99:great:10:26 to 100
 D:It is larger and clumsier than usual.
 
 N:146:make:Hobbitish
-C:2:0:0:0:-20:0:-1
+C:d2M2:0:0:0:-20:0:-1
 T:hafted:0:99:average:20:6 to 56
 T:polearm:0:99:average:20:6 to 56
 T:sword:0:99:average:20:6 to 56
 D:It is smaller and less damaging than usual.
 
 N:148:make:Dunadan
-C:1:1:0:0:0:0:1
+C:M4:M4:0:0:0:0:1
 T:hafted:0:99:great:20:26 to 100
 T:polearm:0:99:great:20:26 to 100
 T:sword:0:99:great:20:26 to 100
@@ -734,7 +734,7 @@ T:sword:0:99:average:20:6 to 36
 D:It is comically small in size.
 
 N:152:make:Orcish
-C:0:0:0:0:20:0:0
+C:M3:M2:0:0:20:0:0
 L:1:1:TUNNEL
 T:digger:0:99:average:15:10 to 127
 T:hafted:0:99:average:20:6 to 86
@@ -783,7 +783,7 @@ T:sword:0:99:bad:20:6 to 46
 D:It is better suited on a store display.
 
 N:158:make:Hunter's
-C:2d3:0:0
+C:2d3M3:0:0
 T:polearm:0:99:good:20:3 to 100
 T:sword:0:99:good:20:3 to 100
 T:bow:12:13:good:15:10 to 127
@@ -799,7 +799,7 @@ T:sword:0:99:good:10:56 to 100
 T:arrow:0:99:good:10:1 to 60
 
 N:160:quality:Journeyman's
-C:1+M5:1+M5:0:0:0:0:0
+C:1+M8:1+M8:0:0:0:0:0
 T:hafted:0:99:good:20:6 to 100
 T:polearm:0:99:good:20:6 to 100
 T:sword:0:99:good:20:6 to 100
@@ -810,7 +810,7 @@ T:bolt:0:99:good:15:10 to 100
 D:It is well-designed for combat.
 
 N:161:quality:Runed
-C:5:2:0:0:0:0:1
+C:3+d3M3:1+d2M2:0:0:0:0:1
 T:hafted:0:99:great:20:25 to 100
 T:polearm:0:99:great:20:25 to 100
 T:sword:0:99:great:20:25 to 100
@@ -820,7 +820,7 @@ T:bolt:0:99:great:15:25 to 100
 D:It is significantly more powerful than usual.
 
 N:162:quality:Majestic
-C:2:2:0:0:20:0:2
+C:d2M4:d2M4:0:0:20:0:2
 T:hafted:0:99:uber:10:56 to 100
 T:polearm:0:99:uber:10:56 to 100
 T:sword:0:99:uber:10:56 to 100
@@ -830,13 +830,13 @@ T:bolt:0:99:uber:10:61 to 100
 D:It may be the most powerful of its kind.
 
 N:163:material:Bone
-C:0:0:0:0:-10
+C:0:d2:0:0:-10
 T:hafted:10:99:good:20:6 to 55
 T:hafted:10:99:average:20:56 to 100
 D:It is made from animal skeletons.
 
 N:164:material:Stone
-C:0:1:0:0:10
+C:0:M4:0:0:10
 T:hafted:10:99:good:20:6 to 65
 T:hafted:10:99:average:20:66 to 100
 T:polearm:0:99:good:20:6 to 65
@@ -849,7 +849,7 @@ T:hafted:10:99:good:20:6 to 100
 D:It is much heavier than normal.
 
 N:166:material:Dragonbone
-C:0:1:0:0:0:0:1
+C:0:M3:0:0:0:0:1
 T:hafted:10:99:good:10:16 to 100
 T:arrow:0:99:good:10:16 to 100
 T:bolt:0:99:good:10:16 to 100
@@ -874,7 +874,7 @@ T:arrow:0:99:good:10:1 to 100
 T:bolt:0:99:good:10:1 to 100
 
 N:170:material:Crystal
-C:0:1+d2M3:0
+C:0:2+d3M4:0
 T:hafted:10:99:good:30:16 to 100
 T:polearm:0:99:good:30:16 to 100
 T:sword:0:99:good:30:16 to 100
@@ -932,17 +932,16 @@ T:arrow:0:99:great:10:45 to 100
 T:bolt:0:99:great:10:45 to 100
 
 N:175:material:Diamond
-C:0:3+d2M2:0
+C:0:2+d3M4:0
 T:hafted:10:99:good:30:26 to 100
 T:polearm:0:99:good:30:26 to 100
 T:sword:0:99:good:30:26 to 100
-T:bow:12:99:good:15:26 to 127
 T:shot:0:99:good:10:25 to 100
 T:arrow:0:99:good:10:25 to 100
 T:bolt:0:99:good:10:25 to 100
 
 N:176:material:Blackrock
-C:0:2+d2M2:0:0:75
+C:0:2+d3M3:0:0:75
 T:hafted:10:99:good:20:10 to 66
 T:polearm:0:99:good:20:10 to 66
 T:sword:0:99:good:20:10 to 66
@@ -956,27 +955,27 @@ D:It is made from heavy sharpened stone.
 ### all previous ego items.
 
 N:177:quality:Sharp
-C:M5:1+d2M3:0
+C:M6:1+d3M4:0
 T:polearm:0:99:good:50:1 to 100
 T:sword:0:99:good:50:1 to 100
 T:arrow:0:99:good:35:1 to 100
 D:It is much sharper than usual.
 
 N:178:quality:Keen
-C:M9:2+d3M5:0
+C:M9:2+d4M6:0
 T:polearm:0:99:great:30:21 to 100
 T:sword:0:99:great:30:21 to 100
 T:arrow:0:99:great:25:21 to 100
 D:It is incredibly sharp to the touch.
 
 N:179:quality:Vicious
-C:M5:1+d2M3:0
+C:M6:1+d3M4:0
 T:hafted:0:99:good:50:1 to 100
 T:digger:0:99:good:50:1 to 100
 D:It is more damaging than usual.
 
 N:180:quality:Brutal
-C:M9:2+d3M5:0
+C:M9:2+d4M6:0
 T:hafted:0:99:great:30:21 to 100
 T:digger:0:99:great:30:21 to 100
 D:It is much more damaging than usual.
