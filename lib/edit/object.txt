@@ -728,7 +728,6 @@ I:18:1
 W:3:0:3:0
 M:100:5d7
 A:30:3 to 100
-D:A short 
 P:0:1d5:0:0:0
 D:A short projectile, heavier than an arrow.
 
