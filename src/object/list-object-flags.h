@@ -33,7 +33,7 @@ OF(STEALTH,     TRUE,	0,				OFID_WIELD,	OFT_PVAL,	8,		12,	1,	1,	1,		1,	1,		1,		1
 OF(SEARCH,      TRUE,	0,				OFID_WIELD,	OFT_PVAL,	2,		5,	1,	1,	1,		1,	1,		1,		1,		1,		1,	1,		1,		"",		"Searching",			"Your %s glows.")
 OF(INFRA,       TRUE,	TMD_SINFRA,		OFID_WIELD,	OFT_PVAL,	4,		8,	1,	1,	1,		1,	1,		1,		1,		1,		1,	1,		1,		"",		"Infravision",			"")
 OF(TUNNEL,      TRUE,	0,				OFID_WIELD,	OFT_PVAL,	3,		8,	1,	1,	1,		1,	1,		1,		1,		1,		1,	1,		1,		"",		"Tunnelling",			"")
-OF(SPEED,       TRUE,	TMD_FAST,		OFID_WIELD,	OFT_PVAL,	20,		12,	1,	1,	1,		1,	1,		1,		1,		1,		1,	1,		1,		"",		"Speed",				"")
+OF(SPEED,       TRUE,	TMD_FAST,		OFID_WIELD,	OFT_PVAL,	40,		12,	1,	1,	1,		1,	1,		1,		1,		1,		1,	1,		1,		"",		"Speed",				"")
 OF(BLOWS,       TRUE,	0,				OFID_WIELD,	OFT_PVAL,	0,		50,	1,	0,	3,		3,	3,		3,		3,		3,		3,	3,		3,		"",		"Extra Blows",			"")
 OF(SHOTS,       TRUE,	0,				OFID_WIELD,	OFT_PVAL,	0,		50,	0,	1,	4,		4,	4,		4,		4,		4,		4,	4,		4,		"",		"Extra Shots",			"")
 OF(MIGHT,       TRUE,	0,				OFID_WIELD,	OFT_PVAL,	0,		40,	0,	1,	0,		0,	0,		0,		0,		0,		0,	0,		0,		"",		"Extra Might",			"")
