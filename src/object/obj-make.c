@@ -452,8 +452,10 @@ static void obj_add_affix(object_type *o_ptr, int level, int max_lev,
 	if (o_ptr->artifact || o_ptr->affix[MAX_AFFIXES - 1] || o_ptr->theme) return;
 
 	/* Occasionally boost the generation level of an affix */
-	if (level > 0 && one_in_(GREAT_EGO))
+	if (level > 0 && one_in_(GREAT_EGO)) {
 		level = 1 + (level * MAX_DEPTH / randint1(MAX_DEPTH));
+		max_lev++;
+	}
 
 	/* Make a copy of the object in case things go wrong */
 	object_copy(j_ptr, o_ptr);
@@ -734,17 +736,17 @@ s16b apply_magic(object_type *o_ptr, int lev, bool allow_artifacts,
 	/* Set the number and quality of affixes this item will have */
 	if (randint0(100) < 20 + lev)
 		max_lev++;
-	if (great || (good && one_in_(3)))
+	if (great || (good && one_in_(3)) || randint0(500) < 3 * lev)
 		max_lev++;
 	if (great || good || randint0(100) < 10 + lev)
 		min_lev++;
-	if (great)
+	if (max_lev > 4)
 		min_lev++;
 
 	affixes = randint0(3 + lev / 20);
-	if (great)
+	if (max_lev > 4)
 		affixes += 2 + randint1(2);
-	else if (good)
+	else if (max_lev > 3)
 		affixes += randint1(2);
 	if (of_has(o_ptr->flags, OF_GOOD))
 		affixes--;
@@ -754,7 +756,7 @@ s16b apply_magic(object_type *o_ptr, int lev, bool allow_artifacts,
 	/* Roll for artifact creation - n.b. this is now only used if we were
 	   called directly and not via make_object */
 	if (allow_artifacts) {
-		if (great && one_in_(ART_GREAT))
+		if (max_lev > 4 && one_in_(ART_GREAT))
 			art = TRUE;
 		else if (max_lev > 3 && one_in_(ART_GOOD))
 			art = TRUE;
@@ -978,7 +980,7 @@ bool make_object(struct cave *c, object_type *j_ptr, int lev, bool good,
 	}
 
 	/* Small hack to bring artifact frequencies at low depths in line with V */
-	div = 9 - p_ptr->depth;
+	div = 9 - c->depth;
 	if (div < 1)
 		div = 1;
 
@@ -1009,7 +1011,8 @@ bool make_object(struct cave *c, object_type *j_ptr, int lev, bool good,
 		*value = object_value_real(j_ptr, j_ptr->number, FALSE, TRUE);
 
 	if (!cursed_p(j_ptr->flags) && (kind->alloc_min > c->depth)) {
-		if (value) *value = (kind->alloc_min - c->depth) * (*value / 5);
+		if (value)
+			*value = (kind->alloc_min - c->depth) * (*value / 5);
 	}
 
 	return TRUE;
