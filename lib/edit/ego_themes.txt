@@ -20,7 +20,7 @@
 
 # N: serial number : type : name
 # T: tval : min sval : max sval : min to max
-# A: affix : weighting
+# A: affix : weighting : chance
 # D: description
 
 # 'N' indicates the beginning of an entry. The serial number must 
@@ -45,7 +45,11 @@
 # once the theme is awarded. The same affix may be specified more than 
 # once (e.g. to boost hit/dam/ac), but all occurrences of one affix must 
 # be consecutive. The affix "Null" may be used to adjust the 
-# probabilities without changing the item properties.
+# probabilities without changing the item properties. 'chance' is an
+# optional field, and is the chance of the affix being applied as part of
+# the theme if it isn't already present. If absent, chance is 100. If
+# chance is 0 it means that the affix can contribute to the award of the
+# theme, but is not applied as part of it.
 
 # 'D' is a textual flavour description of the theme, for use in 'I'nspect.
 
@@ -216,9 +220,11 @@ N:17:suffix:(Holy Avenger)
 T:hafted:0:99:20 to 100
 T:polearm:0:99:20 to 100
 T:sword:0:99:20 to 100
-A:Journeyman's:0
-A:Silver:1
-A:Iron:1
+A:Journeyman's:1
+A:Journeyman's:0:66
+A:Journeyman's:0:33
+A:Silver:1:0
+A:Iron:1:0
 A:of Slay Demon:6
 A:of Slay Evil:6
 A:of Slay Undead:6
@@ -227,6 +233,26 @@ A:of Wisdom:6
 A:of Bravery:4
 A:of Observation:2
 A:of Support:0
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:18:suffix:(Defender)
 T:hafted:0:99:20 to 100
@@ -245,12 +271,27 @@ A:of Resist Cold:0
 A:of Durability:1
 A:of Stealth:0
 A:of Support:0
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
 
 N:19:suffix:of Gondolin
 T:hafted:0:99:30 to 127
 T:polearm:0:99:30 to 127
 T:sword:0:99:30 to 127
 A:Journeyman's:0
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:Iron:1
 A:of Slay Demon:5
 A:of Slay Orc:5
@@ -262,12 +303,34 @@ A:of Observation:3
 A:of Free Action:5
 A:of Durability:1
 A:of Dweomercraft:0
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:20:suffix:of Westernesse
 T:hafted:0:99:30 to 127
 T:polearm:0:99:30 to 127
 T:sword:0:99:30 to 127
 A:Journeyman's:0
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:of Slay Orc:5
 A:of Slay Troll:5
 A:of Slay Giant:5
@@ -276,6 +339,26 @@ A:of Observation:5
 A:of Strength:5
 A:of Agility:5
 A:of Hardiness:5
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:21:suffix:of Fury
 T:hafted:12:99:1 to 127
@@ -283,85 +366,283 @@ T:polearm:10:99:1 to 127
 T:sword:16:99:1 to 127
 A:Journeyman's:0
 A:Journeyman's:1
+A:Journeyman's:0:50
 A:of Aggravation:0
 A:of Bravery:8
 A:of Durability:1
 A:of Strength:0
 A:of Strength:8
 A:of Extra Attacks:8
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:22:suffix:of *Slay Animal*
 T:hafted:0:99:20 to 80
 T:polearm:0:99:20 to 80
 T:sword:0:99:20 to 80
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:of Slay Animal:10
 A:of Slow Digestion:7
 A:of Intelligence:7
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:23:suffix:of *Slay Evil*
 T:hafted:0:99:20 to 100
 T:polearm:0:99:20 to 100
 T:sword:0:99:20 to 100
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:of Slay Evil:10
 A:of Piety:7
 A:of Wisdom:7
 A:of Dweomercraft:0
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:24:suffix:of *Slay Undead*
 T:hafted:0:18:62 to 127
 T:polearm:0:99:62 to 127
 T:sword:0:99:62 to 127
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:Silver:1
 A:of Slay Undead:5
 A:of Nightbane:9
 A:of Observation:5
 A:of Wisdom:5
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:25:suffix:of *Slay Demon*
 T:hafted:0:99:67 to 127
 T:polearm:0:99:67 to 127
 T:sword:0:99:67 to 127
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:Iron:1
 A:of Slay Demon:5
 A:of Demonbane:9
 A:of Resist Fire:5
 A:of Intelligence:5
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:26:suffix:of *Slay Orc*
 T:hafted:0:99:10 to 44
 T:polearm:0:99:10 to 44
 T:sword:0:99:10 to 44
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:of Slay Orc:15
 A:of Adroitness:5
 A:of Agility:5
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:27:suffix:of *Slay Troll*
 T:hafted:0:99:26 to 66
 T:polearm:0:99:26 to 66
 T:sword:0:99:26 to 66
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:of Slay Troll:15
 A:of Regeneration:5
 A:of Strength:5
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:28:suffix:of *Slay Giant*
 T:hafted:0:99:29 to 100
 T:polearm:0:99:29 to 100
 T:sword:0:99:29 to 100
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:of Slay Giant:15
 A:of Robustness:5
 A:of Strength:5
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:29:suffix:of *Slay Dragon*
 T:hafted:0:99:29 to 100
 T:polearm:0:99:29 to 100
 T:sword:0:99:29 to 100
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:of Slay Dragon:5
 A:of Dragonbane:10
 A:of Bravery:5
 A:of Hardiness:5
+A:Elven:1:0
+A:Dwarven:1:0
+A:Trollish:1:0
+A:Dunadan:1:0
+A:Orcish:1:0
+A:Giant:1:0
+A:Runed:1:0
+A:Majestic:2:0
+A:Lead-Filled:1:0
+A:Dragonbone:1:0
+A:Crystal:1:0
+A:Diamond:1:0
+A:Blackrock:1:0
+A:Sharp:1:0
+A:Keen:1:0
+A:Vicious:1:0
+A:Brutal:1:0
+A:of Slicing:1:0
+A:of Chaos:1:0
+A:of Disruption:1:0
 
 N:30:suffix:of Earthquakes
 T:digger:0:99:20 to 127
+A:Journeyman's:0:50
 A:Brutal:5
 A:of Acid:5
 A:of Impact:10
@@ -406,6 +687,8 @@ N:35:prefix:Blessed
 T:hafted:0:99:21 to 100
 T:polearm:0:99:21 to 100
 T:sword:0:99:21 to 100
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:of Piety:100
 A:of Wisdom:100
 A:of Dweomercraft:0
@@ -415,7 +698,8 @@ T:shot:2:99:40 to 127
 T:arrow:2:99:40 to 127
 T:bolt:2:99:40 to 127
 A:Journeyman's:0
-A:Journeyman's:0
+A:Journeyman's:0:66
+A:Journeyman's:0:33
 A:Silver:1
 A:Iron:1
 A:of Slay Demon:7

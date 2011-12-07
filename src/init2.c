@@ -1695,7 +1695,7 @@ static enum parser_error parse_t_t(struct parser *p) {
 }
 
 static enum parser_error parse_t_a(struct parser *p) {
-	int i;
+	int i, prob = 0;
 	int weight = parser_getint(p, "weight");
 	const char *sym = parser_getsym(p, "affix");
 	struct ego_item *affix;
@@ -1714,6 +1714,12 @@ static enum parser_error parse_t_a(struct parser *p) {
 	}
 	if (i == z_info->e_max)
 		return PARSE_ERROR_INVALID_VALUE;
+
+	if (parser_hasval(p, "prob")) {
+		prob = parser_getint(p, "prob");
+		t->aff_prob[t->num_affixes] = prob;
+	} else
+		t->aff_prob[t->num_affixes] = 100;
 
 	t->aff_wgt[t->num_affixes++] = weight;
 	if (t->num_affixes > THEME_AFFIX_MAX)
@@ -1736,7 +1742,7 @@ struct parser *init_parse_t(void) {
 	parser_reg(p, "V sym version", ignored);
 	parser_reg(p, "N int index sym type str name", parse_t_n);
 	parser_reg(p, "T sym tval int min-sval int max-sval str minmax", parse_t_t);
-	parser_reg(p, "A sym affix int weight", parse_t_a);
+	parser_reg(p, "A sym affix int weight ?int prob", parse_t_a);
 	parser_reg(p, "D str text", parse_t_d);
 	return p;
 }

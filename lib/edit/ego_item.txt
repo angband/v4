@@ -398,11 +398,11 @@ T:arrow:0:99:great:12:10 to 100
 T:bolt:0:99:great:12:10 to 100
 
 N:77:suffix:of Slaying
-C:M10:M10:0
+C:M6:M6:0
 M:1:1:255
-T:hafted:0:99:good:50:1 to 100
-T:polearm:0:99:good:50:1 to 100
-T:sword:0:99:good:50:1 to 100
+T:hafted:0:99:good:80:1 to 100
+T:polearm:0:99:good:80:1 to 100
+T:sword:0:99:good:80:1 to 100
 T:bow:0:99:good:50:1 to 100
 T:shot:0:99:good:50:1 to 100
 T:arrow:0:99:good:50:1 to 100

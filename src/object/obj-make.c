@@ -430,7 +430,7 @@ void obj_apply_theme(object_type *o_ptr, int level, int this_one)
 					(o_ptr->theme->affix[i] != o_ptr->theme->affix[i - 1]))
 				gotit = TRUE;
 		}
-		if (!gotit)
+		if (!gotit && randint0(100) < o_ptr->theme->aff_prob[i])
 			ego_apply_magic(o_ptr, level, o_ptr->theme->affix[i]);
 	}
 

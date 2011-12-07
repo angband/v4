@@ -58,7 +58,7 @@ enum {
 #define EGO_TVALS_MAX 	  9
 #define EGO_RANDFLAGS_MAX 4
 #define NO_MINIMUM 		255
-#define THEME_AFFIX_MAX  16
+#define THEME_AFFIX_MAX  64
 #define MAX_AFFIXES 	  8
 enum {
 	AFFIX_NULL = 0,
@@ -539,6 +539,7 @@ struct theme {
 											/* A: */
 	u16b affix[THEME_AFFIX_MAX];			/* Affixes germane to this theme */
 	byte aff_wgt[THEME_AFFIX_MAX];			/* Weighting of each affix 1-100 */
+	byte aff_prob[THEME_AFFIX_MAX];			/* Chance of each affix appearing (%) */
 	u16b tot_wgt;							/* Total of all weightings */
 	byte num_affixes;						/* Number of A: lines */
 											/* D: */
