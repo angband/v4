@@ -1865,14 +1865,17 @@ static void describe_monster_movement(const monster_race *r_ptr,
 	/* Speed */
 	if (r_ptr->speed > 110)
 	{
-		if (r_ptr->speed > 130) text_out_c(TERM_GREEN, " incredibly");
-		else if (r_ptr->speed > 120) text_out_c(TERM_GREEN, " very");
+		if (r_ptr->speed >= 140) text_out_c(TERM_GREEN, " unbelievably");
+		else if (r_ptr->speed >= 130) text_out_c(TERM_GREEN, " extremely");
+		else if (r_ptr->speed >= 125) text_out_c(TERM_GREEN, " very");
+		else if (r_ptr->speed <= 115) text_out_c(TERM_GREEN, " somewhat");
 		text_out_c(TERM_GREEN, " quickly");
 	}
 	else if (r_ptr->speed < 110)
 	{
-		if (r_ptr->speed < 90) text_out_c(TERM_GREEN, " incredibly");
-		else if (r_ptr->speed < 100) text_out_c(TERM_GREEN, " very");
+		if (r_ptr->speed <= 80) text_out_c(TERM_GREEN, " incredibly");
+		else if (r_ptr->speed <= 90) text_out_c(TERM_GREEN, " very");
+		else if (r_ptr->speed >= 105) text_out_c(TERM_GREEN, " somewhat");
 		text_out_c(TERM_GREEN, " slowly");
 	}
 	else
