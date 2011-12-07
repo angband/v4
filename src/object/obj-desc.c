@@ -577,7 +577,7 @@ static size_t obj_desc_pval(const object_type *o_ptr, char *buf, size_t max,
 	size_t end, bool spoil)
 {
 	bitflag f[OF_SIZE], f2[OF_SIZE];
-	int i;
+	int i, known = 0;
 
 	object_flags(o_ptr, f);
 	create_pval_mask(f2);
@@ -587,9 +587,10 @@ static size_t obj_desc_pval(const object_type *o_ptr, char *buf, size_t max,
 	strnfcat(buf, max, &end, " <");
 	for (i = 0; i < o_ptr->num_pvals; i++) {
 		if (spoil || object_this_pval_is_visible(o_ptr, i)) {
-			if (i > 0)
+			if (known > 0)
 				strnfcat(buf, max, &end, ", ");
 			strnfcat(buf, max, &end, "%+d", o_ptr->pval[i]);
+			known++;
 		}
 	}
 
