@@ -64,8 +64,8 @@
 
 # 'L' is for pval, min pval and flags specific to that pval. Each pval 
 # and its flags need a line to themselves. MAX_PVALS is defined in 
-# src/defines.h - you will need to recompile if you wish to change this 
-# value. A pval can take a random value. The min_pval must be present,
+# src/object/object.h - you will need to recompile if you wish to change
+# this value. A pval can take a random value. The min_pval must be present,
 # but can be 0. As with 'M' above, 255 means "do not apply a minimum".
 # If random pvals result in duplication, identical pvals will be merged.
 
@@ -514,7 +514,7 @@ T:sword:0:99:uber:20:67 to 100
 
 ### Lanterns/torches
 
-# Not for now -- need to figure out how ID applies
+# Not for now -- need to figure out how ID applies (should be a theme)
 #N:96:of Shadows
 #X:10:0
 #W:5:4:0:1000 (imported from NPP)
@@ -619,7 +619,7 @@ L:d5:0:SPEED
 ### New affixes ###
 
 N:130:quality:Massive
-C:0:0:0:0:50:1:0
+C:0:M3:0:0:50:1:0
 T:digger:0:99:great:5:45 to 100
 T:hafted:0:99:great:10:45 to 100
 T:polearm:0:99:great:10:45 to 100
@@ -708,7 +708,7 @@ T:polearm:0:99:average:20:2 to 66
 D:It is of gnomish design, small but incredibly useful for digging.
 
 N:145:make:Trollish
-C:-2:-1:0:0:20:0:2
+C:-d2:d2:0:0:20:0:2
 T:hafted:0:99:great:10:26 to 100
 D:It is larger and clumsier than usual.
 
@@ -727,7 +727,7 @@ T:sword:0:99:great:20:26 to 100
 D:It is finely crafted for skilled warriors.
 
 N:151:make:Kobold
-C:0:0:0:0:-20:0:-1
+C:d2:0:0:0:-30:0:-1
 T:hafted:0:99:average:20:6 to 36
 T:polearm:0:99:average:20:6 to 36
 T:sword:0:99:average:20:6 to 36
@@ -736,15 +736,15 @@ D:It is comically small in size.
 N:152:make:Orcish
 C:M3:M2:0:0:20:0:0
 L:1:1:TUNNEL
-T:digger:0:99:average:15:10 to 127
-T:hafted:0:99:average:20:6 to 86
-T:polearm:0:99:average:20:6 to 86
-T:sword:0:99:average:20:6 to 86
+T:digger:0:99:good:15:10 to 127
+T:hafted:0:99:good:20:6 to 86
+T:polearm:0:99:good:20:6 to 86
+T:sword:0:99:good:20:6 to 86
 D:It is of orcish make.  It is heavy and unlikely to
 D: have ever seen daylight.
 
 N:153:make:Giant
-C:-2:0:0:0:150:1:1
+C:-d2:d2M2:0:0:150:1:1
 T:digger:0:99:great:15:36 to 127
 T:hafted:0:99:great:20:36 to 100
 T:polearm:0:99:great:20:36 to 100
@@ -844,7 +844,7 @@ T:polearm:0:99:average:20:66 to 100
 D:It is made from solid granite.
 
 N:165:material:Lead-Filled
-C:0:0:0:0:50:2:-1
+C:0:d3M3:0:0:50:2:-1
 T:hafted:10:99:good:20:6 to 100
 D:It is much heavier than normal.
 
@@ -874,7 +874,7 @@ T:arrow:0:99:good:10:1 to 100
 T:bolt:0:99:good:10:1 to 100
 
 N:170:material:Crystal
-C:0:2+d3M4:0
+C:d2M2:2+d3M4:0
 T:hafted:10:99:good:30:16 to 100
 T:polearm:0:99:good:30:16 to 100
 T:sword:0:99:good:30:16 to 100
@@ -932,7 +932,7 @@ T:arrow:0:99:great:10:45 to 100
 T:bolt:0:99:great:10:45 to 100
 
 N:175:material:Diamond
-C:0:2+d3M4:0
+C:d2M3:2+d3M4:0
 T:hafted:10:99:good:30:26 to 100
 T:polearm:0:99:good:30:26 to 100
 T:sword:0:99:good:30:26 to 100
@@ -941,7 +941,7 @@ T:arrow:0:99:good:10:25 to 100
 T:bolt:0:99:good:10:25 to 100
 
 N:176:material:Blackrock
-C:0:2+d3M3:0:0:75
+C:d2M2:2+d3M3:0:0:75
 T:hafted:10:99:good:20:10 to 66
 T:polearm:0:99:good:20:10 to 66
 T:sword:0:99:good:20:10 to 66
@@ -1087,16 +1087,16 @@ T:hafted:0:99:good:10:1 to 100
 D:It is designed with an eye towards defense.
 
 N:197:suffix:of Slicing
-C:0:0:0:0:0:3:1
+C:d2M8:d2M8:0:0:0:3:1
 T:polearm:2:99:uber:10:60 to 100
 
 N:198:suffix:of Chaos
-C:0:0:0:0:0:2:0
+C:d2M8:d2M8:0:0:0:2:0
 F:RES_CHAOS
 T:sword:11:99:uber:10:70 to 100
 
 N:207:suffix:of Disruption
-C:0:0:0:0:233:3:4
+C:d2M8:d2M8:0:0:233:3:4
 F:SLAY_UNDEAD
 T:hafted:0:99:uber:10:70 to 100
 
@@ -1149,7 +1149,7 @@ T:sword:0:99:good:10:1 to 100
 T:hafted:0:99:good:10:1 to 100
 
 N:208:material:Black Dragon Scale
-C:-2:0:0:6:6
+C:0:0:0:6:6
 M:-2:255:255
 F:RES_ACID | IGNORE_ACID
 #E:ACID_BALL:100+d100
@@ -1161,7 +1161,7 @@ T:gloves:2:4:great:6:35 to 100
 T:shield:0:99:great:6:35 to 100
 
 N:209:material:White Dragon Scale
-C:-2:0:0:4:4
+C:0:0:0:4:4
 M:-2:255:255
 F:RES_COLD | IGNORE_COLD
 #E:COLD_BALL100:100+d100
@@ -1173,7 +1173,7 @@ T:gloves:2:4:great:6:30 to 100
 T:shield:0:99:great:6:30 to 100
 
 N:210:material:Blue Dragon Scale
-C:-2:0:0:2:2
+C:0:0:0:2:2
 M:-2:255:255
 F:RES_ELEC | IGNORE_ELEC
 #E:DRAGON_BLUE:100+d100
@@ -1185,7 +1185,7 @@ T:gloves:2:4:great:6:25 to 100
 T:shield:0:99:great:6:25 to 100
 
 N:211:material:Red Dragon Scale
-C:-2:0:0:10:10
+C:0:0:0:10:10
 M:-2:255:255
 F:RES_FIRE | IGNORE_FIRE
 #E:DRAGON_RED:100+d100
@@ -1197,7 +1197,7 @@ T:gloves:2:4:great:6:40 to 100
 T:shield:0:99:great:6:40 to 100
 
 N:212:material:Green Dragon Scale
-C:-2:0:0:8:8
+C:0:0:0:8:8
 M:-2:255:255
 F:RES_POIS
 #E:DRAGON_GREEN:100+d100
@@ -1209,7 +1209,7 @@ T:gloves:2:4:great:6:60 to 100
 T:shield:0:99:great:6:60 to 100
 
 N:213:material:Gold Dragon Scale
-C:-2:0:0:12:12
+C:0:0:0:12:12
 M:-2:255:255
 F:RES_SOUND
 #E:DRAGON_GOLD:100+d100
@@ -1221,7 +1221,7 @@ T:gloves:2:4:great:6:70 to 100
 T:shield:0:99:great:6:70 to 100
 
 N:214:material:Pseudo-dragon Scale
-C:-2:0:0:14:14
+C:0:0:0:14:14
 M:-2:255:255
 F:RES_LIGHT | RES_DARK
 #E:DRAGON_SHINING:100+d100
@@ -1234,7 +1234,7 @@ T:gloves:2:4:uber:5:75 to 100
 T:shield:0:99:uber:5:75 to 100
 
 N:215:material:Law Dragon Scale
-C:-2:0:0:16:16
+C:0:0:0:16:16
 M:-2:255:255
 F:RES_SOUND | RES_SHARD
 #E:DRAGON_LAW:100+d100
@@ -1247,7 +1247,7 @@ T:gloves:2:4:uber:5:80 to 100
 T:shield:0:99:uber:5:80 to 100
 
 N:216:material:Chaos Dragon Scale
-C:-2:0:0:18:18
+C:0:0:0:18:18
 M:-2:255:255
 F:RES_CHAOS | RES_DISEN
 #E:DRAGON_CHAOS:100+d100
