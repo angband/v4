@@ -36,9 +36,9 @@
 #define GREAT_EGO   20
 
 /* One_in_ chances of creating an artifact from a normal/good/great item */
-#define ART_NORMAL  500
-#define ART_GOOD	100
-#define ART_GREAT	 20
+#define ART_NORMAL	400
+#define ART_GOOD	 50
+#define ART_GREAT	 15
 
 /**
  * Select an item from an allocation table struct, using the prob3 member.
