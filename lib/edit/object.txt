@@ -3422,7 +3422,7 @@ F:EASY_KNOW
 
 ##### Special Books (note resistances) #####
 
-N:468:Tome of High Magick
+N:468:& Tome of High Magick
 G:?:r
 I:90:4
 W:40:0:30:0
@@ -3430,7 +3430,7 @@ W:40:0:30:0
 P:0:1d1:0:0:0
 F:INSTA_ART
 
-N:469:Tome of High Magick
+N:469:& Tome of High Magick
 G:?:r
 I:90:5
 W:50:0:30:0
@@ -3438,7 +3438,7 @@ W:50:0:30:0
 P:0:1d1:0:0:0
 F:INSTA_ART
 
-N:470:Tome of High Magick
+N:470:& Tome of High Magick
 G:?:r
 I:90:6
 W:60:0:30:0
@@ -3446,7 +3446,7 @@ W:60:0:30:0
 P:0:1d1:0:0:0
 F:INSTA_ART
 
-N:471:Tome of High Magick
+N:471:& Tome of High Magick
 G:?:r
 I:90:7
 W:70:0:30:0
@@ -3454,7 +3454,7 @@ W:70:0:30:0
 P:0:1d1:0:0:0
 F:INSTA_ART
 
-N:472:Tome of High Magick
+N:472:& Tome of High Magick
 G:?:r
 I:90:8
 W:80:0:30:0
@@ -3462,7 +3462,7 @@ W:80:0:30:0
 P:0:1d1:0:0:0
 F:INSTA_ART
 
-N:473:Book of High Prayer
+N:473:& Book of High Prayer
 G:?:g
 I:91:4
 W:40:0:30:0
@@ -3470,7 +3470,7 @@ W:40:0:30:0
 P:0:1d1:0:0:0
 F:INSTA_ART
 
-N:474:Book of High Prayer
+N:474:& Book of High Prayer
 G:?:g
 I:91:5
 W:50:0:30:0
@@ -3478,7 +3478,7 @@ W:50:0:30:0
 P:0:1d1:0:0:0
 F:INSTA_ART
 
-N:475:Book of High Prayer
+N:475:& Book of High Prayer
 G:?:g
 I:91:6
 W:60:0:30:0
@@ -3486,7 +3486,7 @@ W:60:0:30:0
 P:0:1d1:0:0:0
 F:INSTA_ART
 
-N:476:Book of High Prayer
+N:476:& Book of High Prayer
 G:?:g
 I:91:7
 W:70:0:30:0
@@ -3494,7 +3494,7 @@ W:70:0:30:0
 P:0:1d1:0:0:0
 F:INSTA_ART
 
-N:477:Book of High Prayer
+N:477:& Book of High Prayer
 G:?:g
 I:91:8
 W:80:0:30:0
