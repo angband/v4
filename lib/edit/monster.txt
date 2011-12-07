@@ -654,7 +654,7 @@ D:It is about ten feet long.
 N:50:Cave spider
 T:spider
 C:p
-I:120:7:8:19:80
+I:115:7:8:19:80
 W:2:1:0:7
 B:BITE:HURT:1d4
 F:ANIMAL | WEIRD_MIND | FRIENDS
@@ -1117,7 +1117,7 @@ D:It has a copper head and sharp venomous fangs.
 N:182:Giant white dragon fly
 T:dragon fly
 C:w
-I:110:14:12:30:1
+I:125:14:12:30:1
 W:5:2:0:15
 B:BITE:COLD:1d6
 F:IM_COLD
@@ -1128,7 +1128,7 @@ D:It is a large fly that drips frost.
 N:208:Giant green dragon fly
 T:dragon fly
 C:g
-I:110:14:12:30:1
+I:125:14:12:30:1
 W:5:2:0:16
 B:BITE:POISON:1d6
 F:RAND_25
@@ -1217,7 +1217,7 @@ D: frighten its prey.
 N:231:Giant black dragon fly
 T:dragon fly
 C:s
-I:120:14:12:30:1
+I:125:14:12:30:1
 W:6:2:0:18
 F:NEVER_BLOW | RAND_25
 F:IM_ACID
@@ -1228,7 +1228,7 @@ D:The size of a large bird, this fly drips caustic acid.
 N:234:Giant gold dragon fly
 T:dragon fly
 C:y
-I:120:14:12:30:1
+I:125:14:12:30:1
 W:6:2:0:18
 B:BITE:HURT:1d3
 F:RAND_25
@@ -1241,7 +1241,7 @@ D: pervades the air.
 N:266:Giant bronze dragon fly
 T:dragon fly
 C:U
-I:120:14:12:30:1
+I:125:14:12:30:1
 W:6:0:0:18
 F:NEVER_BLOW | RAND_25
 F:NO_CONF | NO_SLEEP
@@ -1263,7 +1263,7 @@ D:It is a man-sized figure with the all too recognizable face of a kobold.
 N:99:Wood spider
 T:spider
 C:U
-I:120:11:8:19:80
+I:115:11:8:19:80
 W:7:3:0:15
 B:BITE:HURT:1d3
 B:STING:POISON:1d4
@@ -1379,7 +1379,7 @@ D: twisted with evil.
 N:109:Night lizard
 T:reptile
 C:b
-I:110:18:20:19:30
+I:115:18:20:19:30
 W:7:2:0:35
 B:BITE:HURT:1d6
 B:BITE:HURT:1d6
@@ -1810,7 +1810,7 @@ D: other demon matches its teleporting mastery.
 N:146:Creeping gold coins
 T:creeping coins
 C:y
-I:100:81:5:43:10
+I:105:81:5:43:10
 W:10:3:0:32
 B:HIT:HURT:2d5
 B:TOUCH:POISON:3d5
@@ -1840,7 +1840,7 @@ D:A fast-breeding, annoying pest.
 N:150:Brigand
 T:person
 C:b
-I:110:41:20:48:5
+I:115:41:20:48:5
 W:10:2:0:35
 B:HIT:HURT:2d4
 B:TOUCH:EAT_ITEM
@@ -2310,7 +2310,7 @@ D:A priest devoted to Nature.
 N:179:Ochre jelly
 T:jelly
 C:U
-I:120:59:12:21:1
+I:115:59:12:21:1
 W:13:3:0:40
 B:TOUCH:ACID:1d10
 B:TOUCH:ACID:2d6
@@ -2521,7 +2521,7 @@ D:It is about four feet long and carnivorous.
 N:198:Mirkwood spider
 T:spider
 C:g
-I:120:41:15:30:80
+I:115:41:15:30:80
 W:15:2:0:25
 B:BITE:HURT:1d8
 B:BITE:POISON:1d6
@@ -2598,7 +2598,7 @@ D:A giant bat, the beating of whose wings produces a strangely unnerving noise.
 N:169:Stegocentipede
 T:centipede
 C:u
-I:120:59:12:36:30
+I:115:59:12:36:30
 W:16:2:0:40
 B:BITE:HURT:2d4
 B:BITE:HURT:2d4
@@ -2739,7 +2739,7 @@ D: they seek to alert other evil creatures to your presence.
 N:213:Imp
 T:minor demon
 C:g
-I:110:27:20:36:20
+I:115:27:20:36:20
 W:17:2:0:55
 B:HIT:POISON:3d4
 B:HIT:POISON:3d4
@@ -3033,7 +3033,7 @@ D: Morgul.
 N:232:Stone golem
 T:golem
 C:W
-I:100:126:12:90:10
+I:105:126:12:90:10
 W:19:2:0:100
 B:HIT:HURT:1d10
 B:HIT:HURT:1d10
@@ -3185,7 +3185,7 @@ D: three beasts.
 N:243:Quylthulg
 T:quylthulg
 C:y
-I:110:27:10:1:2
+I:115:27:10:1:2
 W:20:1:0:250
 S:1_IN_4
 S:BLINK
@@ -3366,7 +3366,7 @@ D:It is an orcish figure covered in wrappings.
 N:244:Sasquatch
 T:yeti
 C:g
-I:120:200:15:60:20
+I:115:200:15:60:20
 W:22:3:0:180
 B:CLAW:HURT:1d10
 B:CLAW:HURT:1d10
@@ -3390,7 +3390,7 @@ D:A strong and cunning orc warrior, the commander of Saruman's orcish horde.
 N:257:Killer stag beetle
 T:killer beetle
 C:g
-I:110:68:12:76:30
+I:115:68:12:76:30
 W:22:1:0:80
 B:CLAW:HURT:3d6
 B:CLAW:HURT:3d6
@@ -3400,7 +3400,7 @@ D:It is a giant beetle with vicious claws.
 N:258:Iron golem
 T:golem
 C:s
-I:110:520:12:120:20
+I:105:520:12:120:20
 W:22:2:0:160
 B:HIT:HURT:1d12
 F:COLD_BLOOD
@@ -3466,7 +3466,7 @@ D: bigger than his head.
 N:263:Master rogue
 T:person
 C:b
-I:120:75:20:45:5
+I:125:75:20:45:5
 W:23:2:0:110
 B:HIT:HURT:2d8
 B:HIT:HURT:2d8
@@ -3502,7 +3502,7 @@ D:It is looking for prey.
 N:551:Giant silver ant
 T:ant
 C:W
-I:110:41:10:100:40
+I:115:41:10:100:40
 W:23:1:0:80
 B:BITE:ACID:4d4
 F:RAND_25
@@ -3683,7 +3683,7 @@ D:A ten foot tall humanoid with powerful muscles.
 N:237:3-headed hydra
 T:hydra
 C:o
-I:120:300:20:97:70
+I:115:300:20:97:70
 W:25:2:0:280
 B:BITE:HURT:2d6
 B:BITE:HURT:2d6
@@ -3779,7 +3779,7 @@ D:It is a giant beetle with poisonous mandibles.
 N:552:Giant brown tick
 T:spider
 C:u
-I:100:81:12:200:20
+I:105:81:12:200:20
 W:25:2:0:70
 B:BITE:POISON:2d6
 B:STING:BLIND:1d1
@@ -3808,7 +3808,7 @@ D:A troll who is so bright he knows how to read.
 N:283:Giant grey ant
 T:ant
 C:s
-I:110:86:10:200:10
+I:115:86:10:200:10
 W:26:1:0:120
 B:BITE:HURT:2d12
 B:BITE:HURT:2d12
@@ -3979,7 +3979,7 @@ D:It is a giant beetle wreathed in flames.
 N:292:Creeping adamantite coins
 T:creeping coins
 C:G
-I:120:260:5:60:10
+I:115:260:5:60:10
 W:27:3:0:60
 B:BITE:POISON:3d4
 B:TOUCH:POISON:3d5
@@ -4038,7 +4038,7 @@ D: teeth.
 N:300:Colbran
 T:golem
 C:b
-I:120:520:12:120:20
+I:115:520:12:120:20
 W:27:2:0:900
 B:HIT:ELEC:3d8
 B:HIT:ELEC:3d8
@@ -4082,7 +4082,7 @@ D: sparks.
 N:555:Wyvern
 T:dragon
 C:g
-I:120:203:20:79:60
+I:115:203:20:79:60
 W:27:2:0:250
 B:BITE:HURT:2d6
 B:BITE:HURT:2d6
@@ -4148,7 +4148,7 @@ D: Battle of Unnumbered Tears in Morgoth's favour.
 N:305:Mage
 T:person
 C:r
-I:110:68:20:48:10
+I:115:68:20:48:10
 W:28:1:0:150
 B:HIT:HURT:2d5
 B:HIT:HURT:2d5
@@ -4200,7 +4200,7 @@ D:An intensely irritating git of a monster.
 N:308:Basilisk
 T:reptile
 C:s
-I:120:310:15:108:30
+I:115:310:15:108:30
 W:28:3:0:300
 B:GAZE:PARALYZE
 B:BITE:HURT:2d12
@@ -4264,7 +4264,7 @@ D: of its body.
 N:566:Beorn, the Shape-Changer
 T:quadruped
 C:p
-I:120:1400:25:72:25
+I:115:1400:25:72:25
 W:28:3:0:1000
 B:CLAW:HURT:2d10
 B:CLAW:HURT:2d10
@@ -4437,7 +4437,7 @@ D: monster that breeds on death.
 N:318:Mithril golem
 T:golem
 C:B
-I:110:640:12:150:30
+I:105:640:12:150:30
 W:30:4:0:500
 B:HIT:HURT:3d8
 B:HIT:HURT:3d8
@@ -4698,7 +4698,7 @@ D:It is a very unstable, strange pulsing mound of flesh.
 N:331:Ninja
 T:person
 C:y
-I:120:85:20:72:10
+I:125:85:20:72:10
 W:32:2:0:300
 B:HIT:POISON:3d4
 B:HIT:LOSE_STR:3d4
@@ -4769,25 +4769,6 @@ F:OPEN_DOOR | TAKE_ITEM
 S:1_IN_5
 D:It is eighteen feet tall and looking at you.
 
-N:319:Shadow drake
-T:dragon
-C:G
-I:110:264:20:84:70
-W:33:3:0:1100
-B:CLAW:HURT:2d4
-B:CLAW:HURT:2d4
-B:BITE:EXP_10:3d6
-F:INVISIBLE
-F:DROP_3 | ONLY_ITEM
-F:OPEN_DOOR | BASH_DOOR | PASS_WALL
-F:NO_CONF | NO_SLEEP
-S:1_IN_6
-S:CONF | DARKNESS | SCARE | SLOW
-S:BR_NETH
-D:It is a dragon-like form wrapped in shadow.  Glowing red eyes shine out in the
-D: dark, and it is surrounded by an aura of unearthly cold that chills the soul
-D: rather than the body.
-
 N:334:Cave troll
 T:troll
 C:u
@@ -4852,80 +4833,10 @@ F:TROLL | EMPTY_MIND | REGENERATE
 F:OPEN_DOOR | BASH_DOOR
 D:It is the animated form of a massive two-headed troll.
 
-N:339:Chaos drake
-T:dragon
-C:v
-I:110:440:20:84:70
-W:33:3:0:1400
-B:CLAW:HURT:2d4
-B:CLAW:HURT:2d4
-B:BITE:HURT:3d6
-F:DROP_3 | ONLY_ITEM
-F:OPEN_DOOR | BASH_DOOR
-F:IM_FIRE | RES_DISE | NO_CONF | NO_SLEEP
-F:ATTR_MULTI
-S:1_IN_6
-S:CONF | SCARE | SLOW
-S:BR_CHAO | BR_DISE
-D:A dragon twisted by the forces of chaos.  It seems first ugly, then fair, as
-D: its form shimmers and changes in front of your eyes.
-
-N:340:Law drake
-T:dragon
-C:B
-I:110:440:20:84:70
-W:33:3:0:1400
-B:CLAW:HURT:2d4
-B:CLAW:HURT:2d4
-B:BITE:HURT:3d6
-F:DROP_3 | ONLY_ITEM
-F:OPEN_DOOR | BASH_DOOR
-F:IM_COLD | NO_CONF | NO_SLEEP
-S:1_IN_6
-S:CONF | SCARE | SLOW
-S:BR_SHAR | BR_SOUN
-D:This dragon is clever and cunning.  It laughs at your puny efforts to disturb
-D: it.
-
-N:341:Balance drake
-T:dragon
-C:v
-I:110:528:20:84:70
-W:33:3:0:1600
-B:CLAW:HURT:2d4
-B:CLAW:HURT:2d4
-B:BITE:HURT:3d6
-F:DROP_3 | ONLY_ITEM
-F:OPEN_DOOR | BASH_DOOR
-F:IM_COLD | IM_FIRE | RES_DISE | NO_CONF | NO_SLEEP
-S:1_IN_6
-S:CONF | SCARE | SLOW
-S:BR_CHAO | BR_DISE | BR_SHAR | BR_SOUN
-D:A mighty dragon, the balance drake seeks to maintain the Cosmic Balance, and
-D: despises your feeble efforts to destroy evil.
-
-N:342:Ethereal drake
-T:dragon
-C:o
-I:110:352:20:84:70
-W:33:3:0:1200
-B:CLAW:HURT:2d4
-B:CLAW:HURT:2d4
-B:BITE:HURT:3d6
-F:INVISIBLE
-F:DROP_3 | ONLY_ITEM
-F:PASS_WALL
-F:NO_CONF | NO_SLEEP
-S:1_IN_6
-S:CONF | SCARE | SLOW
-S:BR_DARK | BR_LIGHT
-D:A dragon of great power, with control over light and dark, the ethereal
-D: drake's eyes glare with white hatred from the shadows.
-
 N:346:Shade
 T:ghost
 C:D
-I:120:147:20:36:10
+I:115:147:20:36:10
 W:33:3:0:350
 B:WAIL:TERRIFY
 B:TOUCH:EXP_40
@@ -5090,7 +5001,7 @@ D: and Bill.
 N:347:Spectre
 T:ghost
 C:U
-I:120:147:20:36:10
+I:115:147:20:36:10
 W:34:3:0:350
 B:WAIL:TERRIFY
 B:TOUCH:EXP_40
@@ -5103,8 +5014,6 @@ S:1_IN_15
 S:BLIND | DRAIN_MANA | HOLD
 D:A phantasmal shrieking spirit.  Its wail drives the intense cold of pure evil
 D: deep within your body.
-
-### Dungeon level 34 ###
 
 #N:353:Carrion crawler
 #Deleted
@@ -5206,7 +5115,7 @@ D:It is a towering tornado of winds.
 N:362:Eog golem
 T:golem
 C:u
-I:100:1050:12:187:20
+I:105:1050:12:187:20
 W:34:4:0:1200
 B:HIT:HURT:8d6
 B:HIT:HURT:8d6
@@ -5219,70 +5128,6 @@ F:IM_COLD | IM_FIRE | IM_POIS
 D:It is a massive deep brown statue, striding towards you with an
 D: all-too-familiar purpose.  Your magic surprisingly feels much less powerful
 D: now.
-
-N:375:Mature white dragon
-T:dragon
-C:w
-I:110:352:20:84:70
-W:34:1:0:1200
-B:CLAW:HURT:2d8
-B:CLAW:HURT:2d8
-B:BITE:HURT:4d8
-F:DROP_4
-F:OPEN_DOOR | BASH_DOOR
-F:IM_COLD | NO_CONF | NO_SLEEP
-S:1_IN_9
-S:SCARE
-S:BR_COLD
-D:A large dragon, scales gleaming bright white.
-
-N:384:Mature blue dragon
-T:dragon
-C:b
-I:110:352:20:84:70
-W:34:1:0:1200
-B:CLAW:HURT:2d8
-B:CLAW:HURT:2d8
-B:BITE:HURT:4d8
-F:DROP_4
-F:BASH_DOOR
-F:IM_ELEC | NO_CONF | NO_SLEEP
-S:1_IN_9
-S:SCARE
-S:BR_ELEC
-D:A large dragon, scales tinted deep blue.
-
-N:385:Mature green dragon
-T:dragon
-C:g
-I:110:352:20:84:70
-W:34:1:0:1200
-B:CLAW:HURT:2d8
-B:CLAW:HURT:2d8
-B:BITE:HURT:4d8
-F:DROP_4
-F:BASH_DOOR
-F:IM_POIS | NO_CONF | NO_SLEEP
-S:1_IN_9
-S:SCARE
-S:BR_POIS
-D:A large dragon, scales tinted deep green.
-
-N:386:Mature bronze dragon
-T:dragon
-C:U
-I:110:352:20:84:70
-W:34:0:0:1200
-B:CLAW:HURT:2d8
-B:CLAW:HURT:2d8
-B:BITE:HURT:4d8
-F:DROP_4
-F:BASH_DOOR
-F:NO_CONF | NO_SLEEP
-S:1_IN_9
-S:CONF | SCARE
-S:BR_CONF
-D:A large dragon with scales of rich bronze.
 
 ### Dungeon level 35 ###
 
@@ -5316,7 +5161,7 @@ D:It is impossible to define its form but its violence is legendary.
 N:364:Dagashi
 T:person
 C:y
-I:120:169:20:84:10
+I:125:169:20:84:10
 W:35:4:0:500
 B:HIT:POISON:3d4
 B:HIT:LOSE_STR:3d4
@@ -5331,7 +5176,7 @@ D:A human warrior, moving with lightning speed.
 N:366:Acidic cytoplasm
 T:jelly
 C:s
-I:120:352:12:21:1
+I:115:352:12:21:1
 W:35:5:0:180
 B:TOUCH:ACID:1d10
 B:TOUCH:ACID:1d10
@@ -5412,6 +5257,95 @@ D:A figure carved from stone, with three vulture faces whose eyes glow with a
 D: malevolent light.
 
 ### Dungeon level 36 ###
+
+N:319:Shadow drake
+T:dragon
+C:G
+I:110:264:20:84:70
+W:36:3:0:1100
+B:CLAW:HURT:2d4
+B:CLAW:HURT:2d4
+B:BITE:EXP_10:3d6
+F:INVISIBLE
+F:DROP_3 | ONLY_ITEM
+F:OPEN_DOOR | BASH_DOOR | PASS_WALL
+F:NO_CONF | NO_SLEEP
+S:1_IN_6
+S:CONF | DARKNESS | SCARE | SLOW
+S:BR_NETH
+D:It is a dragon-like form wrapped in shadow.  Glowing red eyes shine out in the
+D: dark, and it is surrounded by an aura of unearthly cold that chills the soul
+D: rather than the body.
+
+N:339:Chaos drake
+T:dragon
+C:v
+I:110:440:20:84:70
+W:36:3:0:1300
+B:CLAW:HURT:2d4
+B:CLAW:HURT:2d4
+B:BITE:HURT:3d6
+F:DROP_3 | ONLY_ITEM
+F:OPEN_DOOR | BASH_DOOR
+F:IM_FIRE | RES_DISE | NO_CONF | NO_SLEEP
+F:ATTR_MULTI
+S:1_IN_6
+S:CONF | SCARE | SLOW
+S:BR_CHAO | BR_DISE
+D:A dragon twisted by the forces of chaos.  It seems first ugly, then fair, as
+D: its form shimmers and changes in front of your eyes.
+
+N:340:Law drake
+T:dragon
+C:B
+I:110:440:20:84:70
+W:36:3:0:1300
+B:CLAW:HURT:2d4
+B:CLAW:HURT:2d4
+B:BITE:HURT:3d6
+F:DROP_3 | ONLY_ITEM
+F:OPEN_DOOR | BASH_DOOR
+F:IM_COLD | NO_CONF | NO_SLEEP
+S:1_IN_6
+S:CONF | SCARE | SLOW
+S:BR_SHAR | BR_SOUN
+D:This dragon is clever and cunning.  It laughs at your puny efforts to disturb
+D: it.
+
+N:341:Balance drake
+T:dragon
+C:v
+I:110:528:20:84:70
+W:36:3:0:1400
+B:CLAW:HURT:2d4
+B:CLAW:HURT:2d4
+B:BITE:HURT:3d6
+F:DROP_3 | ONLY_ITEM
+F:OPEN_DOOR | BASH_DOOR
+F:IM_COLD | IM_FIRE | RES_DISE | NO_CONF | NO_SLEEP
+S:1_IN_6
+S:CONF | SCARE | SLOW
+S:BR_CHAO | BR_DISE | BR_SHAR | BR_SOUN
+D:A mighty dragon, the balance drake seeks to maintain the Cosmic Balance, and
+D: despises your feeble efforts to destroy evil.
+
+N:342:Ethereal drake
+T:dragon
+C:o
+I:110:352:20:84:70
+W:36:3:0:1200
+B:CLAW:HURT:2d4
+B:CLAW:HURT:2d4
+B:BITE:HURT:3d6
+F:INVISIBLE
+F:DROP_3 | ONLY_ITEM
+F:PASS_WALL
+F:NO_CONF | NO_SLEEP
+S:1_IN_6
+S:CONF | SCARE | SLOW
+S:BR_DARK | BR_LIGHT
+D:A dragon of great power, with control over light and dark, the ethereal
+D: drake's eyes glare with white hatred from the shadows.
 
 N:363:Olog
 T:troll
@@ -5524,7 +5458,7 @@ D: from your soul to feed its power.
 N:378:Phantom
 T:ghost
 C:P
-I:120:260:30:36:20
+I:115:260:30:36:20
 W:36:3:0:400
 B:TOUCH:EXP_80
 B:TOUCH:EXP_40
@@ -5558,7 +5492,7 @@ D: deathly cold.
 N:381:Colossus
 T:golem
 C:G
-I:100:2640:12:180:10
+I:105:2640:12:180:10
 W:36:4:0:850
 B:HIT:HURT:10d10
 B:HIT:HURT:10d10
@@ -5604,7 +5538,7 @@ D:It is a humanoid form composed of flames and hatred.
 N:391:Necromancer
 T:person
 C:R
-I:110:246:20:75:20
+I:115:246:20:75:20
 W:36:2:0:630
 B:HIT:HURT:2d6
 B:HIT:HURT:2d6
@@ -5637,59 +5571,10 @@ S:BO_FIRE
 S:S_DEMON
 D:A figure twisted by evil standing in robes of deepest crimson.
 
-N:402:Mature red dragon
-T:dragon
-C:r
-I:110:440:20:96:70
-W:36:1:0:1500
-B:CLAW:HURT:2d10
-B:CLAW:HURT:2d10
-B:BITE:HURT:4d10
-F:HAS_LIGHT
-F:DROP_4
-F:BASH_DOOR
-F:IM_FIRE | NO_CONF | NO_SLEEP
-S:1_IN_9
-S:CONF | SCARE
-S:BR_FIRE
-D:A large dragon, scales tinted deep red.
-
-N:403:Mature gold dragon
-T:dragon
-C:y
-I:110:440:20:96:70
-W:36:1:0:1500
-B:CLAW:HURT:2d10
-B:CLAW:HURT:2d10
-B:BITE:HURT:4d10
-F:DROP_4
-F:BASH_DOOR
-F:NO_CONF | NO_SLEEP
-S:1_IN_9
-S:CONF | SCARE
-S:BR_SOUN
-D:A large dragon with scales of gleaming gold.
-
-N:405:Mature black dragon
-T:dragon
-C:s
-I:110:440:20:96:70
-W:36:1:0:1500
-B:CLAW:HURT:2d10
-B:CLAW:HURT:2d10
-B:BITE:HURT:4d10
-F:DROP_4
-F:BASH_DOOR
-F:IM_ACID | NO_CONF | NO_SLEEP
-S:1_IN_9
-S:SCARE
-S:BR_ACID
-D:A large dragon, with scales of deepest black.
-
 N:615:Greater mummy
 T:zombie
 C:y
-I:110:299:30:102:90
+I:115:299:30:102:90
 W:36:5:0:800
 B:CLAW:LOSE_CON:3d6
 B:CLAW:LOSE_CON:3d6
@@ -5711,7 +5596,7 @@ D:Once a powerful ruler, now an even more powerful undead menace.
 N:590:Gauth
 T:eye
 C:D
-I:110:264:20:75:25
+I:115:264:20:75:25
 W:36:2:0:600
 B:GAZE:UN_BONUS:5d2
 B:GAZE:UN_BONUS:5d2
@@ -5892,24 +5777,6 @@ D:A strange ball of glowing light.  It disappears and reappears and seems to
 D: draw you to it.  You seem somehow compelled to stand still and watch its
 D: strange dancing motion.
 
-N:406:Mature multi-hued dragon
-T:dragon
-C:v
-I:110:528:20:96:70
-W:38:1:0:1800
-B:CLAW:HURT:2d12
-B:CLAW:HURT:2d12
-B:BITE:HURT:4d12
-F:DROP_4
-F:OPEN_DOOR | BASH_DOOR
-F:IM_ACID | IM_COLD | IM_ELEC | IM_FIRE | IM_POIS | NO_CONF
-F:NO_SLEEP
-F:ATTR_MULTI
-S:1_IN_7
-S:BLIND | CONF | SCARE
-S:BR_ACID | BR_COLD | BR_ELEC | BR_FIRE | BR_POIS
-D:A large dragon, scales shimmering many colours.
-
 N:408:Castamir the Usurper
 T:person
 C:V
@@ -5986,7 +5853,7 @@ D: shadow.  It reaches out at you.
 N:418:Erinyes
 T:major demon
 C:u
-I:110:210:20:75:70
+I:115:210:20:75:70
 W:38:2:0:1000
 B:HIT:HURT:3d4
 B:TOUCH:LOSE_STR:1d5
@@ -6116,6 +5983,70 @@ D:A strange reptilian hybrid with seven heads dripping venom.
 
 ### Dungeon level 40 ###
 
+N:375:Mature white dragon
+T:dragon
+C:w
+I:115:352:20:84:70
+W:40:1:0:1100
+B:CLAW:HURT:2d8
+B:CLAW:HURT:2d8
+B:BITE:HURT:4d8
+F:DROP_4
+F:OPEN_DOOR | BASH_DOOR
+F:IM_COLD | NO_CONF | NO_SLEEP
+S:1_IN_9
+S:SCARE
+S:BR_COLD
+D:A large dragon, scales gleaming bright white.
+
+N:384:Mature blue dragon
+T:dragon
+C:b
+I:115:352:20:84:70
+W:40:1:0:1100
+B:CLAW:HURT:2d8
+B:CLAW:HURT:2d8
+B:BITE:HURT:4d8
+F:DROP_4
+F:BASH_DOOR
+F:IM_ELEC | NO_CONF | NO_SLEEP
+S:1_IN_9
+S:SCARE
+S:BR_ELEC
+D:A large dragon, scales tinted deep blue.
+
+N:385:Mature green dragon
+T:dragon
+C:g
+I:115:352:20:84:70
+W:40:1:0:1100
+B:CLAW:HURT:2d8
+B:CLAW:HURT:2d8
+B:BITE:HURT:4d8
+F:DROP_4
+F:BASH_DOOR
+F:IM_POIS | NO_CONF | NO_SLEEP
+S:1_IN_9
+S:SCARE
+S:BR_POIS
+D:A large dragon, scales tinted deep green.
+
+N:386:Mature bronze dragon
+T:dragon
+C:U
+I:115:352:20:84:70
+W:40:0:0:1100
+B:CLAW:HURT:2d8
+B:CLAW:HURT:2d8
+B:BITE:HURT:4d8
+F:DROP_4
+F:BASH_DOOR
+F:NO_CONF | NO_SLEEP
+S:1_IN_9
+S:CONF | SCARE
+S:BR_CONF
+D:A large dragon with scales of rich bronze.
+
 N:430:Disenchanter worm mass
 T:worm
 C:v
@@ -6199,7 +6130,7 @@ D:It is a tougher relative of the Xorn.  Its hide glitters with metal ores.
 N:439:Giant roc
 T:bird
 C:u
-I:110:560:20:84:10
+I:115:560:20:84:10
 W:40:3:0:1000
 B:CRUSH:HURT:8d12
 B:CRUSH:HURT:8d12
@@ -6415,64 +6346,54 @@ S:BOULDER
 D:A massive and cruel troll of great power, drool slides caustically down his
 D: muscular frame.  Despite his bulk, he strikes with stunning speed.
 
-N:411:Ancient blue dragon
-T:ancient dragon
-C:b
-I:120:633:20:108:80
-W:42:1:0:1900
-B:CLAW:HURT:4d8
-B:CLAW:HURT:4d8
-B:BITE:ELEC:7d8
+N:402:Mature red dragon
+T:dragon
+C:r
+I:115:440:20:96:70
+W:41:1:0:1400
+B:CLAW:HURT:2d10
+B:CLAW:HURT:2d10
+B:BITE:HURT:4d10
+F:HAS_LIGHT
+F:DROP_4
 F:BASH_DOOR
-F:IM_ELEC
-S:1_IN_6
-S:BLIND | CONF | SCARE
-S:BR_ELEC
-D:A huge draconic form.  Lightning crackles along its length.
+F:IM_FIRE | NO_CONF | NO_SLEEP
+S:1_IN_9
+S:CONF | SCARE
+S:BR_FIRE
+D:A large dragon, scales tinted deep red.
 
-N:412:Ancient bronze dragon
-T:ancient dragon
-C:U
-I:120:633:20:108:80
-W:42:0:0:1900
-B:CLAW:HURT:4d8
-B:CLAW:HURT:4d8
-B:BITE:HURT:7d8
+N:403:Mature gold dragon
+T:dragon
+C:y
+I:115:440:20:96:70
+W:41:1:0:1400
+B:CLAW:HURT:2d10
+B:CLAW:HURT:2d10
+B:BITE:HURT:4d10
+F:DROP_4
 F:BASH_DOOR
-S:1_IN_6
-S:BLIND | CONF | SCARE
-S:BR_CONF
-D:A huge draconic form enveloped in a cascade of colour.
+F:NO_CONF | NO_SLEEP
+S:1_IN_9
+S:CONF | SCARE
+S:BR_SOUN
+D:A large dragon with scales of gleaming gold.
 
-N:424:Ancient white dragon
-T:ancient dragon
-C:w
-I:120:633:20:108:80
-W:42:1:0:1900
-B:CLAW:HURT:4d8
-B:CLAW:HURT:4d8
-B:BITE:COLD:7d8
+N:405:Mature black dragon
+T:dragon
+C:s
+I:115:440:20:96:70
+W:41:1:0:1400
+B:CLAW:HURT:2d10
+B:CLAW:HURT:2d10
+B:BITE:HURT:4d10
+F:DROP_4
 F:BASH_DOOR
-F:IM_COLD
-S:1_IN_6
-S:BLIND | CONF | SCARE
-S:BR_COLD
-D:A huge draconic form.  Frost covers it from head to tail.
-
-N:425:Ancient green dragon
-T:ancient dragon
-C:g
-I:120:633:20:108:80
-W:42:1:0:1900
-B:CLAW:HURT:4d8
-B:CLAW:HURT:4d8
-B:BITE:POISON:7d8
-F:BASH_DOOR
-F:IM_POIS
-S:1_IN_6
-S:BLIND | CONF | SCARE
-S:BR_POIS
-D:A huge draconic form enveloped in clouds of poisonous vapour.
+F:IM_ACID | NO_CONF | NO_SLEEP
+S:1_IN_9
+S:SCARE
+S:BR_ACID
+D:A large dragon, with scales of deepest black.
 
 N:427:Night mare
 T:quadruped
@@ -6494,6 +6415,24 @@ D: than a hatred of all that lives.
 #Consolidated (see #369)
 
 ### Dungeon level 43 ###
+
+N:406:Mature multi-hued dragon
+T:dragon
+C:v
+I:115:528:20:96:70
+W:43:1:0:1600
+B:CLAW:HURT:2d12
+B:CLAW:HURT:2d12
+B:BITE:HURT:4d12
+F:DROP_4
+F:OPEN_DOOR | BASH_DOOR
+F:IM_ACID | IM_COLD | IM_ELEC | IM_FIRE | IM_POIS | NO_CONF
+F:NO_SLEEP
+F:ATTR_MULTI
+S:1_IN_7
+S:BLIND | CONF | SCARE
+S:BR_ACID | BR_COLD | BR_ELEC | BR_FIRE | BR_POIS
+D:A large dragon, scales shimmering many colours.
 
 N:416:Vargo, Tyrant of Fire
 T:elemental
@@ -6575,7 +6514,7 @@ D: of the rings.
 N:456:Glabrezu
 T:major demon
 C:U
-I:110:616:20:60:70
+I:115:616:20:60:70
 W:43:2:0:3000
 B:HIT:HURT:3d4
 B:HIT:HURT:3d4
@@ -6648,7 +6587,7 @@ D:Shimmering in rainbow hues, this hound is beautiful and deadly.
 N:333:Storm giant
 T:giant
 C:B
-I:120:700:20:90:30
+I:115:700:20:90:30
 W:44:1:0:900
 B:HIT:ELEC:10d8
 B:HIT:ELEC:10d8
@@ -6732,22 +6671,6 @@ D:A deep brown shape is visible before you, its canine form strikes you with an
 D: almost physical force.  The dungeon floor buckles as if struck by a powerful
 D: blow as it stalks towards you.
 
-N:429:Ancient black dragon
-T:ancient dragon
-C:s
-I:120:880:20:108:80
-W:44:1:0:2200
-B:CLAW:HURT:4d9
-B:CLAW:HURT:4d9
-B:BITE:ACID:7d9
-F:BASH_DOOR
-F:IM_ACID
-S:1_IN_6
-S:BLIND | CONF | SCARE
-S:BR_ACID
-D:A huge draconic form.  Pools of acid melt the floor around it.
-
-
 ### Dungeon level 45 ###
 
 N:453:Akhorahil the Blind
@@ -6775,7 +6698,7 @@ D: any ordinary man ever could.
 N:458:Nalfeshnee
 T:major demon
 C:r
-I:110:792:20:60:80
+I:115:792:20:60:80
 W:45:2:0:5000
 B:HIT:HURT:3d4
 B:HIT:HURT:3d4
@@ -6805,6 +6728,81 @@ S:1_IN_8
 D:A gigantic ugly humanoid with but one eye and very thick skin.
 
 ### Dungeon level 46 ###
+
+N:411:Ancient blue dragon
+T:ancient dragon
+C:b
+I:120:633:20:108:80
+W:46:1:0:1900
+B:CLAW:HURT:4d8
+B:CLAW:HURT:4d8
+B:BITE:ELEC:7d8
+F:BASH_DOOR
+F:IM_ELEC
+S:1_IN_6
+S:BLIND | CONF | SCARE
+S:BR_ELEC
+D:A huge draconic form.  Lightning crackles along its length.
+
+N:412:Ancient bronze dragon
+T:ancient dragon
+C:U
+I:120:633:20:108:80
+W:46:0:0:1900
+B:CLAW:HURT:4d8
+B:CLAW:HURT:4d8
+B:BITE:HURT:7d8
+F:BASH_DOOR
+S:1_IN_6
+S:BLIND | CONF | SCARE
+S:BR_CONF
+D:A huge draconic form enveloped in a cascade of colour.
+
+N:424:Ancient white dragon
+T:ancient dragon
+C:w
+I:120:633:20:108:80
+W:46:1:0:1900
+B:CLAW:HURT:4d8
+B:CLAW:HURT:4d8
+B:BITE:COLD:7d8
+F:BASH_DOOR
+F:IM_COLD
+S:1_IN_6
+S:BLIND | CONF | SCARE
+S:BR_COLD
+D:A huge draconic form.  Frost covers it from head to tail.
+
+N:425:Ancient green dragon
+T:ancient dragon
+C:g
+I:120:633:20:108:80
+W:46:1:0:1900
+B:CLAW:HURT:4d8
+B:CLAW:HURT:4d8
+B:BITE:POISON:7d8
+F:BASH_DOOR
+F:IM_POIS
+S:1_IN_6
+S:BLIND | CONF | SCARE
+S:BR_POIS
+D:A huge draconic form enveloped in clouds of poisonous vapour.
+
+N:429:Ancient black dragon
+T:ancient dragon
+C:s
+I:120:880:20:108:80
+W:46:1:0:2000
+B:CLAW:HURT:4d9
+B:CLAW:HURT:4d9
+B:BITE:ACID:7d9
+F:BASH_DOOR
+F:IM_ACID
+S:1_IN_6
+S:BLIND | CONF | SCARE
+S:BR_ACID
+D:A huge draconic form.  Pools of acid melt the floor around it.
+
 
 N:361:Hellhound
 T:canine
@@ -7230,7 +7228,7 @@ D: power.
 N:409:Time vortex
 T:vortex
 C:B
-I:130:176:100:48:0
+I:125:176:100:48:0
 W:53:4:0:1000
 B:ENGULF:EXP_20:5d5
 F:RAND_25
@@ -7840,7 +7838,7 @@ D: an unlife of everlasting torment.
 N:455:Istar
 T:ainu
 C:y
-I:130:1800:30:140:255
+I:125:1800:30:140:255
 W:64:5:0:8600
 B:GAZE:TERRIFY:4d4
 B:GAZE:TERRIFY:4d4
@@ -8015,7 +8013,7 @@ D: give away her true form.
 N:557:Demilich
 T:lich
 C:U
-I:120:2816:20:150:40
+I:125:2816:20:150:40
 W:67:2:0:10000
 B:TOUCH:EXP_80
 B:TOUCH:UN_POWER
@@ -8156,7 +8154,7 @@ D:An awesome vortex of pure magic, power radiates from its frame.
 N:596:Elder vampire
 T:vampire
 C:r
-I:120:2640:20:108:10
+I:125:2640:20:108:10
 W:70:3:0:4000
 B:HIT:HURT:4d6
 B:HIT:HURT:4d6
@@ -8323,7 +8321,7 @@ D: whenever she wishes.
 N:515:Dreadlord
 T:ghost
 C:r
-I:120:2640:20:180:10
+I:125:2640:20:180:10
 W:74:2:0:17000
 B:HIT:EXP_40:6d6
 B:HIT:EXP_40:6d6
@@ -8438,7 +8436,7 @@ D: experienced.
 N:489:Great Storm Wyrm
 T:ancient dragon
 C:b
-I:120:3080:30:225:30
+I:125:3080:30:225:30
 W:76:2:0:17000
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8458,7 +8456,7 @@ D: muscles.  It regards you with contempt.
 N:496:Great Ice Wyrm
 T:ancient dragon
 C:w
-I:120:3080:30:225:30
+I:125:3080:30:225:30
 W:76:2:0:17000
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8478,7 +8476,7 @@ D: wrath!
 N:576:Great Swamp Wyrm
 T:ancient dragon
 C:g
-I:120:3080:30:225:30
+I:125:3080:30:225:30
 W:76:2:0:17000
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8498,7 +8496,7 @@ D: fight it, it sees no reason to do likewise.
 N:577:Great Wyrm of Perplexity
 T:ancient dragon
 C:U
-I:120:3080:30:225:30
+I:125:3080:30:225:30
 W:77:0:0:16500
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8562,7 +8560,7 @@ D: risen from the dead to continue his foul plots and schemes.
 N:558:Archlich
 T:lich
 C:B
-I:120:3520:20:180:40
+I:125:3520:20:180:40
 W:77:2:0:16500
 B:TOUCH:EXP_80
 B:TOUCH:UN_POWER
@@ -8710,7 +8708,7 @@ drop-artifact:[Tenser's Transformations]
 N:506:Great Hell Wyrm
 T:ancient dragon
 C:r
-I:120:3344:30:225:30
+I:125:3344:30:225:30
 W:79:2:0:20000
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8730,7 +8728,7 @@ D: realize how insignificant you are.
 N:578:Great Bile Wyrm
 T:ancient dragon
 C:s
-I:120:3080:30:225:30
+I:125:3080:30:225:30
 W:79:2:0:20000
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8780,7 +8778,7 @@ D: you menacingly.
 N:579:Great Wyrm of Thunder
 T:ancient dragon
 C:y
-I:120:3080:30:225:30
+I:125:3080:30:225:30
 W:80:2:0:20000
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8848,7 +8846,7 @@ D: the minions it has just summoned.
 N:486:Time hound
 T:zephyr hound
 C:B
-I:130:330:30:120:0
+I:125:330:30:120:0
 W:82:4:0:3750
 B:CLAW:HURT:2d12
 B:CLAW:HURT:2d12
@@ -9227,7 +9225,7 @@ D: hells to seek revenge on the world.
 N:520:Great Wyrm of Law
 T:ancient dragon
 C:B
-I:120:3960:40:255:20
+I:125:3960:40:255:20
 W:91:2:0:24000
 B:CLAW:HURT:5d12
 B:CLAW:HURT:5d12
@@ -9270,7 +9268,7 @@ D: immune to magic.  Fear its anger, for its devastation is unmatched!
 N:519:Great Wyrm of Chaos
 T:ancient dragon
 C:v
-I:120:3960:40:255:20
+I:125:3960:40:255:20
 W:92:2:0:23500
 B:CLAW:HURT:5d12
 B:CLAW:HURT:5d12
@@ -9293,7 +9291,7 @@ D:  Its very existence distorts the universe around it.
 N:523:Great Wyrm of Many Colours
 T:ancient dragon
 C:v
-I:120:4400:40:255:20
+I:125:4400:40:255:20
 W:93:2:0:26000
 B:CLAW:HURT:5d12
 B:CLAW:HURT:5d12
@@ -9404,7 +9402,7 @@ D: opponent in combat.
 N:521:Great Wyrm of Balance
 T:ancient dragon
 C:P
-I:120:4400:40:255:20
+I:125:4400:40:255:20
 W:95:2:0:26000
 B:CLAW:HURT:5d12
 B:CLAW:HURT:5d12
