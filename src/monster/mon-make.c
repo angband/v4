@@ -631,8 +631,10 @@ static bool mon_create_drop(int m_idx, byte origin)
 			continue;
 
 		/* Do not create objects which would hurt the monster */
-		if (obj_hurts_mon(i_ptr->flags, m_ptr))
+		if (obj_hurts_mon(i_ptr->flags, m_ptr)) {
+			j--;
 			continue;
+		}
 
 		i_ptr->origin = origin;
 		i_ptr->origin_depth = p_ptr->depth;
