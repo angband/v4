@@ -1013,17 +1013,14 @@ bool get_item(int *cp, const char *pmt, const char *str, cmd_code cmd, int mode)
 							}
 						}
 					}
-				} else
-				if (p_ptr->command_wrk == USE_FLOOR) {
+				} else if (p_ptr->command_wrk == USE_FLOOR) {
 					if (press.mouse.y == 0) {
-						if (use_inven) {
+						if (use_inven)
 							p_ptr->command_wrk = USE_INVEN;
-						} else
-						if (use_equip) {
+						else if (use_equip)
 							p_ptr->command_wrk = USE_EQUIP;
-						}
-					} else
-					if ((press.mouse.y <= floor_num+1) && (press.mouse.y >= 1)) {
+					} else if ((press.mouse.y <= floor_num+1) &&
+							(press.mouse.y >= 1)) {
 						/* Special index */
 						k = 0 - floor_list[press.mouse.y-1];
 						/* get the item index, allowing for skipped indices */
@@ -1036,14 +1033,19 @@ bool get_item(int *cp, const char *pmt, const char *str, cmd_code cmd, int mode)
 								press.mouse.y--;
 							}
 						}
-						/* Allow player to "refuse" certain actions */
-						if (!get_item_allow(k, cmdkey, cmd, is_harmless))
-							done = TRUE;
+						/* check the bounds of the item number */
+						if ((k < 0) && (k > -512)) {
+							/* Allow player to "refuse" certain actions */
+							if (!get_item_allow(k, cmdkey, cmd, is_harmless))
+								done = TRUE;
 
-						/* Accept that choice */
-						(*cp) = k;
-						item = TRUE;
-						done = TRUE;
+							/* Accept that choice */
+							(*cp) = k;
+							item = TRUE;
+							done = TRUE;
+						} else
+							/* set k to a value that will be invalid below */
+							k = -1;
 					}
 				}
 				if (k >= 0) {
