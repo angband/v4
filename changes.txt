@@ -49,7 +49,8 @@ items have been renamed, as noted above). But they are now generated
 using a unified system, so there is no distinction between an artifact 
 ring, amulet or light source and an artifact weapon or armour piece. 
 Artifact rings, amulets and light sources no longer need "dummy" 
-INSTA_ART entries in object.txt.
+INSTA_ART entries in object.txt. N.B. The "dungeon" spellbooks are now
+artifacts. 
 
  * ID. We have moved to "rune-based" ID. This means that any given item 
 property is discernible on any item which has it. Once you've learned 
