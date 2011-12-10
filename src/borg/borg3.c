@@ -1880,7 +1880,7 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
 		for (i = 0; i < MAX_AFFIXES; i++)
 		{
 			if (real_item->affix[i] /* has interesting flags */) {
-				item->has_affix = true;
+				item->has_affix = TRUE;
 				break;
 			}
 		}
