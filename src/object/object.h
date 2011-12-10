@@ -55,7 +55,7 @@ enum {
 
 /* Maximum number of T: and R/R2: lines in ego-item.txt, and no-op value for
    missing M: lines, and constants about affixes */
-#define EGO_TVALS_MAX 	  9
+#define EGO_TVALS_MAX 	 13
 #define EGO_RANDFLAGS_MAX 4
 #define NO_MINIMUM 		255
 #define THEME_AFFIX_MAX  64
