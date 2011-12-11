@@ -630,12 +630,6 @@ static bool mon_create_drop(int m_idx, byte origin)
 		else if (!make_object(cave, i_ptr, level, good, great, NULL))
 			continue;
 
-		/* Do not create objects which would hurt the monster */
-		if (obj_hurts_mon(i_ptr->flags, m_ptr)) {
-			j--;
-			continue;
-		}
-
 		i_ptr->origin = origin;
 		i_ptr->origin_depth = p_ptr->depth;
 		i_ptr->origin_xtra = m_ptr->r_idx;
