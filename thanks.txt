@@ -67,7 +67,7 @@ Becker, Denis Eropkin, Torbjorn Lindgren, Lars Haugseth, Jon Taylor,
 Roland Jay Roberts, "Sergey", "cb", Michael Pope, "hmj", Colin Spry, Ed 
 Cogburn, "Yendor", Thomas Dedorson, "Ewert", Rooslan S. Khayrov, 
 Thapper, "Max Stats", "SSK", "ChodTheWacko", "Zaxx", Jonas Lith, Jens 
-Schou, Daniel Santos, PowerWyrm, Edd Barrett (vext01)
+Schou, Daniel Santos, PowerWyrm, Edd Barrett (vext01), Djabanete
 
 Greg Wooledge < greg at wooledge.org > 
 Basic autoconf support, the original random artifact generator, and 
