@@ -743,10 +743,14 @@ s16b apply_magic(object_type *o_ptr, int lev, bool allow_artifacts,
 	if (max_lev > 4)
 		min_lev++;
 
-	affixes = randint0(3 + lev / 20);
+	affixes = randint0(2 + lev / 20);
 	if (max_lev > 4)
-		affixes += 2 + randint1(2);
-	else if (max_lev > 3)
+		affixes += randint1(2);
+	if (max_lev > 3)
+		affixes++;
+	if (good)
+		affixes += randint1(2);
+	if (great)
 		affixes += randint1(2);
 	if (of_has(o_ptr->flags, OF_GOOD))
 		affixes--;
