@@ -1315,7 +1315,7 @@ static bool artifact_is_known(int a_idx)
 	if (p_ptr->wizard)
 		return TRUE;
 
-	if (!a_info[a_idx].created)
+	if (!a_info[a_idx].seen)
 		return FALSE;
 
 	/* Check all objects to see if it exists but hasn't been IDed */
