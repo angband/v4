@@ -55,9 +55,9 @@ static int nextkey = 0;
 static int running_stats = 0;
 static char *ANGBAND_DIR_STATS;
 
-static int *consumables_index;
-static int *wearables_index;
-static int *pval_flags_index;
+static int *consumables_index, *consumables_rev_index;
+static int *wearables_index, *wearables_rev_index;
+static int *pval_flags_index, *pval_flags_rev_index;
 static int wearable_count = 0;
 static int consumable_count = 0;
 static int pval_flags_count = 0;
@@ -92,8 +92,11 @@ static void create_indices()
 	int i;
 
 	consumables_index = C_ZNEW(z_info->k_max, int);
+	consumables_rev_index = C_ZNEW(z_info->k_max, int);
 	wearables_index = C_ZNEW(z_info->k_max, int);
+	wearables_rev_index = C_ZNEW(z_info->k_max, int);
 	pval_flags_index = C_ZNEW(OF_MAX, int);
+	pval_flags_rev_index = C_ZNEW(OF_MAX, int);
 
 	for (i = 0; i < z_info->k_max; i++) {
 
@@ -104,15 +107,20 @@ static void create_indices()
 
 		if (! kind->name) continue;
 
-		if (wearable_p(o_ptr))
+		if (wearable_p(o_ptr)) {
 			wearables_index[i] = ++wearable_count;
-		else
+			wearables_rev_index[wearable_count] = i;
+		} else {
 			consumables_index[i] = ++consumable_count;
+			consumables_rev_index[consumable_count] = i;
+		}
 	}
 
 	for (i = 0; i < OF_MAX; i++)
-		if (flag_uses_pval(i))
+		if (flag_uses_pval(i)) {
 			pval_flags_index[i] = ++pval_flags_count;
+			pval_flags_rev_index[pval_flags_count] = i;
+		}
 }
 
 static void alloc_memory()
@@ -1313,23 +1321,6 @@ static int stats_wearables_data_offsetof(const char *member)
 	assert(0);
 }
 
-/**
- * Given a pointer to a dynamically allocated array and a value, look up
- * the index with that value; e.g. given wearables_index[k_idx], return k_idx.
- * If not found, return -1 * value.
- */
-
-static int stats_lookup_index(const int *index, int max_idx, int value)
-{
-	int idx;
-
-	for (idx = 0; idx < max_idx; idx ++) {
-		if (index[idx] == value) return idx;
-	}
-
-	return -1 * value;
-}
-
 static int stats_write_db_level_data(const char *table, int max_idx)
 {
 	char sql_buf[256];
@@ -1396,7 +1387,7 @@ static int stats_write_db_level_data_items(const char *table, int max_idx,
 
 				err = stats_db_bind_ints(sql_stmt, 4, 0,
 					level, count, 
-					translate_consumables ? stats_lookup_index(consumables_index, z_info->k_max, i) : i, origin);
+					translate_consumables ? consumables_rev_index[i] : i, origin);
 				if (err) return err;
 
 				STATS_DB_STEP_RESET(sql_stmt)
@@ -1426,8 +1417,7 @@ static int stats_write_db_wearables_count(void)
 				/* Skip if object did not appear */
 				if (!count) continue;
 
-				k_idx = stats_lookup_index(wearables_index, 
-					z_info->k_max, idx);
+				k_idx = wearables_rev_index[idx];
 
 				/* Skip if pile */
 				if (! k_idx) continue;
@@ -1468,8 +1458,7 @@ static int stats_write_db_wearables_array(const char *field, int max_val, bool a
 		{
 			for (idx = 0; idx < wearable_count + 1; idx++)
 			{
-				k_idx = stats_lookup_index(wearables_index, 
-					z_info->k_max, idx);
+				k_idx = wearables_rev_index[idx];
 
 				/* Skip if pile */
 				if (! k_idx) continue;
@@ -1527,8 +1516,7 @@ static int stats_write_db_wearables_2d_array(const char *field,
 		{
 			for (idx = 0; idx < wearable_count + 1; idx++)
 			{
-				k_idx = stats_lookup_index(wearables_index, 
-					z_info->k_max, idx);
+				k_idx = wearables_rev_index[idx];
 
 				/* Skip if pile */
 				if (! k_idx) continue;
@@ -1540,7 +1528,7 @@ static int stats_write_db_wearables_2d_array(const char *field,
 						/* This arcane expression finds the value of
 				 		* level_data[level].wearables[origin][idx].<field>[i][j] */
 						u32b count;
-						int real_j = translate_pval_flags ? stats_lookup_index(pval_flags_index, OF_MAX, j) : j; 
+						int real_j = translate_pval_flags ? pval_flags_rev_index[j] : j; 
 
 						if (i == 0 && real_j == 0) continue;
 
