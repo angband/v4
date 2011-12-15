@@ -172,8 +172,11 @@ static void free_stats_memory(void)
 		}
 	}
 	mem_free(consumables_index);
+	mem_free(consumables_rev_index);
 	mem_free(wearables_index);
+	mem_free(wearables_rev_index);
 	mem_free(pval_flags_index);
+	mem_free(pval_flags_rev_index);
 	string_free(ANGBAND_DIR_STATS);
 }
 
