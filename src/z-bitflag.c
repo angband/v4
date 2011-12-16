@@ -28,35 +28,29 @@
 bool flag_has(const bitflag *flags, const size_t size, const int flag)
 {
 	const size_t flag_offset = FLAG_OFFSET(flag);
-	const int flag_binary = FLAG_BINARY(flag);
 
 	if (flag == FLAG_END) return FALSE;
 
 	assert(flag_offset < size);
 
-	if (flags[flag_offset] & flag_binary) return TRUE;
-
-	return FALSE;
+	return (flags[flag_offset] & (FLAG_BINARY(flag)));
 }
 
 bool flag_has_dbg(const bitflag *flags, const size_t size, const int flag, const char *fi, const char *fl)
 {
 	const size_t flag_offset = FLAG_OFFSET(flag);
-	const int flag_binary = FLAG_BINARY(flag);
 
 	if (flag == FLAG_END) return FALSE;
 
 	if (flag_offset >= size)
 	{
 		quit_fmt("Error in flag_has(%s, %s): FlagID[%d] Size[%u] FlagOff[%u] FlagBV[%d]\n",
-		         fi, fl, flag, (unsigned int) size, (unsigned int) flag_offset, flag_binary);
+		         fi, fl, flag, (unsigned int) size, (unsigned int) flag_offset, FLAG_BINARY(flag));
 	}
 
 	assert(flag_offset < size);
 
-	if (flags[flag_offset] & flag_binary) return TRUE;
-
-	return FALSE;
+	return (flags[flag_offset] & (FLAG_BINARY(flag)));
 }
 
 
