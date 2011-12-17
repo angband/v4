@@ -357,6 +357,8 @@ typedef struct artifact {
 	s16b to_h;    /**< Bonus to hit */
 	s16b to_d;    /**< Bonus to damage */
 	s16b to_a;    /**< Bonus to armor */
+    s16b finesse; /**< Finesse multiplier */
+    s16b prowess; /**< Prowess multiplier */
 	s16b ac;      /**< Base armor */
 
 	byte dd;      /**< Base damage dice */
@@ -485,6 +487,8 @@ typedef struct object {
 	s16b to_a;			/* Plusses to AC */
 	s16b to_h;			/* Plusses to hit */
 	s16b to_d;			/* Plusses to damage */
+    s16b finesse;       /* Finesse multiplier */
+    s16b prowess;       /* Prowess multiplier */
 
 	byte dd, ds;		/* Damage dice/sides */
 

@@ -609,7 +609,7 @@ struct parser *init_parse_k(void) {
 	parser_reg(p, "I sym tval int sval", parse_k_i);
 	parser_reg(p, "W int level int extra int weight int cost", parse_k_w);
 	parser_reg(p, "A int common str minmax", parse_k_a);
-	parser_reg(p, "P int ac rand hd rand to-h rand to-d rand to-a", parse_k_p);
+	parser_reg(p, "P int ac rand hd rand to-h rand to-d rand to-a ?int finesse ?int prowess", parse_k_p);
 	parser_reg(p, "C rand extent", parse_k_c);
 	parser_reg(p, "M int prob rand stack", parse_k_m);
 	parser_reg(p, "F str flags", parse_k_f);
@@ -923,7 +923,7 @@ struct parser *init_parse_a(void) {
 	parser_reg(p, "W int level int rarity int weight int cost ?sym randomise",
 		parse_a_w);
 	parser_reg(p, "A int common str minmax", parse_a_a);
-	parser_reg(p, "P int ac rand hd int to-h int to-d int to-a", parse_a_p);
+	parser_reg(p, "P int ac rand hd int to-h int to-d int to-a ?int finesse ?int prowess", parse_a_p);
 	parser_reg(p, "F ?str flags", parse_a_f);
 	parser_reg(p, "E sym name rand time", parse_a_e);
 	parser_reg(p, "M str text", parse_a_m);
