@@ -513,6 +513,16 @@ static enum parser_error parse_k_p(struct parser *p) {
 	k->to_h = parser_getrand(p, "to-h");
 	k->to_d = parser_getrand(p, "to-d");
 	k->to_a = parser_getrand(p, "to-a");
+	if (!parser_hasval(p, "finesse")) {
+		k->finesse = -1;
+	} else {
+        k->finesse = parser_getint(p, "finesse");
+	}
+	if (!parser_hasval(p, "prowess")) {
+		k->prowess = -1;
+	} else {
+        k->prowess = parser_getint(p, "prowess");
+	}
 	return PARSE_ERROR_NONE;
 }
 
@@ -777,7 +787,7 @@ static enum parser_error parse_a_a(struct parser *p) {
 
 static enum parser_error parse_a_p(struct parser *p) {
 	struct artifact *a = parser_priv(p);
-	struct random hd = parser_getrand(p, "hd");
+	struct random hd = parser_getrand(p, "hd"); 
 	assert(a);
 
 	a->ac = parser_getint(p, "ac");
@@ -786,6 +796,17 @@ static enum parser_error parse_a_p(struct parser *p) {
 	a->to_h = parser_getint(p, "to-h");
 	a->to_d = parser_getint(p, "to-d");
 	a->to_a = parser_getint(p, "to-a");
+	if (!parser_hasval(p, "finesse")) {
+		a->finesse = -1;
+	} else {
+        a->finesse = parser_getint(p, "finesse");
+	} 
+	if (!parser_hasval(p, "prowess")) {
+		a->prowess = -1;
+	} else {
+        a->prowess = parser_getint(p, "prowess");
+	}
+
 	return PARSE_ERROR_NONE;
 }
 

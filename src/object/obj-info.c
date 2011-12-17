@@ -801,6 +801,7 @@ static bool describe_combat(textblock *tb, const object_type *o_ptr,
 	textblock_append_c(tb, TERM_L_WHITE, "Combat info:\n");
 
 	if (weapon)	{
+        textblock_append(tb, "Receives %d%% of your finesse score, %d%% of your prowess score.\n", o_ptr->finesse, o_ptr->prowess);
 		object_type inven[INVEN_TOTAL];
 
 		memcpy(inven, p_ptr->inventory, INVEN_TOTAL * sizeof(object_type));
@@ -1386,10 +1387,6 @@ static textblock *object_info_out(const object_type *o_ptr, oinfo_detail_t mode)
 		object_pval_flags_known(o_ptr, pval_flags);
 	}
 
-    msg("Object has %d finesse, %d prowess\n", o_ptr->finesse, o_ptr->prowess);
-    if (o_ptr->finesse || o_ptr->prowess) {
-        textblock_append(tb, "%d%% finesse, %d%% prowess\n", o_ptr->finesse, o_ptr->prowess);
-    }
 	if (subjective) describe_origin(tb, o_ptr);
 	if (!terse) describe_flavor_text(tb, o_ptr, mode);
 
