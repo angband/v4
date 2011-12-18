@@ -230,7 +230,7 @@ void improve_attack_modifier(object_type *o_ptr, const monster_type
 
 			/* compare multipliers to determine best attack */
 			if ((*best_s_ptr == NULL) || ((*best_s_ptr)->mult < s_ptr->mult))
-				*best_s_ptr = s_ptr;
+				*best_s_ptr = s_ptr; 
 		}
 	}
 }

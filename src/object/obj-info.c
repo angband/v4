@@ -629,7 +629,7 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
 	cnt = list_slays(f, mask, desc, NULL, mult, TRUE); 
 	for (i = 0; i < cnt; i++) {
 		/* Include bonus damage and slay in stated average */
-		total_dam = dam * (multiplier + mult[i]);
+		total_dam = dam * (multiplier + mult[i]) / 100;
 		total_dam = (total_dam * crit_mult + crit_add) / crit_div;
 
 		if (weapon)

@@ -214,10 +214,9 @@ static bool py_attack_real(int y, int x, bool *fear) {
 			mult = best_s_ptr->mult;
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
-				mult += 1;
+				mult += 100;
 		}
-		dmg *= mult;
-		dmg += o_ptr->to_prowess;
+		dmg = (dmg * mult) / 100;
 		dmg = critical_norm(o_ptr->weight, o_ptr->to_finesse, dmg, &msg_type);
 
 		/* Learn by use for the weapon */
@@ -232,8 +231,9 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	/* Learn by use for other equipped items */
 	wieldeds_notice_on_attack();
 
-	/* Apply the player damage bonuses */
-	dmg += p_ptr->state.to_prowess;
+	/* Apply the prowess multiplier
+     * BUG: currently weapon prowess isn't added properly. */
+	dmg = (dmg * p_ptr->state.dis_to_prowess) / 100;
 
 	/* No negative damage */
 	if (dmg <= 0) dmg = 0;
@@ -548,13 +548,13 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 		multiplier += best_s_ptr->mult;
 		if (best_s_ptr->vuln_flag &&
 				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
-			multiplier += 1;
+			multiplier += 100;
 	}
 
 	/* Apply damage: multiplier, slays, criticals, bonuses */
 	result.dmg = damroll(o_ptr->dd, o_ptr->ds);
 	result.dmg += o_ptr->to_prowess + j_ptr->to_prowess;
-	result.dmg *= multiplier;
+	result.dmg = (result.dmg * multiplier) / 100;
 	result.dmg = critical_shot(o_ptr->weight, o_ptr->to_finesse, result.dmg, &result.msg_type);
 
 	object_notice_attack_plusses(&p_ptr->inventory[INVEN_BOW]);
@@ -592,13 +592,13 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 		multiplier += best_s_ptr->mult;
 		if (best_s_ptr->vuln_flag &&
 				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
-			multiplier += 1;
+			multiplier += 100;
 	}
 
 	/* Apply damage: multiplier, slays, criticals, bonuses */
 	result.dmg = damroll(o_ptr->dd, o_ptr->ds);
 	result.dmg += o_ptr->to_prowess;
-	result.dmg *= multiplier;
+	result.dmg = (result.dmg * multiplier) / 100;
 	result.dmg = critical_norm(o_ptr->weight, o_ptr->to_finesse, result.dmg, &result.msg_type);
 
 	return result;

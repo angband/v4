@@ -167,10 +167,10 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 			mult = best_s_ptr->mult;
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
-				mult += 1;
+				mult += 100;
 		}
 		/* Add the multiple to sv */
-		sv += mult * r_ptr->scaled_power;
+		sv += (mult * r_ptr->scaled_power) / 100;
 	}
 
 	/*

@@ -1059,7 +1059,7 @@ N:66:'Narthanc'
 I:sword:Dagger
 W:1:2:12:12000
 A:400:1 to 50
-P:0:1d4:4:6:0
+P:0:1d4:400:600:0
 F:BRAND_FIRE | RES_FIRE 
 E:FIRE_BOLT:8+d8
 M:{name} is covered in fire...
@@ -1070,7 +1070,7 @@ N:67:'Nimthanc'
 I:sword:Dagger
 W:1:2:12:11000
 A:400:1 to 50
-P:0:1d4:4:6:0
+P:0:1d4:4:6:0:150:0
 F:BRAND_COLD | RES_COLD 
 E:COLD_BOLT:7+d8
 M:{name} is covered in frost...
@@ -1081,7 +1081,7 @@ N:68:'Dethanc'
 I:sword:Dagger
 W:1:2:12:13000
 A:400:1 to 50
-P:0:1d4:4:6:0
+P:0:1d4:4:6:0:0:200
 F:BRAND_ELEC | RES_ELEC 
 E:ELEC_BOLT:6+d6
 M:{name} is covered in sparks...
