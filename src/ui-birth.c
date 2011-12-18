@@ -206,7 +206,7 @@ static const menu_iter birth_iter = { NULL, NULL, birthmenu_display, NULL, NULL 
 
 static void skill_help(s16b skills[], int mhp, int exp, int infra)
 {
-	text_out_e("Hit/Shoot/Throw: %+d/%+d/%+d\n", skills[SKILL_TO_HIT_MELEE], skills[SKILL_TO_HIT_BOW], skills[SKILL_TO_HIT_THROW]);
+	text_out_e("Finesse/Prowess/Shoot/Throw: %+d/%+d/%+d\n", skills[SKILL_FINESSE_MELEE], skills[SKILL_PROWESS_MELEE], skills[SKILL_TO_HIT_BOW], skills[SKILL_TO_HIT_THROW]);
 	text_out_e("Hit die: %2d   XP mod: %d%%\n", mhp, exp);
 	text_out_e("Disarm: %+3d   Devices: %+3d\n", skills[SKILL_DISARM], skills[SKILL_DEVICE]);
 	text_out_e("Save:   %+3d   Stealth: %+3d\n", skills[SKILL_SAVE], skills[SKILL_STEALTH]);

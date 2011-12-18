@@ -573,7 +573,7 @@ static const region boundaries [] =
 	{ 1,   1,		40,		8 }, /* Name, Class, ... */
 	{ 1,   9,		22,		9 }, /* Cur Exp, Max Exp, ... */
 	{ 26,  9,		17,		9 }, /* AC, melee, ... */
-	{ 48,  9,		24,		8 }, /* skills */
+	{ 48,  9,		24,		9 }, /* skills */
 	{ 21,  2,		18,		5 }, /* Age, ht, wt, ... */
 };
 
@@ -790,7 +790,8 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 	{
 		{ "Saving Throw", SKILL_SAVE, 6 },
 		{ "Stealth", SKILL_STEALTH, 1 },
-		{ "Fighting", SKILL_TO_HIT_MELEE, 12 },
+		{ "Finesse", SKILL_FINESSE_MELEE, 12 },
+		{ "Prowess", SKILL_PROWESS_MELEE, 12 },
 		{ "Shooting", SKILL_TO_HIT_BOW, 12 },
 		{ "Disarming", SKILL_DISARM, 8 },
 		{ "Magic Device", SKILL_DEVICE, 6 },

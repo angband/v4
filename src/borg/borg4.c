@@ -119,7 +119,7 @@ static void borg_notice_aux1(void)
     borg_skill[BI_SRCHFREQ] = rb_ptr->r_skills[SKILL_SEARCH_FREQUENCY] + cb_ptr->c_skills[SKILL_SEARCH_FREQUENCY];
 
     /* Base skill -- combat (normal) */
-    borg_skill[BI_THN] = rb_ptr->r_skills[SKILL_TO_HIT_MELEE] + cb_ptr->c_skills[SKILL_TO_HIT_MELEE];
+    borg_skill[BI_THN] = rb_ptr->r_skills[SKILL_FINESSE_MELEE] + cb_ptr->c_skills[SKILL_FINESSE_MELEE];
 
     /* Base skill -- combat (shooting) */
     borg_skill[BI_THB] = rb_ptr->r_skills[SKILL_TO_HIT_BOW] + cb_ptr->c_skills[SKILL_TO_HIT_BOW];
@@ -666,7 +666,7 @@ static void borg_notice_aux1(void)
     borg_skill[BI_SRCHFREQ] += (cb_ptr->x_skills[SKILL_SEARCH_FREQUENCY] * borg_skill[BI_MAXCLEVEL] / 10);
 
     /* Affect Skill -- combat (normal) (Level, by Class) */
-    borg_skill[BI_THN] += (cb_ptr->x_skills[SKILL_TO_HIT_MELEE] * borg_skill[BI_MAXCLEVEL] / 10);
+    borg_skill[BI_THN] += (cb_ptr->x_skills[SKILL_FINESSE_MELEE] * borg_skill[BI_MAXCLEVEL] / 10);
 
     /* Affect Skill -- combat (shooting) (Level, by Class) */
     borg_skill[BI_THB] += (cb_ptr->x_skills[SKILL_TO_HIT_BOW] * borg_skill[BI_MAXCLEVEL] / 10);

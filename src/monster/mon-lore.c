@@ -1703,7 +1703,7 @@ static void describe_monster_toughness(const monster_race *r_ptr,
 
 		/* Player's chance to hit it - this code is duplicated in
 		   py_attack_real() and test_hit() and must be kept in sync */
-		chance = (p_ptr->state.skills[SKILL_TO_HIT_MELEE] +
+		chance = (p_ptr->state.skills[SKILL_FINESSE_MELEE] +
 				((p_ptr->state.to_h +
 				p_ptr->inventory[INVEN_WIELD].to_h) * BTH_PLUS_ADJ));
 

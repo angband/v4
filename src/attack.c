@@ -155,7 +155,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 
 	/* Information about the attack */
 	int bonus = p_ptr->state.to_h + o_ptr->to_h;
-	int chance = p_ptr->state.skills[SKILL_TO_HIT_MELEE] + bonus * BTH_PLUS_ADJ;
+	int chance = p_ptr->state.skills[SKILL_FINESSE_MELEE] + bonus * BTH_PLUS_ADJ;
 	bool do_quake = FALSE;
 	bool success = FALSE;
 

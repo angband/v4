@@ -1860,7 +1860,8 @@ static enum parser_error parse_p_r(struct parser *p) {
 	r->r_skills[SKILL_STEALTH] = parser_getint(p, "stl");
 	r->r_skills[SKILL_SEARCH] = parser_getint(p, "srh");
 	r->r_skills[SKILL_SEARCH_FREQUENCY] = parser_getint(p, "fos");
-	r->r_skills[SKILL_TO_HIT_MELEE] = parser_getint(p, "thm");
+	r->r_skills[SKILL_FINESSE_MELEE] = parser_getint(p, "fin");
+    r->r_skills[SKILL_PROWESS_MELEE] = parser_getint(p, "pro");
 	r->r_skills[SKILL_TO_HIT_BOW] = parser_getint(p, "thb");
 	r->r_skills[SKILL_TO_HIT_THROW] = parser_getint(p, "throw");
 	r->r_skills[SKILL_DIGGING] = parser_getint(p, "dig");
@@ -1982,7 +1983,7 @@ struct parser *init_parse_p(void) {
 	parser_reg(p, "V sym version", ignored);
 	parser_reg(p, "N uint index str name", parse_p_n);
 	parser_reg(p, "S int str int int int wis int dex int con int chr", parse_p_s);
-	parser_reg(p, "R int dis int dev int sav int stl int srh int fos int thm int thb int throw int dig", parse_p_r);
+	parser_reg(p, "R int dis int dev int sav int stl int srh int fos int fin int pro int thb int throw int dig", parse_p_r);
 	parser_reg(p, "X int mhp int exp int infra", parse_p_x);
 	parser_reg(p, "I uint hist int b-age int m-age", parse_p_i);
 	parser_reg(p, "H int mbht int mmht int fbht int fmht", parse_p_h);
@@ -2061,7 +2062,8 @@ static enum parser_error parse_c_c(struct parser *p) {
 	c->c_skills[SKILL_STEALTH] = parser_getint(p, "stl");
 	c->c_skills[SKILL_SEARCH] = parser_getint(p, "srh");
 	c->c_skills[SKILL_SEARCH_FREQUENCY] = parser_getint(p, "fos");
-	c->c_skills[SKILL_TO_HIT_MELEE] = parser_getint(p, "thm");
+	c->c_skills[SKILL_FINESSE_MELEE] = parser_getint(p, "fin");
+	c->c_skills[SKILL_PROWESS_MELEE] = parser_getint(p, "pro");
 	c->c_skills[SKILL_TO_HIT_BOW] = parser_getint(p, "thb");
 	c->c_skills[SKILL_TO_HIT_THROW] = parser_getint(p, "throw");
 	c->c_skills[SKILL_DIGGING] = parser_getint(p, "dig");
@@ -2079,7 +2081,8 @@ static enum parser_error parse_c_x(struct parser *p) {
 	c->x_skills[SKILL_STEALTH] = parser_getint(p, "stl");
 	c->x_skills[SKILL_SEARCH] = parser_getint(p, "srh");
 	c->x_skills[SKILL_SEARCH_FREQUENCY] = parser_getint(p, "fos");
-	c->x_skills[SKILL_TO_HIT_MELEE] = parser_getint(p, "thm");
+	c->x_skills[SKILL_FINESSE_MELEE] = parser_getint(p, "fin");
+    c->x_skills[SKILL_PROWESS_MELEE] = parser_getint(p, "pro");
 	c->x_skills[SKILL_TO_HIT_BOW] = parser_getint(p, "thb");
 	c->x_skills[SKILL_TO_HIT_THROW] = parser_getint(p, "throw");
 	c->x_skills[SKILL_DIGGING] = parser_getint(p, "dig");
@@ -2214,8 +2217,8 @@ struct parser *init_parse_c(void) {
 	parser_reg(p, "V sym version", ignored);
 	parser_reg(p, "N uint index str name", parse_c_n);
 	parser_reg(p, "S int str int int int wis int dex int con int chr", parse_c_s);
-	parser_reg(p, "C int dis int dev int sav int stl int srh int fos int thm int thb int throw int dig", parse_c_c);
-	parser_reg(p, "X int dis int dev int sav int stl int srh int fos int thm int thb int throw int dig", parse_c_x);
+	parser_reg(p, "C int dis int dev int sav int stl int srh int fos int fin int pro int thb int throw int dig", parse_c_c);
+	parser_reg(p, "X int dis int dev int sav int stl int srh int fos int fin int pro int thb int throw int dig", parse_c_x);
 	parser_reg(p, "I int mhp int exp int sense-base int sense-div", parse_c_i);
 	parser_reg(p, "A int max-attacks int min-weight int att-multiply", parse_c_a);
 	parser_reg(p, "M uint book uint stat uint first uint weight", parse_c_m);
