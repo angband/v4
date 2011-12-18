@@ -456,8 +456,8 @@ static void borg_notice_aux1(void)
     /* Actual Modifier Bonuses (Un-inflate stat bonuses) */
     borg_skill[BI_ARMOR] += ((int)(adj_dex_ta[my_stat_ind[A_DEX]]) - 128);
     borg_skill[BI_TODAM] += ((int)(adj_str_td[my_stat_ind[A_STR]]) - 128);
-    borg_skill[BI_TOHIT] += ((int)(adj_dex_th[my_stat_ind[A_DEX]]) - 128);
-    borg_skill[BI_TOHIT] += ((int)(adj_str_th[my_stat_ind[A_STR]]) - 128);
+    borg_skill[BI_TOHIT] += ((int)(adj_dex_to_finesse[my_stat_ind[A_DEX]]) - 128);
+    borg_skill[BI_TOHIT] += ((int)(adj_str_to_finesse[my_stat_ind[A_STR]]) - 128);
 
 
     /* Obtain the "hold" value */

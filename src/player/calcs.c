@@ -347,9 +347,9 @@ const byte adj_str_td[STAT_RANGE] =
 
 
 /*
- * Stat Table (DEX) -- bonus to hit (plus 128)
+ * Stat Table (DEX) -- bonus to finesse (plus 128)
  */
-const byte adj_dex_th[STAT_RANGE] =
+const byte adj_dex_to_finesse[STAT_RANGE] =
 {
 	128 + -3	/* 3 */,
 	128 + -2	/* 4 */,
@@ -395,7 +395,7 @@ const byte adj_dex_th[STAT_RANGE] =
 /*
  * Stat Table (STR) -- bonus to hit (plus 128)
  */
-const byte adj_str_th[STAT_RANGE] =
+const byte adj_str_to_finesse[STAT_RANGE] =
 {
 	128 + -3	/* 3 */,
 	128 + -2	/* 4 */,
@@ -1416,45 +1416,32 @@ static void calc_torch(void)
 }
 
 /*
- * Calculate the blows a player would get.
+ * Calculate the blows a player would get. Blows are given by 
+ * 100 + finesse * (balance / 100)
  *
  * \param o_ptr is the object for which we are calculating blows
  * \param state is the player state for which we are calculating blows
- * \param extra_blows is the number of +blows available from this object and
- * this state
  *
  * N.B. state->num_blows is now 100x the number of blows.
  */
-int calc_blows(const object_type *o_ptr, player_state *state, int extra_blows)
+int calc_blows(const object_type *o_ptr, player_state *state)
 {
-	int blows;
-	int str_index, dex_index;
-	int div;
-	int blow_energy;
-
-	/* Enforce a minimum "weight" (tenth pounds) */
-	div = ((o_ptr->weight < p_ptr->class->min_weight) ? p_ptr->class->min_weight :
-		o_ptr->weight);
-
-	/* Get the strength vs weight */
-	str_index = adj_str_blow[state->stat_ind[A_STR]] *
-			p_ptr->class->att_multiply / div;
-
-	/* Maximal value */
-	if (str_index > 11) str_index = 11;
-
-	/* Index by dexterity */
-	dex_index = MIN(adj_dex_blow[state->stat_ind[A_DEX]], 11);
-
-	/* Use the blows table to get energy per blow */
-	blow_energy = blows_table[str_index][dex_index];
-
-	blows = MIN((10000 / blow_energy), (100 * p_ptr->class->max_attacks));
-
-	/* Require at least one blow */
-	return MAX(blows + (100 * extra_blows), 100);
+	return 100 + state->dis_to_finesse * o_ptr->balance / 100;
 }
 
+/*
+ * Calculate the damage multiplier on each melee blow a player would get.
+ * This is given by 100 + prowess * (heft / 100)
+ * This is actually 100x the actual multiplier (e.g. 150 = 1.5x multiplier).
+ *
+ * \param o_ptr is the object for which we are calculating the multiplier
+ * \param state is the player state for which we are calculating the multiplier
+ *
+ */
+int calc_multiplier(const object_type *o_ptr, player_state *state)
+{
+    return 100 + state->dis_to_prowess * o_ptr->heft / 100; 
+}
 
 /*
  * Computes current weight limit.
@@ -1528,6 +1515,7 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Set various defaults */
 	state->speed = 110;
 	state->num_blows = 100;
+    state->dam_multiplier = 100;
 
 
 	/*** Extract race/class info ***/
@@ -1852,19 +1840,27 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	if (state->speed < 0) state->speed = 0;
 	if (state->speed > 199) state->speed = 199;
 
+	/* Affect Skills (Level, by Class) */
+	for (i = 0; i < SKILL_MAX; i++) {
+		state->skills[i] += (p_ptr->class->x_skills[i] * p_ptr->lev / 10);
+    }
+
 	/*** Apply modifier bonuses ***/
 
 	/* Actual Modifier Bonuses (Un-inflate stat bonuses) */
 	state->to_a += ((int)(adj_dex_ta[state->stat_ind[A_DEX]]) - 128);
 	state->to_prowess += ((int)(adj_str_td[state->stat_ind[A_STR]]) - 128);
-	state->to_finesse += ((int)(adj_dex_th[state->stat_ind[A_DEX]]) - 128);
-	state->to_finesse += ((int)(adj_str_th[state->stat_ind[A_STR]]) - 128);
+	state->to_finesse += ((int)(adj_dex_to_finesse[state->stat_ind[A_DEX]]) - 128);
+	state->to_finesse += ((int)(adj_str_to_finesse[state->stat_ind[A_STR]]) - 128);
 
 	/* Displayed Modifier Bonuses (Un-inflate stat bonuses) */
 	state->dis_to_a += ((int)(adj_dex_ta[state->stat_ind[A_DEX]]) - 128);
 	state->dis_to_prowess += ((int)(adj_str_td[state->stat_ind[A_STR]]) - 128);
-	state->dis_to_finesse += ((int)(adj_dex_th[state->stat_ind[A_DEX]]) - 128);
-	state->dis_to_finesse += ((int)(adj_str_th[state->stat_ind[A_STR]]) - 128);
+	state->dis_to_finesse += ((int)(adj_dex_to_finesse[state->stat_ind[A_DEX]]) - 128);
+	state->dis_to_finesse += ((int)(adj_str_to_finesse[state->stat_ind[A_STR]]) - 128);
+    /* Apply Finesse and Prowess skills to displayed values. */
+    state->dis_to_finesse += state->skills[SKILL_FINESSE_MELEE];
+    state->dis_to_prowess += state->skills[SKILL_PROWESS_MELEE];
 
 
 	/*** Modify skills ***/
@@ -1881,10 +1877,6 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 
 	/* Affect Skill -- digging (STR) */
 	state->skills[SKILL_DIGGING] += adj_str_dig[state->stat_ind[A_STR]];
-
-	/* Affect Skills (Level, by Class) */
-	for (i = 0; i < SKILL_MAX; i++)
-		state->skills[i] += (p_ptr->class->x_skills[i] * p_ptr->lev / 10);
 
 	/* Limit Skill -- digging from 1 up */
 	if (state->skills[SKILL_DIGGING] < 1) state->skills[SKILL_DIGGING] = 1;
@@ -2021,8 +2013,9 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Normal weapons */
 	if (!state->heavy_wield)
 	{
-		/* Calculate number of blows */
-		state->num_blows = calc_blows(o_ptr, state, extra_blows);
+		/* Calculate number of blows and damage multiplier */
+		state->num_blows = calc_blows(o_ptr, state);
+        state->dam_multiplier = calc_multiplier(o_ptr, state);
 
 		/* Boost digging skill by weapon weight */
 		state->skills[SKILL_DIGGING] += (o_ptr->weight / 10);

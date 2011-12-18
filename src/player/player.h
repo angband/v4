@@ -21,8 +21,8 @@ extern const byte adj_dex_dis[STAT_RANGE];
 extern const byte adj_int_dis[STAT_RANGE];
 extern const byte adj_dex_ta[STAT_RANGE];
 extern const byte adj_str_td[STAT_RANGE];
-extern const byte adj_dex_th[STAT_RANGE];
-extern const byte adj_str_th[STAT_RANGE];
+extern const byte adj_dex_to_finesse[STAT_RANGE];
+extern const byte adj_str_to_finesse[STAT_RANGE];
 extern const byte adj_str_wgt[STAT_RANGE];
 extern const byte adj_str_dig[STAT_RANGE];
 extern const byte adj_dex_blow[STAT_RANGE];
@@ -33,7 +33,8 @@ extern const byte blows_table[12][12];
 #endif
 
 void calc_bonuses(object_type inventory[], player_state *state, bool id_only);
-int calc_blows(const object_type *o_ptr, player_state *state, int extra_blows);
+int calc_blows(const object_type *o_ptr, player_state *state);
+int calc_multiplier(const object_type *o_ptr, player_state *state);
 void notice_stuff(struct player *p);
 void update_stuff(struct player *p);
 void redraw_stuff(struct player *p);
