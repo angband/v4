@@ -788,8 +788,11 @@ static enum parser_error parse_a_a(struct parser *p) {
 static enum parser_error parse_a_p(struct parser *p) {
 	struct artifact *a = parser_priv(p);
 	struct random hd = parser_getrand(p, "hd"); 
+    struct object_kind* kind;
 	assert(a);
 
+    kind = lookup_kind(a->tval, a->sval);
+    
 	a->ac = parser_getint(p, "ac");
 	a->dd = hd.dice;
 	a->ds = hd.sides;
@@ -797,12 +800,13 @@ static enum parser_error parse_a_p(struct parser *p) {
 	a->to_d = parser_getint(p, "to-d");
 	a->to_a = parser_getint(p, "to-a");
 	if (!parser_hasval(p, "balance")) {
-		a->balance = -1;
+        /* Look up stats for the base item type */
+		a->balance = kind->balance;
 	} else {
         a->balance = parser_getint(p, "balance");
 	} 
 	if (!parser_hasval(p, "heft")) {
-		a->heft = -1;
+		a->heft = kind->heft;
 	} else {
         a->heft = parser_getint(p, "heft");
 	}
