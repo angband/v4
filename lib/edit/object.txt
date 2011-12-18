@@ -11,7 +11,7 @@
 # G: symbol : color
 # I: tval : sval
 # W: depth : rarity : weight : cost
-# P: base armor class : base damage : plus to-hit : plus to-dam : plus to-ac : finesse : prowess
+# P: base armor class : base damage : plus to-hit : plus to-dam : plus to-ac : balance : heft
 # A: commonness : min " to " max
 # C: extent
 # M: chance of being generated in a pile : dice for number of items
@@ -60,8 +60,10 @@
 # by the squelch_worthless option.
 
 # 'P' is for power information. The items base armor class, its base
-# damage and pluses to-prowess, to-finesse and to-ac, finesse and prowess.  The
-# three pluses accept randomized values.
+# damage and pluses to-prowess, to-finesse and to-ac, balance and heft.  The
+# three pluses accept randomized values. "Balance" is the weapon's 
+# finesse multiplier, times 100 (e.g. 20 = .2x multiplier). "Heft" is the 
+# same for prowess.
 
 # 'A' is for allocation - depth and rarity, in pairs. It is used to
 # ensure that certain vital items such as food and identify scrolls

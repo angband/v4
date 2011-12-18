@@ -815,7 +815,7 @@ static bool describe_combat(textblock *tb, const object_type *o_ptr,
 		if (adj_str_hold[state.stat_ind[A_STR]] < o_ptr->weight / 10)
 			textblock_append_c(tb, TERM_L_RED, "You are too weak to use this weapon.\n");
 
-        textblock_append(tb, "Receives %d%% of your finesse score, %d%% of your prowess score.\n", o_ptr->finesse, o_ptr->prowess);
+        textblock_append(tb, "Receives %d%% of your finesse score, %d%% of your prowess score.\n", o_ptr->balance, o_ptr->heft);
 
 		/* Describe blows */
 		describe_blows(tb, o_ptr, state, f);

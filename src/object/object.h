@@ -284,8 +284,8 @@ typedef struct object_kind {
 	random_value to_h; /**< Bonus to hit */
 	random_value to_d; /**< Bonus to damage */
 	random_value to_a; /**< Bonus to armor */
-    s16b finesse;      /**< Finesse multiplier for weapons */
-    s16b prowess;      /**< Prowess multiplier for weapons */
+    s16b balance;      /**< Finesse multiplier for weapons */
+    s16b heft;         /**< Prowess multiplier for weapons */
 	s16b ac;           /**< Base armor */
 
 	byte dd;           /**< Damage dice */
@@ -359,8 +359,8 @@ typedef struct artifact {
 	s16b to_h;    /**< Bonus to hit */
 	s16b to_d;    /**< Bonus to damage */
 	s16b to_a;    /**< Bonus to armor */
-    s16b finesse; /**< Finesse multiplier for weapons */
-    s16b prowess; /**< Prowess multiplier for weapons */
+    s16b balance; /**< Finesse multiplier for weapons */
+    s16b heft;    /**< Prowess multiplier for weapons */
 	s16b ac;      /**< Base armor */
 
 	byte dd;      /**< Base damage dice */
@@ -489,8 +489,8 @@ typedef struct object {
 	s16b to_a;			/* Plusses to AC */
 	s16b to_h;			/* Plusses to hit */
 	s16b to_d;			/* Plusses to damage */
-	s16b finesse;		/* Finesse multiplier for weapons */
-	s16b prowess;		/* Prowess multiplier for weapons */
+	s16b balance;		/* Finesse multiplier for weapons */
+	s16b heft;  		/* Prowess multiplier for weapons */
 
 	byte dd, ds;		/* Damage dice/sides */
 

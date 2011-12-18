@@ -52,7 +52,7 @@ static struct theme *lookup_theme(int idx)
 
 
 /*
- * Read an object, version 6 (added finesse and prowess).
+ * Read an object, version 6 (added balance and heft).
  */
 static int rd_item_6(object_type *o_ptr)
 {
@@ -122,8 +122,8 @@ static int rd_item_6(object_type *o_ptr)
 	rd_s16b(&o_ptr->to_h);
 	rd_s16b(&o_ptr->to_d);
 	rd_s16b(&o_ptr->to_a);
-	rd_s16b(&o_ptr->finesse);
-	rd_s16b(&o_ptr->prowess);
+	rd_s16b(&o_ptr->balance);
+	rd_s16b(&o_ptr->heft);
 	rd_s16b(&o_ptr->ac);
 	rd_byte(&o_ptr->dd);
 	rd_byte(&o_ptr->ds);

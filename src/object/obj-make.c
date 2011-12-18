@@ -512,8 +512,8 @@ void copy_artifact_data(object_type *o_ptr, const artifact_type *a_ptr)
 	o_ptr->to_a = a_ptr->to_a;
 	o_ptr->to_h = a_ptr->to_h;
 	o_ptr->to_d = a_ptr->to_d;
-	o_ptr->finesse = a_ptr->finesse;
-	o_ptr->prowess = a_ptr->prowess;
+	o_ptr->balance = a_ptr->balance;
+	o_ptr->heft = a_ptr->heft;
 	o_ptr->weight = a_ptr->weight;
 	of_union(o_ptr->flags, a_ptr->flags);
 
@@ -707,9 +707,9 @@ void object_prep(object_type *o_ptr, struct object_kind *k, int lev,
 			o_ptr->timeout = DEFAULT_LAMP;
 	}
 
-    /* Default finesse and prowess multipliers */
-    o_ptr->finesse = k->finesse;
-    o_ptr->prowess = k->prowess;
+    /* Default balance and heft values */
+    o_ptr->balance = k->balance;
+    o_ptr->heft = k->heft;
 
 	/* Default magic */
 	o_ptr->to_h = randcalc(k->to_h, lev, rand_aspect);

@@ -360,8 +360,8 @@ enum
 	SKILL_STEALTH,			/* Skill: Stealth factor */
 	SKILL_SEARCH,			/* Skill: Searching ability */
 	SKILL_SEARCH_FREQUENCY,		/* Skill: Searching frequency */
-	SKILL_FINESSE_MELEE,		/* Skill: To melee finesse */
-	SKILL_PROWESS_MELEE,		/* Skill: To melee prowess */
+	SKILL_FINESSE_MELEE,		/* Skill: Melee finesse */
+	SKILL_PROWESS_MELEE,		/* Skill: Melee prowess */
 	SKILL_TO_HIT_BOW,		/* Skill: To hit (shooting) */
 	SKILL_TO_HIT_THROW,		/* Skill: To hit (throwing) */
 	SKILL_DIGGING,			/* Skill: Digging */
