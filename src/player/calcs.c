@@ -1426,7 +1426,7 @@ static void calc_torch(void)
  */
 int calc_blows(const object_type *o_ptr, player_state *state)
 {
-	return 100 + state->dis_to_finesse * o_ptr->balance / 100;
+	return 100 + (state->dis_to_finesse + o_ptr->to_finesse) * o_ptr->balance / 100;
 }
 
 /*
@@ -1440,7 +1440,7 @@ int calc_blows(const object_type *o_ptr, player_state *state)
  */
 int calc_multiplier(const object_type *o_ptr, player_state *state)
 {
-    return 100 + state->dis_to_prowess * o_ptr->heft / 100; 
+    return 100 + (state->dis_to_prowess + o_ptr->to_prowess) * o_ptr->heft / 100; 
 }
 
 /*

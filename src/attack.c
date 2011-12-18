@@ -193,7 +193,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 
 	/* Handle normal weapon */
 	if (o_ptr->kind) {
-		int i, mult = 1;
+		int i, mult = 100;
 		const struct slay *best_s_ptr = NULL;
 
 		hit_verb = "hit";
@@ -231,9 +231,8 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	/* Learn by use for other equipped items */
 	wieldeds_notice_on_attack();
 
-	/* Apply the prowess multiplier
-     * BUG: currently weapon prowess isn't added properly. */
-	dmg = (dmg * p_ptr->state.dis_to_prowess) / 100;
+	/* Apply the prowess multiplier. */
+	dmg = (dmg * p_ptr->state.dam_multiplier) / 100;
 
 	/* No negative damage */
 	if (dmg <= 0) dmg = 0;
