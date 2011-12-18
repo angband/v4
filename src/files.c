@@ -628,32 +628,32 @@ static const char *show_speed(void)
 static const char *show_melee_weapon(const object_type *o_ptr)
 {
 	static char buffer[12];
-	int hit = p_ptr->state.dis_to_h;
-	int dam = p_ptr->state.dis_to_d;
+	int finesse = p_ptr->state.dis_to_finesse;
+	int prowess = p_ptr->state.dis_to_prowess;
 
 	if (object_attack_plusses_are_visible(o_ptr))
 	{
-		hit += o_ptr->to_h;
-		dam += o_ptr->to_d;
+		finesse += o_ptr->to_finesse;
+		prowess += o_ptr->to_prowess;
 	}
 
-	strnfmt(buffer, sizeof(buffer), "(%+d,%+d)", hit, dam);
+	strnfmt(buffer, sizeof(buffer), "(%+d,%+d)", finesse, prowess);
 	return buffer;
 }
 
 static const char *show_missile_weapon(const object_type *o_ptr)
 {
 	static char buffer[12];
-	int hit = p_ptr->state.dis_to_h;
-	int dam = 0;
+	int finesse = p_ptr->state.dis_to_finesse;
+	int prowess = 0;
 
 	if (object_attack_plusses_are_visible(o_ptr))
 	{
-		hit += o_ptr->to_h;
-		dam += o_ptr->to_d;
+		finesse += o_ptr->to_finesse;
+		prowess += o_ptr->to_prowess;
 	}
 
-	strnfmt(buffer, sizeof(buffer), "(%+d,%+d)", hit, dam);
+	strnfmt(buffer, sizeof(buffer), "(%+d,%+d)", finesse, prowess);
 	return buffer;
 }
 
@@ -769,7 +769,7 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 	assert(ret >= boundaries[3].page_rows);
 	ret = boundaries[3].page_rows;
 	P_I(TERM_L_BLUE, "Armor", "[%y,%+y]",	i2u(p_ptr->state.dis_ac), i2u(p_ptr->state.dis_to_a)  );
-	P_I(TERM_L_BLUE, "Fight", "(%+y,%+y)",	i2u(p_ptr->state.dis_to_h), i2u(p_ptr->state.dis_to_d)  );
+	P_I(TERM_L_BLUE, "Fight", "(%+y,%+y)",	i2u(p_ptr->state.dis_to_finesse), i2u(p_ptr->state.dis_to_prowess)  );
 	P_I(TERM_L_BLUE, "Melee", "%y",		s2u(show_melee_weapon(&p_ptr->inventory[INVEN_WIELD])), END  );
 	P_I(TERM_L_BLUE, "Shoot", "%y",		s2u(show_missile_weapon(&p_ptr->inventory[INVEN_BOW])), END  );
 	P_I(TERM_L_BLUE, "Blows", "%y.%y/turn",	i2u(p_ptr->state.num_blows / 100), i2u((p_ptr->state.num_blows / 10) % 10) );

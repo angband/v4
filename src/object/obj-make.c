@@ -335,22 +335,22 @@ void ego_apply_magic(object_type *o_ptr, int level, int affix)
 			of_on(o_ptr->flags,	get_new_attr(o_ptr->flags, ego->randmask[i]));
 
 	/* Apply extra combat bonuses */
-	amt = randcalc(ego->to_h, level, RANDOMISE);
-	o_ptr->to_h += amt;
-	if (ego->min_to_h != NO_MINIMUM) {
-		if (amt < ego->min_to_h)
-			o_ptr->to_h += ego->min_to_h - amt;
-		if (o_ptr->to_h < ego->min_to_h)
-			o_ptr->to_h = ego->min_to_h;
+	amt = randcalc(ego->to_finesse, level, RANDOMISE);
+	o_ptr->to_finesse += amt;
+	if (ego->min_to_finesse != NO_MINIMUM) {
+		if (amt < ego->min_to_finesse)
+			o_ptr->to_finesse += ego->min_to_finesse - amt;
+		if (o_ptr->to_finesse < ego->min_to_finesse)
+			o_ptr->to_finesse = ego->min_to_finesse;
 	}
 
-	amt = randcalc(ego->to_d, level, RANDOMISE);
-	o_ptr->to_d += amt;
-	if (ego->min_to_d != NO_MINIMUM) {
-		if (amt < ego->min_to_d)
-			o_ptr->to_d += ego->min_to_d - amt;
-		if (o_ptr->to_d < ego->min_to_d)
-			o_ptr->to_d = ego->min_to_d;
+	amt = randcalc(ego->to_prowess, level, RANDOMISE);
+	o_ptr->to_prowess += amt;
+	if (ego->min_to_prowess != NO_MINIMUM) {
+		if (amt < ego->min_to_prowess)
+			o_ptr->to_prowess += ego->min_to_prowess - amt;
+		if (o_ptr->to_prowess < ego->min_to_prowess)
+			o_ptr->to_prowess = ego->min_to_prowess;
 	}
 
 	amt = randcalc(ego->to_a, level, RANDOMISE);
@@ -510,8 +510,8 @@ void copy_artifact_data(object_type *o_ptr, const artifact_type *a_ptr)
 	o_ptr->dd = a_ptr->dd;
 	o_ptr->ds = a_ptr->ds;
 	o_ptr->to_a = a_ptr->to_a;
-	o_ptr->to_h = a_ptr->to_h;
-	o_ptr->to_d = a_ptr->to_d;
+	o_ptr->to_finesse = a_ptr->to_finesse;
+	o_ptr->to_prowess = a_ptr->to_prowess;
 	o_ptr->balance = a_ptr->balance;
 	o_ptr->heft = a_ptr->heft;
 	o_ptr->weight = a_ptr->weight;
@@ -712,8 +712,8 @@ void object_prep(object_type *o_ptr, struct object_kind *k, int lev,
     o_ptr->heft = k->heft;
 
 	/* Default magic */
-	o_ptr->to_h = randcalc(k->to_h, lev, rand_aspect);
-	o_ptr->to_d = randcalc(k->to_d, lev, rand_aspect);
+	o_ptr->to_finesse = randcalc(k->to_finesse, lev, rand_aspect);
+	o_ptr->to_prowess = randcalc(k->to_prowess, lev, rand_aspect);
 	o_ptr->to_a = randcalc(k->to_a, lev, rand_aspect);
 }
 
@@ -824,9 +824,9 @@ static bool kind_is_good(const object_kind *kind)
 		if (of_has(kind->flags, OF_GOOD) ||
 				of_has(kind->base->flags, OF_GOOD)) return TRUE;
 		if (randcalc(kind->to_a, 0, MINIMISE) < 0) return FALSE;
-		if (randcalc(kind->to_d, 0, MINIMISE) < 0) return FALSE;
+		if (randcalc(kind->to_prowess, 0, MINIMISE) < 0) return FALSE;
 		if (kind_is_armour(kind->tval)) return TRUE;
-		if (randcalc(kind->to_h, 0, MINIMISE) < 0) return FALSE;
+		if (randcalc(kind->to_finesse, 0, MINIMISE) < 0) return FALSE;
 		if (kind_is_weapon(kind->tval) || kind_is_ammo(kind->tval)) return TRUE;
 		return FALSE;
 }

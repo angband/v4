@@ -416,8 +416,8 @@ static int borg_new_take(struct object_kind *kind, int y, int x)
 	 */
 	if ((o_ptr->ident & IDENT_KNOWN) &&
 		(o_ptr->to_a < 0 ||
-		 o_ptr->to_d < 0 ||
-		 o_ptr->to_h < 0)) take->value = -10;
+		 o_ptr->to_prowess < 0 ||
+		 o_ptr->to_finesse < 0)) take->value = -10;
 
     /* Note */
     borg_note(format("# Creating an object '%s' at (%d,%d)",

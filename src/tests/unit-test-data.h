@@ -37,8 +37,8 @@ static struct artifact TEST_DATA test_artifact_sword = {
 	.tval = TV_SWORD,
 	.sval = SV_LONG_SWORD,
 	.to_a = 1,
-	.to_h = 2,
-	.to_d = 3,
+	.to_finesse = 2,
+	.to_prowess = 3,
 	.ac = 5,
 	.dd = 2,
 	.ds = 5,
@@ -76,13 +76,13 @@ static struct object_kind TEST_DATA test_longsword = {
 			},
 	},
 
-	.to_h = {
+	.to_finesse = {
 			.base = 1,
 			.dice = 0,
 			.sides = 0,
 			.m_bonus = 0,
 	},
-	.to_d = {
+	.to_prowess = {
 			.base = 1,
 			.dice = 0,
 			.sides = 0,
@@ -141,13 +141,13 @@ static struct object_kind TEST_DATA test_torch = {
 			},
 	},
 
-	.to_h = {
+	.to_finesse = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
 			.m_bonus = 0,
 	},
-	.to_d = {
+	.to_prowess = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
@@ -206,13 +206,13 @@ static struct object_kind TEST_DATA test_gold = {
 			},
 	},
 
-	.to_h = {
+	.to_finesse = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
 			.m_bonus = 0,
 	},
-	.to_d = {
+	.to_prowess = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,

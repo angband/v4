@@ -1529,7 +1529,7 @@ s32b object_value(const object_type *o_ptr, int qty, int verbose)
 		object_flags_known(o_ptr, j_ptr->flags);
 
 		if (!object_attack_plusses_are_visible(o_ptr))
-			j_ptr->to_h = j_ptr->to_d = 0;
+			j_ptr->to_finesse = j_ptr->to_prowess = 0;
 		if (!object_defence_plusses_are_visible(o_ptr))
 			j_ptr->to_a = 0;
 
@@ -1644,8 +1644,8 @@ bool object_similar(const object_type *o_ptr, const object_type *j_ptr,
 			if (o_ptr->ds != j_ptr->ds) return FALSE;
 
 			/* Require identical bonuses */
-			if (o_ptr->to_h != j_ptr->to_h) return FALSE;
-			if (o_ptr->to_d != j_ptr->to_d) return FALSE;
+			if (o_ptr->to_finesse != j_ptr->to_finesse) return FALSE;
+			if (o_ptr->to_prowess != j_ptr->to_prowess) return FALSE;
 			if (o_ptr->to_a != j_ptr->to_a) return FALSE;
 
 			/* Require all identical pvals */

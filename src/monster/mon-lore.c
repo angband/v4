@@ -179,7 +179,7 @@ static void get_attack_colors(int melee_colors[RBE_MAX], int spell_colors[RSF_MA
 
 		/* Disenchantment - requires an enchanted item */
 		if (i >= INVEN_WIELD && (!known || o_ptr->to_a > 0 ||
-				o_ptr->to_h > 0 || o_ptr->to_d > 0) &&
+				o_ptr->to_finesse > 0 || o_ptr->to_prowess > 0) &&
 				!check_state(p_ptr, OF_RES_DISEN, st.flags))
 		{
 			melee_colors[RBE_UN_BONUS] = TERM_L_RED;
@@ -1704,8 +1704,8 @@ static void describe_monster_toughness(const monster_race *r_ptr,
 		/* Player's chance to hit it - this code is duplicated in
 		   py_attack_real() and test_hit() and must be kept in sync */
 		chance = (p_ptr->state.skills[SKILL_FINESSE_MELEE] +
-				((p_ptr->state.to_h +
-				p_ptr->inventory[INVEN_WIELD].to_h) * BTH_PLUS_ADJ));
+				((p_ptr->state.to_finesse +
+				p_ptr->inventory[INVEN_WIELD].to_finesse) * BTH_PLUS_ADJ));
 
 		/* Avoid division by zero errors, and starting higher on the scale */
 		if (chance < 9)

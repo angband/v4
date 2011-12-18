@@ -391,8 +391,8 @@ static void borg_notice_aux1(void)
         if (i == INVEN_BOW) continue;
 
         /* Apply the bonuses to hit/damage */
-        borg_skill[BI_TOHIT] += item->to_h;
-        borg_skill[BI_TODAM] += item->to_d;
+        borg_skill[BI_TOHIT] += item->to_finesse;
+        borg_skill[BI_TODAM] += item->to_prowess;
     }
 
     /* Update "stats" */
@@ -472,14 +472,14 @@ static void borg_notice_aux1(void)
     {
         item->ds = 0;
         item->dd = 0;
-        item->to_d = 0;
-        item->to_h = 0;
+        item->to_prowess = 0;
+        item->to_finesse = 0;
         item->weight = 0;
     }
 
 	/* Real bonuses */
-    borg_skill[BI_BTOHIT] = item->to_h;
-    borg_skill[BI_BTODAM] = item->to_d;
+    borg_skill[BI_BTOHIT] = item->to_finesse;
+    borg_skill[BI_BTODAM] = item->to_prowess;
 
     /* It is hard to carholdry a heavy bow */
     if (hold < item->weight / 10)
@@ -559,14 +559,14 @@ static void borg_notice_aux1(void)
     {
         item->ds = 0;
         item->dd = 0;
-        item->to_d = 0;
-        item->to_h = 0;
+        item->to_prowess = 0;
+        item->to_finesse = 0;
         item->weight = 0;
     }
 
 	/* Real values */
-    borg_skill[BI_WTOHIT] = item->to_h;
-    borg_skill[BI_WTODAM] = item->to_d;
+    borg_skill[BI_WTOHIT] = item->to_finesse;
+    borg_skill[BI_WTODAM] = item->to_prowess;
 
     /* It is hard to hold a heavy weapon */
     if (hold < item->weight / 10)
@@ -736,28 +736,28 @@ static void borg_notice_aux1(void)
         	 borg_spell_legal_fail(7, 3, 65) ||
              amt_enchant_weapon >=1 ) )
         {
-            if (item->to_h < borg_enchant_limit)
+            if (item->to_finesse < borg_enchant_limit)
             {
-                my_need_enchant_to_h += (borg_enchant_limit - item->to_h);
+                my_need_enchant_to_h += (borg_enchant_limit - item->to_finesse);
             }
 
             /* Enchant all weapons (to damage) */
-            if (item->to_d < borg_enchant_limit)
+            if (item->to_prowess < borg_enchant_limit)
             {
-                my_need_enchant_to_d += (borg_enchant_limit - item->to_d);
+                my_need_enchant_to_d += (borg_enchant_limit - item->to_prowess);
             }
         }
         else /* I dont have the spell or *enchant* */
         {
-            if (item->to_h < 8)
+            if (item->to_finesse < 8)
             {
-                my_need_enchant_to_h += (8 - item->to_h);
+                my_need_enchant_to_h += (8 - item->to_finesse);
             }
 
             /* Enchant all weapons (to damage) */
-            if (item->to_d < 8)
+            if (item->to_prowess < 8)
             {
-                my_need_enchant_to_d += (8 - item->to_d);
+                my_need_enchant_to_d += (8 - item->to_prowess);
             }
         }
     }
@@ -868,26 +868,26 @@ static void borg_notice_aux1(void)
 				if ((borg_spell_legal_fail(7, 3, 65) || borg_prayer_legal_fail(7, 3, 65))
 					&& item->iqty >= 5)
 				{
-					if (item->to_h < 10)
+					if (item->to_finesse < 10)
 					{
-						my_need_enchant_to_h += (10 - item->to_h);
+						my_need_enchant_to_h += (10 - item->to_finesse);
 					}
 
-					if (item->to_d < 10)
+					if (item->to_prowess < 10)
 					{
-						my_need_enchant_to_d += (10 - item->to_d);
+						my_need_enchant_to_d += (10 - item->to_prowess);
 					}
 				}
 				else
 				{
-					if (item->to_h < 8)
+					if (item->to_finesse < 8)
 					{
-						my_need_enchant_to_h += (8 - item->to_h);
+						my_need_enchant_to_h += (8 - item->to_finesse);
 					}
 
-					if (item->to_d < 8)
+					if (item->to_prowess < 8)
 					{
-						my_need_enchant_to_d += (8 - item->to_d);
+						my_need_enchant_to_d += (8 - item->to_prowess);
 					}
 				}
 			}
@@ -1497,26 +1497,26 @@ static void borg_notice_aux2(void)
                 if ((borg_spell_legal_fail(7, 3, 65) || borg_prayer_legal_fail(7, 3, 65))
                     && item->iqty >= 5)
                 {
-                    if (item->to_h < 10)
+                    if (item->to_finesse < 10)
                     {
-                        my_need_enchant_to_h += (10 - item->to_h);
+                        my_need_enchant_to_h += (10 - item->to_finesse);
                     }
 
-                    if (item->to_d < 10)
+                    if (item->to_prowess < 10)
                     {
-                        my_need_enchant_to_d += (10 - item->to_d);
+                        my_need_enchant_to_d += (10 - item->to_prowess);
                     }
                 }
                 else
                 {
-                    if (item->to_h < 8)
+                    if (item->to_finesse < 8)
                     {
-                        my_need_enchant_to_h += (8 - item->to_h);
+                        my_need_enchant_to_h += (8 - item->to_finesse);
                     }
 
-                    if (item->to_d < 8)
+                    if (item->to_prowess < 8)
                     {
-                        my_need_enchant_to_d += (8 - item->to_d);
+                        my_need_enchant_to_d += (8 - item->to_prowess);
                     }
                 }
             }
@@ -2033,10 +2033,10 @@ void borg_notice_weapon_swap(void)
             v += damage * (borg_skill[BI_BLOWS]+1);
 
             /* Reward "bonus to hit" */
-            v += ((borg_skill[BI_TOHIT] + item->to_h)*100L);
+            v += ((borg_skill[BI_TOHIT] + item->to_finesse)*100L);
 
             /* Reward "bonus to dam" */
-            v += ((borg_skill[BI_TODAM] + item->to_d)*75L);
+            v += ((borg_skill[BI_TODAM] + item->to_prowess)*75L);
 
             dam = damage * borg_skill[BI_BLOWS];
 
@@ -2228,28 +2228,28 @@ void borg_notice_weapon_swap(void)
          borg_spell_legal_fail(7, 3, 65) ||
          amt_enchant_weapon >=1 ) && item->tval != TV_DIGGING)
     {
-        if (item->to_h < 10)
+        if (item->to_finesse < 10)
         {
-            enchant_weapon_swap_to_h += (10 - item->to_h);
+            enchant_weapon_swap_to_h += (10 - item->to_finesse);
         }
 
         /* Enchant my swap (to damage) */
-        if (item->to_d < 10)
+        if (item->to_prowess < 10)
         {
-            enchant_weapon_swap_to_d += (10 - item->to_d);
+            enchant_weapon_swap_to_d += (10 - item->to_prowess);
         }
     }
     else if (item->tval != TV_DIGGING)
     {
-        if (item->to_h < 8)
+        if (item->to_finesse < 8)
         {
-            enchant_weapon_swap_to_h += (8 - item->to_h);
+            enchant_weapon_swap_to_h += (8 - item->to_finesse);
         }
 
         /* Enchant my swap (to damage) */
-        if (item->to_d < 8)
+        if (item->to_prowess < 8)
         {
-            enchant_weapon_swap_to_d += (8 - item->to_d);
+            enchant_weapon_swap_to_d += (8 - item->to_prowess);
         }
     }
 
@@ -2538,10 +2538,10 @@ void borg_notice_armour_swap(void)
             v += damage * (borg_skill[BI_BLOWS]+1);
 
             /* Reward "bonus to hit" */
-            v += ((borg_skill[BI_TOHIT] + item->to_h)*100L);
+            v += ((borg_skill[BI_TOHIT] + item->to_finesse)*100L);
 
             /* Reward "bonus to dam" */
-            v += ((borg_skill[BI_TODAM] + item->to_d)*35L);
+            v += ((borg_skill[BI_TODAM] + item->to_prowess)*35L);
 
             dam = damage * borg_skill[BI_BLOWS];
 
@@ -3344,7 +3344,7 @@ static void borg_notice_home_aux2(borg_item *in_item, bool no_items)
                 }
 
                 /* gloves of slaying give a damage bonus */
-                home_damage += item->to_d * 3;
+                home_damage += item->to_prowess * 3;
 
                 /* see if this item is duplicated */
                 borg_notice_home_dupe( item, FALSE, i );
@@ -3462,10 +3462,10 @@ static void borg_notice_home_aux2(borg_item *in_item, bool no_items)
 
                 if (of_has(item->flags, OF_BLOWS)) num_blow += item->pval;
                 num_blow *= item->iqty;
-                if ( item->to_d > 8 || borg_skill[BI_CLEVEL] < 15 )
+                if ( item->to_prowess > 8 || borg_skill[BI_CLEVEL] < 15 )
                 {
                     home_damage += num_blow * (item->dd * (item->ds) +
-                                         (borg_skill[BI_TODAM] + item->to_d));
+                                         (borg_skill[BI_TODAM] + item->to_prowess));
                 }
                 else
                 {
@@ -3964,21 +3964,21 @@ static s32b borg_power_aux1(void)
     value += damage * (borg_skill[BI_BLOWS]+1);
 
     /* Reward "bonus to hit" */
-    value += ((borg_skill[BI_TOHIT] + item->to_h)*100L );
+    value += ((borg_skill[BI_TOHIT] + item->to_finesse)*100L );
 
     /* Reward "bonus to dam" */
-    value += ((borg_skill[BI_TODAM] + item->to_d)*30L);
+    value += ((borg_skill[BI_TODAM] + item->to_prowess)*30L);
 
     /* extra damage for some */
     if (borg_worships_damage)
     {
-        value += ((borg_skill[BI_TOHIT] + item->to_h)*15L);
+        value += ((borg_skill[BI_TOHIT] + item->to_finesse)*15L);
     }
 
     /* extra boost for deep dungeon */
     if (borg_skill[BI_MAXDEPTH] >= 75)
     {
-        value += ((borg_skill[BI_TOHIT] + item->to_h)*15L);
+        value += ((borg_skill[BI_TOHIT] + item->to_finesse)*15L);
 
         value += item->dd *
                  item->ds * 20L *
@@ -4057,8 +4057,8 @@ static s32b borg_power_aux1(void)
 		item->iqty && item->ident != TRUE) value += 6000000;
 
 	/* Calculate "average" damage per "normal" shot (times 2) */
-    if ( item->to_d > 8 || borg_skill[BI_CLEVEL] < 25 )
-        damage = ((my_ammo_sides) + (item->to_d)) * my_ammo_power;
+    if ( item->to_prowess > 8 || borg_skill[BI_CLEVEL] < 25 )
+        damage = ((my_ammo_sides) + (item->to_prowess)) * my_ammo_power;
     else
         damage = (my_ammo_sides + 8) * my_ammo_power;
 
@@ -4089,12 +4089,12 @@ static s32b borg_power_aux1(void)
 
 
     /* Reward "bonus to hit" */
-    value += ((borg_skill[BI_TOHIT] + item->to_h)*100L);;
+    value += ((borg_skill[BI_TOHIT] + item->to_finesse)*100L);;
 
     /* extra damage for some */
     if (borg_worships_damage)
     {
-        value += ((borg_skill[BI_TOHIT] + item->to_h) * 25L);
+        value += ((borg_skill[BI_TOHIT] + item->to_finesse) * 25L);
     }
 
 

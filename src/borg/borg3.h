@@ -83,8 +83,8 @@ struct borg_item
 
     s16b timeout;   /* Timeout counter */
 
-    s16b to_h;      /* Bonus to hit */
-    s16b to_d;      /* Bonus to dam */
+    s16b to_finesse;/* Bonus to hit */
+    s16b to_prowess;/* Bonus to dam */
     s16b to_a;      /* Bonus to ac */
     s16b ac;        /* Armor class */
     byte dd;        /* Damage dice */

@@ -82,7 +82,7 @@ bool test_hit(int chance, int ac, int vis) {
  * Factor in item weight, total plusses, and player level.
  */
 static int critical_shot(int weight, int plus, int dam, u32b *msg_type) {
-	int chance = weight + (p_ptr->state.to_h + plus) * 4 + p_ptr->lev * 2;
+	int chance = weight + (p_ptr->state.to_finesse + plus) * 4 + p_ptr->lev * 2;
 	int power = weight + randint1(500);
 
 	if (randint1(5000) > chance) {
@@ -110,7 +110,7 @@ static int critical_shot(int weight, int plus, int dam, u32b *msg_type) {
  * Factor in weapon weight, total plusses, player level.
  */
 static int critical_norm(int weight, int plus, int dam, u32b *msg_type) {
-	int chance = weight + (p_ptr->state.to_h + plus) * 5 + p_ptr->lev * 3;
+	int chance = weight + (p_ptr->state.to_finesse + plus) * 5 + p_ptr->lev * 3;
 	int power = weight + randint1(650);
 
 	if (randint1(5000) > chance) {
@@ -154,7 +154,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	object_type *o_ptr = &p_ptr->inventory[INVEN_WIELD];
 
 	/* Information about the attack */
-	int bonus = p_ptr->state.to_h + o_ptr->to_h;
+	int bonus = p_ptr->state.to_finesse + o_ptr->to_finesse;
 	int chance = p_ptr->state.skills[SKILL_FINESSE_MELEE] + bonus * BTH_PLUS_ADJ;
 	bool do_quake = FALSE;
 	bool success = FALSE;
@@ -217,8 +217,8 @@ static bool py_attack_real(int y, int x, bool *fear) {
 				mult += 1;
 		}
 		dmg *= mult;
-		dmg += o_ptr->to_d;
-		dmg = critical_norm(o_ptr->weight, o_ptr->to_h, dmg, &msg_type);
+		dmg += o_ptr->to_prowess;
+		dmg = critical_norm(o_ptr->weight, o_ptr->to_finesse, dmg, &msg_type);
 
 		/* Learn by use for the weapon */
 		object_notice_attack_plusses(o_ptr);
@@ -233,7 +233,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	wieldeds_notice_on_attack();
 
 	/* Apply the player damage bonuses */
-	dmg += p_ptr->state.to_d;
+	dmg += p_ptr->state.to_prowess;
 
 	/* No negative damage */
 	if (dmg <= 0) dmg = 0;
@@ -527,7 +527,7 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 	monster_type *m_ptr = cave_monster_at(cave, y, x);
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
-	int bonus = p_ptr->state.to_h + o_ptr->to_h + j_ptr->to_h;
+	int bonus = p_ptr->state.to_finesse + o_ptr->to_finesse + j_ptr->to_finesse;
 	int chance = p_ptr->state.skills[SKILL_TO_HIT_BOW] + bonus * BTH_PLUS_ADJ;
 	int chance2 = chance - distance(p_ptr->py, p_ptr->px, y, x);
 
@@ -553,9 +553,9 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 
 	/* Apply damage: multiplier, slays, criticals, bonuses */
 	result.dmg = damroll(o_ptr->dd, o_ptr->ds);
-	result.dmg += o_ptr->to_d + j_ptr->to_d;
+	result.dmg += o_ptr->to_prowess + j_ptr->to_prowess;
 	result.dmg *= multiplier;
-	result.dmg = critical_shot(o_ptr->weight, o_ptr->to_h, result.dmg, &result.msg_type);
+	result.dmg = critical_shot(o_ptr->weight, o_ptr->to_finesse, result.dmg, &result.msg_type);
 
 	object_notice_attack_plusses(&p_ptr->inventory[INVEN_BOW]);
 
@@ -572,7 +572,7 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	monster_type *m_ptr = cave_monster_at(cave, y, x);
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
-	int bonus = p_ptr->state.to_h + o_ptr->to_h;
+	int bonus = p_ptr->state.to_finesse + o_ptr->to_finesse;
 	int chance = p_ptr->state.skills[SKILL_TO_HIT_THROW] + bonus * BTH_PLUS_ADJ;
 	int chance2 = chance - distance(p_ptr->py, p_ptr->px, y, x);
 
@@ -597,9 +597,9 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 
 	/* Apply damage: multiplier, slays, criticals, bonuses */
 	result.dmg = damroll(o_ptr->dd, o_ptr->ds);
-	result.dmg += o_ptr->to_d;
+	result.dmg += o_ptr->to_prowess;
 	result.dmg *= multiplier;
-	result.dmg = critical_norm(o_ptr->weight, o_ptr->to_h, result.dmg, &result.msg_type);
+	result.dmg = critical_norm(o_ptr->weight, o_ptr->to_finesse, result.dmg, &result.msg_type);
 
 	return result;
 }

@@ -109,10 +109,10 @@ int test_c0(void *state) {
 	eq(r, PARSE_ERROR_NONE);
 	e = parser_priv(state);
 	require(e);
-	eq(e->to_h.dice, 1);
-	eq(e->to_h.sides, 2);
-	eq(e->to_d.dice, 3);
-	eq(e->to_d.sides, 4);
+	eq(e->to_finesse.dice, 1);
+	eq(e->to_finesse.sides, 2);
+	eq(e->to_prowess.dice, 3);
+	eq(e->to_prowess.sides, 4);
 	eq(e->to_a.dice, 5);
 	eq(e->to_a.sides, 6);
 	eq(e->ac_mod, -10);
@@ -145,8 +145,8 @@ int test_m0(void *state) {
 	eq(r, PARSE_ERROR_NONE);
 	e = parser_priv(state);
 	require(e);
-	eq(e->min_to_h, 10);
-	eq(e->min_to_d, 13);
+	eq(e->min_to_finesse, 10);
+	eq(e->min_to_prowess, 13);
 	eq(e->min_to_a, 4);
 	ok;
 }

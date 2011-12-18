@@ -1637,15 +1637,15 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 		/* Apply the bonuses to hit/damage */
 		if (!id_only || object_is_known(o_ptr))
 		{
-			state->to_h += o_ptr->to_h;
-			state->to_d += o_ptr->to_d;
+			state->to_finesse += o_ptr->to_finesse;
+			state->to_prowess += o_ptr->to_prowess;
 		}
 
 		/* Apply the mental bonuses tp hit/damage, if known */
 		if (object_attack_plusses_are_visible(o_ptr))
 		{
-			state->dis_to_h += o_ptr->to_h;
-			state->dis_to_d += o_ptr->to_d;
+			state->dis_to_finesse += o_ptr->to_finesse;
+			state->dis_to_prowess += o_ptr->to_prowess;
 		}
 	}
 
@@ -1710,19 +1710,19 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Apply temporary "stun" */
 	if (p_ptr->timed[TMD_STUN] > 50)
 	{
-		state->to_h -= 20;
-		state->dis_to_h -= 20;
-		state->to_d -= 20;
-		state->dis_to_d -= 20;
+		state->to_finesse -= 20;
+		state->dis_to_finesse -= 20;
+		state->to_prowess -= 20;
+		state->dis_to_prowess -= 20;
 		state->skills[SKILL_DEVICE] = state->skills[SKILL_DEVICE]
 			* 8 / 10;
 	}
 	else if (p_ptr->timed[TMD_STUN])
 	{
-		state->to_h -= 5;
-		state->dis_to_h -= 5;
-		state->to_d -= 5;
-		state->dis_to_d -= 5;
+		state->to_finesse -= 5;
+		state->dis_to_finesse -= 5;
+		state->to_prowess -= 5;
+		state->dis_to_prowess -= 5;
 		state->skills[SKILL_DEVICE] = state->skills[SKILL_DEVICE]
 			* 9 / 10;
 	}
@@ -1739,8 +1739,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	{
 		state->to_a += 5;
 		state->dis_to_a += 5;
-		state->to_h += 10;
-		state->dis_to_h += 10;
+		state->to_finesse += 10;
+		state->dis_to_finesse += 10;
 		state->skills[SKILL_DEVICE] = state->skills[SKILL_DEVICE]
 			* 105 / 100;
 	}
@@ -1763,8 +1763,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Temporary "Hero" */
 	if (p_ptr->timed[TMD_HERO])
 	{
-		state->to_h += 12;
-		state->dis_to_h += 12;
+		state->to_finesse += 12;
+		state->dis_to_finesse += 12;
 		state->skills[SKILL_DEVICE] = state->skills[SKILL_DEVICE]
 			* 105 / 100;
 	}
@@ -1772,8 +1772,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Temporary "Berserk" */
 	if (p_ptr->timed[TMD_SHERO])
 	{
-		state->to_h += 24;
-		state->dis_to_h += 24;
+		state->to_finesse += 24;
+		state->dis_to_finesse += 24;
 		state->to_a -= 10;
 		state->dis_to_a -= 10;
 		state->skills[SKILL_DEVICE] = state->skills[SKILL_DEVICE]
@@ -1803,8 +1803,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Fear can come from item flags too */
 	if (check_state(p_ptr, OF_AFRAID, p_ptr->state.flags))
 	{
-		state->to_h -= 20;
-		state->dis_to_h -= 20;
+		state->to_finesse -= 20;
+		state->dis_to_finesse -= 20;
 		state->to_a += 8;
 		state->dis_to_a += 8;
 		state->skills[SKILL_DEVICE] = state->skills[SKILL_DEVICE]
@@ -1856,15 +1856,15 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 
 	/* Actual Modifier Bonuses (Un-inflate stat bonuses) */
 	state->to_a += ((int)(adj_dex_ta[state->stat_ind[A_DEX]]) - 128);
-	state->to_d += ((int)(adj_str_td[state->stat_ind[A_STR]]) - 128);
-	state->to_h += ((int)(adj_dex_th[state->stat_ind[A_DEX]]) - 128);
-	state->to_h += ((int)(adj_str_th[state->stat_ind[A_STR]]) - 128);
+	state->to_prowess += ((int)(adj_str_td[state->stat_ind[A_STR]]) - 128);
+	state->to_finesse += ((int)(adj_dex_th[state->stat_ind[A_DEX]]) - 128);
+	state->to_finesse += ((int)(adj_str_th[state->stat_ind[A_STR]]) - 128);
 
 	/* Displayed Modifier Bonuses (Un-inflate stat bonuses) */
 	state->dis_to_a += ((int)(adj_dex_ta[state->stat_ind[A_DEX]]) - 128);
-	state->dis_to_d += ((int)(adj_str_td[state->stat_ind[A_STR]]) - 128);
-	state->dis_to_h += ((int)(adj_dex_th[state->stat_ind[A_DEX]]) - 128);
-	state->dis_to_h += ((int)(adj_str_th[state->stat_ind[A_STR]]) - 128);
+	state->dis_to_prowess += ((int)(adj_str_td[state->stat_ind[A_STR]]) - 128);
+	state->dis_to_finesse += ((int)(adj_dex_th[state->stat_ind[A_DEX]]) - 128);
+	state->dis_to_finesse += ((int)(adj_str_th[state->stat_ind[A_STR]]) - 128);
 
 
 	/*** Modify skills ***/
@@ -1912,8 +1912,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	if (hold < o_ptr->weight / 10)
 	{
 		/* Hard to wield a heavy bow */
-		state->to_h += 2 * (hold - o_ptr->weight / 10);
-		state->dis_to_h += 2 * (hold - o_ptr->weight / 10);
+		state->to_finesse += 2 * (hold - o_ptr->weight / 10);
+		state->dis_to_finesse += 2 * (hold - o_ptr->weight / 10);
 
 		/* Heavy Bow */
 		state->heavy_shoot = TRUE;
@@ -2007,8 +2007,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	if (hold < o_ptr->weight / 10)
 	{
 		/* Hard to wield a heavy weapon */
-		state->to_h += 2 * (hold - o_ptr->weight / 10);
-		state->dis_to_h += 2 * (hold - o_ptr->weight / 10);
+		state->to_finesse += 2 * (hold - o_ptr->weight / 10);
+		state->dis_to_finesse += 2 * (hold - o_ptr->weight / 10);
 
 		/* Heavy weapon */
 		state->heavy_wield = TRUE;
@@ -2036,12 +2036,12 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 		((o_ptr->tval == TV_SWORD) || (o_ptr->tval == TV_POLEARM)))
 	{
 		/* Reduce the real bonuses */
-		state->to_h -= 2;
-		state->to_d -= 2;
+		state->to_finesse -= 2;
+		state->to_prowess -= 2;
 
 		/* Reduce the mental bonuses */
-		state->dis_to_h -= 2;
-		state->dis_to_d -= 2;
+		state->dis_to_finesse -= 2;
+		state->dis_to_prowess -= 2;
 
 		/* Icky weapon */
 		state->icky_wield = TRUE;

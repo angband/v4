@@ -510,8 +510,8 @@ static enum parser_error parse_k_p(struct parser *p) {
 	k->ac = parser_getint(p, "ac");
 	k->dd = hd.dice;
 	k->ds = hd.sides;
-	k->to_h = parser_getrand(p, "to-h");
-	k->to_d = parser_getrand(p, "to-d");
+	k->to_finesse = parser_getrand(p, "to-h");
+	k->to_prowess = parser_getrand(p, "to-d");
 	k->to_a = parser_getrand(p, "to-a");
 	if (!parser_hasval(p, "balance")) {
 		k->balance = -1;
@@ -796,8 +796,8 @@ static enum parser_error parse_a_p(struct parser *p) {
 	a->ac = parser_getint(p, "ac");
 	a->dd = hd.dice;
 	a->ds = hd.sides;
-	a->to_h = parser_getint(p, "to-h");
-	a->to_d = parser_getint(p, "to-d");
+	a->to_finesse = parser_getint(p, "to-h");
+	a->to_prowess = parser_getint(p, "to-d");
 	a->to_a = parser_getint(p, "to-a");
 	if (!parser_hasval(p, "balance")) {
         /* Look up stats for the base item type */
@@ -1367,8 +1367,8 @@ static enum parser_error parse_e_c(struct parser *p)
 	if (!e)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 
-	e->to_h = th;
-	e->to_d = td;
+	e->to_finesse = th;
+	e->to_prowess = td;
 	e->to_a = ta;
 
 	if (parser_hasval(p, "ac_mod"))
@@ -1396,8 +1396,8 @@ static enum parser_error parse_e_m(struct parser *p)
 	if (!e)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 
-	e->min_to_h = th;
-	e->min_to_d = td;
+	e->min_to_finesse = th;
+	e->min_to_prowess = td;
 	e->min_to_a = ta;
 	parsed_e_m[e->eidx] = TRUE;
 
@@ -1628,8 +1628,8 @@ static errr finish_parse_e(struct parser *p) {
 	/* Apply default minima for missing M: lines */
 	for (i = 0; i < z_info->e_max; i++)
 		if (!parsed_e_m[i]) {
-			e_info[i].min_to_h = NO_MINIMUM;
-			e_info[i].min_to_d = NO_MINIMUM;
+			e_info[i].min_to_finesse = NO_MINIMUM;
+			e_info[i].min_to_prowess = NO_MINIMUM;
 			e_info[i].min_to_a = NO_MINIMUM;
 		}
 

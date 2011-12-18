@@ -4751,7 +4751,7 @@ static int borg_thrust_damage_one(int i)
         dam *= mult;
 
     /* add weapon bonuses */
-    dam += item->to_d;
+    dam += item->to_prowess;
 
     /* add player bonuses */
     dam += borg_skill[BI_TODAM];
@@ -4760,7 +4760,7 @@ static int borg_thrust_damage_one(int i)
     dam *= borg_skill[BI_BLOWS];
 
 	/* Bonuses for combat */
-	chance = (borg_skill[BI_THN] + ((borg_skill[BI_TOHIT] + item->to_h) * 3));
+	chance = (borg_skill[BI_THN] + ((borg_skill[BI_TOHIT] + item->to_finesse) * 3));
 
 	/* Chance of hitting the monsters AC */
 	if (chance < (r_ptr->ac * 3/4) * 8/10) dam = 0;
@@ -5164,7 +5164,7 @@ int borg_launch_damage_one(int i, int dam, int typ, int ammo_location)
 	cur_dis = distance(c_y, c_x, kill->y, kill->x);
 
 	/* Calculation our chance of hitting.  Player bonuses, Bow bonuses, Ammo Bonuses */
-	bonus = (borg_skill[BI_TOHIT] + borg_items[INVEN_BOW].to_h + borg_items[ammo_location].to_h);
+	bonus = (borg_skill[BI_TOHIT] + borg_items[INVEN_BOW].to_finesse + borg_items[ammo_location].to_finesse);
 	chance = (borg_skill[BI_THB] + (bonus * BTH_PLUS_ADJ));
 	armor = r_ptr->ac + cur_dis;
 
@@ -6618,7 +6618,7 @@ static int borg_attack_aux_launch(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 		/* Boost the perceived damage on unID'd ones so he can get a quick pseudoID on it */
@@ -6703,7 +6703,7 @@ static int borg_attack_aux_launch_seeker(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -6783,7 +6783,7 @@ static int borg_attack_aux_launch_silver(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -6863,7 +6863,7 @@ static int borg_attack_aux_launch_flame(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -6943,7 +6943,7 @@ static int borg_attack_aux_launch_frost(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
         /* Paranoia */
@@ -7022,7 +7022,7 @@ static int borg_attack_aux_launch_venom(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -7103,7 +7103,7 @@ static int borg_attack_aux_launch_holy(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -7186,7 +7186,7 @@ static int borg_attack_aux_launch_animal(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -7265,7 +7265,7 @@ static int borg_attack_aux_launch_undead(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -7344,7 +7344,7 @@ static int borg_attack_aux_launch_demon(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -7423,7 +7423,7 @@ static int borg_attack_aux_launch_orc(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -7502,7 +7502,7 @@ static int borg_attack_aux_launch_troll(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -7581,7 +7581,7 @@ static int borg_attack_aux_launch_giant(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -7662,7 +7662,7 @@ static int borg_attack_aux_launch_dragon(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -7742,7 +7742,7 @@ static int borg_attack_aux_launch_evil(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 
@@ -7821,7 +7821,7 @@ static int borg_attack_aux_launch_wounding(void)
 
         /* Determine average damage */
         d = (item->dd * (item->ds + 1) / 2);
-        d = d + item->to_d + bow->to_d;
+        d = d + item->to_prowess + bow->to_prowess;
         d = d * my_ammo_power * borg_skill[BI_SHOTS];
 
 

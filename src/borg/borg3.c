@@ -1597,11 +1597,11 @@ static s32b borg_object_value_known(borg_item *item)
         {
             /* Hack -- negative bonuses are bad */
             if (item->to_a < 0) return (0L);
-            if (item->to_h < 0) return (0L);
-            if (item->to_d < 0) return (0L);
+            if (item->to_finesse < 0) return (0L);
+            if (item->to_prowess < 0) return (0L);
 
             /* Give credit for bonuses */
-            value += ((item->to_h + item->to_d + item->to_a) * 100L);
+            value += ((item->to_finesse + item->to_prowess + item->to_a) * 100L);
 
             break;
         }
@@ -1621,7 +1621,7 @@ static s32b borg_object_value_known(borg_item *item)
             if (item->to_a < 0) return (0L);
 
             /* Give credit for bonuses */
-            value += ((item->to_h + item->to_d + item->to_a) * 100L);
+            value += ((item->to_finesse + item->to_prowess + item->to_a) * 100L);
 
             break;
         }
@@ -1634,10 +1634,10 @@ static s32b borg_object_value_known(borg_item *item)
         case TV_POLEARM:
         {
             /* Hack -- negative hit/damage bonuses */
-            if (item->to_h + item->to_d < 0) return (0L);
+            if (item->to_finesse + item->to_prowess < 0) return (0L);
 
             /* Factor in the bonuses */
-            value += ((item->to_h + item->to_d + item->to_a) * 100L);
+            value += ((item->to_finesse + item->to_prowess + item->to_a) * 100L);
 
             /* Hack -- Factor in extra damage dice */
             if ((item->dd > k_ptr->dd) && (item->ds == k_ptr->ds))
@@ -1654,10 +1654,10 @@ static s32b borg_object_value_known(borg_item *item)
         case TV_BOLT:
         {
             /* Hack -- negative hit/damage bonuses */
-            if (item->to_h + item->to_d < 0) return (0L);
+            if (item->to_finesse + item->to_prowess < 0) return (0L);
 
             /* Factor in the bonuses */
-            value += ((item->to_h + item->to_d) * 5L);
+            value += ((item->to_finesse + item->to_prowess) * 5L);
 
             /* Hack -- Factor in extra damage dice */
             if ((item->dd > k_ptr->dd) && (item->ds == k_ptr->ds))
@@ -1892,8 +1892,8 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
     /* Modifiers -- Only known if ID'd */
     if (item->ident)
     {
-		item->to_h = real_item->to_h;/* Bonus to hit */
-    	item->to_d = real_item->to_d;/* Bonus to dam */
+		item->to_finesse = real_item->to_finesse;/* Bonus to hit */
+    	item->to_prowess = real_item->to_prowess;/* Bonus to dam */
     	item->to_a = real_item->to_a;/* Bonus to ac */
 	}
 
@@ -2032,7 +2032,7 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
     if ((item->tval == TV_RING) && (item->sval == SV_RING_DAMAGE))
     {
         /* Bonus to dam, not pval */
-        item->to_d = item->pval;
+        item->to_prowess = item->pval;
         item->pval = 0;
     }
 
@@ -2040,7 +2040,7 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
     if ((item->tval == TV_RING) && (item->sval == SV_RING_ACCURACY))
     {
         /* Bonus to hit, not pval */
-        item->to_h = item->pval;
+        item->to_finesse = item->pval;
         item->pval = 0;
     }
 
@@ -2176,8 +2176,8 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
 		/* Weapons are assumed to have at least +1/+1 */
 		if (slot == INVEN_WIELD || slot == INVEN_BOW)
 		{
-			item->to_h = 1;
-    		item->to_d = 1;
+			item->to_finesse = 1;
+    		item->to_prowess = 1;
 
 			/* In Muchkin_mode, we want to make money so we want to wear stuff to ID it.
 			 * Have him believe that the item is high bonus so that he will replace his
@@ -2186,8 +2186,8 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
 			 */
 			if (borg_munchkin_mode)
 			{
-				item->to_h = 8;
-				item->to_d = 8;
+				item->to_finesse = 8;
+				item->to_prowess = 8;
 			}
 
 		}
@@ -2223,13 +2223,13 @@ void borg_item_analyze(borg_item *item, object_type *real_item, cptr desc)
 		/* Weapons are assumed to have at least +1/+1 */
 		if (slot == INVEN_WIELD || slot == INVEN_BOW)
 		{
-			item->to_h = 5;
-    		item->to_d = 5;
+			item->to_finesse = 5;
+    		item->to_prowess = 5;
 
 			if (borg_munchkin_mode)
 			{
-				item->to_h = 9;
-				item->to_d = 9;
+				item->to_finesse = 9;
+				item->to_prowess = 9;
 			}
 		}
 

@@ -229,8 +229,8 @@ static bool borg_object_similar(borg_item  *o_ptr, borg_item  *j_ptr)
         case TV_SHOT:
         {
             /* Require identical "bonuses" */
-            if (o_ptr->to_h != j_ptr->to_h) return (FALSE);
-            if (o_ptr->to_d != j_ptr->to_d) return (FALSE);
+            if (o_ptr->to_finesse != j_ptr->to_finesse) return (FALSE);
+            if (o_ptr->to_prowess != j_ptr->to_prowess) return (FALSE);
             if (o_ptr->to_a != j_ptr->to_a) return (FALSE);
 
             /* Require identical "pval" code */
@@ -1274,8 +1274,8 @@ static bool borg_good_buy(borg_item *item, int who, int ware)
         case TV_BOLT:
         if (borg_skill[BI_CLEVEL] < 35)
         {
-            if (item->to_h) return (FALSE);
-            if (item->to_d) return (FALSE);
+            if (item->to_finesse) return (FALSE);
+            if (item->to_prowess) return (FALSE);
         }
         break;
 

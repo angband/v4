@@ -468,7 +468,7 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 static void calculate_melee_crits(player_state *state, int weight,
 		int plus, int *mult, int *add, int *div)
 {
-	int k, to_crit = weight + 5*(state->to_h + plus) + 3*p_ptr->lev;
+	int k, to_crit = weight + 5*(state->to_finesse + plus) + 3*p_ptr->lev;
 	to_crit = MIN(5000, MAX(0, to_crit));
 
 	*mult = *add = 0;
@@ -497,7 +497,7 @@ static void calculate_melee_crits(player_state *state, int weight,
 static void calculate_missile_crits(player_state *state, int weight,
 		int plus, int *mult, int *add, int *div)
 {
-	int k, to_crit = weight + 4*(state->to_h + plus) + 2*p_ptr->lev;
+	int k, to_crit = weight + 4*(state->to_finesse + plus) + 2*p_ptr->lev;
 	to_crit = MIN(5000, MAX(0, to_crit));
 
 	*mult = *add = 0;
@@ -650,10 +650,10 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
 	dam = ((sides + 1) * dice * 5);
 
 	if (weapon)	{
-		xtra_postcrit = state.dis_to_d * 10;
+		xtra_postcrit = state.dis_to_prowess * 10;
 		if (object_attack_plusses_are_visible(o_ptr) || full) {
-			xtra_precrit += o_ptr->to_d * 10;
-			plus += o_ptr->to_h;
+			xtra_precrit += o_ptr->to_prowess * 10;
+			plus += o_ptr->to_finesse;
 		}
 
 		calculate_melee_crits(&state, o_ptr->weight, plus,
@@ -662,15 +662,15 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
 		old_blows = state.num_blows;
 	} else { /* Ammo */
 		if (object_attack_plusses_are_visible(o_ptr) || full)
-			plus += o_ptr->to_h;
+			plus += o_ptr->to_finesse;
 
 		calculate_missile_crits(&p_ptr->state, o_ptr->weight, plus,
 				&crit_mult, &crit_add, &crit_div);
 
 		if (object_attack_plusses_are_visible(o_ptr) || full)
-			dam += (o_ptr->to_d * 10);
+			dam += (o_ptr->to_prowess * 10);
 		if (object_attack_plusses_are_visible(bow))
-			dam += (bow->to_d * 10);
+			dam += (bow->to_prowess * 10);
 
 		/* Apply brands/slays from the shooter to the ammo, but only if known
 		 * Note that this is not dependent on mode, so that viewing shop-held

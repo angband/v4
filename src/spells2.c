@@ -916,7 +916,7 @@ bool detect_objects_magic(bool aware)
 		    (tv == TV_STAFF) || (tv == TV_WAND) || (tv == TV_ROD) ||
 		    (tv == TV_SCROLL) || (tv == TV_POTION) ||
 		    (tv == TV_MAGIC_BOOK) || (tv == TV_PRAYER_BOOK) ||
-		    ((o_ptr->to_a > 0) || (o_ptr->to_h + o_ptr->to_d > 0)))
+		    ((o_ptr->to_a > 0) || (o_ptr->to_finesse + o_ptr->to_prowess > 0)))
 		{
 			/* Memorize the item */
 			o_ptr->marked = MARK_SEEN;
@@ -1367,8 +1367,8 @@ bool enchant(object_type *o_ptr, int n, int eflag)
 		if (prob > 100 && randint0(prob) >= 100) continue;
 
 		/* Try the three kinds of enchantment we can do */
-		if ((eflag & ENCH_TOHIT) && enchant2(o_ptr, &o_ptr->to_h)) res = TRUE;
-		if ((eflag & ENCH_TODAM) && enchant2(o_ptr, &o_ptr->to_d)) res = TRUE;
+		if ((eflag & ENCH_TOHIT) && enchant2(o_ptr, &o_ptr->to_finesse)) res = TRUE;
+		if ((eflag & ENCH_TODAM) && enchant2(o_ptr, &o_ptr->to_prowess)) res = TRUE;
 		if ((eflag & ENCH_TOAC)  && enchant2(o_ptr, &o_ptr->to_a)) res = TRUE;
 	}
 
@@ -1450,11 +1450,11 @@ bool enchant_spell(int num_hit, int num_dam, int num_ac)
 
 static bool item_tester_restore(const struct object *o)
 {
-	if (o->to_d < 0 || o->to_h < 0 || o->to_a < 0)
+	if (o->to_prowess < 0 || o->to_finesse < 0 || o->to_a < 0)
 		return TRUE;
 
 	if (o->artifact) {
-		if (o->to_d < o->artifact->to_d || o->to_h < o->artifact->to_h ||
+		if (o->to_prowess < o->artifact->to_prowess || o->to_finesse < o->artifact->to_finesse ||
 				o->to_a < o->artifact->to_a)
 			return TRUE;
 	}
@@ -1484,12 +1484,12 @@ bool restore_item(void)
 
 	/* Artifacts get replenished */
 	if (o->artifact) {
-		o->to_d = o->artifact->to_d;
-		o->to_h = o->artifact->to_h;
+		o->to_prowess = o->artifact->to_prowess;
+		o->to_finesse = o->artifact->to_finesse;
 		o->to_a = o->artifact->to_a;
 	} else {
-		o->to_d = MAX(o->to_d, 0);
-		o->to_h = MAX(o->to_h, 0);
+		o->to_prowess = MAX(o->to_prowess, 0);
+		o->to_finesse = MAX(o->to_finesse, 0);
 		o->to_a = MAX(o->to_a, 0);
 	}
 
@@ -3038,8 +3038,8 @@ bool curse_weapon(void)
 		msg("A terrible black aura blasts your %s!", o_name);
 
 		/* Hurt it a bit */
-		o_ptr->to_h = 0 - randint1(3);
-		o_ptr->to_d = 0 - randint1(3);
+		o_ptr->to_finesse = 0 - randint1(3);
+		o_ptr->to_prowess = 0 - randint1(3);
 
 		/* Curse it */
 		flags_set(o_ptr->flags, OF_SIZE, OF_LIGHT_CURSE, OF_HEAVY_CURSE, FLAG_END);

@@ -119,8 +119,8 @@ static int rd_item_6(object_type *o_ptr)
 	rd_s16b(&o_ptr->timeout);
 	rd_s32b(&o_ptr->extent);
 
-	rd_s16b(&o_ptr->to_h);
-	rd_s16b(&o_ptr->to_d);
+	rd_s16b(&o_ptr->to_finesse);
+	rd_s16b(&o_ptr->to_prowess);
 	rd_s16b(&o_ptr->to_a);
 	rd_s16b(&o_ptr->balance);
 	rd_s16b(&o_ptr->heft);
@@ -252,8 +252,8 @@ static int rd_item_5(object_type *o_ptr)
 	rd_s16b(&o_ptr->timeout);
 	rd_s32b(&o_ptr->extent);
 
-	rd_s16b(&o_ptr->to_h);
-	rd_s16b(&o_ptr->to_d);
+	rd_s16b(&o_ptr->to_finesse);
+	rd_s16b(&o_ptr->to_prowess);
 	rd_s16b(&o_ptr->to_a);
 	rd_s16b(&o_ptr->ac);
 	rd_byte(&o_ptr->dd);
@@ -360,8 +360,8 @@ static int rd_item_4(object_type *o_ptr)
 
 	rd_s16b(&o_ptr->timeout);
 
-	rd_s16b(&o_ptr->to_h);
-	rd_s16b(&o_ptr->to_d);
+	rd_s16b(&o_ptr->to_finesse);
+	rd_s16b(&o_ptr->to_prowess);
 	rd_s16b(&o_ptr->to_a);
 
 	rd_s16b(&o_ptr->ac);
@@ -470,8 +470,8 @@ static int rd_item_3(object_type *o_ptr)
 
 	rd_s16b(&o_ptr->timeout);
 
-	rd_s16b(&o_ptr->to_h);
-	rd_s16b(&o_ptr->to_d);
+	rd_s16b(&o_ptr->to_finesse);
+	rd_s16b(&o_ptr->to_prowess);
 	rd_s16b(&o_ptr->to_a);
 
 	rd_s16b(&o_ptr->ac);
@@ -527,10 +527,10 @@ static int rd_item_3(object_type *o_ptr)
 	if (!wearable_p(o_ptr))
 	{
 		/* Get the correct fields */
-		if (!randcalc_valid(o_ptr->kind->to_h, o_ptr->to_h))
-			o_ptr->to_h = randcalc(o_ptr->kind->to_h, o_ptr->origin_depth, RANDOMISE);
-		if (!randcalc_valid(o_ptr->kind->to_d, o_ptr->to_d))
-			o_ptr->to_d = randcalc(o_ptr->kind->to_d, o_ptr->origin_depth, RANDOMISE);
+		if (!randcalc_valid(o_ptr->kind->to_finesse, o_ptr->to_finesse))
+			o_ptr->to_finesse = randcalc(o_ptr->kind->to_finesse, o_ptr->origin_depth, RANDOMISE);
+		if (!randcalc_valid(o_ptr->kind->to_prowess, o_ptr->to_prowess))
+			o_ptr->to_prowess = randcalc(o_ptr->kind->to_prowess, o_ptr->origin_depth, RANDOMISE);
 		if (!randcalc_valid(o_ptr->kind->to_a, o_ptr->to_a))
 			o_ptr->to_a = randcalc(o_ptr->kind->to_a, o_ptr->origin_depth, RANDOMISE);
 
@@ -636,8 +636,8 @@ static int rd_item_2(object_type *o_ptr)
 
 	rd_s16b(&o_ptr->timeout);
 
-	rd_s16b(&o_ptr->to_h);
-	rd_s16b(&o_ptr->to_d);
+	rd_s16b(&o_ptr->to_finesse);
+	rd_s16b(&o_ptr->to_prowess);
 	rd_s16b(&o_ptr->to_a);
 
 	rd_s16b(&o_ptr->ac);
@@ -693,10 +693,10 @@ static int rd_item_2(object_type *o_ptr)
 	if (!wearable_p(o_ptr))
 	{
 		/* Get the correct fields */
-		if (!randcalc_valid(o_ptr->kind->to_h, o_ptr->to_h))
-			o_ptr->to_h = randcalc(o_ptr->kind->to_h, o_ptr->origin_depth, RANDOMISE);
-		if (!randcalc_valid(o_ptr->kind->to_d, o_ptr->to_d))
-			o_ptr->to_d = randcalc(o_ptr->kind->to_d, o_ptr->origin_depth, RANDOMISE);
+		if (!randcalc_valid(o_ptr->kind->to_finesse, o_ptr->to_finesse))
+			o_ptr->to_finesse = randcalc(o_ptr->kind->to_finesse, o_ptr->origin_depth, RANDOMISE);
+		if (!randcalc_valid(o_ptr->kind->to_prowess, o_ptr->to_prowess))
+			o_ptr->to_prowess = randcalc(o_ptr->kind->to_prowess, o_ptr->origin_depth, RANDOMISE);
 		if (!randcalc_valid(o_ptr->kind->to_a, o_ptr->to_a))
 			o_ptr->to_a = randcalc(o_ptr->kind->to_a, o_ptr->origin_depth, RANDOMISE);
 	}
@@ -795,8 +795,8 @@ static int rd_item_1(object_type *o_ptr)
 
 	rd_s16b(&o_ptr->timeout);
 
-	rd_s16b(&o_ptr->to_h);
-	rd_s16b(&o_ptr->to_d);
+	rd_s16b(&o_ptr->to_finesse);
+	rd_s16b(&o_ptr->to_prowess);
 	rd_s16b(&o_ptr->to_a);
 
 	rd_s16b(&o_ptr->ac);
@@ -849,10 +849,10 @@ static int rd_item_1(object_type *o_ptr)
 	if (!wearable_p(o_ptr))
 	{
 		/* Get the correct fields */
-		if (!randcalc_valid(o_ptr->kind->to_h, o_ptr->to_h))
-			o_ptr->to_h = randcalc(o_ptr->kind->to_h, o_ptr->origin_depth, RANDOMISE);
-		if (!randcalc_valid(o_ptr->kind->to_d, o_ptr->to_d))
-			o_ptr->to_d = randcalc(o_ptr->kind->to_d, o_ptr->origin_depth, RANDOMISE);
+		if (!randcalc_valid(o_ptr->kind->to_finesse, o_ptr->to_finesse))
+			o_ptr->to_finesse = randcalc(o_ptr->kind->to_finesse, o_ptr->origin_depth, RANDOMISE);
+		if (!randcalc_valid(o_ptr->kind->to_prowess, o_ptr->to_prowess))
+			o_ptr->to_prowess = randcalc(o_ptr->kind->to_prowess, o_ptr->origin_depth, RANDOMISE);
 		if (!randcalc_valid(o_ptr->kind->to_a, o_ptr->to_a))
 			o_ptr->to_a = randcalc(o_ptr->kind->to_a, o_ptr->origin_depth, RANDOMISE);
 	}
@@ -2049,8 +2049,8 @@ int rd_randarts_2(void)
 				rd_s16b(&a_ptr->pval[j]);
 			rd_byte(&a_ptr->num_pvals);
 
-			rd_s16b(&a_ptr->to_h);
-			rd_s16b(&a_ptr->to_d);
+			rd_s16b(&a_ptr->to_finesse);
+			rd_s16b(&a_ptr->to_prowess);
 			rd_s16b(&a_ptr->to_a);
 			rd_s16b(&a_ptr->ac);
 
@@ -2110,8 +2110,8 @@ int rd_randarts_2(void)
 			for (j = 0; j < MAX_PVALS; j++)
 				rd_s16b(&tmp16s); /* a_ptr->pval */
 
-			rd_s16b(&tmp16s); /* a_ptr->to_h */
-			rd_s16b(&tmp16s); /* a_ptr->to_d */
+			rd_s16b(&tmp16s); /* a_ptr->to_finesse */
+			rd_s16b(&tmp16s); /* a_ptr->to_prowess */
 			rd_s16b(&tmp16s); /* a_ptr->to_a */
 			rd_s16b(&tmp16s); /* a_ptr->ac */
 
@@ -2187,8 +2187,8 @@ int rd_randarts_1(void)
 			rd_byte(&a_ptr->sval);
 			rd_s16b(&a_ptr->pval[DEFAULT_PVAL]);
 
-			rd_s16b(&a_ptr->to_h);
-			rd_s16b(&a_ptr->to_d);
+			rd_s16b(&a_ptr->to_finesse);
+			rd_s16b(&a_ptr->to_prowess);
 			rd_s16b(&a_ptr->to_a);
 			rd_s16b(&a_ptr->ac);
 
@@ -2243,8 +2243,8 @@ int rd_randarts_1(void)
 			rd_byte(&tmp8u); /* a_ptr->sval */
 			rd_s16b(&tmp16s); /* a_ptr->pval */
 
-			rd_s16b(&tmp16s); /* a_ptr->to_h */
-			rd_s16b(&tmp16s); /* a_ptr->to_d */
+			rd_s16b(&tmp16s); /* a_ptr->to_finesse */
+			rd_s16b(&tmp16s); /* a_ptr->to_prowess */
 			rd_s16b(&tmp16s); /* a_ptr->to_a */
 			rd_s16b(&tmp16s); /* a_ptr->ac */
 
