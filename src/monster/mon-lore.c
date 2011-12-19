@@ -17,6 +17,7 @@
  */
 
 #include "angband.h"
+#include "attack.h"
 #include "monster/mon-lore.h"
 #include "monster/mon-spell.h"
 #include "object/tvalsval.h"
@@ -1673,7 +1674,7 @@ static void describe_monster_toughness(const monster_race *r_ptr,
 	bitflag f[RF_SIZE];
 
 	enum monster_sex msex = MON_SEX_NEUTER;
-	long chance = 0, chance2 = 0;
+	long chance = 0;
 
 	assert(r_ptr && l_ptr);
 
@@ -1701,26 +1702,13 @@ static void describe_monster_toughness(const monster_race *r_ptr,
 		text_out_c(TERM_L_BLUE, "%d", r_ptr->avg_hp);
 		text_out(".  ");
 
-		/* Player's chance to hit it - this code is duplicated in
-		   py_attack_real() and test_hit() and must be kept in sync */
-		chance = (p_ptr->state.skills[SKILL_FINESSE_MELEE] +
-				((p_ptr->state.to_finesse +
-				p_ptr->inventory[INVEN_WIELD].to_finesse) * BTH_PLUS_ADJ));
-
-		/* Avoid division by zero errors, and starting higher on the scale */
-		if (chance < 9)
-			chance = 9;
-
-		chance2 = 90 * (chance - (r_ptr->ac / 2)) / chance + 5;
-		
-		/* There is always a 12 percent chance to hit */
-		if (chance2 < 12) chance2 = 12;
+        chance = get_hit_chance(p_ptr->state, r_ptr);
 
 		text_out("You have a");
-		if ((chance2 == 8) || ((chance2 / 10) == 8))
+		if ((chance == 8) || ((chance / 10) == 8))
 			text_out("n");
-		text_out_c(TERM_L_BLUE, " %d", chance2);
-		text_out(" percent chance to hit such a creature in melee (if you can see it).  ");
+		text_out_c(TERM_L_BLUE, " %d%%", chance);
+		text_out(" chance to hit such a creature in melee (if you can see it).  ");
 	}
 }
 

@@ -55,24 +55,20 @@ int breakage_chance(const object_type *o_ptr, bool hit_target) {
 
 
 /**
- * Determine if the player "hits" a monster.
+ * Determine if the player "hits" a monster. For now, ignore monster AC; this
+ * will change when evasion gets implemented.
  */
 bool test_hit(int chance, int ac, int vis) {
 	int k = randint0(100);
 
-	/* There is an automatic 12% chance to hit,
-	 * and 5% chance to miss.
+	/* There is an automatic 5% chance to hit or miss.
 	 */
-	if (k < 17) return k < 12;
+	if (k < 10) return k < 5;
 
 	/* Penalize invisible targets */
 	if (!vis) chance /= 2;
 
-	/* Starting a bit higher up on the scale */
-	if (chance < 9) chance = 9;
-
-	/* Power competes against armor */
-	return randint0(chance) >= (ac * 2 / 3);
+    return (randint0(100) < chance);
 }
 
 
@@ -139,6 +135,14 @@ static int critical_norm(int weight, int plus, int dam, u32b *msg_type) {
 	}
 }
 
+/**
+ * Return the player's chance to hit the given monster, on a scale from 0
+ * to 100. Chance to-hit is a flat 80% for now.
+ */
+int get_hit_chance(const player_state state, const monster_race *r_ptr)
+{
+    return 80;
+}
 
 /**
  * Attack the monster at the given location with a single blow.
@@ -154,8 +158,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	object_type *o_ptr = &p_ptr->inventory[INVEN_WIELD];
 
 	/* Information about the attack */
-	int bonus = p_ptr->state.to_finesse + o_ptr->to_finesse;
-	int chance = p_ptr->state.skills[SKILL_FINESSE_MELEE] + bonus * BTH_PLUS_ADJ;
+	int chance = get_hit_chance(p_ptr->state, r_ptr);
 	bool do_quake = FALSE;
 	bool success = FALSE;
 
@@ -526,15 +529,14 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 	monster_type *m_ptr = cave_monster_at(cave, y, x);
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
-	int bonus = p_ptr->state.to_finesse + o_ptr->to_finesse + j_ptr->to_finesse;
-	int chance = p_ptr->state.skills[SKILL_TO_HIT_BOW] + bonus * BTH_PLUS_ADJ;
-	int chance2 = chance - distance(p_ptr->py, p_ptr->px, y, x);
+    /* Reduce chance based on distance to target */
+    int chance = get_hit_chance(p_ptr->state, r_ptr) - distance(p_ptr->py, p_ptr->px, y, x);
 
 	int multiplier = p_ptr->state.ammo_mult;
 	const struct slay *best_s_ptr = NULL;
 
-	/* Did we hit it (penalize distance travelled) */
-	if (!test_hit(chance2, r_ptr->ac, m_ptr->ml)) return result;
+	/* Did we hit it */
+	if (!test_hit(chance, r_ptr->ac, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
@@ -571,15 +573,14 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	monster_type *m_ptr = cave_monster_at(cave, y, x);
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
-	int bonus = p_ptr->state.to_finesse + o_ptr->to_finesse;
-	int chance = p_ptr->state.skills[SKILL_TO_HIT_THROW] + bonus * BTH_PLUS_ADJ;
-	int chance2 = chance - distance(p_ptr->py, p_ptr->px, y, x);
+    /* Reduce chance based on distance to target */
+    int chance = get_hit_chance(p_ptr->state, r_ptr) - distance(p_ptr->py, p_ptr->px, y, x);
 
 	int multiplier = 1;
 	const struct slay *best_s_ptr = NULL;
 
 	/* If we missed then we're done */
-	if (!test_hit(chance2, r_ptr->ac, m_ptr->ml)) return result;
+	if (!test_hit(chance, r_ptr->ac, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
