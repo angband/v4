@@ -791,11 +791,11 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 	{
 		{ "Saving Throw", SKILL_SAVE, 6 },
 		{ "Stealth", SKILL_STEALTH, 1 },
-		{ "Finesse", SKILL_FINESSE_MELEE, 12 },
-		{ "Prowess", SKILL_PROWESS_MELEE, 12 },
+		{ "Finesse", SKILL_FINESSE_MELEE, 25 },
+		{ "Prowess", SKILL_PROWESS_MELEE, 25 },
 		{ "Shooting", SKILL_TO_HIT_BOW, 12 },
 		{ "Disarming", SKILL_DISARM, 8 },
-		{ "Magic Device", SKILL_DEVICE, 6 },
+		{ "Magic Device", SKILL_DEVICE, 13 },
 		{ "Perception", SKILL_SEARCH_FREQUENCY, 6 },
 		{ "Searching", SKILL_SEARCH, 6 }
 	};
@@ -817,11 +817,13 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 			panel[i].value[0] = i2u(skill);
 			panel[i].color = colour_table[skill / 10];
 		}
-		else if (skills[i].skill == SKILL_DEVICE)
+		else if (skills[i].skill == SKILL_DEVICE || 
+                skills[i].skill == SKILL_FINESSE_MELEE ||
+                skills[i].skill == SKILL_PROWESS_MELEE)
 		{
 			panel[i].fmt = "%y";
 			panel[i].value[0] = i2u(skill);
-			panel[i].color = colour_table[skill / 13];
+            panel[i].color = colour_table[skill / skills[i].div];
 		}
 		else if (skills[i].skill == SKILL_SEARCH_FREQUENCY)
 		{
