@@ -453,11 +453,10 @@ static void borg_notice_aux1(void)
     if (borg_skill[BI_ISGORGED]) borg_skill[BI_SPEED] -= 10;
 
 
-    /* Actual Modifier Bonuses (Un-inflate stat bonuses) */
-    borg_skill[BI_ARMOR] += ((int)(adj_dex_ta[my_stat_ind[A_DEX]]) - 128);
-    borg_skill[BI_TODAM] += ((int)(adj_str_td[my_stat_ind[A_STR]]) - 128);
-    borg_skill[BI_TOHIT] += ((int)(adj_dex_to_finesse[my_stat_ind[A_DEX]]) - 128);
-    borg_skill[BI_TOHIT] += ((int)(adj_str_to_finesse[my_stat_ind[A_STR]]) - 128);
+    /* Actual Modifier Bonuses */
+    borg_skill[BI_ARMOR] += adj_dex_ta[my_stat_ind[A_DEX]];
+    borg_skill[BI_TODAM] += adj_str_to_prowess[my_stat_ind[A_STR]];
+    borg_skill[BI_TOHIT] += adj_dex_to_finesse[my_stat_ind[A_DEX]];
 
 
     /* Obtain the "hold" value */

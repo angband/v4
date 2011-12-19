@@ -9,27 +9,26 @@
 #include "player/types.h"
 
 /* calcs.c */
-extern const byte adj_chr_gold[STAT_RANGE];
-extern const byte adj_str_blow[STAT_RANGE];
-extern const byte adj_dex_safe[STAT_RANGE];
-extern const byte adj_con_fix[STAT_RANGE];
-extern const byte adj_str_hold[STAT_RANGE];
+extern const int adj_chr_gold[STAT_RANGE];
+extern const int adj_str_blow[STAT_RANGE];
+extern const int adj_dex_safe[STAT_RANGE];
+extern const int adj_con_fix[STAT_RANGE];
+extern const int adj_str_hold[STAT_RANGE];
 #ifdef ALLOW_BORG
-extern const byte adj_int_dev[STAT_RANGE];
-extern const byte adj_wis_sav[STAT_RANGE];
-extern const byte adj_dex_dis[STAT_RANGE];
-extern const byte adj_int_dis[STAT_RANGE];
-extern const byte adj_dex_ta[STAT_RANGE];
-extern const byte adj_str_td[STAT_RANGE];
-extern const byte adj_dex_to_finesse[STAT_RANGE];
-extern const byte adj_str_to_finesse[STAT_RANGE];
-extern const byte adj_str_wgt[STAT_RANGE];
-extern const byte adj_str_dig[STAT_RANGE];
-extern const byte adj_dex_blow[STAT_RANGE];
+extern const int adj_int_dev[STAT_RANGE];
+extern const int adj_wis_sav[STAT_RANGE];
+extern const int adj_dex_dis[STAT_RANGE];
+extern const int adj_int_dis[STAT_RANGE];
+extern const int adj_dex_ta[STAT_RANGE];
+extern const int adj_str_to_prowess[STAT_RANGE];
+extern const int adj_dex_to_finesse[STAT_RANGE];
+extern const int adj_str_wgt[STAT_RANGE];
+extern const int adj_str_dig[STAT_RANGE];
+extern const int adj_dex_blow[STAT_RANGE];
 extern const int adj_con_mhp[STAT_RANGE];
 extern const int adj_mag_study[STAT_RANGE];
 extern const int adj_mag_mana[STAT_RANGE];
-extern const byte blows_table[12][12];
+extern const int blows_table[12][12];
 #endif
 
 void calc_bonuses(object_type inventory[], player_state *state, bool id_only);

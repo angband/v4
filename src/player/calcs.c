@@ -31,7 +31,7 @@
 /*
  * Stat Table (CHR) -- payment percentages
  */
-const byte adj_chr_gold[STAT_RANGE] =
+const int adj_chr_gold[STAT_RANGE] =
 {
 	143	/* 3 */,
 	137	/* 4 */,
@@ -76,7 +76,7 @@ const byte adj_chr_gold[STAT_RANGE] =
 /*
  * Stat Table (INT) -- Magic devices
  */
-const byte adj_int_dev[STAT_RANGE] =
+const int adj_int_dev[STAT_RANGE] =
 {
 	0	/* 3 */,
 	0	/* 4 */,
@@ -121,7 +121,7 @@ const byte adj_int_dev[STAT_RANGE] =
 /*
  * Stat Table (WIS) -- Saving throw
  */
-const byte adj_wis_sav[STAT_RANGE] =
+const int adj_wis_sav[STAT_RANGE] =
 {
 	0	/* 3 */,
 	0	/* 4 */,
@@ -167,7 +167,7 @@ const byte adj_wis_sav[STAT_RANGE] =
 /*
  * Stat Table (DEX) -- disarming
  */
-const byte adj_dex_dis[STAT_RANGE] =
+const int adj_dex_dis[STAT_RANGE] =
 {
 	0	/* 3 */,
 	0	/* 4 */,
@@ -213,7 +213,7 @@ const byte adj_dex_dis[STAT_RANGE] =
 /*
  * Stat Table (INT) -- disarming
  */
-const byte adj_int_dis[STAT_RANGE] =
+const int adj_int_dis[STAT_RANGE] =
 {
 	0	/* 3 */,
 	0	/* 4 */,
@@ -256,192 +256,146 @@ const byte adj_int_dis[STAT_RANGE] =
 };
 
 /*
- * Stat Table (DEX) -- bonus to ac (plus 128)
+ * Stat Table (DEX) -- bonus or penalty to AC
  */
-const byte adj_dex_ta[STAT_RANGE] =
+const int adj_dex_ta[STAT_RANGE] =
 {
-	128 + -4	/* 3 */,
-	128 + -3	/* 4 */,
-	128 + -2	/* 5 */,
-	128 + -1	/* 6 */,
-	128 + 0	/* 7 */,
-	128 + 0	/* 8 */,
-	128 + 0	/* 9 */,
-	128 + 0	/* 10 */,
-	128 + 0	/* 11 */,
-	128 + 0	/* 12 */,
-	128 + 0	/* 13 */,
-	128 + 0	/* 14 */,
-	128 + 1	/* 15 */,
-	128 + 1	/* 16 */,
-	128 + 1	/* 17 */,
-	128 + 2	/* 18/00-18/09 */,
-	128 + 2	/* 18/10-18/19 */,
-	128 + 2	/* 18/20-18/29 */,
-	128 + 2	/* 18/30-18/39 */,
-	128 + 2	/* 18/40-18/49 */,
-	128 + 3	/* 18/50-18/59 */,
-	128 + 3	/* 18/60-18/69 */,
-	128 + 3	/* 18/70-18/79 */,
-	128 + 4	/* 18/80-18/89 */,
-	128 + 5	/* 18/90-18/99 */,
-	128 + 6	/* 18/100-18/109 */,
-	128 + 7	/* 18/110-18/119 */,
-	128 + 8	/* 18/120-18/129 */,
-	128 + 9	/* 18/130-18/139 */,
-	128 + 9	/* 18/140-18/149 */,
-	128 + 10	/* 18/150-18/159 */,
-	128 + 11	/* 18/160-18/169 */,
-	128 + 12	/* 18/170-18/179 */,
-	128 + 13	/* 18/180-18/189 */,
-	128 + 14	/* 18/190-18/199 */,
-	128 + 15	/* 18/200-18/209 */,
-	128 + 15	/* 18/210-18/219 */,
-	128 + 15	/* 18/220+ */
+	-4	/* 3 */,
+	-3	/* 4 */,
+	-2	/* 5 */,
+	-1	/* 6 */,
+	0	/* 7 */,
+	0	/* 8 */,
+	0	/* 9 */,
+	0	/* 10 */,
+	0	/* 11 */,
+	0	/* 12 */,
+	0	/* 13 */,
+	0	/* 14 */,
+	1	/* 15 */,
+	1	/* 16 */,
+	1	/* 17 */,
+	2	/* 18/00-18/09 */,
+	2	/* 18/10-18/19 */,
+	2	/* 18/20-18/29 */,
+	2	/* 18/30-18/39 */,
+	2	/* 18/40-18/49 */,
+	3	/* 18/50-18/59 */,
+	3	/* 18/60-18/69 */,
+	3	/* 18/70-18/79 */,
+	4	/* 18/80-18/89 */,
+	5	/* 18/90-18/99 */,
+	6	/* 18/100-18/109 */,
+	7	/* 18/110-18/119 */,
+	8	/* 18/120-18/129 */,
+	9	/* 18/130-18/139 */,
+	9	/* 18/140-18/149 */,
+	10	/* 18/150-18/159 */,
+	11	/* 18/160-18/169 */,
+	12	/* 18/170-18/179 */,
+	13	/* 18/180-18/189 */,
+	14	/* 18/190-18/199 */,
+	15	/* 18/200-18/209 */,
+	15	/* 18/210-18/219 */,
+	15	/* 18/220+ */
 };
 
 /*
- * Stat Table (STR) -- bonus to dam (plus 128)
+ * Stat Table (STR) -- bonus or penalty to prowess
  */
-const byte adj_str_td[STAT_RANGE] =
+const int adj_str_to_prowess[STAT_RANGE] =
 {
-	128 + -2	/* 3 */,
-	128 + -2	/* 4 */,
-	128 + -1	/* 5 */,
-	128 + -1	/* 6 */,
-	128 + 0	/* 7 */,
-	128 + 0	/* 8 */,
-	128 + 0	/* 9 */,
-	128 + 0	/* 10 */,
-	128 + 0	/* 11 */,
-	128 + 0	/* 12 */,
-	128 + 0	/* 13 */,
-	128 + 0	/* 14 */,
-	128 + 0	/* 15 */,
-	128 + 1	/* 16 */,
-	128 + 2	/* 17 */,
-	128 + 2	/* 18/00-18/09 */,
-	128 + 2	/* 18/10-18/19 */,
-	128 + 3	/* 18/20-18/29 */,
-	128 + 3	/* 18/30-18/39 */,
-	128 + 3	/* 18/40-18/49 */,
-	128 + 3	/* 18/50-18/59 */,
-	128 + 3	/* 18/60-18/69 */,
-	128 + 4	/* 18/70-18/79 */,
-	128 + 5	/* 18/80-18/89 */,
-	128 + 5	/* 18/90-18/99 */,
-	128 + 6	/* 18/100-18/109 */,
-	128 + 7	/* 18/110-18/119 */,
-	128 + 8	/* 18/120-18/129 */,
-	128 + 9	/* 18/130-18/139 */,
-	128 + 10	/* 18/140-18/149 */,
-	128 + 11	/* 18/150-18/159 */,
-	128 + 12	/* 18/160-18/169 */,
-	128 + 13	/* 18/170-18/179 */,
-	128 + 14	/* 18/180-18/189 */,
-	128 + 15	/* 18/190-18/199 */,
-	128 + 16	/* 18/200-18/209 */,
-	128 + 18	/* 18/210-18/219 */,
-	128 + 20	/* 18/220+ */
-};
-
-
-/*
- * Stat Table (DEX) -- bonus to finesse (plus 128)
- */
-const byte adj_dex_to_finesse[STAT_RANGE] =
-{
-	128 + -3	/* 3 */,
-	128 + -2	/* 4 */,
-	128 + -2	/* 5 */,
-	128 + -1	/* 6 */,
-	128 + -1	/* 7 */,
-	128 + 0	/* 8 */,
-	128 + 0	/* 9 */,
-	128 + 0	/* 10 */,
-	128 + 0	/* 11 */,
-	128 + 0	/* 12 */,
-	128 + 0	/* 13 */,
-	128 + 0	/* 14 */,
-	128 + 0	/* 15 */,
-	128 + 1	/* 16 */,
-	128 + 2	/* 17 */,
-	128 + 3	/* 18/00-18/09 */,
-	128 + 3	/* 18/10-18/19 */,
-	128 + 3	/* 18/20-18/29 */,
-	128 + 3	/* 18/30-18/39 */,
-	128 + 3	/* 18/40-18/49 */,
-	128 + 4	/* 18/50-18/59 */,
-	128 + 4	/* 18/60-18/69 */,
-	128 + 4	/* 18/70-18/79 */,
-	128 + 4	/* 18/80-18/89 */,
-	128 + 5	/* 18/90-18/99 */,
-	128 + 6	/* 18/100-18/109 */,
-	128 + 7	/* 18/110-18/119 */,
-	128 + 8	/* 18/120-18/129 */,
-	128 + 9	/* 18/130-18/139 */,
-	128 + 9	/* 18/140-18/149 */,
-	128 + 10	/* 18/150-18/159 */,
-	128 + 11	/* 18/160-18/169 */,
-	128 + 12	/* 18/170-18/179 */,
-	128 + 13	/* 18/180-18/189 */,
-	128 + 14	/* 18/190-18/199 */,
-	128 + 15	/* 18/200-18/209 */,
-	128 + 15	/* 18/210-18/219 */,
-	128 + 15	/* 18/220+ */
+	-30	/* 3 */,
+	-25	/* 4 */,
+	-20	/* 5 */,
+	-15	/* 6 */,
+	-11	/* 7 */,
+	-7	/* 8 */,
+	-3	/* 9 */,
+	0	/* 10 */,
+	3	/* 11 */,
+	6	/* 12 */,
+	9	/* 13 */,
+	12	/* 14 */,
+	15	/* 15 */,
+	18	/* 16 */,
+	21	/* 17 */,
+	25	/* 18/00-18/09 */,
+	30	/* 18/10-18/19 */,
+	35	/* 18/20-18/29 */,
+	40	/* 18/30-18/39 */,
+	50	/* 18/40-18/49 */,
+	60	/* 18/50-18/59 */,
+	70	/* 18/60-18/69 */,
+	80	/* 18/70-18/79 */,
+	90	/* 18/80-18/89 */,
+	100	/* 18/90-18/99 */,
+	110	/* 18/100-18/109 */,
+	120	/* 18/110-18/119 */,
+	130	/* 18/120-18/129 */,
+	140	/* 18/130-18/139 */,
+	150	/* 18/140-18/149 */,
+	160	/* 18/150-18/159 */,
+	170	/* 18/160-18/169 */,
+	180	/* 18/170-18/179 */,
+	190	/* 18/180-18/189 */,
+	200	/* 18/190-18/199 */,
+	220	/* 18/200-18/209 */,
+	240	/* 18/210-18/219 */,
+	260	/* 18/220+ */
 };
 
 
 /*
- * Stat Table (STR) -- bonus to hit (plus 128)
+ * Stat Table (DEX) -- bonus or penalty to finesse
  */
-const byte adj_str_to_finesse[STAT_RANGE] =
+const int adj_dex_to_finesse[STAT_RANGE] =
 {
-	128 + -3	/* 3 */,
-	128 + -2	/* 4 */,
-	128 + -1	/* 5 */,
-	128 + -1	/* 6 */,
-	128 + 0	/* 7 */,
-	128 + 0	/* 8 */,
-	128 + 0	/* 9 */,
-	128 + 0	/* 10 */,
-	128 + 0	/* 11 */,
-	128 + 0	/* 12 */,
-	128 + 0	/* 13 */,
-	128 + 0	/* 14 */,
-	128 + 0	/* 15 */,
-	128 + 0	/* 16 */,
-	128 + 0	/* 17 */,
-	128 + 1	/* 18/00-18/09 */,
-	128 + 1	/* 18/10-18/19 */,
-	128 + 1	/* 18/20-18/29 */,
-	128 + 1	/* 18/30-18/39 */,
-	128 + 1	/* 18/40-18/49 */,
-	128 + 1	/* 18/50-18/59 */,
-	128 + 1	/* 18/60-18/69 */,
-	128 + 2	/* 18/70-18/79 */,
-	128 + 3	/* 18/80-18/89 */,
-	128 + 4	/* 18/90-18/99 */,
-	128 + 5	/* 18/100-18/109 */,
-	128 + 6	/* 18/110-18/119 */,
-	128 + 7	/* 18/120-18/129 */,
-	128 + 8	/* 18/130-18/139 */,
-	128 + 9	/* 18/140-18/149 */,
-	128 + 10	/* 18/150-18/159 */,
-	128 + 11	/* 18/160-18/169 */,
-	128 + 12	/* 18/170-18/179 */,
-	128 + 13	/* 18/180-18/189 */,
-	128 + 14	/* 18/190-18/199 */,
-	128 + 15	/* 18/200-18/209 */,
-	128 + 15	/* 18/210-18/219 */,
-	128 + 15	/* 18/220+ */
+	-30	/* 3 */,
+	-25	/* 4 */,
+	-20	/* 5 */,
+	-15	/* 6 */,
+	-11	/* 7 */,
+	-7	/* 8 */,
+	-3	/* 9 */,
+	0	/* 10 */,
+	3	/* 11 */,
+	6	/* 12 */,
+	9	/* 13 */,
+	12	/* 14 */,
+	15	/* 15 */,
+	18	/* 16 */,
+	21	/* 17 */,
+	25	/* 18/00-18/09 */,
+	30	/* 18/10-18/19 */,
+	35	/* 18/20-18/29 */,
+	40	/* 18/30-18/39 */,
+	50	/* 18/40-18/49 */,
+	60	/* 18/50-18/59 */,
+	70	/* 18/60-18/69 */,
+	80	/* 18/70-18/79 */,
+	90	/* 18/80-18/89 */,
+	100	/* 18/90-18/99 */,
+	110	/* 18/100-18/109 */,
+	120	/* 18/110-18/119 */,
+	130	/* 18/120-18/129 */,
+	140	/* 18/130-18/139 */,
+	150	/* 18/140-18/149 */,
+	160	/* 18/150-18/159 */,
+	170	/* 18/160-18/169 */,
+	180	/* 18/170-18/179 */,
+	190	/* 18/180-18/189 */,
+	200	/* 18/190-18/199 */,
+	220	/* 18/200-18/209 */,
+	240	/* 18/210-18/219 */,
+	260	/* 18/220+ */
 };
 
 
 /*
  * Stat Table (STR) -- weight limit in deca-pounds
  */
-const byte adj_str_wgt[STAT_RANGE] =
+const int adj_str_wgt[STAT_RANGE] =
 {
 	5	/* 3 */,
 	6	/* 4 */,
@@ -487,7 +441,7 @@ const byte adj_str_wgt[STAT_RANGE] =
 /*
  * Stat Table (STR) -- weapon weight limit in pounds
  */
-const byte adj_str_hold[STAT_RANGE] =
+const int adj_str_hold[STAT_RANGE] =
 {
 	4	/* 3 */,
 	5	/* 4 */,
@@ -533,7 +487,7 @@ const byte adj_str_hold[STAT_RANGE] =
 /*
  * Stat Table (STR) -- digging value
  */
-const byte adj_str_dig[STAT_RANGE] =
+const int adj_str_dig[STAT_RANGE] =
 {
 	0	/* 3 */,
 	0	/* 4 */,
@@ -579,7 +533,7 @@ const byte adj_str_dig[STAT_RANGE] =
 /*
  * Stat Table (STR) -- help index into the "blow" table
  */
-const byte adj_str_blow[STAT_RANGE] =
+const int adj_str_blow[STAT_RANGE] =
 {
 	3	/* 3 */,
 	4	/* 4 */,
@@ -625,7 +579,7 @@ const byte adj_str_blow[STAT_RANGE] =
 /*
  * Stat Table (DEX) -- index into the "blow" table
  */
-const byte adj_dex_blow[STAT_RANGE] =
+const int adj_dex_blow[STAT_RANGE] =
 {
 	0	/* 3 */,
 	0	/* 4 */,
@@ -671,7 +625,7 @@ const byte adj_dex_blow[STAT_RANGE] =
 /*
  * Stat Table (DEX) -- chance of avoiding "theft" and "falling"
  */
-const byte adj_dex_safe[STAT_RANGE] =
+const int adj_dex_safe[STAT_RANGE] =
 {
 	0	/* 3 */,
 	1	/* 4 */,
@@ -717,7 +671,7 @@ const byte adj_dex_safe[STAT_RANGE] =
 /*
  * Stat Table (CON) -- base regeneration rate
  */
-const byte adj_con_fix[STAT_RANGE] =
+const int adj_con_fix[STAT_RANGE] =
 {
 	0	/* 3 */,
 	0	/* 4 */,
@@ -920,7 +874,7 @@ const int adj_mag_mana[STAT_RANGE] =
  * The player gets blows/round equal to 100/this number, up to a maximum of
  * "num" blows/round, plus any "bonus" blows/round.
  */
-const byte blows_table[12][12] =
+const int blows_table[12][12] =
 {
 	/* P */
    /* D:   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,   10,  11+ */
@@ -1851,17 +1805,16 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 
 	/*** Apply modifier bonuses ***/
 
-	/* Actual Modifier Bonuses (Un-inflate stat bonuses) */
-	state->to_a += ((int)(adj_dex_ta[state->stat_ind[A_DEX]]) - 128);
-	state->to_prowess += ((int)(adj_str_td[state->stat_ind[A_STR]]) - 128);
-	state->to_finesse += ((int)(adj_dex_to_finesse[state->stat_ind[A_DEX]]) - 128);
-	state->to_finesse += ((int)(adj_str_to_finesse[state->stat_ind[A_STR]]) - 128);
+	/* Actual Modifier Bonuses */
+	state->to_a += adj_dex_ta[state->stat_ind[A_DEX]];
+	state->to_prowess += adj_str_to_prowess[state->stat_ind[A_STR]];
+	state->to_finesse += adj_dex_to_finesse[state->stat_ind[A_DEX]];
 
-	/* Displayed Modifier Bonuses (Un-inflate stat bonuses) */
-	state->dis_to_a += ((int)(adj_dex_ta[state->stat_ind[A_DEX]]) - 128);
-	state->dis_to_prowess += ((int)(adj_str_td[state->stat_ind[A_STR]]) - 128);
-	state->dis_to_finesse += ((int)(adj_dex_to_finesse[state->stat_ind[A_DEX]]) - 128);
-	state->dis_to_finesse += ((int)(adj_str_to_finesse[state->stat_ind[A_STR]]) - 128);
+	/* Displayed Modifier Bonuses */
+	state->dis_to_a += adj_dex_ta[state->stat_ind[A_DEX]];
+	state->dis_to_prowess += adj_str_to_prowess[state->stat_ind[A_STR]];
+	state->dis_to_finesse += adj_dex_to_finesse[state->stat_ind[A_DEX]];
+    
     /* Apply Finesse and Prowess skills to displayed values. */
     state->dis_to_finesse += state->skills[SKILL_FINESSE_MELEE];
     state->dis_to_prowess += state->skills[SKILL_PROWESS_MELEE];
