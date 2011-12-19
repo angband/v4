@@ -1727,8 +1727,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	{
 		state->to_a += 5;
 		state->dis_to_a += 5;
-		state->to_finesse += 10;
-		state->dis_to_finesse += 10;
+		state->to_finesse += 30;
+		state->dis_to_finesse += 30;
 		state->skills[SKILL_DEVICE] = state->skills[SKILL_DEVICE]
 			* 105 / 100;
 	}
@@ -1751,8 +1751,10 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Temporary "Hero" */
 	if (p_ptr->timed[TMD_HERO])
 	{
-		state->to_finesse += 12;
-		state->dis_to_finesse += 12;
+		state->to_finesse += 15;
+		state->dis_to_finesse += 15;
+		state->to_prowess += 15;
+		state->dis_to_prowess += 15;
 		state->skills[SKILL_DEVICE] = state->skills[SKILL_DEVICE]
 			* 105 / 100;
 	}
@@ -1760,8 +1762,10 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Temporary "Berserk" */
 	if (p_ptr->timed[TMD_SHERO])
 	{
-		state->to_finesse += 24;
-		state->dis_to_finesse += 24;
+		state->to_finesse -= 15;
+		state->dis_to_finesse -= 15;
+		state->to_prowess += 60;
+		state->dis_to_prowess += 60;
 		state->to_a -= 10;
 		state->dis_to_a -= 10;
 		state->skills[SKILL_DEVICE] = state->skills[SKILL_DEVICE]

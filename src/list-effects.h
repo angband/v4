@@ -81,8 +81,8 @@ EFFECT(TMD_ESP,        FALSE, 10,	"cures blindness and gives you telepathy for 6
 EFFECT(ENLIGHTENMENT,  FALSE, 22,	"completely lights up and magically maps the level")
 EFFECT(ENLIGHTENMENT2, FALSE, INHIBIT_POWER, "increases your intelligence and wisdom, detects and maps everything in the surrounding area, and identifies all items in your pack")
 
-EFFECT(HERO,           FALSE,  7,	"restores 10 hit points, removes fear and grants you resistance to fear and +12 to-hit for 1d25+25 turns")
-EFFECT(SHERO,          FALSE,  9,	"restores 30 hit points, removes fear and grants you resistance to fear, +24 to-hit, and -10AC for 1d25+25 turns")
+EFFECT(HERO,           FALSE,  7,	"restores 10 hit points, removes fear and grants you resistance to fear and +15 to finesse and prowess for 1d25+25 turns")
+EFFECT(SHERO,          FALSE,  9,	"restores 30 hit points, removes fear and grants you resistance to fear, +60 to prowess, and -10 AC, -15 finesse for 1d25+25 turns")
 
 EFFECT(RESIST_ACID,    FALSE,  4,	"grants temporary resistance to acid for 1d10+10 turns")
 EFFECT(RESIST_ELEC,    FALSE,  4,	"grants temporary resistance to electricity for 1d10+10 turns")
@@ -129,9 +129,9 @@ EFFECT(PROTEVIL,       FALSE,  6,	"grants you protection from evil for 1d25 plus
 EFFECT(SATISFY,        FALSE,  7,	"magically renders you well-fed, curing any gastrointestinal problems")
 EFFECT(CURSE_WEAPON,   FALSE,  0,	"curses your currently wielded melee weapon")
 EFFECT(CURSE_ARMOR,    FALSE,  0,	"curses your currently worn body armor")
-EFFECT(BLESSING,       FALSE,  6,	"increases your AC and to-hit bonus for 1d12+6 turns")
-EFFECT(BLESSING2,      FALSE,  7,	"increases your AC and to-hit bonus for 1d24+12 turns")
-EFFECT(BLESSING3,      FALSE,  8,	"increases your AC and to-hit bonus for 1d48+24 turns")
+EFFECT(BLESSING,       FALSE,  6,	"increases your AC and finesse bonus for 1d12+6 turns")
+EFFECT(BLESSING2,      FALSE,  7,	"increases your AC and finesse bonus for 1d24+12 turns")
+EFFECT(BLESSING3,      FALSE,  8,	"increases your AC and finesse bonus for 1d48+24 turns")
 EFFECT(RECALL,         FALSE, 15,	"returns you from the dungeon or takes you to the dungeon after a short delay")
 EFFECT(DEEP_DESCENT,   FALSE, 19,	"teleports you five levels down after a short delay")
 
