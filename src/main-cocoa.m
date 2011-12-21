@@ -1731,7 +1731,7 @@ static errr Term_pict_cocoa(int x, int y, int n, const byte *ap, const char *cp,
  *
  * Draw several ("n") chars, with an attr, at a given location.
  */
-static errr term_text_cocoa(int x, int y, int n, byte a, const wchar_t *cp)
+static errr term_text_cocoa(int x, int y, int n, byte a, const char *cp)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
@@ -1750,15 +1750,13 @@ static errr term_text_cocoa(int x, int y, int n, byte a, const wchar_t *cp)
     /* record our data in our cache */
     int start = y * angbandContext->cols + x;
     int location;
-    for (location = 0; location < n; location++) {
-        angbandContext->charOverdrawCache[start + location] = (a << 8) | ((wchar_t)cp[location]);
-    }
+    for (location = 0; location < n; location++) angbandContext->charOverdrawCache[start + location] = (a << 8) | ((unsigned char)cp[location]);
     
     /* Focus on our layer */
     [angbandContext lockFocus];
     
     NSSize scaleFactor = [angbandContext scaleFactor];
-
+    
     /* Starting pixel */
     NSRect charRect = [angbandContext rectInImageForTileAtX:x Y:y];
     
@@ -1815,11 +1813,11 @@ static errr term_text_cocoa(int x, int y, int n, byte a, const wchar_t *cp)
     
     /* Set the color */
     set_color_for_index(a);
-
+    
     /* Draw each */
     NSRect rectToDraw = charRect;
     for (i=0; i < n; i++) {
-        [angbandContext drawGlyphAtIndex:(wchar_t)cp[i] inRect:rectToDraw];
+        [angbandContext drawGlyphAtIndex:(unsigned char)cp[i] inRect:rectToDraw];
         rectToDraw.origin.x += tileWidth;
     }
 
