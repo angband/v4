@@ -284,7 +284,7 @@ static int cmp_object_trait(int bonus, random_value base)
 
 /**
  * Small helper function to see if an item seems good, bad or average based on
- * to_h, to_d and to_a.
+ * to_finesse, to_prowess and to_a.
  *
  * The sign of the return value announces if the object is bad (negative),
  * good (positive) or average (zero).
@@ -292,8 +292,8 @@ static int cmp_object_trait(int bonus, random_value base)
 static int is_object_good(const object_type *o_ptr)
 {
 	int good = 0;
-	good += 4 * cmp_object_trait(o_ptr->to_d, o_ptr->kind->to_d);
-	good += 2 * cmp_object_trait(o_ptr->to_h, o_ptr->kind->to_h);
+	good += 4 * cmp_object_trait(o_ptr->to_prowess, o_ptr->kind->to_prowess);
+	good += 2 * cmp_object_trait(o_ptr->to_finesse, o_ptr->kind->to_finesse);
 	good += 1 * cmp_object_trait(o_ptr->to_a, o_ptr->kind->to_a);
 	return good;
 }
@@ -321,10 +321,10 @@ byte squelch_level_of(const object_type *o_ptr)
 			if ((object_this_pval_is_visible(o_ptr, i)) && (o_ptr->pval[i] > 0))
 				return SQUELCH_AVERAGE;
 
-		if ((o_ptr->to_h > 0) || (o_ptr->to_d > 0) || (o_ptr->to_a > 0))
+		if ((o_ptr->to_finesse > 0) || (o_ptr->to_prowess > 0) || (o_ptr->to_a > 0))
 			return SQUELCH_AVERAGE;
 		if ((object_attack_plusses_are_visible(o_ptr) &&
-				((o_ptr->to_h < 0) || (o_ptr->to_d < 0))) ||
+				((o_ptr->to_finesse < 0) || (o_ptr->to_prowess < 0))) ||
 		    	(object_defence_plusses_are_visible(o_ptr) && o_ptr->to_a < 0))
 			return SQUELCH_BAD;
 
@@ -337,9 +337,9 @@ byte squelch_level_of(const object_type *o_ptr)
 		create_mask(f2, TRUE, OFID_WIELD, OFT_MAX);
 		if (of_is_inter(f, f2))
 			return SQUELCH_ALL;
-		if ((o_ptr->to_h > 0) || (o_ptr->to_d > 0) || (o_ptr->to_a > 0))
+		if ((o_ptr->to_finesse > 0) || (o_ptr->to_prowess > 0) || (o_ptr->to_a > 0))
 			return SQUELCH_GOOD;
-		if ((o_ptr->to_h < 0) || (o_ptr->to_d < 0) || (o_ptr->to_a < 0))
+		if ((o_ptr->to_finesse < 0) || (o_ptr->to_prowess < 0) || (o_ptr->to_a < 0))
 			return SQUELCH_BAD;
 
 		return SQUELCH_AVERAGE;
@@ -392,8 +392,8 @@ byte squelch_level_of(const object_type *o_ptr)
 				value = SQUELCH_GOOD;
 
 				if ((object_attack_plusses_are_visible(o_ptr) ||
-						randcalc_valid(o_ptr->kind->to_h, o_ptr->to_h) ||
-						randcalc_valid(o_ptr->kind->to_d, o_ptr->to_d)) &&
+						randcalc_valid(o_ptr->kind->to_finesse, o_ptr->to_finesse) ||
+						randcalc_valid(o_ptr->kind->to_prowess, o_ptr->to_prowess)) &&
 				    	(object_defence_plusses_are_visible(o_ptr) ||
 						randcalc_valid(o_ptr->kind->to_a, o_ptr->to_a))) {
 					int isgood = is_object_good(o_ptr);

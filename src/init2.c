@@ -510,9 +510,19 @@ static enum parser_error parse_k_p(struct parser *p) {
 	k->ac = parser_getint(p, "ac");
 	k->dd = hd.dice;
 	k->ds = hd.sides;
-	k->to_h = parser_getrand(p, "to-h");
-	k->to_d = parser_getrand(p, "to-d");
+	k->to_finesse = parser_getrand(p, "to-h");
+	k->to_prowess = parser_getrand(p, "to-d");
 	k->to_a = parser_getrand(p, "to-a");
+	if (!parser_hasval(p, "balance")) {
+		k->balance = -1;
+	} else {
+        k->balance = parser_getint(p, "balance");
+	}
+	if (!parser_hasval(p, "heft")) {
+		k->heft = -1;
+	} else {
+        k->heft = parser_getint(p, "heft");
+	}
 	return PARSE_ERROR_NONE;
 }
 
@@ -609,7 +619,7 @@ struct parser *init_parse_k(void) {
 	parser_reg(p, "I sym tval int sval", parse_k_i);
 	parser_reg(p, "W int level int extra int weight int cost", parse_k_w);
 	parser_reg(p, "A int common str minmax", parse_k_a);
-	parser_reg(p, "P int ac rand hd rand to-h rand to-d rand to-a", parse_k_p);
+	parser_reg(p, "P int ac rand hd rand to-h rand to-d rand to-a ?int balance ?int heft", parse_k_p);
 	parser_reg(p, "C rand extent", parse_k_c);
 	parser_reg(p, "M int prob rand stack", parse_k_m);
 	parser_reg(p, "F str flags", parse_k_f);
@@ -777,15 +787,30 @@ static enum parser_error parse_a_a(struct parser *p) {
 
 static enum parser_error parse_a_p(struct parser *p) {
 	struct artifact *a = parser_priv(p);
-	struct random hd = parser_getrand(p, "hd");
+	struct random hd = parser_getrand(p, "hd"); 
+    struct object_kind* kind;
 	assert(a);
 
+    kind = lookup_kind(a->tval, a->sval);
+    
 	a->ac = parser_getint(p, "ac");
 	a->dd = hd.dice;
 	a->ds = hd.sides;
-	a->to_h = parser_getint(p, "to-h");
-	a->to_d = parser_getint(p, "to-d");
+	a->to_finesse = parser_getint(p, "to-h");
+	a->to_prowess = parser_getint(p, "to-d");
 	a->to_a = parser_getint(p, "to-a");
+	if (!parser_hasval(p, "balance")) {
+        /* Look up stats for the base item type */
+		a->balance = kind->balance;
+	} else {
+        a->balance = parser_getint(p, "balance");
+	} 
+	if (!parser_hasval(p, "heft")) {
+		a->heft = kind->heft;
+	} else {
+        a->heft = parser_getint(p, "heft");
+	}
+
 	return PARSE_ERROR_NONE;
 }
 
@@ -923,7 +948,7 @@ struct parser *init_parse_a(void) {
 	parser_reg(p, "W int level int rarity int weight int cost ?sym randomise",
 		parse_a_w);
 	parser_reg(p, "A int common str minmax", parse_a_a);
-	parser_reg(p, "P int ac rand hd int to-h int to-d int to-a", parse_a_p);
+	parser_reg(p, "P int ac rand hd int to-h int to-d int to-a ?int balance ?int heft", parse_a_p);
 	parser_reg(p, "F ?str flags", parse_a_f);
 	parser_reg(p, "E sym name rand time", parse_a_e);
 	parser_reg(p, "M str text", parse_a_m);
@@ -1342,8 +1367,8 @@ static enum parser_error parse_e_c(struct parser *p)
 	if (!e)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 
-	e->to_h = th;
-	e->to_d = td;
+	e->to_finesse = th;
+	e->to_prowess = td;
 	e->to_a = ta;
 
 	if (parser_hasval(p, "ac_mod"))
@@ -1371,8 +1396,8 @@ static enum parser_error parse_e_m(struct parser *p)
 	if (!e)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 
-	e->min_to_h = th;
-	e->min_to_d = td;
+	e->min_to_finesse = th;
+	e->min_to_prowess = td;
 	e->min_to_a = ta;
 	parsed_e_m[e->eidx] = TRUE;
 
@@ -1603,8 +1628,8 @@ static errr finish_parse_e(struct parser *p) {
 	/* Apply default minima for missing M: lines */
 	for (i = 0; i < z_info->e_max; i++)
 		if (!parsed_e_m[i]) {
-			e_info[i].min_to_h = NO_MINIMUM;
-			e_info[i].min_to_d = NO_MINIMUM;
+			e_info[i].min_to_finesse = NO_MINIMUM;
+			e_info[i].min_to_prowess = NO_MINIMUM;
 			e_info[i].min_to_a = NO_MINIMUM;
 		}
 
@@ -1839,7 +1864,8 @@ static enum parser_error parse_p_r(struct parser *p) {
 	r->r_skills[SKILL_STEALTH] = parser_getint(p, "stl");
 	r->r_skills[SKILL_SEARCH] = parser_getint(p, "srh");
 	r->r_skills[SKILL_SEARCH_FREQUENCY] = parser_getint(p, "fos");
-	r->r_skills[SKILL_TO_HIT_MELEE] = parser_getint(p, "thm");
+	r->r_skills[SKILL_FINESSE_MELEE] = parser_getint(p, "fin");
+    r->r_skills[SKILL_PROWESS_MELEE] = parser_getint(p, "pro");
 	r->r_skills[SKILL_TO_HIT_BOW] = parser_getint(p, "thb");
 	r->r_skills[SKILL_TO_HIT_THROW] = parser_getint(p, "throw");
 	r->r_skills[SKILL_DIGGING] = parser_getint(p, "dig");
@@ -1961,7 +1987,7 @@ struct parser *init_parse_p(void) {
 	parser_reg(p, "V sym version", ignored);
 	parser_reg(p, "N uint index str name", parse_p_n);
 	parser_reg(p, "S int str int int int wis int dex int con int chr", parse_p_s);
-	parser_reg(p, "R int dis int dev int sav int stl int srh int fos int thm int thb int throw int dig", parse_p_r);
+	parser_reg(p, "R int dis int dev int sav int stl int srh int fos int fin int pro int thb int throw int dig", parse_p_r);
 	parser_reg(p, "X int mhp int exp int infra", parse_p_x);
 	parser_reg(p, "I uint hist int b-age int m-age", parse_p_i);
 	parser_reg(p, "H int mbht int mmht int fbht int fmht", parse_p_h);
@@ -2040,7 +2066,8 @@ static enum parser_error parse_c_c(struct parser *p) {
 	c->c_skills[SKILL_STEALTH] = parser_getint(p, "stl");
 	c->c_skills[SKILL_SEARCH] = parser_getint(p, "srh");
 	c->c_skills[SKILL_SEARCH_FREQUENCY] = parser_getint(p, "fos");
-	c->c_skills[SKILL_TO_HIT_MELEE] = parser_getint(p, "thm");
+	c->c_skills[SKILL_FINESSE_MELEE] = parser_getint(p, "fin");
+	c->c_skills[SKILL_PROWESS_MELEE] = parser_getint(p, "pro");
 	c->c_skills[SKILL_TO_HIT_BOW] = parser_getint(p, "thb");
 	c->c_skills[SKILL_TO_HIT_THROW] = parser_getint(p, "throw");
 	c->c_skills[SKILL_DIGGING] = parser_getint(p, "dig");
@@ -2058,7 +2085,8 @@ static enum parser_error parse_c_x(struct parser *p) {
 	c->x_skills[SKILL_STEALTH] = parser_getint(p, "stl");
 	c->x_skills[SKILL_SEARCH] = parser_getint(p, "srh");
 	c->x_skills[SKILL_SEARCH_FREQUENCY] = parser_getint(p, "fos");
-	c->x_skills[SKILL_TO_HIT_MELEE] = parser_getint(p, "thm");
+	c->x_skills[SKILL_FINESSE_MELEE] = parser_getint(p, "fin");
+    c->x_skills[SKILL_PROWESS_MELEE] = parser_getint(p, "pro");
 	c->x_skills[SKILL_TO_HIT_BOW] = parser_getint(p, "thb");
 	c->x_skills[SKILL_TO_HIT_THROW] = parser_getint(p, "throw");
 	c->x_skills[SKILL_DIGGING] = parser_getint(p, "dig");
@@ -2193,8 +2221,8 @@ struct parser *init_parse_c(void) {
 	parser_reg(p, "V sym version", ignored);
 	parser_reg(p, "N uint index str name", parse_c_n);
 	parser_reg(p, "S int str int int int wis int dex int con int chr", parse_c_s);
-	parser_reg(p, "C int dis int dev int sav int stl int srh int fos int thm int thb int throw int dig", parse_c_c);
-	parser_reg(p, "X int dis int dev int sav int stl int srh int fos int thm int thb int throw int dig", parse_c_x);
+	parser_reg(p, "C int dis int dev int sav int stl int srh int fos int fin int pro int thb int throw int dig", parse_c_c);
+	parser_reg(p, "X int dis int dev int sav int stl int srh int fos int fin int pro int thb int throw int dig", parse_c_x);
 	parser_reg(p, "I int mhp int exp int sense-base int sense-div", parse_c_i);
 	parser_reg(p, "A int max-attacks int min-weight int att-multiply", parse_c_a);
 	parser_reg(p, "M uint book uint stat uint first uint weight", parse_c_m);

@@ -1285,8 +1285,8 @@ static bool black_market_ok(const object_type *o_ptr)
 
 	/* Good items are normally fine */
 	if (o_ptr->to_a > 2) return (TRUE);
-	if (o_ptr->to_h > 1) return (TRUE);
-	if (o_ptr->to_d > 2) return (TRUE);
+	if (o_ptr->to_finesse > 1) return (TRUE);
+	if (o_ptr->to_prowess > 2) return (TRUE);
 
 
 	/* No cheap items */
@@ -1398,7 +1398,7 @@ static bool store_create_random(struct store *store)
 			case TV_ARROW:
 			case TV_BOLT:
 			{
-				if ((i_ptr->to_h < 0) || (i_ptr->to_d < 0)) 
+				if ((i_ptr->to_finesse < 0) || (i_ptr->to_prowess < 0)) 
 					continue;
 			}
 
@@ -2100,8 +2100,8 @@ static int find_inven(const object_type *o_ptr)
 				if (object_is_known(o_ptr) != object_is_known(j_ptr)) continue;
 
 				/* Require identical "bonuses" */
-				if (o_ptr->to_h != j_ptr->to_h) continue;
-				if (o_ptr->to_d != j_ptr->to_d) continue;
+				if (o_ptr->to_finesse != j_ptr->to_finesse) continue;
+				if (o_ptr->to_prowess != j_ptr->to_prowess) continue;
 				if (o_ptr->to_a != j_ptr->to_a) continue;
 
 				/* Require identical "pval" codes */

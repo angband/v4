@@ -115,8 +115,8 @@ int test_p0(void *state) {
 	eq(a->ac, 3);
 	eq(a->dd, 4);
 	eq(a->ds, 5);
-	eq(a->to_h, 8);
-	eq(a->to_d, 2);
+	eq(a->to_finesse, 8);
+	eq(a->to_prowess, 2);
 	eq(a->to_a, 1);
 	ok;
 }

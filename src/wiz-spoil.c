@@ -154,8 +154,8 @@ static void kind_info(char *buf, size_t buf_len,
 	for (i = 0; i < MAX_PVALS; i++)
 		i_ptr->pval[i] = 0;
 	i_ptr->to_a = 0;
-	i_ptr->to_h = 0;
-	i_ptr->to_d = 0;
+	i_ptr->to_finesse = 0;
+	i_ptr->to_prowess = 0;
 
 
 	/* Level */

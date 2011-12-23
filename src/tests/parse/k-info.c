@@ -112,10 +112,10 @@ int test_p0(void *state) {
 	eq(k->ac, 3);
 	eq(k->dd, 4);
 	eq(k->ds, 8);
-	eq(k->to_h.dice, 1);
-	eq(k->to_h.sides, 4);
-	eq(k->to_d.dice, 2);
-	eq(k->to_d.sides, 5);
+	eq(k->to_finesse.dice, 1);
+	eq(k->to_finesse.sides, 4);
+	eq(k->to_prowess.dice, 2);
+	eq(k->to_prowess.sides, 5);
 	eq(k->to_a.dice, 7);
 	eq(k->to_a.sides, 6);
 	ok;

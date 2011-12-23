@@ -733,8 +733,8 @@ int inven_damage(struct player *p, int type, int cperc)
 					if (randint0(10000) < cperc)
 					{
 						/* Damage the item */
-						o_ptr->to_h--;
-						o_ptr->to_d--;
+						o_ptr->to_finesse--;
+						o_ptr->to_prowess--;
 
 						/* Damaged! */
 						damage = TRUE;
@@ -1006,7 +1006,7 @@ bool apply_disenchant(int mode)
 
 
 	/* Nothing to disenchant */
-	if ((o_ptr->to_h <= 0) && (o_ptr->to_d <= 0) && (o_ptr->to_a <= 0))
+	if ((o_ptr->to_finesse <= 0) && (o_ptr->to_prowess <= 0) && (o_ptr->to_a <= 0))
 	{
 		/* Nothing to notice */
 		return (FALSE);
@@ -1033,12 +1033,12 @@ bool apply_disenchant(int mode)
 	if (t == INVEN_WIELD || t == INVEN_BOW)
 	{
 		/* Disenchant to-hit */
-		if (o_ptr->to_h > 0) o_ptr->to_h--;
-		if ((o_ptr->to_h > 5) && (randint0(100) < 20)) o_ptr->to_h--;
+		if (o_ptr->to_finesse > 0) o_ptr->to_finesse--;
+		if ((o_ptr->to_finesse > 5) && (randint0(100) < 20)) o_ptr->to_finesse--;
 
 		/* Disenchant to-dam */
-		if (o_ptr->to_d > 0) o_ptr->to_d--;
-		if ((o_ptr->to_d > 5) && (randint0(100) < 20)) o_ptr->to_d--;
+		if (o_ptr->to_prowess > 0) o_ptr->to_prowess--;
+		if ((o_ptr->to_prowess > 5) && (randint0(100) < 20)) o_ptr->to_prowess--;
 	}
 	else
 	{

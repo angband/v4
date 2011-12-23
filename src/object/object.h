@@ -281,9 +281,11 @@ typedef struct object_kind {
 	random_value pval[MAX_PVALS]; /**< Power for any flags which need it */
 	byte num_pvals;	   /**< Number of pvals in use on this item */
 
-	random_value to_h; /**< Bonus to hit */
-	random_value to_d; /**< Bonus to damage */
+	random_value to_finesse; /**< Bonus to hit */
+	random_value to_prowess; /**< Bonus to damage */
 	random_value to_a; /**< Bonus to armor */
+    s16b balance;      /**< Finesse multiplier for weapons */
+    s16b heft;         /**< Prowess multiplier for weapons */
 	s16b ac;           /**< Base armor */
 
 	byte dd;           /**< Damage dice */
@@ -354,9 +356,11 @@ typedef struct artifact {
 	s16b pval[MAX_PVALS];    /**< Power for any flags which need it */
 	byte num_pvals;/**< Number of pvals in use on this item */
 
-	s16b to_h;    /**< Bonus to hit */
-	s16b to_d;    /**< Bonus to damage */
+	s16b to_finesse;    /**< Bonus to hit */
+	s16b to_prowess;    /**< Bonus to damage */
 	s16b to_a;    /**< Bonus to armor */
+    s16b balance; /**< Finesse multiplier for weapons */
+    s16b heft;    /**< Prowess multiplier for weapons */
 	s16b ac;      /**< Base armor */
 
 	byte dd;      /**< Base damage dice */
@@ -396,16 +400,16 @@ typedef struct ego_item {
 	byte type;								/* prefix or suffix */
 	char *name;								/* affix name */
 											/* C: */
-	random_value to_h;     					/* Extra to-hit bonus */
-	random_value to_d; 						/* Extra to-dam bonus */
+	random_value to_finesse;    			/* Extra to-hit bonus */
+	random_value to_prowess; 				/* Extra to-dam bonus */
 	random_value to_a; 						/* Extra to-ac bonus */
 	s16b ac_mod;							/* % change to base AC */
 	s16b wgt_mod;							/* % change to base item weight */
 	s16b dd;								/* Extra dice */
 	s16b ds;								/* Extra sides */
 											/* M: */
-	s16b min_to_h;							/* Minimum to-hit value */
-	s16b min_to_d;							/* Minimum to-dam value */
+	s16b min_to_finesse;					/* Minimum finesse bonus */
+	s16b min_to_prowess;					/* Minimum prowess bonus */
 	s16b min_to_a;							/* Minimum to-ac value */
 											/* F: */
 	bitflag flags[OF_SIZE];					/* Flags */
@@ -483,8 +487,10 @@ typedef struct object {
 
 	s16b ac;			/* Normal AC */
 	s16b to_a;			/* Plusses to AC */
-	s16b to_h;			/* Plusses to hit */
-	s16b to_d;			/* Plusses to damage */
+	s16b to_finesse;	/* Plusses to hit */
+	s16b to_prowess;	/* Plusses to damage */
+	s16b balance;		/* Finesse multiplier for weapons */
+	s16b heft;  		/* Prowess multiplier for weapons */
 
 	byte dd, ds;		/* Damage dice/sides */
 

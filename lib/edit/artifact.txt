@@ -231,7 +231,7 @@ N:10:of Power 'Narya'
 I:ring:
 W:70:50:2:100000
 A:15:70 to 127
-P:0:0d0:2:2:0
+P:0:0d0:20:20:0
 F:FREE_ACT | SEE_INVIS | 
 F:SLOW_DIGEST | REGEN | TELEPATHY |
 F:SUST_STR | SUST_CON |
@@ -252,7 +252,7 @@ N:11:of Power 'Nenya'
 I:ring:
 W:80:50:2:200000
 A:10:80 to 127
-P:0:0d0:3:3:0
+P:0:0d0:30:30:0
 F:HOLD_LIFE | FREE_ACT | SEE_INVIS | 
 F:FEATHER | REGEN
 F:SUST_INT | SUST_WIS | SUST_CON |
@@ -273,7 +273,7 @@ N:12:of Power 'Vilya'
 I:ring:
 W:90:80:2:300000
 A:5:90 to 127
-P:0:0d0:5:5:0
+P:0:0d0:50:50:0
 F:HOLD_LIFE | FREE_ACT | SEE_INVIS | 
 F:FEATHER | SLOW_DIGEST | REGEN | TELEPATHY |
 F:SUST_DEX | SUST_INT | SUST_CON |
@@ -295,7 +295,7 @@ N:13:of Power 'The One Ring'
 I:ring:49
 W:100:100:2:5000000:no
 A:1:100 to 127
-P:0:0d0:15:15:0
+P:0:0d0:150:150:0
 # F: DRAIN_MANA | DRAIN_HP | 
 F:LIGHT_CURSE | HEAVY_CURSE | PERMA_CURSE |
 F:AGGRAVATE | DRAIN_EXP | SEE_INVIS | REGEN | TELEPATHY |
@@ -714,7 +714,7 @@ N:41:of Gorlim
 I:helm:Helm
 W:20:5:75:1
 A:180:20 to 75
-P:7:1d3:8:8:10
+P:7:1d3:80:80:10
 # F: DRAIN_HP | 
 F:RES_FEAR | 
 F:SEE_INVIS | FREE_ACT | AGGRAVATE | LIGHT_CURSE | HEAVY_CURSE
@@ -878,7 +878,7 @@ N:52:'Cambeleg'
 I:gloves:Set of Gloves
 W:10:6:5:36000
 A:20:10 to 100
-P:1:0d0:8:8:15
+P:1:0d0:80:80:15
 F:FREE_ACT 
 L:2:STR | CON
 D:A hero's handgear that lends great prowess in battle.
@@ -888,7 +888,7 @@ N:53:'Cammithrim'
 I:gloves:Set of Gloves
 W:10:3:5:30000
 A:180:10 to 80
-P:1:0d0:5:5:10
+P:1:0d0:50:50:10
 F:FREE_ACT | RES_LIGHT | SUST_CON
 L:1:LIGHT
 E:MISSILE:2
@@ -935,7 +935,7 @@ N:57:'Paurnen'
 I:gloves:Set of Gauntlets
 W:1:3:25:12000
 A:300:10 to 60
-P:3:1d1:3:3:14
+P:3:1d1:30:30:14
 F:RES_ACID | FEATHER
 E:ACID_BOLT:5+d5
 M:Your {kind} {is} covered in acid...
@@ -958,7 +958,7 @@ N:59:of Fingolfin
 I:gloves:Set of Caestus
 W:40:15:40:110000
 A:15:40 to 127
-P:5:1d1:10:10:20
+P:5:1d1:100:100:20
 F:FREE_ACT | RES_ACID 
 E:ARROW:30+d30
 M:Your {kind} grow{s} magical spikes...
@@ -1034,7 +1034,7 @@ N:64:of Maedhros
 I:sword:Main Gauche
 W:15:30:30:20000
 A:30:15 to 65
-P:0:2d5:12:15:0
+P:0:2d5:120:150:0
 F:SLAY_TROLL | SLAY_GIANT | FREE_ACT | SEE_INVIS 
 L:3:INT | DEX
 D:A short thrusting blade with a large guard worn by the eldest son of 
@@ -1046,7 +1046,7 @@ N:65:'Angrist'
 I:sword:Dagger
 W:20:80:12:100000
 A:20:20 to 100
-P:0:2d4:10:15:5
+P:0:2d4:100:150:5
 F:BRAND_ACID | RES_ACID | 
 F:SLAY_EVIL | SLAY_TROLL | SLAY_ORC | FREE_ACT | RES_DARK | SUST_DEX | 
 L:4:DEX
@@ -1059,7 +1059,7 @@ N:66:'Narthanc'
 I:sword:Dagger
 W:1:2:12:12000
 A:400:1 to 50
-P:0:1d4:4:6:0
+P:0:1d4:40:60:0
 F:BRAND_FIRE | RES_FIRE 
 E:FIRE_BOLT:8+d8
 M:{name} is covered in fire...
@@ -1070,7 +1070,7 @@ N:67:'Nimthanc'
 I:sword:Dagger
 W:1:2:12:11000
 A:400:1 to 50
-P:0:1d4:4:6:0
+P:0:1d4:40:60:0:150:0
 F:BRAND_COLD | RES_COLD 
 E:COLD_BOLT:7+d8
 M:{name} is covered in frost...
@@ -1081,7 +1081,7 @@ N:68:'Dethanc'
 I:sword:Dagger
 W:1:2:12:13000
 A:400:1 to 50
-P:0:1d4:4:6:0
+P:0:1d4:40:60:0:0:200
 F:BRAND_ELEC | RES_ELEC 
 E:ELEC_BOLT:6+d6
 M:{name} is covered in sparks...
@@ -1092,7 +1092,7 @@ N:69:of Rilia
 I:sword:Dagger
 W:5:20:12:15000
 A:50:5 to 75
-P:0:2d4:14:13:0
+P:0:2d4:140:130:0
 F:SLAY_ORC | SLAY_TROLL | BRAND_POIS | RES_POIS | RES_DISEN 
 E:STINKING_CLOUD:4+d4
 M:{name} throws deep green shadows...
@@ -1104,7 +1104,7 @@ N:70:'Belangil'
 I:sword:Dagger
 W:10:40:12:40000
 A:20:10 to 80
-P:0:3d4:16:14:0
+P:0:3d4:160:140:0
 F:BRAND_COLD | RES_COLD | SEE_INVIS | SLOW_DIGEST | REGEN | 
 E:COLD_BALL50:5+d5
 M:Your {kind} {is} covered in frost...
@@ -1131,7 +1131,7 @@ N:72:'Aranrúth'
 I:sword:Broad Sword
 W:20:45:150:50000
 A:20:20 to 100
-P:0:3d5:20:12:0
+P:0:3d5:200:120:0
 F:SLAY_DEMON | SLAY_ORC | FREE_ACT | RES_COLD | FEATHER | 
 F:SLOW_DIGEST 
 E:COLD_BOLT2:50
@@ -1146,7 +1146,7 @@ N:73:'Glamdring'
 I:sword:Broad Sword
 W:20:20:150:40000
 A:50:20 to 80
-P:0:2d5:10:15:0
+P:0:2d5:100:150:0
 F:BLESSED | 
 F:SLAY_EVIL | BRAND_FIRE | SLAY_ORC | SLAY_DEMON | RES_FIRE | RES_LIGHT | 
 F:SLOW_DIGEST 
@@ -1159,7 +1159,7 @@ N:74:'Aeglin'
 I:sword:Broad Sword
 W:20:30:150:45000
 A:30:20 to 100
-P:0:2d5:12:16:0
+P:0:2d5:120:160:0
 F:BLESSED | 
 F:SLAY_ORC | SLAY_TROLL | SLAY_GIANT | BRAND_ELEC | RES_ELEC | RES_BLIND | 
 F:SLOW_DIGEST 
@@ -1173,7 +1173,7 @@ N:75:'Orcrist'
 I:sword:Broad Sword
 W:20:20:150:40000
 A:50:20 to 80
-P:0:2d5:10:15:0
+P:0:2d5:100:150:0
 F:BLESSED |  
 F:SLAY_EVIL | BRAND_COLD | SLAY_ORC | SLAY_DRAGON | RES_COLD | RES_DARK | 
 F:SLOW_DIGEST 
@@ -1187,7 +1187,7 @@ N:76:'Gurthang'
 I:sword:Zweihander
 W:30:30:200:100000
 A:30:30 to 100
-P:0:3d6:13:17:0
+P:0:3d6:130:170:0
 F:RES_FIRE | RES_POIS | 
 F:BRAND_FIRE | BRAND_POIS | 
 F:KILL_DRAGON | FREE_ACT | SLOW_DIGEST | REGEN 
@@ -1201,7 +1201,7 @@ N:77:'Zarcuthra'
 I:sword:Zweihander
 W:30:180:240:200000
 A:10:30 to 127
-P:0:4d6:19:21:0
+P:0:4d6:190:210:0
 # F:DRAIN_MANA | 
 F:KILL_DRAGON | SLAY_ANIMAL | SLAY_EVIL | BRAND_FIRE | 
 F:SLAY_UNDEAD | SLAY_DEMON | SLAY_TROLL | SLAY_GIANT | SLAY_ORC | 
@@ -1232,7 +1232,7 @@ N:79:'Gondricam'
 I:sword:Cutlass
 W:20:8:110:28000
 A:120:20 to 65
-P:0:1d8:10:11:50
+P:0:1d8:100:110:50
 F:RES_ACID | RES_ELEC | RES_FIRE | RES_COLD | FEATHER | 
 F:SEE_INVIS | REGEN | FREE_ACT 
 L:4:DEX
@@ -1246,7 +1246,7 @@ N:80:'Crisdurian'
 I:sword:Executioner's Sword
 W:40:25:260:100000
 A:40:40 to 127
-P:0:4d5:18:19:0
+P:0:4d5:180:190:0
 F:SLAY_DRAGON | SLAY_EVIL | SLAY_UNDEAD | SLAY_TROLL | SLAY_GIANT | 
 F:SLAY_ORC | SEE_INVIS 
 D:A giant's weapon, with a long blade tall and straight thrusting out from a 
@@ -1258,7 +1258,7 @@ N:81:'Aglarang'
 I:sword:Katana
 W:30:25:50:40000
 A:40:30 to 100
-P:0:6d5:10:10:0
+P:0:6d5:100:100:0
 F:SUST_DEX 
 L:5:SPEED | DEX
 L:1:BLOWS
@@ -1271,7 +1271,7 @@ N:82:'Ringil'
 I:sword:Long Sword
 W:20:120:130:300000
 A:6:20 to 127
-P:0:4d5:22:25:0
+P:0:4d5:220:250:0
 F:RES_FEAR | BLESSED |
 F:SLAY_EVIL | BRAND_COLD | SLAY_UNDEAD | KILL_DEMON | SLAY_TROLL | 
 F:FREE_ACT | RES_COLD | RES_LIGHT | SEE_INVIS | SLOW_DIGEST | REGEN | 
@@ -1288,7 +1288,7 @@ N:83:'Andúril'
 I:sword:Long Sword
 W:20:40:130:80000
 A:30:20 to 127
-P:0:3d5:10:15:10
+P:0:3d5:100:150:10
 F:RES_FEAR | FREE_ACT | BLESSED | 
 F:SLAY_EVIL | BRAND_FIRE | SLAY_TROLL | SLAY_ORC | SLAY_UNDEAD | 
 F:RES_FIRE | RES_DISEN | 
@@ -1305,7 +1305,7 @@ N:84:'Anguirel'
 I:sword:Long Sword
 W:20:30:130:40000
 A:30:20 to 127
-P:0:2d5:10:12:0
+P:0:2d5:100:120:0
 F:AGGRAVATE | 
 F:SLAY_EVIL | BRAND_POIS | SLAY_DEMON | FREE_ACT | RES_ELEC | 
 F:RES_LIGHT | RES_DARK | SEE_INVIS 
@@ -1320,7 +1320,7 @@ N:85:'Elvagil'
 I:sword:Long Sword
 W:1:2:130:30000
 A:500:10 to 50
-P:0:2d5:12:12:0
+P:0:2d5:120:120:0
 F:SLAY_TROLL | SLAY_ORC | FEATHER | SEE_INVIS 
 L:2:DEX | CHR | STEALTH
 D:The "Singing Blade", whose wearer can slay Orcs and Trolls in the hidden 
@@ -1331,7 +1331,7 @@ N:86:'Forasgil'
 I:sword:Rapier
 W:1:3:40:15000
 A:380:5 to 50
-P:0:1d6:12:19:0
+P:0:1d6:120:190:0
 F:SLAY_ANIMAL | BRAND_COLD | RES_COLD | RES_LIGHT 
 L:1:LIGHT
 D:A slender, tapered needle of ice that coldly grips its impaled prey.
@@ -1341,7 +1341,7 @@ N:87:'Careth Asdriag'
 I:sword:Rapier
 W:15:8:40:25000
 A:100:15 to 80
-P:0:2d6:16:12:0
+P:0:2d6:160:120:0
 F:SLAY_DRAGON | SLAY_ANIMAL | SLAY_TROLL | SLAY_GIANT | 
 F:SLAY_ORC 
 L:1:BLOWS
@@ -1354,7 +1354,7 @@ N:88:'Sting'
 I:sword:Short Sword
 W:20:15:75:100000
 A:60:20 to 100
-P:0:1d7:7:8:0
+P:0:1d7:70:80:0
 F:RES_FEAR | 
 F:SLAY_EVIL | SLAY_UNDEAD | SLAY_ORC | SLAY_ANIMAL | 
 F:FREE_ACT | RES_LIGHT | SEE_INVIS 
@@ -1371,7 +1371,7 @@ N:89:'Haradekket'
 I:sword:Scimitar
 W:20:15:130:30000
 A:70:20 to 80
-P:0:4d2:9:11:0
+P:0:4d2:90:110:0
 F:SLAY_ANIMAL | SLAY_EVIL | SLAY_UNDEAD | SEE_INVIS | 
 L:2:DEX | BLOWS
 D:A damascened scimitar that hefts with wondrous ease.  Famed in song 
@@ -1382,7 +1382,7 @@ N:90:'Dagmor'
 I:sword:Short Sword
 W:20:8:80:15000
 A:40:20 to 80
-P:0:1d7:13:11:0
+P:0:1d7:130:110:0
 F:BRAND_POIS | 
 F:SLAY_ANIMAL | SLOW_DIGEST | REGEN 
 L:2:BLOWS
@@ -1394,7 +1394,7 @@ N:91:'Doomcaller'
 I:sword:Katana
 W:70:25:180:200000
 A:15:70 to 127
-P:0:6d5:18:28:-50
+P:0:6d5:180:280:-50
 # F:DRAIN_HP | 
 F:KILL_DRAGON | SLAY_ANIMAL | SLAY_EVIL | BRAND_COLD | SLAY_TROLL | 
 F:SLAY_DEMON | FREE_ACT | RES_ACID | RES_ELEC | RES_FIRE | RES_COLD | 
@@ -1425,7 +1425,7 @@ N:93:of Théoden
 I:polearm:Beaked Axe
 W:20:15:180:40000
 A:70:20 to 100
-P:0:2d6:8:10:0
+P:0:2d6:80:100:0
 F:SLAY_DRAGON | TELEPATHY | SLOW_DIGEST 
 E:DRAIN_LIFE2:40
 M:Your {kind} glow{s} black...
@@ -1438,7 +1438,7 @@ N:94:of Pain
 I:polearm:Glaive
 W:30:25:300:50000
 A:15:30 to 127
-P:0:9d6:0:30:0
+P:0:9d6:0:300:0
 D:The massive cleaver that crowns this glaive glows blood-red and black; 
 D:fell spells of annihilation swirl and dance as you swing death's myrmidon 
 D:down.
@@ -1448,7 +1448,7 @@ N:95:'Osondir'
 I:polearm:Halberd
 W:20:8:140:22000
 A:120:25 to 80
-P:0:3d5:16:12:0
+P:0:3d5:160:120:0
 F:BLESSED |
 F:BRAND_FIRE | SLAY_UNDEAD | SLAY_GIANT | RES_FIRE | RES_SOUND | 
 F:FEATHER | SEE_INVIS 
@@ -1462,7 +1462,7 @@ N:96:'Til-i-arc'
 I:polearm:Pike
 W:20:15:160:32000
 A:70:20 to 80
-P:0:3d5:10:12:10
+P:0:3d5:100:120:10
 F:BRAND_COLD | BRAND_FIRE | SLAY_DEMON | SLAY_TROLL | SLAY_GIANT | 
 F:RES_FIRE | RES_COLD | SUST_INT | SLOW_DIGEST 
 L:3:STR | INT
@@ -1475,7 +1475,7 @@ N:97:'Aiglos'
 I:polearm:Spear
 W:15:45:50:140000
 A:20:15 to 100
-P:0:3d6:15:25:5
+P:0:3d6:150:250:5
 F:RES_FEAR | 
 F:BRAND_COLD | RES_COLD | SLAY_EVIL | SLAY_TROLL | SLAY_ORC | KILL_UNDEAD | 
 F:FREE_ACT | SLOW_DIGEST | BLESSED 
@@ -1491,7 +1491,7 @@ N:98:of Oromë
 I:polearm:Spear
 W:15:45:50:60000
 A:20:15 to 127
-P:0:4d6:15:15:0
+P:0:4d6:150:150:0
 # F:DRAIN_MANA | 
 F:BRAND_FIRE | SLAY_GIANT | SLAY_ANIMAL | RES_FIRE | RES_LIGHT | 
 F:FEATHER | SEE_INVIS | BLESSED 
@@ -1507,7 +1507,7 @@ N:99:'Nimloth'
 I:polearm:Spear
 W:15:12:50:30000
 A:80:15 to 65
-P:0:1d6:11:13:0
+P:0:1d6:110:130:0
 F:BLESSED | 
 F:BRAND_COLD | SLAY_UNDEAD | RES_COLD | SEE_INVIS 
 L:3:STEALTH | SPEED
@@ -1521,7 +1521,7 @@ N:100:of the Eorlingas
 I:polearm:Lance
 W:20:23:360:55000
 A:40:20 to 100
-P:0:3d8:13:21:0
+P:0:3d8:130:210:0
 F:RES_FEAR | 
 F:SLAY_EVIL | SLAY_TROLL | SLAY_ORC | SEE_INVIS 
 L:2:STR | DEX | SPEED
@@ -1534,7 +1534,7 @@ N:101:of Durin
 I:polearm:Great Axe
 W:30:90:230:150000
 A:10:40 to 127
-P:0:4d4:10:20:15
+P:0:4d4:100:200:15
 F:BRAND_ACID | BRAND_FIRE | 
 F:KILL_DRAGON | SLAY_DEMON | SLAY_TROLL | SLAY_ORC | FREE_ACT | 
 F:RES_FEAR | 
@@ -1551,7 +1551,7 @@ N:102:of Eönwë
 I:polearm:Great Axe
 W:30:120:230:200000
 A:10:40 to 127
-P:0:5d4:15:18:8
+P:0:5d4:150:180:8
 F:RES_FEAR | 
 F:SLAY_EVIL | BRAND_COLD | SLAY_UNDEAD | KILL_DEMON | 
 F:SLAY_ORC | FREE_ACT | IM_COLD | RES_COLD | 
@@ -1569,7 +1569,7 @@ N:103:of Balli Stonehand
 I:polearm:Battle Axe
 W:30:15:170:90000
 A:70:30 to 100
-P:0:3d8:8:11:5
+P:0:3d8:80:110:5
 F:SLAY_DEMON | SLAY_TROLL | SLAY_ORC | FREE_ACT | 
 F:RES_ACID | RES_ELEC | RES_FIRE | RES_COLD | RES_BLIND | FEATHER | 
 F:SEE_INVIS | REGEN 
@@ -1584,7 +1584,7 @@ N:104:'Lotharang'
 I:polearm:Battle Axe
 W:30:15:170:21000
 A:70:30 to 100
-P:0:2d8:14:13:0
+P:0:2d8:140:130:0
 F:RES_DISEN | 
 F:SLAY_TROLL | SLAY_ORC 
 E:CURE_SERIOUS:3+d3
@@ -1599,7 +1599,7 @@ N:105:'Mundwine'
 I:polearm:Lochaber Axe
 W:30:8:240:30000
 A:120:30 to 100
-P:0:3d8:12:17:0
+P:0:3d8:120:170:0
 F:SLAY_EVIL | SLAY_ANIMAL | SLAY_DEMON | 
 F:RES_ACID | RES_ELEC | RES_FIRE | RES_COLD 
 D:A massive axe with twin razor-sharp heads, so large that it usually 
@@ -1611,7 +1611,7 @@ N:106:'Barukkheled'
 I:polearm:Broad Axe
 W:20:8:160:50000
 A:120:20 to 75
-P:0:2d6:13:19:0
+P:0:2d6:130:190:0
 F:SLAY_EVIL | SLAY_TROLL | SLAY_GIANT | SLAY_ORC | 
 F:SEE_INVIS 
 L:3:CON
@@ -1623,7 +1623,7 @@ N:107:of Wrath
 I:polearm:Trident
 W:15:35:70:90000
 A:30:15 to 100
-P:0:3d10:16:18:0 
+P:0:3d10:160:180:0 
 F:BRAND_POIS | 
 F:SLAY_EVIL | KILL_UNDEAD | RES_LIGHT | RES_DARK | SEE_INVIS | 
 F:BLESSED 
@@ -1637,7 +1637,7 @@ N:108:of Ulmo
 I:polearm:Trident
 W:30:90:70:120000
 A:15:30 to 127
-P:0:4d10:15:19:0
+P:0:4d10:150:190:0
 F:SLAY_DRAGON | SLAY_ANIMAL | FREE_ACT | HOLD_LIFE | 
 F:IM_ACID | RES_ACID | RES_NETHR | 
 F:SEE_INVIS | SLOW_DIGEST | REGEN | 
@@ -1654,7 +1654,7 @@ N:109:'Avavir'
 I:polearm:Scythe
 W:40:8:180:18000
 A:120:45 to 100
-P:0:5d3:18:12:30
+P:0:5d3:180:120:30
 F:BRAND_COLD | BRAND_FIRE | FREE_ACT | RES_FIRE | RES_COLD | 
 F:RES_LIGHT | SEE_INVIS 
 E:RECALL:200
@@ -1670,7 +1670,7 @@ N:110:of Húrin
 I:polearm:Beaked Axe
 W:20:15:180:90000
 A:70:20 to 100
-P:0:3d6:12:15:0
+P:0:3d6:120:150:0
 # F:DRAIN_MANA | 
 F:KILL_DEMON | 
 F:BRAND_ACID | RES_ACID | RES_DARK | RES_FIRE |
@@ -1693,7 +1693,7 @@ N:111:'Grond'
 I:hafted:Mighty Hammer
 W:100:1:1000:500000:no
 A:0:100 to 100
-P:0:9d9:5:25:10
+P:0:9d9:50:250:10
 F:KILL_DRAGON | SLAY_ANIMAL | SLAY_EVIL | IMPACT | KILL_UNDEAD | 
 F:KILL_DEMON | SLAY_TROLL | SLAY_ORC | 
 F:SEE_INVIS | TELEPATHY | AGGRAVATE | INSTA_ART
@@ -1705,7 +1705,7 @@ N:112:'Totila'
 I:hafted:Flail
 W:20:8:150:55000
 A:120:20 to 65
-P:0:3d6:16:12:0
+P:0:3d6:160:120:0
 F:SLAY_EVIL | BRAND_FIRE | RES_FIRE | RES_CONFU | 
 E:CONFUSE2:15
 M:{name} glows in scintillating colours...
@@ -1718,7 +1718,7 @@ N:113:'Thunderfist'
 I:hafted:Two-Handed Great Flail
 W:45:38:300:160000
 A:30:45 to 127
-P:0:4d6:5:18:0
+P:0:4d6:50:180:0
 F:RES_FEAR | 
 F:SLAY_ANIMAL | BRAND_FIRE | BRAND_ELEC | SLAY_TROLL | SLAY_ORC | 
 F:RES_ELEC | RES_FIRE | RES_DARK 
@@ -1733,7 +1733,7 @@ N:114:'Bloodspike'
 I:hafted:Morning Star
 W:20:30:150:30000
 A:30:20 to 75
-P:0:2d6:8:22:0
+P:0:2d6:80:220:0
 F:BRAND_POIS | 
 F:SLAY_ANIMAL | SLAY_TROLL | SLAY_ORC | RES_NEXUS | SEE_INVIS | 
 L:4:STR
@@ -1745,7 +1745,7 @@ N:115:'Firestar'
 I:hafted:Morning Star
 W:20:15:150:35000
 A:70:20 to 100
-P:0:2d6:15:17:2
+P:0:2d6:150:170:2
 F:BRAND_FIRE | IM_FIRE 
 E:FIRE_BOLT72:20
 M:{name} rages in fire...
@@ -1757,7 +1757,7 @@ N:116:'Taratol'
 I:hafted:Mace
 W:20:15:200:50000
 A:70:20 to 100
-P:0:3d4:12:12:0
+P:0:3d4:120:120:0
 F:KILL_DRAGON | BRAND_ELEC | IM_ELEC
 E:HASTE1:100+d100
 M:{name} glows bright green...
@@ -1770,7 +1770,7 @@ N:117:of Aulë
 I:hafted:Great Hammer
 W:40:75:120:250000
 A:15:40 to 127
-P:0:18d1:19:21:5
+P:0:18d1:190:210:5
 # F:DRAIN_MANA | 
 F:RES_FEAR | 
 F:KILL_DRAGON | SLAY_EVIL | BRAND_ACID | SLAY_UNDEAD | SLAY_DEMON | 
@@ -1787,7 +1787,7 @@ N:118:'Nar-i-vagil'
 I:hafted:Quarterstaff
 W:20:18:150:70000
 A:50:20 to 80
-P:0:1d9:10:20:0
+P:0:1d9:100:200:0
 F:SLAY_ANIMAL | BRAND_FIRE | RES_FIRE | RES_POIS 
 L:4:INT
 D:Named for a fiery star and set with priceless gems bearing mystic 
@@ -1798,7 +1798,7 @@ N:119:'Eriril'
 I:hafted:Quarterstaff
 W:20:18:150:20000
 A:50:20 to 100
-P:0:1d9:13:15:0
+P:0:1d9:130:150:0
 F:SLAY_EVIL | RES_LIGHT | SEE_INVIS 
 E:IDENTIFY:10
 M:Your {kind} glow{s} yellow...
@@ -1812,7 +1812,7 @@ N:120:of Olórin
 I:hafted:Quarterstaff
 W:30:105:150:130000
 A:15:30 to 100
-P:0:2d9:10:13:0
+P:0:2d9:100:130:0
 F:KILL_DEMON | 
 F:SLAY_EVIL | BRAND_FIRE | SLAY_TROLL | SLAY_ORC | 
 F:HOLD_LIFE | RES_FIRE | RES_NETHR | SEE_INVIS 
@@ -1830,7 +1830,7 @@ N:121:'Deathwreaker'
 I:hafted:Mace
 W:80:38:400:400000
 A:5:80 to 127
-P:0:7d8:18:18:0
+P:0:7d8:180:180:0
 # F:DRAIN_MANA | 
 F:SLAY_DRAGON | SLAY_ANIMAL | SLAY_EVIL | KILL_UNDEAD | BRAND_FIRE | 
 F:IM_FIRE | RES_FIRE | RES_DARK | RES_CHAOS | RES_DISEN | AGGRAVATE | 
@@ -1848,7 +1848,7 @@ N:122:'Turmil'
 I:polearm:Lucerne Hammer
 W:20:15:120:30000
 A:70:20 to 100
-P:0:2d5:10:11:8
+P:0:2d5:100:110:8
 F:BLESSED |
 F:BRAND_COLD | SLAY_ORC | IM_COLD | RES_LIGHT | REGEN | 
 E:DRAIN_LIFE1:40
@@ -1864,7 +1864,7 @@ N:123:of Gothmog
 I:hafted:Whip
 W:60:25:90:25000
 A:40:60 to 127
-P:0:6d3:13:15:0
+P:0:6d3:130:150:0
 # F:DRAIN_HP | 
 F:LIGHT_CURSE | HEAVY_CURSE | AGGRAVATE |  
 F:BRAND_FIRE | IM_FIRE | RES_ELEC | RES_DARK | 
@@ -1884,7 +1884,7 @@ N:124:'Belthronding'
 I:bow:Long Bow
 W:40:20:40:35000
 A:50:40 to 127
-P:0:0d0:20:22:0
+P:0:0d0:200:220:0
 F:RES_DISEN 
 L:3:DEX
 L:1:SPEED | STEALTH | SHOTS
@@ -1897,7 +1897,7 @@ N:125:of Bard
 I:bow:Long Bow
 W:30:20:40:20000
 A:50:40 to 127
-P:0:0d0:17:19:0
+P:0:0d0:170:190:0
 F:FREE_ACT 
 L:2:MIGHT
 L:1:DEX | SPEED
@@ -1909,7 +1909,7 @@ N:126:'Cubragol'
 I:bow:Light Crossbow
 W:50:25:110:50000
 A:40:50 to 127
-P:0:0d0:10:14:0
+P:0:0d0:100:140:0
 F:BRAND_FIRE |
 F:RES_FIRE 
 L:10:SPEED
@@ -1921,7 +1921,7 @@ N:127:of Umbar
 I:bow:Heavy Crossbow
 W:60:20:200:35000
 A:25:60 to 127
-P:0:4d1:18:18:0
+P:0:4d1:180:180:0
 F:AGGRAVATE | 
 F:RES_LIGHT | RES_DARK | RES_BLIND | RES_ELEC | 
 E:ARROW:20+d20
@@ -1936,7 +1936,7 @@ N:128:of Amrod
 I:bow:Short Bow
 W:25:10:30:9000
 A:100:30 to 100
-P:0:0d0:12:15:0
+P:0:0d0:120:150:0
 F:RES_FIRE | RES_ELEC | RES_COLD | REGEN
 L:2:STR | CON | MIGHT
 D:One of a pair of hunting bows once belonging to Fëanor's two youngest 
@@ -1947,7 +1947,7 @@ N:129:of Amras
 I:bow:Short Bow
 W:25:10:30:9000
 A:100:30 to 80
-P:0:0d0:12:15:0
+P:0:0d0:120:150:0
 F:RES_FIRE | RES_ELEC | RES_COLD | SLOW_DIGEST
 L:2:INT | WIS | DEX
 L:1:SHOTS | MIGHT | SPEED
@@ -1961,7 +1961,7 @@ N:130:of Náin
 I:digger:Mattock
 W:60:8:240:30000
 A:120:60 to 100
-P:0:2d8:12:18:0
+P:0:2d8:120:180:0
 F:SLAY_ORC | SLAY_TROLL | SLAY_GIANT | SLAY_DRAGON | 
 F:RES_DARK | RES_DISEN |
 E:STONE_TO_MUD:2
@@ -1978,7 +1978,7 @@ N:131:of Erebor
 I:digger:Pick
 W:55:5:180:30000
 A:200:55 to 100
-P:0:4d3:5:20:0
+P:0:4d3:50:200:0
 F:SUST_STR | 
 F:SLAY_ORC | SLAY_TROLL | SLAY_DEMON | BRAND_ACID | 
 F:RES_CHAOS | RES_LIGHT | RES_DARK
@@ -1995,7 +1995,7 @@ N:132:of Fundin Bluecloak
 I:hafted:Ball-and-Chain
 W:65:100:130:60000
 A:20:65 to 127
-P:0:4d4:13:17:10
+P:0:4d4:130:170:10
 F:SLAY_EVIL | SLAY_UNDEAD | 
 F:RES_FIRE | RES_ELEC | RES_NETHR | HOLD_LIFE | 
 E:DISPEL_EVIL:100+d100
@@ -2010,7 +2010,7 @@ N:133:of Azaghâl
 I:sword:Main Gauche
 W:18:30:30:50000
 A:30:18 to 100
-P:0:2d5:12:14:0
+P:0:2d5:120:140:0
 F:KILL_DRAGON | IM_FIRE | RES_ACID | RES_FEAR | 
 D:Azaghâl, Dwarf-king of Belegost, fell before Glaurung in the Battle 
 D:of Unnumbered Tears.  With his final breath, Azaghâl plunged this 
@@ -2022,7 +2022,7 @@ N:134:of the Haradrim
 I:shield:Large Shield
 W:35:12:90:25000
 A:50:35 to 127
-P:9:1d2:5:5:15
+P:9:1d2:50:50:15
 F:SUST_STR | SUST_CON | 
 F:RES_FEAR | RES_BLIND | RES_POIS
 E:BERSERKER:50
@@ -2049,7 +2049,7 @@ N:136:of Éowyn
 I:sword:Bastard Sword
 W:30:100:140:120000
 A:30:30 to 127
-P:0:4d4:12:16:0
+P:0:4d4:120:160:0
 F:SLAY_EVIL | KILL_UNDEAD | SLAY_GIANT | SLAY_ANIMAL | 
 F:RES_NETHR | RES_FEAR | RES_DARK | RES_COLD
 L:4:STR | CHR

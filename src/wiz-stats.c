@@ -679,9 +679,9 @@ static void get_obj_data(const object_type *o_ptr, int y, int x, bool mon, bool 
 			/* check if bad, good, or average */
 			if (o_ptr->to_a < 0)
 				add_stats( bdarm_total,  bdarm_mon,  bdarm_vault, vault, mon,number);
-			if (o_ptr->to_h == 0)
+			if (o_ptr->to_finesse == 0)
 				add_stats( avarm_total,  avarm_mon,  avarm_vault, vault, mon,number);	
-			if (o_ptr->to_h > 0)
+			if (o_ptr->to_finesse > 0)
 				add_stats( gdarm_total,  gdarm_mon,  gdarm_vault, vault, mon,number);
 						
 			/* has str boost */
@@ -724,11 +724,11 @@ static void get_obj_data(const object_type *o_ptr, int y, int x, bool mon, bool 
 			object_flags(o_ptr,f);
 			
 			/* check if bad, good, or average */
-			if ((o_ptr->to_h < 0)  && (o_ptr->to_d < 0))
+			if ((o_ptr->to_finesse < 0)  && (o_ptr->to_prowess < 0))
 				add_stats( bdweap_total,  bdweap_mon,  bdweap_vault, vault, mon,number);
-			if ((o_ptr->to_h == 0) && (o_ptr->to_d == 0))
+			if ((o_ptr->to_finesse == 0) && (o_ptr->to_prowess == 0))
 				add_stats( avweap_total,  avweap_mon,  avweap_vault, vault, mon,number);	
-			if ((o_ptr->to_h > 0) && (o_ptr->to_d > 0))
+			if ((o_ptr->to_finesse > 0) && (o_ptr->to_prowess > 0))
 				add_stats( gdweap_total,  gdweap_mon,  gdweap_vault, vault, mon,number);
 			
 			/* slay weapons */
@@ -842,13 +842,13 @@ static void get_obj_data(const object_type *o_ptr, int y, int x, bool mon, bool 
 			object_flags(o_ptr,f);
 			
 			/* check if bad, average, good, or very good */
-			if ((o_ptr->to_h < 0) && (o_ptr->to_d < 0))
+			if ((o_ptr->to_finesse < 0) && (o_ptr->to_prowess < 0))
 				add_stats( bdbow_total,  bdbow_mon,  bdbow_vault, vault, mon,number);
-			if ((o_ptr->to_h == 0) && (o_ptr->to_d == 0))
+			if ((o_ptr->to_finesse == 0) && (o_ptr->to_prowess == 0))
 				add_stats( avbow_total,  avbow_mon,  avbow_vault, vault, mon,number);	
-			if ((o_ptr->to_h > 0) && (o_ptr->to_d > 0))
+			if ((o_ptr->to_finesse > 0) && (o_ptr->to_prowess > 0))
 				add_stats( gdbow_total,  gdbow_mon,  gdbow_vault, vault, mon,number);
-			if ((o_ptr->to_h > 15) || (o_ptr->to_d > 15))
+			if ((o_ptr->to_finesse > 15) || (o_ptr->to_prowess > 15))
 				add_stats( vgbow_total,  vgbow_mon,  vgbow_vault, vault, mon,number);
 		
 			/* check long bows and xbows for xtra might and/or shots */
@@ -1186,11 +1186,11 @@ static void get_obj_data(const object_type *o_ptr, int y, int x, bool mon, bool 
 			object_flags(o_ptr,f);
 			
 			/* check if bad, average, good */
-			if ((o_ptr->to_h < 0) && (o_ptr->to_d < 0))
+			if ((o_ptr->to_finesse < 0) && (o_ptr->to_prowess < 0))
 				add_stats( bdammo_total,  bdammo_mon,  bdammo_vault, vault, mon,number);
-			if ((o_ptr->to_h == 0) && (o_ptr->to_d == 0))
+			if ((o_ptr->to_finesse == 0) && (o_ptr->to_prowess == 0))
 				add_stats( avammo_total,  avammo_mon,  avammo_vault, vault, mon,number);	
-			if ((o_ptr->to_h > 0) && (o_ptr->to_d > 0))
+			if ((o_ptr->to_finesse > 0) && (o_ptr->to_prowess > 0))
 				add_stats( gdammo_total,  gdammo_mon,  gdammo_vault, vault, mon,number);
 				
 			if (o_ptr->ego)

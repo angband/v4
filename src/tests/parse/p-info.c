@@ -56,7 +56,8 @@ int test_r0(void *state) {
 	eq(pr->r_skills[SKILL_STEALTH], 7);
 	eq(pr->r_skills[SKILL_SEARCH], 9);
 	eq(pr->r_skills[SKILL_SEARCH_FREQUENCY], 2);
-	eq(pr->r_skills[SKILL_TO_HIT_MELEE], 4);
+	eq(pr->r_skills[SKILL_FINESSE_MELEE], 4);
+	eq(pr->r_skills[SKILL_PROWESS_MELEE], 4);
 	eq(pr->r_skills[SKILL_TO_HIT_BOW], 6);
 	eq(pr->r_skills[SKILL_TO_HIT_THROW], 8);
 	eq(pr->r_skills[SKILL_DIGGING], 10);

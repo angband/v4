@@ -11,7 +11,7 @@
 # G: symbol : color
 # I: tval : sval
 # W: depth : rarity : weight : cost
-# P: base armor class : base damage : plus to-hit : plus to-dam : plus to-ac
+# P: base armor class : base damage : plus to-hit : plus to-dam : plus to-ac : balance : heft
 # A: commonness : min " to " max
 # C: extent
 # M: chance of being generated in a pile : dice for number of items
@@ -60,8 +60,10 @@
 # by the squelch_worthless option.
 
 # 'P' is for power information. The items base armor class, its base
-# damage and pluses to-hit, to-dam and to-ac.  The latter three numbers
-# accept randomized values.
+# damage and pluses to-prowess, to-finesse and to-ac, balance and heft.  The
+# three pluses accept randomized values. "Balance" is the weapon's 
+# finesse multiplier, times 100 (e.g. 20 = .2x multiplier). "Heft" is the 
+# same for prowess.
 
 # 'A' is for allocation - depth and rarity, in pairs. It is used to
 # ensure that certain vital items such as food and identify scrolls
@@ -311,7 +313,7 @@ G:|:W
 I:23:1
 W:0:0:12:0
 A:20:0 to 100
-P:0:1d4:0:0:0
+P:0:1d4:0:0:0:80:20
 D:A short two-edged blade, perfect for thrusting.
 
 N:31:& Main Gauche~
@@ -319,7 +321,7 @@ G:|:W
 I:23:2
 W:3:0:30:0
 A:20:3 to 100
-P:3:1d4:0:0:0
+P:3:1d4:0:0:0:75:25
 D:A parrying dagger for the left hand.
 
 N:32:& Rapier~
@@ -327,7 +329,7 @@ G:|:W
 I:23:3
 W:5:0:40:0
 A:20:5 to 100
-P:0:1d6:0:0:0
+P:0:1d6:0:0:0:90:10
 D:A slender sword, perfect for thrusting.
 
 N:33:& Short Sword~
@@ -335,7 +337,7 @@ G:|:W
 I:23:4
 W:5:0:80:0
 A:20:5 to 100
-P:0:1d7:0:0:0
+P:0:1d7:0:0:0:50:50
 D:A two-edged blade of intermediate length.
 
 N:34:& Cutlass~
@@ -343,7 +345,7 @@ G:|:W
 I:23:5
 W:5:0:110:0
 A:20:5 to 100
-P:0:1d8:0:0:0
+P:0:1d8:0:0:0:55:45
 D:A thicker and slightly longer dagger, the cutlass is a slashing sword. It
 D: possesses a slight curve and only one side is sharp.
 
@@ -352,7 +354,7 @@ G:|:W
 I:23:6
 W:5:0:100:0
 A:20:5 to 100
-P:0:2d4:0:0:0
+P:0:2d4:0:0:0:45:55
 D:A wider-bladed cousin of the scimitar, with less of a curve.
 
 N:36:& Scimitar~
@@ -360,7 +362,7 @@ G:|:W
 I:23:7
 W:10:0:150:0
 A:20:10 to 100
-P:0:4d2:0:0:0
+P:0:4d2:0:0:0:40:60
 D:A long sword with an extreme curve to the blade.
 
 N:37:& Long Sword~
@@ -368,7 +370,7 @@ G:|:W
 I:23:8
 W:10:0:130:0
 A:20:10 to 100
-P:0:2d5:0:0:0
+P:0:2d5:0:0:0:50:50
 D:A thin-bladed sword used for thrusting and slashing.
 
 N:38:& Broad Sword~
@@ -376,7 +378,7 @@ G:|:W
 I:23:9
 W:10:0:150:0
 A:20:10 to 100
-P:0:2d5:0:0:0
+P:0:2d5:0:0:0:40:60
 D:A two-edged sword with a basket hilt.
 
 
@@ -385,7 +387,7 @@ G:|:W
 I:23:10
 W:15:0:140:0
 A:20:15 to 100
-P:0:3d4:0:0:0
+P:0:3d4:0:0:0:50:50
 D:A two-edged sword, wielded with one hand or two.
 
 N:40:& Katana~
@@ -393,7 +395,7 @@ G:|:W
 I:23:11
 W:20:0:120:0
 A:20:20 to 100
-P:0:3d5:0:0:0
+P:0:3d5:0:0:0:60:40
 D:A long, slightly curved sword with one sharp edge.
 
 N:41:& Zweihander~
@@ -401,7 +403,7 @@ G:|:W
 I:23:12
 W:30:0:200:0
 A:20:30 to 100
-P:0:3d6:0:0:0
+P:0:3d6:0:0:0:30:70
 D:A sword requiring two hands to wield for all but the exceptionally strong.
 
 N:42:& Executioner's Sword~
@@ -409,7 +411,7 @@ G:|:r
 I:23:13
 W:40:0:260:0
 A:20:40 to 100
-P:0:4d5:0:0:0
+P:0:4d5:0:0:0:30:70
 D:A very heavy two-handed sword with no point.
 
 N:43:& Blade~ of Chaos
@@ -417,7 +419,7 @@ G:|:v
 I:23:14
 W:70:0:180:0
 #A:10:70 to 100
-P:0:6d5:0:0:0
+P:0:6d5:0:0:0:50:50
 F:RES_CHAOS | GOOD
 
 
@@ -429,7 +431,7 @@ G:\:D
 I:21:1
 W:3:0:30:0
 A:20:3 to 100
-P:0:1d3:0:0:0
+P:0:1d3:0:0:0:70:10
 D:A long flexible leather line. Its loud, cracking sound is more likely to
 D: intimidate than wound.
 
@@ -438,7 +440,7 @@ G:\:D
 I:21:2
 W:20:0:150:0
 A:20:20 to 100
-P:0:2d4:0:0:0
+P:0:2d4:0:0:0:60:40
 D:A heavy spiked ball attached to chain.
 
 N:52:& Morning Star~
@@ -446,7 +448,7 @@ G:\:D
 I:21:3
 W:10:0:150:0
 A:20:10 to 100
-P:0:2d6:0:0:0
+P:0:2d6:0:0:0:15:85
 D:A mace with a spiked end.
 
 N:53:& Flail~
@@ -454,7 +456,7 @@ G:\:D
 I:21:4
 W:10:0:150:0
 A:20:10 to 100
-P:0:2d6:0:0:0
+P:0:2d6:0:0:0:70:30
 D:Several spiked balls attached to chains and used as a scourge.
 
 N:54:& Two-Handed Great Flail~
@@ -462,7 +464,7 @@ G:\:y
 I:21:5
 W:45:0:280:0
 A:20:45 to 100
-P:0:3d6:0:0:0
+P:0:3d6:0:0:0:10:90
 D:A flail requiring two hands for all but the exceptionally strong.
 
 ### Clubs ###
@@ -472,7 +474,7 @@ G:\:D
 I:21:10
 W:5:0:120:0
 A:20:5 to 100
-P:0:2d4:0:0:0
+P:0:2d4:0:0:0:25:75
 D:A heavy metal ball at the end of a stout wooden club.
 
 N:56:& Lead-Filled Mace~
@@ -480,14 +482,14 @@ G:\:D
 I:21:11
 W:15:0:180:0
 #A:20:15 to 100
-P:0:4d3:0:0:0
+P:0:4d3:0:0:0:50:50
 
 N:57:& Quarterstaff~
 G:\:U
 I:21:12
 W:10:0:150:0
 A:20:10 to 100
-P:0:1d9:0:0:0
+P:0:1d9:0:0:0:50:50
 D:A long, solid staff, wielded with two hands.
 
 N:58:& War Hammer~
@@ -495,7 +497,7 @@ G:\:D
 I:21:13
 W:5:0:120:0
 A:20:5 to 100
-P:0:3d3:0:0:0
+P:0:3d3:0:0:0:25:75
 D:A hammer on a long pole, with a small spike on the back end.
 
 N:59:& Maul~
@@ -503,7 +505,7 @@ G:\:D
 I:21:14
 W:5:0:200:0
 A:20:5 to 100
-P:0:4d4:0:0:0
+P:0:4d4:0:0:0:80:20
 D:A heavy war hammer with a larger head.
 
 N:60:& Great Hammer~
@@ -511,7 +513,7 @@ G:\:D
 I:21:15
 W:5:0:180:0
 A:20:20 to 100
-P:0:8d1:0:0:0
+P:0:8d1:0:0:0:10:90
 D:A large hammer requiring two hands to wield for all
 D: but the exceptionally strong.
 
@@ -520,7 +522,7 @@ G:\:v
 I:21:20
 W:80:0:400:0
 #A:10:80 to 100
-P:0:5d8:0:0:0
+P:0:5d8:0:0:0:50:50
 F:SLAY_UNDEAD | GOOD
 
 
@@ -532,7 +534,7 @@ G:/:s
 I:22:1
 W:5:0:50:0
 A:20:5 to 100
-P:0:1d6:0:0:0
+P:0:1d6:0:0:0:75:25
 D:A long stick with a sharpened point. 
 
 N:66:& Awl-Pike~
@@ -540,7 +542,7 @@ G:/:s
 I:22:2
 W:10:0:160:0
 A:20:10 to 100
-P:0:1d8:0:0:0
+P:0:1d8:0:0:0:65:35
 D:A body-length spear used for thrusting.
 
 N:67:& Trident~
@@ -548,7 +550,7 @@ G:/:y
 I:22:3
 W:5:0:70:0
 A:20:5 to 100
-P:0:1d10:0:0:0
+P:0:1d10:0:0:0:70:30
 D:A three-pointed spear that is a symbol of sea-dwellers.
 
 N:68:& Halberd~
@@ -556,7 +558,7 @@ G:/:s
 I:22:4
 W:25:0:190:0
 A:20:25 to 100
-P:0:3d5:0:0:0
+P:0:3d5:0:0:0:30:70
 D:A cross between a spear and an axe.
 
 N:69:& Pike~
@@ -564,7 +566,7 @@ G:/:s
 I:22:5
 W:15:0:160:0
 A:20:15 to 100
-P:0:2d5:0:0:0
+P:0:2d5:0:0:0:60:40
 D:A very long spear often used against mounted opponents.
 
 ### Axes ###
@@ -574,7 +576,7 @@ G:/:s
 I:22:10
 W:15:0:180:0
 A:20:15 to 100
-P:0:2d6:0:0:0
+P:0:2d6:0:0:0:50:50
 D:A small, thin axe attached to a long pole.
 
 N:71:& Broad Axe~
@@ -582,7 +584,7 @@ G:/:s
 I:22:11
 W:15:0:160:0
 A:20:15 to 100
-P:0:2d6:0:0:0
+P:0:2d6:0:0:0:30:70
 D:A chopping weapon used for limbs of either animals or trees.
 
 N:72:& Battle Axe~
@@ -590,7 +592,7 @@ G:/:s
 I:22:12
 W:15:0:170:0
 A:20:15 to 100
-P:0:2d8:0:0:0
+P:0:2d8:0:0:0:30:70
 D:An axe favored by the Dwarves of the north.
 
 N:73:& Lochaber Axe~
@@ -598,7 +600,7 @@ G:/:D
 I:22:13
 W:45:0:250:0
 A:20:45 to 100
-P:0:3d8:0:0:0
+P:0:3d8:0:0:0:20:80
 D:A halberd with an extra long pole.
 
 N:74:& Great Axe~
@@ -606,7 +608,7 @@ G:/:s
 I:22:14
 W:40:0:230:0
 A:20:40 to 100
-P:0:4d4:0:0:0
+P:0:4d4:0:0:0:10:90
 D:A powerful axe, wielded with both hands.
 
 ### Other misc polearms ###
@@ -616,7 +618,7 @@ G:/:s
 I:22:20
 W:45:0:250:0
 A:20:45 to 100
-P:0:5d3:0:0:0
+P:0:5d3:0:0:0:50:50
 D:A chopping weapon that is often used in farms and
 D: is a symbol of death.
 
@@ -625,7 +627,7 @@ G:/:s
 I:22:21
 W:20:0:190:0
 A:20:20 to 100
-P:0:2d6:0:0:0
+P:0:2d6:0:0:0:80:20
 D:A long single blade attached to a pole.
 
 N:77:& Lance~
@@ -633,7 +635,7 @@ G:/:s
 I:22:22
 W:10:0:300:0
 A:20:10 to 100
-P:0:2d8:0:0:0
+P:0:2d8:0:0:0:40:60
 D:A heavy, sharpened polearm used by mounted warriors.
 
 N:78:& Scythe~ of Slicing
@@ -641,7 +643,7 @@ G:/:r
 I:22:23
 W:60:0:250:0
 #A:10:60 to 100
-P:0:8d4:0:0:0
+P:0:8d4:0:0:0:50:50
 F:GOOD
 
 N:79:& Lucerne Hammer~
@@ -649,7 +651,7 @@ G:/:B
 I:22:24
 W:10:0:120:0
 A:20:10 to 100
-P:0:2d5:0:0:0
+P:0:2d5:0:0:0:20:80
 D:A war hammer with a very long spike.
 
 
@@ -775,7 +777,7 @@ I:16:2
 W:40:0:4:0
 M:100:5d7
 #A:20:40 to 100
-P:0:2d4:5:5:0
+P:0:2d4:50:50:0
 F:IGNORE_ACID | GOOD
 D:A heavy mithril ball. It can be shot with a sling.
 
@@ -786,7 +788,7 @@ G:\:s
 I:20:1
 W:1:0:60:0
 A:20:5 to 100
-P:0:1d2:0:0:0
+P:0:1d2:0:0:0:40:60
 L:1:TUNNEL
 D:A small flat blade used for digging.
 
@@ -795,7 +797,7 @@ G:\:g
 I:20:2
 W:30:0:180:0
 A:20:30 to 100
-P:0:1d3:0:0:0
+P:0:1d3:0:0:0:20:80
 L:2:TUNNEL
 D:A sharp pointed spike, used for mining or combat.
 
@@ -804,7 +806,7 @@ G:\:D
 I:20:3
 W:50:0:250:0
 A:20:50 to 100
-P:0:1d8:0:0:0
+P:0:1d8:0:0:0:10:90
 L:3:TUNNEL
 D:Two sharp blades on a pole, used for mining or combat.
 
@@ -943,7 +945,7 @@ G:(:U
 I:36:7
 W:10:0:100:0
 A:20:5 to 100
-P:12:1d1:-1:0:0
+P:12:1d1:-10:0:0
 D:A jerkin fastened with metal for extra protection.
 
 N:153:Banded Armour~
@@ -951,7 +953,7 @@ G:(:U
 I:36:6
 W:5:0:120:0
 A:20:10 to 100
-P:16:1d2:-1:0:0
+P:16:1d2:-10:0:0
 D:A cured jerkin reinforced with horizontal bands.
 
 N:154:Splinted Armour~
@@ -959,7 +961,7 @@ G:(:U
 I:36:11
 W:15:0:140:0
 A:20:15 to 100
-P:20:1d1:-1:0:0
+P:20:1d1:-10:0:0
 D:A set of cured bodywear made from overlapping scales splinted together.
 
 N:155:Ring Mail~
@@ -967,7 +969,7 @@ G:[:s
 I:37:1
 W:25:0:250:0
 A:20:25 to 100
-P:38:1d4:-2:0:0
+P:38:1d4:-20:0:0
 D:A leather jerkin covered with heavy overlapping metal rings.
 
 N:156:Chain Mail~
@@ -975,7 +977,7 @@ G:[:s
 I:37:2
 W:25:0:220:0
 A:20:20 to 100
-P:32:1d4:-2:0:0
+P:32:1d4:-20:0:0
 D:A flexible set of mail made by linked chains.
 
 N:157:Augmented Chain Mail~
@@ -983,7 +985,7 @@ G:[:s
 I:37:3
 W:30:0:270:0
 A:20:35 to 100
-P:42:1d4:-2:0:0
+P:42:1d4:-20:0:0
 D:Chain mail covered by plates in key locations.
 
 N:158:Plate Mail~
@@ -991,7 +993,7 @@ G:[:s
 I:37:4
 W:35:0:280:0
 A:20:40 to 100
-P:45:1d4:-2:0:0
+P:45:1d4:-20:0:0
 D:A breastplate with shoulder guards, over a suit of chainmail. 
 
 N:159:Brigandine Armour~
@@ -999,7 +1001,7 @@ G:[:s
 I:37:5
 W:35:0:290:0
 A:20:45 to 100
-P:48:1d4:-3:0:0
+P:48:1d4:-30:0:0
 D:A cloth jerkin covered with thick metal plates.
 
 N:160:& Breastplate~
@@ -1007,7 +1009,7 @@ G:[:W
 I:37:6
 W:45:0:260:0
 A:20:30 to 100
-P:40:1d6:-3:0:0
+P:40:1d6:-30:0:0
 D:A torso covering of two thick metal plates.
 
 N:161:Lamellar Armour~
@@ -1015,7 +1017,7 @@ G:[:W
 I:37:7
 W:45:0:340:0
 A:20:50 to 100
-P:58:1d6:-3:0:0
+P:58:1d6:-30:0:0
 D:A set of armor similar to scale mail but without the leather backing
 D: and with thicker plates.
 
@@ -1024,7 +1026,7 @@ G:[:W
 I:37:8
 W:45:0:360:0
 A:15:55 to 100
-P:62:2d4:-3:0:0
+P:62:2d4:-30:0:0
 D:A set of solid metal plates used to cover the torso, arms and legs.
 
 N:163:Ribbed Plate Armour~
@@ -1032,7 +1034,7 @@ G:[:W
 I:37:9
 W:50:0:380:0
 A:15:60 to 100
-P:66:2d4:-3:0:0
+P:66:2d4:-30:0:0
 D:A set of overlapping plates, covering the entire body.
 
 N:164:Mithril Chain Mail~
@@ -1040,7 +1042,7 @@ G:[:B
 I:37:10
 W:55:0:150:0
 #A:10:55 to 100
-P:28:1d4:-1:0:0
+P:28:1d4:-10:0:0
 F:IGNORE_ACID
 D:Dwarven armor made from the hardest and most durable metal.
 
@@ -1049,7 +1051,7 @@ G:[:B
 I:37:11
 W:60:0:300:0
 #A:10:65 to 100
-P:60:2d4:-3:0:0
+P:60:2d4:-30:0:0
 F:IGNORE_ACID
 D:Dwarven armor made from the hardest and most durable metal plates.
 
@@ -1058,7 +1060,7 @@ G:[:G
 I:37:12
 W:75:0:420:0
 #A:10:75 to 100
-P:80:2d4:-4:0:0
+P:80:2d4:-40:0:0
 F:IGNORE_ACID
 
 
@@ -1135,7 +1137,7 @@ G:]:U
 I:31:4
 W:0:0:40:0
 A:10:20 to 100
-P:5:1d1:0:d3:0
+P:5:1d1:0:d30:0
 D:An ancient battle glove designed for hand-to-hand fighting. Its layered
 D: leather thongs are enhanced for combat by bloody-looking spikes.
 
@@ -1371,20 +1373,20 @@ E:RING_LIGHTNING:50+d50
 
 ### Combat rings ###
 
-N:212:Damage
+N:212:Prowess
 G:=:d
 I:45:23
 W:20:0:2:0
 A:30:20 to 100
-P:0:0d0:0:2+d4M9:0
+P:0:0d0:0:20+d20M80:0
 D:It boosts your to-dam value.
 
-N:213:Accuracy
+N:213:Finesse
 G:=:d
 I:45:24
 W:20:0:2:0
 A:30:20 to 100
-P:0:0d0:6+d8M9:0:0
+P:0:0d0:20+d20M80:0:0
 D:It boosts your to-hit value.
 
 N:214:Slaying
@@ -1392,7 +1394,7 @@ G:=:d
 I:45:25
 W:40:0:2:0
 A:20:40 to 100
-P:0:0d0:d10M10:d5M5:0
+P:0:0d0:10+d10M40:10+d10M40:0
 D:It boosts your to-hit and to-dam values.
 
 N:215:Protection
@@ -1419,7 +1421,7 @@ G:=:d
 I:45:28
 W:0:0:2:0
 A:30:10 to 50
-P:0:0d0:1+d2M2:1+d2M2:-6+4d2
+P:0:0d0:10+10d2M20:10+10d2M20:-6+4d2
 
 N:218:Open Wounds
 G:=:d
@@ -1442,7 +1444,7 @@ G:=:d
 I:45:31
 W:30:0:2:0
 A:50:5 to 50
-P:0:0d0:0:-3d5:0
+P:0:0d0:0:-30d3:0
 L:d4:DEX
 L:d4:STEALTH
 
@@ -1587,7 +1589,7 @@ I:40:10
 W:80:0:3:0
 P:0:0d0:0:0:0
 A:10:70 to 100
-P:0:0d0:1+M4:1+M4:0
+P:0:0d0:10+M40:10+M40:0
 F:SUST_STR | SUST_CON | FREE_ACT | 
 F:RES_FEAR | RES_DISEN | GOOD
 L:1+M2:STR

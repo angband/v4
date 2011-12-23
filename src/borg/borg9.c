@@ -3668,7 +3668,7 @@ static void borg_display_item(object_type *item2)
 	           item->ac, item->dd, item->ds), 5, j);
 
 	prt(format("pval = %-5d  toac = %-5d  tohit = %-4d  todam = %-4d",
-	           item->pval, item->to_a, item->to_h, item->to_d), 6, j);
+	           item->pval, item->to_a, item->to_finesse, item->to_prowess), 6, j);
 
 	prt(format("name1 = %-4d  has_affix = %d  value = %d   cursed = %ld",
 	           item->name1, item->has_affix, (long)item->value, item->cursed), 7, j);
@@ -4844,8 +4844,8 @@ void borg_init_9(void)
 		borg_art_save_sval[i] = a_ptr->sval;
 		borg_art_save_pval[i] = a_ptr->pval;
 
-		borg_art_save_to_h[i] = a_ptr->to_h;
-		borg_art_save_to_d[i] = a_ptr->to_d;
+		borg_art_save_to_h[i] = a_ptr->to_finesse;
+		borg_art_save_to_d[i] = a_ptr->to_prowess;
 		borg_art_save_to_a[i] = a_ptr->to_a;
 		borg_art_save_ac[i] = a_ptr->ac;
 

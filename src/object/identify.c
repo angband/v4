@@ -265,9 +265,9 @@ bool object_affix_is_known(const object_type *o_ptr, u16b idx)
 
 	/* We have to know the combat mods, if there are any. Since these are
 	   random_values, confirming their existence is non-trivial */
-	if ((!(!randcalc_varies(affix->to_h) &&	randcalc_valid(affix->to_h, 0)) ||
-			!(!randcalc_varies(affix->to_d) &&
-			randcalc_valid(affix->to_d, 0))) &&
+	if ((!(!randcalc_varies(affix->to_finesse) &&	randcalc_valid(affix->to_finesse, 0)) ||
+			!(!randcalc_varies(affix->to_prowess) &&
+			randcalc_valid(affix->to_prowess, 0))) &&
 			!object_attack_plusses_are_visible(o_ptr))
 		return FALSE;
 
@@ -317,7 +317,7 @@ bool object_attack_plusses_are_visible(const object_type *o_ptr)
 	/* Aware jewelry with non-variable bonuses */
 	if (object_is_jewelry(o_ptr) && object_flavor_is_aware(o_ptr))
 	{
-		if (!randcalc_varies(o_ptr->kind->to_h) && !randcalc_varies(o_ptr->kind->to_d))
+		if (!randcalc_varies(o_ptr->kind->to_finesse) && !randcalc_varies(o_ptr->kind->to_prowess))
 			return TRUE;
 	}
 
@@ -428,7 +428,7 @@ bool object_check_for_ident(object_type *o_ptr)
 	/* If we know attack bonuses, and defence bonuses, and effect, then
 	 * we effectively know everything, so mark as such */
 	if ((object_attack_plusses_are_visible(o_ptr) || (object_was_sensed(o_ptr)
-			&& o_ptr->to_h == 0 && o_ptr->to_d == 0)) &&
+			&& o_ptr->to_finesse == 0 && o_ptr->to_prowess == 0)) &&
 	    	(object_defence_plusses_are_visible(o_ptr) ||
 			(object_was_sensed(o_ptr) && o_ptr->to_a == 0)) &&
 	    	(object_effect_is_known(o_ptr) || !object_effect(o_ptr)))
@@ -660,8 +660,8 @@ void object_notice_attack_plusses(object_type *o_ptr)
 				"You know more about the %s you are using.",
 				o_name);
 	}
-	else if ((o_ptr->to_d || o_ptr->to_h) &&
-			!((o_ptr->tval == TV_HARD_ARMOR || o_ptr->tval == TV_SOFT_ARMOR) && (o_ptr->to_h < 0)))
+	else if ((o_ptr->to_prowess || o_ptr->to_finesse) &&
+			!((o_ptr->tval == TV_HARD_ARMOR || o_ptr->tval == TV_SOFT_ARMOR) && (o_ptr->to_finesse < 0)))
 	{
 		char o_name[80];
 
@@ -1012,14 +1012,14 @@ void wieldeds_notice_flag(struct player *p, int flag)
  * Notice to-hit bonus on attacking.
  */
 void wieldeds_notice_to_hit_on_attack(void)
-/* Used e.g. for ranged attacks where the item's to_d is not involved. */
+/* Used e.g. for ranged attacks where the item's to_prowess is not involved. */
 /* Does not apply to weapon or bow which should be done separately */
 {
 	int i;
 
 	for (i = INVEN_WIELD + 2; i < INVEN_TOTAL; i++)
 		if (p_ptr->inventory[i].kind &&
-		    p_ptr->inventory[i].to_h)
+		    p_ptr->inventory[i].to_finesse)
 			object_notice_attack_plusses(&p_ptr->inventory[i]);
 
 	return;
@@ -1114,18 +1114,18 @@ obj_pseudo_t object_pseudo(const object_type *o_ptr)
 		}
 
 	if (o_ptr->to_a == randcalc(o_ptr->kind->to_a, 0, MINIMISE) &&
-	    o_ptr->to_h == randcalc(o_ptr->kind->to_h, 0, MINIMISE) &&
-		 o_ptr->to_d == randcalc(o_ptr->kind->to_d, 0, MINIMISE))
+	    o_ptr->to_finesse == randcalc(o_ptr->kind->to_finesse, 0, MINIMISE) &&
+		 o_ptr->to_prowess == randcalc(o_ptr->kind->to_prowess, 0, MINIMISE))
 		return INSCRIP_AVERAGE;
 
 	if (o_ptr->to_a >= randcalc(o_ptr->kind->to_a, 0, MINIMISE) &&
-	    o_ptr->to_h >= randcalc(o_ptr->kind->to_h, 0, MINIMISE) &&
-	    o_ptr->to_d >= randcalc(o_ptr->kind->to_d, 0, MINIMISE))
+	    o_ptr->to_finesse >= randcalc(o_ptr->kind->to_finesse, 0, MINIMISE) &&
+	    o_ptr->to_prowess >= randcalc(o_ptr->kind->to_prowess, 0, MINIMISE))
 		return INSCRIP_MAGICAL;
 
 	if (o_ptr->to_a <= randcalc(o_ptr->kind->to_a, 0, MINIMISE) &&
-	    o_ptr->to_h <= randcalc(o_ptr->kind->to_h, 0, MINIMISE) &&
-	    o_ptr->to_d <= randcalc(o_ptr->kind->to_d, 0, MINIMISE))
+	    o_ptr->to_finesse <= randcalc(o_ptr->kind->to_finesse, 0, MINIMISE) &&
+	    o_ptr->to_prowess <= randcalc(o_ptr->kind->to_prowess, 0, MINIMISE))
 		return INSCRIP_MAGICAL;
 
 	return INSCRIP_STRANGE;

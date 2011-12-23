@@ -91,9 +91,11 @@ static void wr_item(const object_type *o_ptr)
 	wr_s16b(o_ptr->timeout);
 	wr_s32b(o_ptr->extent);
 
-	wr_s16b(o_ptr->to_h);
-	wr_s16b(o_ptr->to_d);
+	wr_s16b(o_ptr->to_finesse);
+	wr_s16b(o_ptr->to_prowess);
 	wr_s16b(o_ptr->to_a);
+	wr_s16b(o_ptr->balance);
+	wr_s16b(o_ptr->heft);
 	wr_s16b(o_ptr->ac);
 	wr_byte(o_ptr->dd);
 	wr_byte(o_ptr->ds);

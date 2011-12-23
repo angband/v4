@@ -167,10 +167,10 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 			mult = best_s_ptr->mult;
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
-				mult += 1;
+				mult += 100;
 		}
 		/* Add the multiple to sv */
-		sv += mult * r_ptr->scaled_power;
+		sv += (mult * r_ptr->scaled_power) / 100;
 	}
 
 	/*
@@ -252,11 +252,11 @@ s32b object_power(const object_type* o_ptr, int verbose, ang_file *log_file,
 		slay_pwr = slay_power(o_ptr, verbose, log_file, known);
 
 	/* Start with any damage boost from the item itself */
-	if (o_ptr->to_d >= INHIBIT_TO_DAM) {
+	if (o_ptr->to_prowess >= INHIBIT_TO_DAM) {
 		p += INHIBIT_POWER;
 		file_putf(log_file, "INHIBITING: damage bonus too high\n");
 	} else {
-		p += (o_ptr->to_d * DAMAGE_POWER / 2);
+		p += (o_ptr->to_prowess * DAMAGE_POWER / 2);
 		file_putf(log_file, "Adding power from to_dam, total is %d\n", p);
 	}
 	/* Add damage from dice for any wieldable weapon or ammo */
@@ -265,7 +265,7 @@ s32b object_power(const object_type* o_ptr, int verbose, ang_file *log_file,
 		file_putf(log_file, "Adding %d power for dam dice\n", dice_pwr);
 	/* Add 2nd lot of damage power for nonweapons */
 	} else if (wield_slot(o_ptr) != INVEN_BOW) {
-		p += (o_ptr->to_d * DAMAGE_POWER);
+		p += (o_ptr->to_prowess * DAMAGE_POWER);
 		file_putf(log_file, "Adding power from nonweap to_dam, total is %d\n", p);
 		/* Add power boost for nonweapons with combat flags */
 		if (num_slays || of_has(flags, OF_BLOWS) || of_has(flags, OF_SHOTS) ||
@@ -356,11 +356,11 @@ s32b object_power(const object_type* o_ptr, int verbose, ang_file *log_file,
 	}
 
 	/* Add power for +to_hit */
-	if (o_ptr->to_h >= INHIBIT_TO_HIT) {
+	if (o_ptr->to_finesse >= INHIBIT_TO_HIT) {
 		p += INHIBIT_POWER;
 		file_putf(log_file, "INHIBITING: to-hit bonus too high\n");
 	} else {
-		p += (o_ptr->to_h * TO_HIT_POWER / 2);
+		p += (o_ptr->to_finesse * TO_HIT_POWER / 2);
 		file_putf(log_file, "Adding power for to hit, total is %d\n", p);
 	}
 	/* Add power for base AC and adjust for weight */

@@ -1018,7 +1018,7 @@ static bool borg_enchant_to_h(void)
 		if (item->tval == TV_DIGGING) continue;
 
         /* Obtain the bonus */
-        a = item->to_h;
+        a = item->to_finesse;
 
         /* Skip "boring" items */
         if (borg_prayer_okay_fail(7, 3, 65) ||
@@ -1063,7 +1063,7 @@ static bool borg_enchant_to_h(void)
         borg_item *item = &borg_items[weapon_swap];
 
         /* Obtain the bonus */
-        s_a = item->to_h;
+        s_a = item->to_finesse;
 
 		/* Skip my swap digger */
 		if (item->tval == TV_DIGGING) continue;
@@ -1113,7 +1113,7 @@ static bool borg_enchant_to_h(void)
             if (item->tval != my_ammo_tval) continue;
 
             /* Obtain the bonus  */
-            a = item->to_h;
+            a = item->to_finesse;
 
             /* Skip items that are already enchanted */
             if (borg_prayer_okay_fail(7, 3, 65) ||
@@ -1200,7 +1200,7 @@ static bool borg_enchant_to_d(void)
 		if (item->tval == TV_DIGGING) continue;
 
         /* Obtain the bonus */
-        a = item->to_d;
+        a = item->to_prowess;
 
         /* Skip "boring" items */
         if (borg_prayer_okay_fail(7, 3, 65) ||
@@ -1250,7 +1250,7 @@ static bool borg_enchant_to_d(void)
 		if (item->tval == TV_DIGGING) continue;
 
 		/* Obtain the bonus */
-        s_a = item->to_d;
+        s_a = item->to_prowess;
 
         /* Skip "boring" items */
         if (borg_prayer_okay_fail(7, 3, 65) ||
@@ -1302,7 +1302,7 @@ static bool borg_enchant_to_d(void)
             if (item->tval != my_ammo_tval) continue;
 
             /* Obtain the bonus  */
-            a = item->to_d;
+            a = item->to_prowess;
 
             /* Skip items that are already enchanted */
             if (borg_prayer_okay_fail(7, 3, 65) ||
@@ -1384,7 +1384,7 @@ static bool borg_brand_weapon(void)
             if (item->tval != my_ammo_tval) continue;
 
             /* Obtain the bonus  */
-            a = item->to_h;
+            a = item->to_finesse;
 
             /* Skip branded items */
             if (item->has_affix) continue;
@@ -3622,8 +3622,8 @@ bool borg_stack_quiver(void)
 
 			/* Compare the slots */
 			if (item->has_affix == slot->has_affix &&
-				item->to_d == slot->to_d &&
-				item->to_h == slot->to_h &&
+				item->to_prowess == slot->to_prowess &&
+				item->to_finesse == slot->to_finesse &&
 				item->dd == slot->dd &&
 				item->ds == slot->ds &&
 				streq(item->note, slot->note) &&
@@ -3689,7 +3689,7 @@ bool borg_dump_quiver(void)
         if (!item->cursed && item->tval == my_ammo_tval)
 		{
 			/* It has some value */
-			if (item->to_d > 0 && item->to_h > 0) continue;
+			if (item->to_prowess > 0 && item->to_finesse > 0) continue;
 			if (strstr(item->note, "magical") ||
 				strstr(item->note, "excellent") ||
 				strstr(item->note, "ego") ||
@@ -3697,7 +3697,7 @@ bool borg_dump_quiver(void)
 				strstr(item->note, "special")) continue;
 
 			/* Limit the amount of missiles carried */
-			if (borg_skill[BI_AMISSILES] <= quiver_capacity && item->to_d >= 0 && item->to_h >= 0) continue;
+			if (borg_skill[BI_AMISSILES] <= quiver_capacity && item->to_prowess >= 0 && item->to_finesse >= 0) continue;
 		}
 
 		/* Track a crappy one */
@@ -4262,8 +4262,8 @@ bool borg_wear_quiver(void)
 				if (item->has_affix == slot->has_affix &&
 					item->dd  == slot->dd &&
 					item->ds  == slot->ds &&
-					item->to_d  == slot->to_d &&
-					item->to_h  == slot->to_h)
+					item->to_prowess  == slot->to_prowess &&
+					item->to_finesse  == slot->to_finesse)
 				{
 					b_i = i;
 				}

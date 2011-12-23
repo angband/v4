@@ -37,8 +37,8 @@ static struct artifact TEST_DATA test_artifact_sword = {
 	.tval = TV_SWORD,
 	.sval = SV_LONG_SWORD,
 	.to_a = 1,
-	.to_h = 2,
-	.to_d = 3,
+	.to_finesse = 2,
+	.to_prowess = 3,
 	.ac = 5,
 	.dd = 2,
 	.ds = 5,
@@ -76,13 +76,13 @@ static struct object_kind TEST_DATA test_longsword = {
 			},
 	},
 
-	.to_h = {
+	.to_finesse = {
 			.base = 1,
 			.dice = 0,
 			.sides = 0,
 			.m_bonus = 0,
 	},
-	.to_d = {
+	.to_prowess = {
 			.base = 1,
 			.dice = 0,
 			.sides = 0,
@@ -141,13 +141,13 @@ static struct object_kind TEST_DATA test_torch = {
 			},
 	},
 
-	.to_h = {
+	.to_finesse = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
 			.m_bonus = 0,
 	},
-	.to_d = {
+	.to_prowess = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
@@ -206,13 +206,13 @@ static struct object_kind TEST_DATA test_gold = {
 			},
 	},
 
-	.to_h = {
+	.to_finesse = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
 			.m_bonus = 0,
 	},
-	.to_d = {
+	.to_prowess = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
@@ -261,7 +261,8 @@ static struct player_race TEST_DATA test_race = {
 		[SKILL_STEALTH] = -5,
 		[SKILL_SEARCH] = -10,
 		[SKILL_SEARCH_FREQUENCY] = 10,
-		[SKILL_TO_HIT_MELEE] = 0,
+		[SKILL_FINESSE_MELEE] = 0,
+		[SKILL_PROWESS_MELEE] = 0,
 		[SKILL_TO_HIT_BOW] = 0,
 		[SKILL_TO_HIT_THROW] = 0,
 		[SKILL_DIGGING] = 0,
@@ -335,7 +336,8 @@ static struct player_class TEST_DATA test_class = {
 		[SKILL_STEALTH] = 1,
 		[SKILL_SEARCH] = 14,
 		[SKILL_SEARCH_FREQUENCY] = 2,
-		[SKILL_TO_HIT_MELEE] = 70,
+		[SKILL_FINESSE_MELEE] = 70,
+		[SKILL_PROWESS_MELEE] = 70,
 		[SKILL_TO_HIT_BOW] = 55,
 		[SKILL_TO_HIT_THROW] = 55,
 		[SKILL_DIGGING] = 0,
@@ -348,7 +350,8 @@ static struct player_class TEST_DATA test_class = {
 		[SKILL_STEALTH] = 0,
 		[SKILL_SEARCH] = 0,
 		[SKILL_SEARCH_FREQUENCY] = 0,
-		[SKILL_TO_HIT_MELEE] = 45,
+		[SKILL_FINESSE_MELEE] = 45,
+		[SKILL_PROWESS_MELEE] = 45,
 		[SKILL_TO_HIT_BOW] = 45,
 		[SKILL_TO_HIT_THROW] = 45,
 		[SKILL_DIGGING] = 0,

@@ -468,7 +468,7 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 static void calculate_melee_crits(player_state *state, int weight,
 		int plus, int *mult, int *add, int *div)
 {
-	int k, to_crit = weight + 5*(state->to_h + plus) + 3*p_ptr->lev;
+	int k, to_crit = weight + 5*(state->to_finesse + plus) + 3*p_ptr->lev;
 	to_crit = MIN(5000, MAX(0, to_crit));
 
 	*mult = *add = 0;
@@ -497,7 +497,7 @@ static void calculate_melee_crits(player_state *state, int weight,
 static void calculate_missile_crits(player_state *state, int weight,
 		int plus, int *mult, int *add, int *div)
 {
-	int k, to_crit = weight + 4*(state->to_h + plus) + 2*p_ptr->lev;
+	int k, to_crit = weight + 4*(state->to_finesse + plus) + 2*p_ptr->lev;
 	to_crit = MIN(5000, MAX(0, to_crit));
 
 	*mult = *add = 0;
@@ -518,94 +518,16 @@ static void calculate_missile_crits(player_state *state, int weight,
 /*
  * Describe blows.
  */
-static bool describe_blows(textblock *tb, const object_type *o_ptr,
-		player_state state, bitflag f[OF_SIZE])
+static bool describe_blows(textblock *tb, player_state state)
 {
-	int str_plus, dex_plus, old_blows = 0, new_blows, extra_blows;
-	int str_faster = -1, str_done = -1;
-	int dex_plus_bound;
-	int str_plus_bound;
-	int i;
-
-	bitflag tmp_f[OF_SIZE];
-
-	dex_plus_bound = STAT_RANGE - state.stat_ind[A_DEX];
-	str_plus_bound = STAT_RANGE - state.stat_ind[A_STR];
-
 	/* Write to the text block */
 	textblock_append_c(tb, TERM_L_GREEN, "%d.%d ",
 			state.num_blows / 100, (state.num_blows / 10) % 10);
 	textblock_append(tb, "blow%s/round.\n",
 			(state.num_blows > 100) ? "s" : "");
-
-	/* Check to see if extra STR or DEX would yield extra blows */
-	old_blows = state.num_blows;
-	extra_blows = 0;
-
-	/* First we need to look for extra blows on other items, as
-	 * state does not track these */
-	for (i = INVEN_BOW; i < INVEN_TOTAL; i++)
-	{
-		if (!p_ptr->inventory[i].kind)
-			continue;
-
-		object_flags_known(&p_ptr->inventory[i], tmp_f);
-
-		if (of_has(tmp_f, OF_BLOWS))
-			extra_blows += p_ptr->inventory[i].pval[which_pval(&p_ptr->inventory[i], OF_BLOWS)];
-	}
-
-	/* Then we add blows from the weapon being examined */
-	if (of_has(f, OF_BLOWS))
-		extra_blows += o_ptr->pval[which_pval(o_ptr, OF_BLOWS)];
-
-	/* Then we check for extra "real" blows */
-	for (dex_plus = 0; dex_plus < dex_plus_bound; dex_plus++)
-	{
-		for (str_plus = 0; str_plus < str_plus_bound; str_plus++)
-        {
-			state.stat_ind[A_STR] += str_plus;
-			state.stat_ind[A_DEX] += dex_plus;
-			new_blows = calc_blows(o_ptr, &state, extra_blows);
-
-			/* Test to make sure that this extra blow is a
-			 * new str/dex combination, not a repeat
-			 */
-			if ((new_blows - new_blows % 10) > (old_blows - old_blows % 10) &&
-				(str_plus < str_done ||
-				str_done == -1))
-			{
-				textblock_append(tb, "With +%d STR and +%d DEX you would get %d.%d blows\n",
-					str_plus, dex_plus, (new_blows / 100),
-					(new_blows / 10) % 10);
-				state.stat_ind[A_STR] -= str_plus;
-				state.stat_ind[A_DEX] -= dex_plus;
-				str_done = str_plus;
-				break;
-			}
-
-			/* If the combination doesn't increment
-			 * the displayed blows number, it might still
-			 * take a little less energy
-			 */
-			if (new_blows > old_blows &&
-				(str_plus < str_faster ||
-				str_faster == -1) &&
-				(str_plus < str_done ||
-				str_done == -1))
-			{
-				textblock_append(tb, "With +%d STR and +%d DEX you would attack a bit faster\n",
-					str_plus, dex_plus);
-				state.stat_ind[A_STR] -= str_plus;
-				state.stat_ind[A_DEX] -= dex_plus;
-				str_faster = str_plus;
-				continue;
-			}
-
-			state.stat_ind[A_STR] -= str_plus;
-			state.stat_ind[A_DEX] -= dex_plus;
-		}
-	}
+    textblock_append_c(tb, TERM_L_GREEN, "%d.%dx ",
+            state.dam_multiplier / 100, (state.dam_multiplier / 10) % 10);
+    textblock_append(tb, "damage multiplier.\n");
 
 	return TRUE;
 }
@@ -621,7 +543,6 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
 	size_t i, cnt;
 	int mult[SL_MAX];
 	int dice, sides, dam, total_dam, plus = 0;
-	int xtra_postcrit = 0, xtra_precrit = 0;
 	int crit_mult, crit_div, crit_add;
 	int old_blows = 0;
 	object_type *bow = &p_ptr->inventory[INVEN_BOW];
@@ -646,31 +567,25 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
 		sides = o_ptr->kind->ds;
 	}
 
-	/* Calculate damage */
+	/* Calculate average damage in tenths */
 	dam = ((sides + 1) * dice * 5);
 
 	if (weapon)	{
-		xtra_postcrit = state.dis_to_d * 10;
-		if (object_attack_plusses_are_visible(o_ptr) || full) {
-			xtra_precrit += o_ptr->to_d * 10;
-			plus += o_ptr->to_h;
-		}
-
 		calculate_melee_crits(&state, o_ptr->weight, plus,
 				&crit_mult, &crit_add, &crit_div);
 
-		old_blows = state.num_blows;
+		old_blows = calc_blows(o_ptr, &state);
 	} else { /* Ammo */
 		if (object_attack_plusses_are_visible(o_ptr) || full)
-			plus += o_ptr->to_h;
+			plus += o_ptr->to_finesse;
 
 		calculate_missile_crits(&p_ptr->state, o_ptr->weight, plus,
 				&crit_mult, &crit_add, &crit_div);
 
 		if (object_attack_plusses_are_visible(o_ptr) || full)
-			dam += (o_ptr->to_d * 10);
+			dam += (o_ptr->to_prowess * 10);
 		if (object_attack_plusses_are_visible(bow))
-			dam += (bow->to_d * 10);
+			dam += (bow->to_prowess * 10);
 
 		/* Apply brands/slays from the shooter to the ammo, but only if known
 		 * Note that this is not dependent on mode, so that viewing shop-held
@@ -703,18 +618,19 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
 
 	textblock_append(tb, "Average damage/round: ");
 
-	if (ammo) multiplier = p_ptr->state.ammo_mult;
+	if (ammo) {
+        multiplier = p_ptr->state.ammo_mult * 100;
+    }
+    else {
+        multiplier = calc_multiplier(o_ptr, &state);
+    }
 
 	/* Output damage for creatures effected by the brands or slays */
-	cnt = list_slays(f, mask, desc, NULL, mult, TRUE);
+	cnt = list_slays(f, mask, desc, NULL, mult, TRUE); 
 	for (i = 0; i < cnt; i++) {
-		/* ammo mult adds fully, melee mult is times 1, so adds 1 less */
-		int melee_adj_mult = ammo ? 0 : 1;
-
 		/* Include bonus damage and slay in stated average */
-		total_dam = dam * (multiplier + mult[i] - melee_adj_mult) + xtra_precrit;
+		total_dam = dam * (multiplier + mult[i]) / 100;
 		total_dam = (total_dam * crit_mult + crit_add) / crit_div;
-		total_dam += xtra_postcrit;
 
 		if (weapon)
 			total_dam = (total_dam * old_blows) / 100;
@@ -735,9 +651,8 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
 	if (cnt) textblock_append(tb, "and ");
 
 	/* Include bonus damage in stated average */
-	total_dam = dam * multiplier + xtra_precrit;
-	total_dam = (total_dam * crit_mult + crit_add) / crit_div;
-	total_dam += xtra_postcrit;
+    total_dam = dam * multiplier / 100;
+	total_dam = (total_dam * crit_mult + crit_add) / crit_div; 
 
 	/* Normal damage, not considering brands or slays */
 	if (weapon)
@@ -815,8 +730,10 @@ static bool describe_combat(textblock *tb, const object_type *o_ptr,
 		if (adj_str_hold[state.stat_ind[A_STR]] < o_ptr->weight / 10)
 			textblock_append_c(tb, TERM_L_RED, "You are too weak to use this weapon.\n");
 
+        textblock_append(tb, "Receives %d%% of your finesse score, %d%% of your prowess score.\n", o_ptr->balance, o_ptr->heft);
+
 		/* Describe blows */
-		describe_blows(tb, o_ptr, state, f);
+		describe_blows(tb, state);
 	} else { /* Ammo */
 		/* Range of the weapon */
 		int tdis = 6 + 2 * p_ptr->state.ammo_mult;

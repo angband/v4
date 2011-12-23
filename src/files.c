@@ -572,8 +572,8 @@ static const region boundaries [] =
 	{ 0,   0,		0,		0 },
 	{ 1,   1,		40,		8 }, /* Name, Class, ... */
 	{ 1,   9,		22,		9 }, /* Cur Exp, Max Exp, ... */
-	{ 26,  9,		17,		9 }, /* AC, melee, ... */
-	{ 48,  9,		24,		8 }, /* skills */
+	{ 26,  9,		17,		10 }, /* AC, melee, ... */
+	{ 48,  9,		24,		9 }, /* skills */
 	{ 21,  2,		18,		5 }, /* Age, ht, wt, ... */
 };
 
@@ -628,32 +628,32 @@ static const char *show_speed(void)
 static const char *show_melee_weapon(const object_type *o_ptr)
 {
 	static char buffer[12];
-	int hit = p_ptr->state.dis_to_h;
-	int dam = p_ptr->state.dis_to_d;
+	int finesse = p_ptr->state.dis_to_finesse;
+	int prowess = p_ptr->state.dis_to_prowess;
 
 	if (object_attack_plusses_are_visible(o_ptr))
 	{
-		hit += o_ptr->to_h;
-		dam += o_ptr->to_d;
+		finesse += o_ptr->to_finesse;
+		prowess += o_ptr->to_prowess;
 	}
 
-	strnfmt(buffer, sizeof(buffer), "(%+d,%+d)", hit, dam);
+	strnfmt(buffer, sizeof(buffer), "(%+d,%+d)", finesse, prowess);
 	return buffer;
 }
 
 static const char *show_missile_weapon(const object_type *o_ptr)
 {
 	static char buffer[12];
-	int hit = p_ptr->state.dis_to_h;
-	int dam = 0;
+	int finesse = p_ptr->state.dis_to_finesse;
+	int prowess = 0;
 
 	if (object_attack_plusses_are_visible(o_ptr))
 	{
-		hit += o_ptr->to_h;
-		dam += o_ptr->to_d;
+		finesse += o_ptr->to_finesse;
+		prowess += o_ptr->to_prowess;
 	}
 
-	strnfmt(buffer, sizeof(buffer), "(%+d,%+d)", hit, dam);
+	strnfmt(buffer, sizeof(buffer), "(%+d,%+d)", finesse, prowess);
 	return buffer;
 }
 
@@ -769,10 +769,11 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 	assert(ret >= boundaries[3].page_rows);
 	ret = boundaries[3].page_rows;
 	P_I(TERM_L_BLUE, "Armor", "[%y,%+y]",	i2u(p_ptr->state.dis_ac), i2u(p_ptr->state.dis_to_a)  );
-	P_I(TERM_L_BLUE, "Fight", "(%+y,%+y)",	i2u(p_ptr->state.dis_to_h), i2u(p_ptr->state.dis_to_d)  );
+	P_I(TERM_L_BLUE, "Fight", "(%+y,%+y)",	i2u(p_ptr->state.dis_to_finesse), i2u(p_ptr->state.dis_to_prowess)  );
 	P_I(TERM_L_BLUE, "Melee", "%y",		s2u(show_melee_weapon(&p_ptr->inventory[INVEN_WIELD])), END  );
 	P_I(TERM_L_BLUE, "Shoot", "%y",		s2u(show_missile_weapon(&p_ptr->inventory[INVEN_BOW])), END  );
 	P_I(TERM_L_BLUE, "Blows", "%y.%y/turn",	i2u(p_ptr->state.num_blows / 100), i2u((p_ptr->state.num_blows / 10) % 10) );
+    P_I(TERM_L_BLUE, "Blow power", "%y.%yx", i2u(p_ptr->state.dam_multiplier / 100), i2u((p_ptr->state.dam_multiplier / 10) % 10) );
 	P_I(TERM_L_BLUE, "Shots", "%y/turn",	i2u(p_ptr->state.num_shots), END  );
 	P_I(TERM_L_BLUE, "Infra", "%y ft",	i2u(p_ptr->state.see_infra * 10), END  );
 	P_I(TERM_L_BLUE, "Speed", "%y",		s2u(show_speed()), END );
@@ -790,10 +791,11 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 	{
 		{ "Saving Throw", SKILL_SAVE, 6 },
 		{ "Stealth", SKILL_STEALTH, 1 },
-		{ "Fighting", SKILL_TO_HIT_MELEE, 12 },
+		{ "Finesse", SKILL_FINESSE_MELEE, 25 },
+		{ "Prowess", SKILL_PROWESS_MELEE, 25 },
 		{ "Shooting", SKILL_TO_HIT_BOW, 12 },
 		{ "Disarming", SKILL_DISARM, 8 },
-		{ "Magic Device", SKILL_DEVICE, 6 },
+		{ "Magic Device", SKILL_DEVICE, 13 },
 		{ "Perception", SKILL_SEARCH_FREQUENCY, 6 },
 		{ "Searching", SKILL_SEARCH, 6 }
 	};
@@ -815,11 +817,13 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 			panel[i].value[0] = i2u(skill);
 			panel[i].color = colour_table[skill / 10];
 		}
-		else if (skills[i].skill == SKILL_DEVICE)
+		else if (skills[i].skill == SKILL_DEVICE || 
+                skills[i].skill == SKILL_FINESSE_MELEE ||
+                skills[i].skill == SKILL_PROWESS_MELEE)
 		{
 			panel[i].fmt = "%y";
 			panel[i].value[0] = i2u(skill);
-			panel[i].color = colour_table[skill / 13];
+            panel[i].color = colour_table[skill / skills[i].div];
 		}
 		else if (skills[i].skill == SKILL_SEARCH_FREQUENCY)
 		{

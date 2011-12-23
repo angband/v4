@@ -483,8 +483,8 @@ static object_kind *choose_item(int a_idx)
 	k_ptr = lookup_kind(tval, sval);
 	a_ptr->tval = k_ptr->tval;
 	a_ptr->sval = k_ptr->sval;
-	a_ptr->to_h = randcalc(k_ptr->to_h, 0, MINIMISE);
-	a_ptr->to_d = randcalc(k_ptr->to_d, 0, MINIMISE);
+	a_ptr->to_finesse = randcalc(k_ptr->to_finesse, 0, MINIMISE);
+	a_ptr->to_prowess = randcalc(k_ptr->to_prowess, 0, MINIMISE);
 	a_ptr->to_a = randcalc(k_ptr->to_a, 0, MINIMISE);
 	a_ptr->ac = k_ptr->ac;
 	a_ptr->dd = k_ptr->dd;
@@ -518,11 +518,11 @@ static object_kind *choose_item(int a_idx)
 		case TV_HAFTED:
 		case TV_SWORD:
 		case TV_POLEARM:
-			a_ptr->to_h += (s16b)(mean_hit_startval / 2 +
+			a_ptr->to_finesse += (s16b)(mean_hit_startval / 2 +
 			                      randint0(mean_hit_startval) );
-			a_ptr->to_d += (s16b)(mean_dam_startval / 2 +
+			a_ptr->to_prowess += (s16b)(mean_dam_startval / 2 +
 			                      randint0(mean_dam_startval) );
-			file_putf(log_file, "Assigned basic stats, to_hit: %d, to_dam: %d\n", a_ptr->to_h, a_ptr->to_d);
+			file_putf(log_file, "Assigned basic stats, to_hit: %d, to_dam: %d\n", a_ptr->to_finesse, a_ptr->to_prowess);
 			break;
 		case TV_BOOTS:
 		case TV_GLOVES:
@@ -787,8 +787,8 @@ static void parse_frequencies(void)
 			a_ptr->tval == TV_SWORD)
 		{
 
-			m = randcalc(k_ptr->to_h, 0, MINIMISE);
-			temp = (a_ptr->to_h - m - mean_hit_startval) / mean_hit_increment;
+			m = randcalc(k_ptr->to_finesse, 0, MINIMISE);
+			temp = (a_ptr->to_finesse - m - mean_hit_startval) / mean_hit_increment;
 			if (temp > 0)
 				file_putf(log_file, "Adding %d instances of extra to-hit bonus for weapon\n", temp);
 			else if (temp < 0)
@@ -796,8 +796,8 @@ static void parse_frequencies(void)
 			
 			artprobs[ART_IDX_WEAPON_HIT] += temp;
 
-			m = randcalc(k_ptr->to_d, 0, MINIMISE);
-			temp = (a_ptr->to_d - m - mean_dam_startval) / mean_dam_increment;
+			m = randcalc(k_ptr->to_prowess, 0, MINIMISE);
+			temp = (a_ptr->to_prowess - m - mean_dam_startval) / mean_dam_increment;
 			if (temp > 0)
 				file_putf(log_file, "Adding %d instances of extra to-dam bonus for weapon\n", temp);
 			else
@@ -816,11 +816,11 @@ static void parse_frequencies(void)
 		}
 		else
 		{
-			if ( (a_ptr->to_h - randcalc(k_ptr->to_h, 0, MINIMISE) > 0) &&
-				(a_ptr->to_h - randcalc(k_ptr->to_h, 0, MINIMISE) == a_ptr->to_d - randcalc(k_ptr->to_d, 0, MINIMISE)) )
+			if ( (a_ptr->to_finesse - randcalc(k_ptr->to_finesse, 0, MINIMISE) > 0) &&
+				(a_ptr->to_finesse - randcalc(k_ptr->to_finesse, 0, MINIMISE) == a_ptr->to_prowess - randcalc(k_ptr->to_prowess, 0, MINIMISE)) )
 			{
 				/* Special case: both hit and dam bonuses present and equal */
-				temp = (a_ptr->to_d - randcalc(k_ptr->to_d, 0, MINIMISE)) / mean_dam_increment;
+				temp = (a_ptr->to_prowess - randcalc(k_ptr->to_prowess, 0, MINIMISE)) / mean_dam_increment;
 				if (temp > 0)
 				{
 					file_putf(log_file, "Adding %d instances of extra to-hit and to-dam bonus for non-weapon\n", temp);
@@ -831,9 +831,9 @@ static void parse_frequencies(void)
 			else
 			{
 				/* Uneven bonuses - handle separately */
-				if (a_ptr->to_h - randcalc(k_ptr->to_h, 0, MINIMISE) > 0)
+				if (a_ptr->to_finesse - randcalc(k_ptr->to_finesse, 0, MINIMISE) > 0)
 				{
-					temp = (a_ptr->to_d - randcalc(k_ptr->to_d, 0, MINIMISE)) / mean_dam_increment;
+					temp = (a_ptr->to_prowess - randcalc(k_ptr->to_prowess, 0, MINIMISE)) / mean_dam_increment;
 					if (temp > 0)
 					{
 						file_putf(log_file, "Adding %d instances of extra to-hit bonus for non-weapon\n", temp);
@@ -841,9 +841,9 @@ static void parse_frequencies(void)
 						(artprobs[ART_IDX_NONWEAPON_HIT]) += temp;
 					}
 				}
-				if (a_ptr->to_d - randcalc(k_ptr->to_d, 0, MINIMISE) > 0)
+				if (a_ptr->to_prowess - randcalc(k_ptr->to_prowess, 0, MINIMISE) > 0)
 				{
-					temp = (a_ptr->to_d - randcalc(k_ptr->to_d, 0, MINIMISE)) / mean_dam_increment;
+					temp = (a_ptr->to_prowess - randcalc(k_ptr->to_prowess, 0, MINIMISE)) / mean_dam_increment;
 					if (temp > 0)
 					{
 						file_putf(log_file, "Adding %d instances of extra to-dam bonus for non-weapon\n", temp);
@@ -1958,47 +1958,47 @@ static void add_damage_dice(artifact_type *a_ptr)
 static void add_to_hit(artifact_type *a_ptr, int fixed, int random)
 {
 	/* Inhibit above certain threshholds */
-	if (a_ptr->to_h > VERYHIGH_TO_HIT)
+	if (a_ptr->to_finesse > VERYHIGH_TO_HIT)
 	{
 		if (!INHIBIT_STRONG)
 		{
-			file_putf(log_file, "Failed to add to-hit, value of %d is too high\n", a_ptr->to_h);
+			file_putf(log_file, "Failed to add to-hit, value of %d is too high\n", a_ptr->to_finesse);
 			return;
 		}
 	}
-	else if (a_ptr->to_h > HIGH_TO_HIT)
+	else if (a_ptr->to_finesse > HIGH_TO_HIT)
 	{
 		if (!INHIBIT_WEAK)
 		{
-			file_putf(log_file, "Failed to add to-hit, value of %d is too high\n", a_ptr->to_h);
+			file_putf(log_file, "Failed to add to-hit, value of %d is too high\n", a_ptr->to_finesse);
 			return;
 		}
 	}
-	a_ptr->to_h += (s16b)(fixed + randint0(random));
-	file_putf(log_file, "Adding ability: extra to_h (now %+d)\n", a_ptr->to_h);
+	a_ptr->to_finesse += (s16b)(fixed + randint0(random));
+	file_putf(log_file, "Adding ability: extra to_finesse (now %+d)\n", a_ptr->to_finesse);
 }
 
 static void add_to_dam(artifact_type *a_ptr, int fixed, int random)
 {
 	/* Inhibit above certain threshholds */
-	if (a_ptr->to_d > VERYHIGH_TO_DAM)
+	if (a_ptr->to_prowess > VERYHIGH_TO_DAM)
 	{
 		if (!INHIBIT_STRONG)
 		{
-			file_putf(log_file, "Failed to add to-dam, value of %d is too high\n", a_ptr->to_d);
+			file_putf(log_file, "Failed to add to-dam, value of %d is too high\n", a_ptr->to_prowess);
 			return;
 		}
 	}
-	else if (a_ptr->to_h > HIGH_TO_DAM)
+	else if (a_ptr->to_finesse > HIGH_TO_DAM)
 	{
 		if (!INHIBIT_WEAK)
 		{
-			file_putf(log_file, "Failed to add to-dam, value of %d is too high\n", a_ptr->to_d);
+			file_putf(log_file, "Failed to add to-dam, value of %d is too high\n", a_ptr->to_prowess);
 			return;
 		}
 	}
-	a_ptr->to_d += (s16b)(fixed + randint0(random));
-	file_putf(log_file, "Adding ability: extra to_dam (now %+d)\n", a_ptr->to_d);
+	a_ptr->to_prowess += (s16b)(fixed + randint0(random));
+	file_putf(log_file, "Adding ability: extra to_dam (now %+d)\n", a_ptr->to_prowess);
 }
 
 static void add_to_AC(artifact_type *a_ptr, int fixed, int random)
@@ -2012,7 +2012,7 @@ static void add_to_AC(artifact_type *a_ptr, int fixed, int random)
 			return;
 		}
 	}
-	else if (a_ptr->to_h > HIGH_TO_AC)
+	else if (a_ptr->to_finesse > HIGH_TO_AC)
 	{
 		if (!INHIBIT_WEAK)
 		{
@@ -2672,10 +2672,10 @@ static void do_curse(artifact_type *a_ptr)
 		a_ptr->pval[DEFAULT_PVAL] = -a_ptr->pval[DEFAULT_PVAL];
 	if ((a_ptr->to_a > 0) && one_in_(2))
 		a_ptr->to_a = -a_ptr->to_a;
-	if ((a_ptr->to_h > 0) && one_in_(2))
-		a_ptr->to_h = -a_ptr->to_h;
-	if ((a_ptr->to_d > 0) && one_in_(4))
-		a_ptr->to_d = -a_ptr->to_d;
+	if ((a_ptr->to_finesse > 0) && one_in_(2))
+		a_ptr->to_finesse = -a_ptr->to_finesse;
+	if ((a_ptr->to_prowess > 0) && one_in_(4))
+		a_ptr->to_prowess = -a_ptr->to_prowess;
 
 	if (of_has(a_ptr->flags, OF_LIGHT_CURSE))
 	{
@@ -2802,7 +2802,7 @@ static void scramble_artifact(int a_idx)
 		k_ptr = lookup_kind(a_ptr->tval, a_ptr->sval);
 
 		/* Clear the following fields; leave the rest alone */
-		a_ptr->to_h = a_ptr->to_d = a_ptr->to_a = 0;
+		a_ptr->to_finesse = a_ptr->to_prowess = a_ptr->to_a = 0;
 		a_ptr->num_pvals = 0;
 		of_wipe(a_ptr->flags);
 		for (i = 0; i < MAX_PVALS; i++)
@@ -2902,10 +2902,10 @@ static void scramble_artifact(int a_idx)
 				/* CC 11/02/09 - add rescue for crappy weapons */
 				if ((a_ptr->tval == TV_DIGGING || a_ptr->tval == TV_HAFTED ||
 					a_ptr->tval == TV_POLEARM || a_ptr->tval == TV_SWORD
-					|| a_ptr->tval == TV_BOW) && (a_ptr->to_d < 10))
+					|| a_ptr->tval == TV_BOW) && (a_ptr->to_prowess < 10))
 				{
-					a_ptr->to_d += randint0(10);
-					file_putf(log_file, "Redeeming crappy weapon: +dam now %d\n", a_ptr->to_d);
+					a_ptr->to_prowess += randint0(10);
+					file_putf(log_file, "Redeeming crappy weapon: +dam now %d\n", a_ptr->to_prowess);
 				}
 
 				break;

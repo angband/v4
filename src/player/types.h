@@ -11,6 +11,7 @@ typedef struct
 	s16b speed;		/* Current speed */
 
 	s16b num_blows;		/* Number of blows x100 */
+    s16b dam_multiplier;/* Blow damage multiplier x100 */
 	s16b num_shots;		/* Number of shots */
 
 	byte ammo_mult;		/* Ammo multiplier */
@@ -27,11 +28,11 @@ typedef struct
 	s16b dis_to_a;		/* Known bonus to ac */
 	s16b to_a;			/* Bonus to ac */
 
-	s16b to_h;			/* Bonus to hit */
-	s16b dis_to_h;		/* Known bonus to hit */
+	s16b to_finesse;	/* Bonus to finesse */
+	s16b dis_to_finesse;/* Known bonus to finesse */
 
-	s16b to_d;			/* Bonus to dam */
-	s16b dis_to_d;		/* Known bonus to dam */
+	s16b to_prowess;	/* Bonus to prowess */
+	s16b dis_to_prowess;/* Known bonus to prowess */
 
 	s16b see_infra;		/* Infravision range */
 

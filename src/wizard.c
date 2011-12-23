@@ -401,7 +401,7 @@ static void wiz_display_item(const object_type *o_ptr, bool all)
 	prt(buf, 2, j);
 
 	prt(format("combat = (%dd%d) (%+d,%+d) [%d,%+d]",
-	           o_ptr->dd, o_ptr->ds, o_ptr->to_h, o_ptr->to_d, o_ptr->ac, o_ptr->to_a), 4, j);
+	           o_ptr->dd, o_ptr->ds, o_ptr->to_finesse, o_ptr->to_prowess, o_ptr->ac, o_ptr->to_a), 4, j);
 
 	prt(format("kind = %-5d  tval = %-5d  sval = %-5d  wgt = %-3d     timeout = %-d",
 	           o_ptr->kind->kidx, o_ptr->tval, o_ptr->sval, o_ptr->weight, o_ptr->timeout), 5, j);
@@ -645,8 +645,8 @@ static void wiz_tweak_item(object_type *o_ptr)
 			o_ptr->num_pvals = (i + 1);
 	}
 	WIZ_TWEAK(to_a);
-	WIZ_TWEAK(to_h);
-	WIZ_TWEAK(to_d);
+	WIZ_TWEAK(to_finesse);
+	WIZ_TWEAK(to_prowess);
 
 	for (i = 0; i < MAX_AFFIXES; i++) {
 		p = "Enter new affix index: ";
@@ -923,8 +923,8 @@ static void wiz_statistics(object_type *o_ptr, int level)
 
 			/* Check for match */
 			if (ismatch && (i_ptr->to_a == o_ptr->to_a) &&
-				(i_ptr->to_h == o_ptr->to_h) &&
-				(i_ptr->to_d == o_ptr->to_d) &&
+				(i_ptr->to_finesse == o_ptr->to_finesse) &&
+				(i_ptr->to_prowess == o_ptr->to_prowess) &&
 				(i_ptr->num_pvals == o_ptr->num_pvals))
 			{
 				matches++;
@@ -932,16 +932,16 @@ static void wiz_statistics(object_type *o_ptr, int level)
 
 			/* Check for better */
 			else if (isbetter && (i_ptr->to_a >= o_ptr->to_a) &&
-			         (i_ptr->to_h >= o_ptr->to_h) &&
-			         (i_ptr->to_d >= o_ptr->to_d))
+			         (i_ptr->to_finesse >= o_ptr->to_finesse) &&
+			         (i_ptr->to_prowess >= o_ptr->to_prowess))
 			{
 					better++;
 			}
 
 			/* Check for worse */
 			else if (isworse && (i_ptr->to_a <= o_ptr->to_a) &&
-			         (i_ptr->to_h <= o_ptr->to_h) &&
-			         (i_ptr->to_d <= o_ptr->to_d))
+			         (i_ptr->to_finesse <= o_ptr->to_finesse) &&
+			         (i_ptr->to_prowess <= o_ptr->to_prowess))
 			{
 				worse++;
 			}

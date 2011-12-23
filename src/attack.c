@@ -31,6 +31,14 @@
 #include "spells.h"
 #include "target.h"
 
+/* Types of attacks */
+enum
+{
+    ATTACK_MELEE = 0,
+    ATTACK_MISSILE,
+    ATTACK_THROWN,
+};
+
 /**
  * Returns percent chance of an object breaking after throwing or shooting.
  *
@@ -55,24 +63,20 @@ int breakage_chance(const object_type *o_ptr, bool hit_target) {
 
 
 /**
- * Determine if the player "hits" a monster.
+ * Determine if the player "hits" a monster. For now, ignore monster AC; this
+ * will change when evasion gets implemented.
  */
 bool test_hit(int chance, int ac, int vis) {
 	int k = randint0(100);
 
-	/* There is an automatic 12% chance to hit,
-	 * and 5% chance to miss.
+	/* There is an automatic 5% chance to hit or miss.
 	 */
-	if (k < 17) return k < 12;
+	if (k < 10) return k < 5;
 
 	/* Penalize invisible targets */
 	if (!vis) chance /= 2;
 
-	/* Starting a bit higher up on the scale */
-	if (chance < 9) chance = 9;
-
-	/* Power competes against armor */
-	return randint0(chance) >= (ac * 2 / 3);
+    return (randint0(100) < chance);
 }
 
 
@@ -82,7 +86,7 @@ bool test_hit(int chance, int ac, int vis) {
  * Factor in item weight, total plusses, and player level.
  */
 static int critical_shot(int weight, int plus, int dam, u32b *msg_type) {
-	int chance = weight + (p_ptr->state.to_h + plus) * 4 + p_ptr->lev * 2;
+	int chance = weight + (p_ptr->state.to_finesse + plus) * 4 + p_ptr->lev * 2;
 	int power = weight + randint1(500);
 
 	if (randint1(5000) > chance) {
@@ -105,40 +109,84 @@ static int critical_shot(int weight, int plus, int dam, u32b *msg_type) {
 
 
 /**
- * Determine damage for critical hits from melee.
+ * Modify damage dealt based on any critical hits that occur (return the 
+ * modified damage). 
+ * TODO: doesn't currently handle missile crits.
  *
- * Factor in weapon weight, total plusses, player level.
+ * Crit chance is based on the player's finesse and prowess scores, folded together.
+ * /param dam Damage dealt prior to crits kicking in
+ * /param attack_type ATTACK_MELEE for melee attacks, ATTACK_MISSILE for missile
+ *        launcher attacks, ATTACK_THROWN for thrown attacks.
+ * /param msg_type Message describing the hit. 
  */
-static int critical_norm(int weight, int plus, int dam, u32b *msg_type) {
-	int chance = weight + (p_ptr->state.to_h + plus) * 5 + p_ptr->lev * 3;
-	int power = weight + randint1(650);
+static int critical_norm(player_state state, object_type *o_ptr, int dam, 
+        int attack_type, u32b *msg_type) {
 
-	if (randint1(5000) > chance) {
-		*msg_type = MSG_HIT;
-		return dam;
+    /* Everyone gets at least 100 in these values, so subtract it out to baseline
+     * our values.
+     */
+    int mod_finesse = state.num_blows - 100;
+    int mod_prowess = state.dam_multiplier - 100;
+    int chance = 0;
+    int power;
 
-	} else if (power < 400) {
-		*msg_type = MSG_HIT_GOOD;
-		return 2 * dam + 5;
+    if (attack_type == ATTACK_MISSILE) {
+        mod_finesse = state.skills[SKILL_TO_HIT_BOW];
+        mod_prowess = 0;
+    }
+    else if (attack_type == ATTACK_THROWN) {
+        mod_finesse = state.skills[SKILL_TO_HIT_THROW];
+        /* Hack: re-use throwing skill for prowess as well */
+        mod_prowess = state.skills[SKILL_TO_HIT_THROW];
+    }
 
-	} else if (power < 700) {
-		*msg_type = MSG_HIT_GREAT;
-		return 2 * dam + 10;
+    /* HACK: scale the chance by an arbitrary value to get it to somewhere in the
+     * 1-100 range.
+     */
+    chance = mod_finesse * mod_finesse + mod_prowess * mod_prowess;
+    chance = chance / 2500 + 1;
+    power = 0;
+    /* Upgrade crit power until we hit the cap or fail the roll. */
+    while (randint0(100) <= chance && power < 4) {
+        power++;
+    }
 
-	} else if (power < 900) {
-		*msg_type = MSG_HIT_SUPERB;
-		return 3 * dam + 15;
-
-	} else if (power < 1300) {
-		*msg_type = MSG_HIT_HI_GREAT;
-		return 3 * dam + 20;
-
-	} else {
-		*msg_type = MSG_HIT_HI_SUPERB;
-		return 4 * dam + 20;
-	}
+    switch (power) {
+        case 0:
+            /* Just a normal hit */
+            *msg_type = MSG_HIT;
+            return dam;
+        case 1:
+            /* Good hit */
+            *msg_type = MSG_HIT_GOOD;
+            return 3 * dam / 2 + 10;
+        case 2:
+            /* Great hit */
+            *msg_type = MSG_HIT_GREAT;
+            return 2 * dam + 10;
+        case 3:
+            /* Superb hit */
+            *msg_type = MSG_HIT_SUPERB;
+            return 3 * dam + 15;
+        case 4:
+            /* Penultimate critical */
+            *msg_type = MSG_HIT_HI_GREAT;
+            return 7 * dam / 2 + 20;
+        case 5:
+            /* Best critical hit */
+            *msg_type = MSG_HIT_HI_SUPERB;
+            return 4 * dam + 20;
+    }
 }
 
+/**
+ * Return the player's chance to hit the given monster, on a scale from 0
+ * to 100. Chance to-hit is a flat 80% for now.
+ */
+int get_hit_chance(const player_state state, const monster_race *r_ptr)
+{
+    return 75;
+}
 
 /**
  * Attack the monster at the given location with a single blow.
@@ -154,8 +202,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	object_type *o_ptr = &p_ptr->inventory[INVEN_WIELD];
 
 	/* Information about the attack */
-	int bonus = p_ptr->state.to_h + o_ptr->to_h;
-	int chance = p_ptr->state.skills[SKILL_TO_HIT_MELEE] + bonus * BTH_PLUS_ADJ;
+	int chance = get_hit_chance(p_ptr->state, r_ptr);
 	bool do_quake = FALSE;
 	bool success = FALSE;
 
@@ -193,7 +240,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 
 	/* Handle normal weapon */
 	if (o_ptr->kind) {
-		int i, mult = 1;
+		int i, mult = 100;
 		const struct slay *best_s_ptr = NULL;
 
 		hit_verb = "hit";
@@ -214,11 +261,10 @@ static bool py_attack_real(int y, int x, bool *fear) {
 			mult = best_s_ptr->mult;
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
-				mult += 1;
+				mult += 100;
 		}
-		dmg *= mult;
-		dmg += o_ptr->to_d;
-		dmg = critical_norm(o_ptr->weight, o_ptr->to_h, dmg, &msg_type);
+		dmg = (dmg * mult) / 100;
+		dmg = critical_norm(p_ptr->state, o_ptr, dmg, ATTACK_MELEE, &msg_type);
 
 		/* Learn by use for the weapon */
 		object_notice_attack_plusses(o_ptr);
@@ -232,8 +278,8 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	/* Learn by use for other equipped items */
 	wieldeds_notice_on_attack();
 
-	/* Apply the player damage bonuses */
-	dmg += p_ptr->state.to_d;
+	/* Apply the prowess multiplier. */
+	dmg = (dmg * p_ptr->state.dam_multiplier) / 100;
 
 	/* No negative damage */
 	if (dmg <= 0) dmg = 0;
@@ -527,15 +573,14 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 	monster_type *m_ptr = cave_monster_at(cave, y, x);
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
-	int bonus = p_ptr->state.to_h + o_ptr->to_h + j_ptr->to_h;
-	int chance = p_ptr->state.skills[SKILL_TO_HIT_BOW] + bonus * BTH_PLUS_ADJ;
-	int chance2 = chance - distance(p_ptr->py, p_ptr->px, y, x);
+    /* Reduce chance based on distance to target */
+    int chance = get_hit_chance(p_ptr->state, r_ptr) - distance(p_ptr->py, p_ptr->px, y, x);
 
 	int multiplier = p_ptr->state.ammo_mult;
 	const struct slay *best_s_ptr = NULL;
 
-	/* Did we hit it (penalize distance travelled) */
-	if (!test_hit(chance2, r_ptr->ac, m_ptr->ml)) return result;
+	/* Did we hit it */
+	if (!test_hit(chance, r_ptr->ac, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
@@ -548,14 +593,14 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 		multiplier += best_s_ptr->mult;
 		if (best_s_ptr->vuln_flag &&
 				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
-			multiplier += 1;
+			multiplier += 100;
 	}
 
 	/* Apply damage: multiplier, slays, criticals, bonuses */
 	result.dmg = damroll(o_ptr->dd, o_ptr->ds);
-	result.dmg += o_ptr->to_d + j_ptr->to_d;
-	result.dmg *= multiplier;
-	result.dmg = critical_shot(o_ptr->weight, o_ptr->to_h, result.dmg, &result.msg_type);
+	result.dmg += o_ptr->to_prowess + j_ptr->to_prowess;
+	result.dmg = (result.dmg * multiplier) / 100;
+	result.dmg = critical_shot(o_ptr->weight, o_ptr->to_finesse, result.dmg, &result.msg_type);
 
 	object_notice_attack_plusses(&p_ptr->inventory[INVEN_BOW]);
 
@@ -572,15 +617,14 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	monster_type *m_ptr = cave_monster_at(cave, y, x);
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
-	int bonus = p_ptr->state.to_h + o_ptr->to_h;
-	int chance = p_ptr->state.skills[SKILL_TO_HIT_THROW] + bonus * BTH_PLUS_ADJ;
-	int chance2 = chance - distance(p_ptr->py, p_ptr->px, y, x);
+    /* Reduce chance based on distance to target */
+    int chance = get_hit_chance(p_ptr->state, r_ptr) - distance(p_ptr->py, p_ptr->px, y, x);
 
 	int multiplier = 1;
 	const struct slay *best_s_ptr = NULL;
 
 	/* If we missed then we're done */
-	if (!test_hit(chance2, r_ptr->ac, m_ptr->ml)) return result;
+	if (!test_hit(chance, r_ptr->ac, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
@@ -592,14 +636,15 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 		multiplier += best_s_ptr->mult;
 		if (best_s_ptr->vuln_flag &&
 				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
-			multiplier += 1;
+			multiplier += 100;
 	}
 
 	/* Apply damage: multiplier, slays, criticals, bonuses */
 	result.dmg = damroll(o_ptr->dd, o_ptr->ds);
-	result.dmg += o_ptr->to_d;
-	result.dmg *= multiplier;
-	result.dmg = critical_norm(o_ptr->weight, o_ptr->to_h, result.dmg, &result.msg_type);
+	result.dmg += o_ptr->to_prowess;
+	result.dmg = (result.dmg * multiplier) / 100;
+	result.dmg = critical_norm(p_ptr->state, o_ptr, result.dmg,
+            ATTACK_THROWN, &result.msg_type);
 
 	return result;
 }

@@ -331,8 +331,8 @@ static void log_all_objects(int level)
 					w->count++;
 					w->dice[MIN(o_ptr->dd, TOP_DICE - 1)][MIN(o_ptr->ds, TOP_SIDES - 1)]++;
 					w->ac[MIN(MAX(o_ptr->ac + o_ptr->to_a, 0), TOP_AC - 1)]++;
-					w->hit[MIN(MAX(o_ptr->to_h, 0), TOP_PLUS - 1)]++;
-					w->dam[MIN(MAX(o_ptr->to_d, 0), TOP_PLUS - 1)]++;
+					w->hit[MIN(MAX(o_ptr->to_finesse, 0), TOP_PLUS - 1)]++;
+					w->dam[MIN(MAX(o_ptr->to_prowess, 0), TOP_PLUS - 1)]++;
 
 					/* Capture egos */
 					if (o_ptr->theme)
@@ -466,7 +466,7 @@ static int stats_dump_artifacts(void)
 			a_ptr->tval, a_ptr->sval, a_ptr->weight,
 			a_ptr->cost, a_ptr->alloc_prob[0], a_ptr->alloc_min[0],
 			a_ptr->alloc_max[0], a_ptr->ac, a_ptr->dd,
-			a_ptr->ds, a_ptr->to_h, a_ptr->to_d,
+			a_ptr->ds, a_ptr->to_finesse, a_ptr->to_prowess,
 			a_ptr->to_a, a_ptr->effect);
 		STATS_DB_STEP_RESET(info_stmt)
 
@@ -529,15 +529,15 @@ static int stats_dump_affixes(void)
 		if (err) return err;
 		err = sqlite3_bind_int(info_stmt, 3, e_ptr->type);
 		if (err) return err;
-		err = stats_db_bind_rv(info_stmt, 4, e_ptr->to_h);
+		err = stats_db_bind_rv(info_stmt, 4, e_ptr->to_finesse);
 		if (err) return err;
-		err = stats_db_bind_rv(info_stmt, 5, e_ptr->to_d);
+		err = stats_db_bind_rv(info_stmt, 5, e_ptr->to_prowess);
 		if (err) return err;
 		err = stats_db_bind_rv(info_stmt, 6, e_ptr->to_a);
 		if (err) return err;
 		err = stats_db_bind_ints(info_stmt, 9, 6, e_ptr->ac_mod,
 			e_ptr->wgt_mod, e_ptr->dd, e_ptr->ds, e_ptr->num_pvals,
-			e_ptr->num_randlines, e_ptr->min_to_h, e_ptr->min_to_d,
+			e_ptr->num_randlines, e_ptr->min_to_finesse, e_ptr->min_to_prowess,
 			e_ptr->min_to_a);
 		if (err) return err;
 		STATS_DB_STEP_RESET(info_stmt)
@@ -677,9 +677,9 @@ static int stats_dump_objects(void)
 			k_ptr->alloc_max, k_ptr->effect,
 			k_ptr->gen_mult_prob, k_ptr->stack_size);
 		if (err) return err;
-		err = stats_db_bind_rv(info_stmt, 17, k_ptr->to_h);
+		err = stats_db_bind_rv(info_stmt, 17, k_ptr->to_finesse);
 		if (err) return err;
-		err = stats_db_bind_rv(info_stmt, 18, k_ptr->to_d);
+		err = stats_db_bind_rv(info_stmt, 18, k_ptr->to_prowess);
 		if (err) return err;
 		err = stats_db_bind_rv(info_stmt, 19, k_ptr->to_a);
 		if (err) return err;
@@ -1142,7 +1142,7 @@ static bool stats_prep_db(void)
 	err = stats_db_exec("CREATE TABLE metadata(field TEXT UNIQUE NOT NULL, value TEXT);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE artifact_info(idx INT PRIMARY KEY, name TEXT, tval INT, sval INT, weight INT, cost INT, alloc_prob INT, alloc_min INT, alloc_max INT, ac INT, dd INT, ds INT, to_h INT, to_d INT, to_a INT, effect INT);");
+	err = stats_db_exec("CREATE TABLE artifact_info(idx INT PRIMARY KEY, name TEXT, tval INT, sval INT, weight INT, cost INT, alloc_prob INT, alloc_min INT, alloc_max INT, ac INT, dd INT, ds INT, to_finesse INT, to_prowess INT, to_a INT, effect INT);");
 	if (err) return false;
 
 	err = stats_db_exec("CREATE TABLE artifact_flags_map(a_idx INT, o_flag INT);");
@@ -1151,7 +1151,7 @@ static bool stats_prep_db(void)
 	err = stats_db_exec("CREATE TABLE artifact_pval_flags_map(a_idx INT, pval_flag INT, pval INT);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE affix_info(idx INT PRIMARY KEY, name TEXT, type INT, to_h TEXT, to_d TEXT, to_a TEXT, ac_mod INT, wgt_mod INT, dice INT, sides INT, num_pvals INT, num_randlines INT, min_to_h INT, min_to_d INT, min_to_a INT);");
+	err = stats_db_exec("CREATE TABLE affix_info(idx INT PRIMARY KEY, name TEXT, type INT, to_finesse TEXT, to_prowess TEXT, to_a TEXT, ac_mod INT, wgt_mod INT, dice INT, sides INT, num_pvals INT, num_randlines INT, min_to_finesse INT, min_to_prowess INT, min_to_a INT);");
 	if (err) return false;
 
 	err = stats_db_exec("CREATE TABLE affix_flags_map(e_idx INT, o_flag INT);");
@@ -1193,7 +1193,7 @@ static bool stats_prep_db(void)
 	err = stats_db_exec("CREATE TABLE object_base_flags_map(kb_idx INT, o_flag INT);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE object_info(idx INT PRIMARY KEY, name TEXT, tval INT, sval INT, level INT, weight INT, cost INT, ac INT, dd INT, ds INT, alloc_prob INT, alloc_min INT, alloc_max INT, effect INT, gen_mult_prob INT, stack_size INT, to_h TEXT, to_d TEXT, to_a TEXT, charge TEXT, recharge_time TEXT);");
+	err = stats_db_exec("CREATE TABLE object_info(idx INT PRIMARY KEY, name TEXT, tval INT, sval INT, level INT, weight INT, cost INT, ac INT, dd INT, ds INT, alloc_prob INT, alloc_min INT, alloc_max INT, effect INT, gen_mult_prob INT, stack_size INT, to_finesse TEXT, to_prowess TEXT, to_a TEXT, charge TEXT, recharge_time TEXT);");
 	if (err) return false;
 
 	err = stats_db_exec("CREATE TABLE object_flags_map(k_idx INT, o_flag INT);");
@@ -1247,10 +1247,10 @@ static bool stats_prep_db(void)
 	err = stats_db_exec("CREATE TABLE wearables_ac(level INT, count INT, k_idx INT, origin INT, ac INT, UNIQUE (level, k_idx, origin, ac) ON CONFLICT REPLACE);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE wearables_hit(level INT, count INT, k_idx INT, origin INT, to_h INT, UNIQUE (level, k_idx, origin, to_h) ON CONFLICT REPLACE);");
+	err = stats_db_exec("CREATE TABLE wearables_hit(level INT, count INT, k_idx INT, origin INT, to_finesse INT, UNIQUE (level, k_idx, origin, to_finesse) ON CONFLICT REPLACE);");
 	if (err) return false;
 
-	err = stats_db_exec("CREATE TABLE wearables_dam(level INT, count INT, k_idx INT, origin INT, to_d INT, UNIQUE (level, k_idx, origin, to_d) ON CONFLICT REPLACE);");
+	err = stats_db_exec("CREATE TABLE wearables_dam(level INT, count INT, k_idx INT, origin INT, to_prowess INT, UNIQUE (level, k_idx, origin, to_prowess) ON CONFLICT REPLACE);");
 	if (err) return false;
 
 	err = stats_db_exec("CREATE TABLE wearables_affixes(level INT, count INT, k_idx INT, origin INT, e_idx INT, UNIQUE (level, k_idx, origin, e_idx) ON CONFLICT REPLACE);");
