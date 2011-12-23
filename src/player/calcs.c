@@ -1372,6 +1372,7 @@ static void calc_torch(void)
 /*
  * Calculate the blows a player would get. Blows are given by 
  * 100 + finesse * (balance / 100)
+ * This is actually 100x the actual number of blows (e.g. 150 = 1.5 blows/round).
  *
  * \param o_ptr is the object for which we are calculating blows
  * \param state is the player state for which we are calculating blows
@@ -1809,13 +1810,13 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	state->to_a += adj_dex_ta[state->stat_ind[A_DEX]];
 	state->to_prowess += adj_str_to_prowess[state->stat_ind[A_STR]];
 	state->to_finesse += adj_dex_to_finesse[state->stat_ind[A_DEX]];
+    state->to_finesse += state->skills[SKILL_FINESSE_MELEE];
+    state->to_prowess += state->skills[SKILL_PROWESS_MELEE];
 
 	/* Displayed Modifier Bonuses */
 	state->dis_to_a += adj_dex_ta[state->stat_ind[A_DEX]];
 	state->dis_to_prowess += adj_str_to_prowess[state->stat_ind[A_STR]];
 	state->dis_to_finesse += adj_dex_to_finesse[state->stat_ind[A_DEX]];
-    
-    /* Apply Finesse and Prowess skills to displayed values. */
     state->dis_to_finesse += state->skills[SKILL_FINESSE_MELEE];
     state->dis_to_prowess += state->skills[SKILL_PROWESS_MELEE];
 
