@@ -777,7 +777,7 @@ I:16:2
 W:40:0:4:0
 M:100:5d7
 #A:20:40 to 100
-P:0:2d4:5:5:0
+P:0:2d4:50:50:0
 F:IGNORE_ACID | GOOD
 D:A heavy mithril ball. It can be shot with a sling.
 
@@ -945,7 +945,7 @@ G:(:U
 I:36:7
 W:10:0:100:0
 A:20:5 to 100
-P:12:1d1:-1:0:0
+P:12:1d1:-10:0:0
 D:A jerkin fastened with metal for extra protection.
 
 N:153:Banded Armour~
@@ -953,7 +953,7 @@ G:(:U
 I:36:6
 W:5:0:120:0
 A:20:10 to 100
-P:16:1d2:-1:0:0
+P:16:1d2:-10:0:0
 D:A cured jerkin reinforced with horizontal bands.
 
 N:154:Splinted Armour~
@@ -961,7 +961,7 @@ G:(:U
 I:36:11
 W:15:0:140:0
 A:20:15 to 100
-P:20:1d1:-1:0:0
+P:20:1d1:-10:0:0
 D:A set of cured bodywear made from overlapping scales splinted together.
 
 N:155:Ring Mail~
@@ -969,7 +969,7 @@ G:[:s
 I:37:1
 W:25:0:250:0
 A:20:25 to 100
-P:38:1d4:-2:0:0
+P:38:1d4:-20:0:0
 D:A leather jerkin covered with heavy overlapping metal rings.
 
 N:156:Chain Mail~
@@ -977,7 +977,7 @@ G:[:s
 I:37:2
 W:25:0:220:0
 A:20:20 to 100
-P:32:1d4:-2:0:0
+P:32:1d4:-20:0:0
 D:A flexible set of mail made by linked chains.
 
 N:157:Augmented Chain Mail~
@@ -985,7 +985,7 @@ G:[:s
 I:37:3
 W:30:0:270:0
 A:20:35 to 100
-P:42:1d4:-2:0:0
+P:42:1d4:-20:0:0
 D:Chain mail covered by plates in key locations.
 
 N:158:Plate Mail~
@@ -993,7 +993,7 @@ G:[:s
 I:37:4
 W:35:0:280:0
 A:20:40 to 100
-P:45:1d4:-2:0:0
+P:45:1d4:-20:0:0
 D:A breastplate with shoulder guards, over a suit of chainmail. 
 
 N:159:Brigandine Armour~
@@ -1001,7 +1001,7 @@ G:[:s
 I:37:5
 W:35:0:290:0
 A:20:45 to 100
-P:48:1d4:-3:0:0
+P:48:1d4:-30:0:0
 D:A cloth jerkin covered with thick metal plates.
 
 N:160:& Breastplate~
@@ -1009,7 +1009,7 @@ G:[:W
 I:37:6
 W:45:0:260:0
 A:20:30 to 100
-P:40:1d6:-3:0:0
+P:40:1d6:-30:0:0
 D:A torso covering of two thick metal plates.
 
 N:161:Lamellar Armour~
@@ -1017,7 +1017,7 @@ G:[:W
 I:37:7
 W:45:0:340:0
 A:20:50 to 100
-P:58:1d6:-3:0:0
+P:58:1d6:-30:0:0
 D:A set of armor similar to scale mail but without the leather backing
 D: and with thicker plates.
 
@@ -1026,7 +1026,7 @@ G:[:W
 I:37:8
 W:45:0:360:0
 A:15:55 to 100
-P:62:2d4:-3:0:0
+P:62:2d4:-30:0:0
 D:A set of solid metal plates used to cover the torso, arms and legs.
 
 N:163:Ribbed Plate Armour~
@@ -1034,7 +1034,7 @@ G:[:W
 I:37:9
 W:50:0:380:0
 A:15:60 to 100
-P:66:2d4:-3:0:0
+P:66:2d4:-30:0:0
 D:A set of overlapping plates, covering the entire body.
 
 N:164:Mithril Chain Mail~
@@ -1042,7 +1042,7 @@ G:[:B
 I:37:10
 W:55:0:150:0
 #A:10:55 to 100
-P:28:1d4:-1:0:0
+P:28:1d4:-10:0:0
 F:IGNORE_ACID
 D:Dwarven armor made from the hardest and most durable metal.
 
@@ -1051,7 +1051,7 @@ G:[:B
 I:37:11
 W:60:0:300:0
 #A:10:65 to 100
-P:60:2d4:-3:0:0
+P:60:2d4:-30:0:0
 F:IGNORE_ACID
 D:Dwarven armor made from the hardest and most durable metal plates.
 
@@ -1060,7 +1060,7 @@ G:[:G
 I:37:12
 W:75:0:420:0
 #A:10:75 to 100
-P:80:2d4:-4:0:0
+P:80:2d4:-40:0:0
 F:IGNORE_ACID
 
 
@@ -1137,7 +1137,7 @@ G:]:U
 I:31:4
 W:0:0:40:0
 A:10:20 to 100
-P:5:1d1:0:d3:0
+P:5:1d1:0:d30:0
 D:An ancient battle glove designed for hand-to-hand fighting. Its layered
 D: leather thongs are enhanced for combat by bloody-looking spikes.
 
@@ -1378,7 +1378,7 @@ G:=:d
 I:45:23
 W:20:0:2:0
 A:30:20 to 100
-P:0:0d0:0:20+d20M40:0
+P:0:0d0:0:20+d20M80:0
 D:It boosts your to-dam value.
 
 N:213:Finesse
@@ -1386,7 +1386,7 @@ G:=:d
 I:45:24
 W:20:0:2:0
 A:30:20 to 100
-P:0:0d0:20+d20M40:0:0
+P:0:0d0:20+d20M80:0:0
 D:It boosts your to-hit value.
 
 N:214:Slaying
@@ -1394,7 +1394,7 @@ G:=:d
 I:45:25
 W:40:0:2:0
 A:20:40 to 100
-P:0:0d0:10+d10M20:10+d10M20:0
+P:0:0d0:10+d10M40:10+d10M40:0
 D:It boosts your to-hit and to-dam values.
 
 N:215:Protection
@@ -1421,7 +1421,7 @@ G:=:d
 I:45:28
 W:0:0:2:0
 A:30:10 to 50
-P:0:0d0:1+d2M2:1+d2M2:-6+4d2
+P:0:0d0:10+10d2M20:10+10d2M20:-6+4d2
 
 N:218:Open Wounds
 G:=:d
@@ -1444,7 +1444,7 @@ G:=:d
 I:45:31
 W:30:0:2:0
 A:50:5 to 50
-P:0:0d0:0:-3d5:0
+P:0:0d0:0:-30d3:0
 L:d4:DEX
 L:d4:STEALTH
 
@@ -1589,7 +1589,7 @@ I:40:10
 W:80:0:3:0
 P:0:0d0:0:0:0
 A:10:70 to 100
-P:0:0d0:1+M4:1+M4:0
+P:0:0d0:10+M40:10+M40:0
 F:SUST_STR | SUST_CON | FREE_ACT | 
 F:RES_FEAR | RES_DISEN | GOOD
 L:1+M2:STR
