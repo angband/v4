@@ -574,7 +574,7 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
 		calculate_melee_crits(&state, o_ptr->weight, plus,
 				&crit_mult, &crit_add, &crit_div);
 
-		old_blows = state.num_blows;
+		old_blows = calc_blows(o_ptr, &state);
 	} else { /* Ammo */
 		if (object_attack_plusses_are_visible(o_ptr) || full)
 			plus += o_ptr->to_finesse;
@@ -622,7 +622,7 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
         multiplier = p_ptr->state.ammo_mult * 100;
     }
     else {
-        multiplier = p_ptr->state.dam_multiplier;
+        multiplier = calc_multiplier(o_ptr, &state);
     }
 
 	/* Output damage for creatures effected by the brands or slays */
