@@ -1373,20 +1373,20 @@ E:RING_LIGHTNING:50+d50
 
 ### Combat rings ###
 
-N:212:Damage
+N:212:Prowess
 G:=:d
 I:45:23
 W:20:0:2:0
 A:30:20 to 100
-P:0:0d0:0:2+d4M9:0
+P:0:0d0:0:20+d20M40:0
 D:It boosts your to-dam value.
 
-N:213:Accuracy
+N:213:Finesse
 G:=:d
 I:45:24
 W:20:0:2:0
 A:30:20 to 100
-P:0:0d0:6+d8M9:0:0
+P:0:0d0:20+d20M40:0:0
 D:It boosts your to-hit value.
 
 N:214:Slaying
@@ -1394,7 +1394,7 @@ G:=:d
 I:45:25
 W:40:0:2:0
 A:20:40 to 100
-P:0:0d0:d10M10:d5M5:0
+P:0:0d0:10+d10M20:10+d10M20:0
 D:It boosts your to-hit and to-dam values.
 
 N:215:Protection
