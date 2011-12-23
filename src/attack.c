@@ -31,6 +31,14 @@
 #include "spells.h"
 #include "target.h"
 
+/* Types of attacks */
+enum
+{
+    ATTACK_MELEE = 0,
+    ATTACK_MISSILE,
+    ATTACK_THROWN,
+};
+
 /**
  * Returns percent chance of an object breaking after throwing or shooting.
  *
@@ -101,38 +109,74 @@ static int critical_shot(int weight, int plus, int dam, u32b *msg_type) {
 
 
 /**
- * Determine damage for critical hits from melee.
+ * Modify damage dealt based on any critical hits that occur (return the 
+ * modified damage). 
+ * TODO: doesn't currently handle missile crits.
  *
- * Factor in weapon weight, total plusses, player level.
+ * Crit chance is based on the player's finesse and prowess scores, folded together.
+ * /param dam Damage dealt prior to crits kicking in
+ * /param attack_type ATTACK_MELEE for melee attacks, ATTACK_MISSILE for missile
+ *        launcher attacks, ATTACK_THROWN for thrown attacks.
+ * /param msg_type Message describing the hit. 
  */
-static int critical_norm(int weight, int plus, int dam, u32b *msg_type) {
-	int chance = weight + (p_ptr->state.to_finesse + plus) * 5 + p_ptr->lev * 3;
-	int power = weight + randint1(650);
+static int critical_norm(player_state state, object_type *o_ptr, int dam, 
+        int attack_type, u32b *msg_type) {
 
-	if (randint1(5000) > chance) {
-		*msg_type = MSG_HIT;
-		return dam;
+    /* Everyone gets at least 100 in these values, so subtract it out to baseline
+     * our values.
+     */
+    int mod_finesse = state.num_blows - 100;
+    int mod_prowess = state.dam_multiplier - 100;
+    int chance = 0;
+    int power;
 
-	} else if (power < 400) {
-		*msg_type = MSG_HIT_GOOD;
-		return 2 * dam + 5;
+    if (attack_type == ATTACK_MISSILE) {
+        mod_finesse = state.skills[SKILL_TO_HIT_BOW];
+        mod_prowess = 0;
+    }
+    else if (attack_type == ATTACK_THROWN) {
+        mod_finesse = state.skills[SKILL_TO_HIT_THROW];
+        /* Hack: re-use throwing skill for prowess as well */
+        mod_prowess = state.skills[SKILL_TO_HIT_THROW];
+    }
 
-	} else if (power < 700) {
-		*msg_type = MSG_HIT_GREAT;
-		return 2 * dam + 10;
+    /* HACK: scale the chance by an arbitrary value to get it to somewhere in the
+     * 1-100 range.
+     */
+    chance = mod_finesse * mod_finesse + mod_prowess * mod_prowess;
+    chance = chance / 2500 + 1;
+    power = 0;
+    /* Upgrade crit power until we hit the cap or fail the roll. */
+    while (randint0(100) <= chance && power < 4) {
+        power++;
+    }
 
-	} else if (power < 900) {
-		*msg_type = MSG_HIT_SUPERB;
-		return 3 * dam + 15;
-
-	} else if (power < 1300) {
-		*msg_type = MSG_HIT_HI_GREAT;
-		return 3 * dam + 20;
-
-	} else {
-		*msg_type = MSG_HIT_HI_SUPERB;
-		return 4 * dam + 20;
-	}
+    switch (power) {
+        case 0:
+            /* Just a normal hit */
+            *msg_type = MSG_HIT;
+            return dam;
+        case 1:
+            /* Good hit */
+            *msg_type = MSG_HIT_GOOD;
+            return 3 * dam / 2 + 10;
+        case 2:
+            /* Great hit */
+            *msg_type = MSG_HIT_GREAT;
+            return 2 * dam + 10;
+        case 3:
+            /* Superb hit */
+            *msg_type = MSG_HIT_SUPERB;
+            return 3 * dam + 15;
+        case 4:
+            /* Penultimate critical */
+            *msg_type = MSG_HIT_HI_GREAT;
+            return 7 * dam / 2 + 20;
+        case 5:
+            /* Best critical hit */
+            *msg_type = MSG_HIT_HI_SUPERB;
+            return 4 * dam + 20;
+    }
 }
 
 /**
@@ -141,7 +185,7 @@ static int critical_norm(int weight, int plus, int dam, u32b *msg_type) {
  */
 int get_hit_chance(const player_state state, const monster_race *r_ptr)
 {
-    return 80;
+    return 75;
 }
 
 /**
@@ -220,7 +264,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 				mult += 100;
 		}
 		dmg = (dmg * mult) / 100;
-		dmg = critical_norm(o_ptr->weight, o_ptr->to_finesse, dmg, &msg_type);
+		dmg = critical_norm(p_ptr->state, o_ptr, dmg, ATTACK_MELEE, &msg_type);
 
 		/* Learn by use for the weapon */
 		object_notice_attack_plusses(o_ptr);
@@ -599,7 +643,8 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	result.dmg = damroll(o_ptr->dd, o_ptr->ds);
 	result.dmg += o_ptr->to_prowess;
 	result.dmg = (result.dmg * multiplier) / 100;
-	result.dmg = critical_norm(o_ptr->weight, o_ptr->to_finesse, result.dmg, &result.msg_type);
+	result.dmg = critical_norm(p_ptr->state, o_ptr, result.dmg,
+            ATTACK_THROWN, &result.msg_type);
 
 	return result;
 }
