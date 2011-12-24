@@ -132,8 +132,9 @@ typedef struct monster_race
 	
 	u16b avg_hp;				/* Average HP for this creature */
 
-	s16b ac;				/* Armour Class */
-
+	s16b evasion;				/* Evasion */
+	s16b armour;			/* Armour (or absorption) value */
+	
 	s16b sleep;				/* Inactive counter (base) */
 	byte aaf;				/* Area affect radius (1-100) */
 	byte speed;				/* Speed (normally 110) */
@@ -258,6 +259,7 @@ typedef struct monster
 
 /* melee2.c */
 extern bool check_hit(struct player *p, int power, int level);
+extern bool mon_test_hit(int chance, int ac);
 extern void process_monsters(struct cave *c, byte min_energy);
 int mon_hp(const struct monster_race *r_ptr, aspect hp_aspect);
 

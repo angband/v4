@@ -543,7 +543,8 @@ static void spoil_mon_desc(const char *fname)
 	char lev[80];
 	char rar[80];
 	char spd[80];
-	char ac[80];
+	char evasion[80];
+	char armour[80];
 	char hp[80];
 	char exp[80];
 
@@ -565,10 +566,10 @@ static void spoil_mon_desc(const char *fname)
 	x_file_putf(fh, "------------------------------------------\n\n");
 
 	/* Dump the header */
-	x_file_putf(fh, "%-40.40s%4s%4s%6s%8s%4s  %11.11s\n",
-	        "Name", "Lev", "Rar", "Spd", "Hp", "Ac", "Visual Info");
-	x_file_putf(fh, "%-40.40s%4s%4s%6s%8s%4s  %11.11s\n",
-	        "----", "---", "---", "---", "--", "--", "-----------");
+	x_file_putf(fh, "%-40.40s%4s%4s%6s%8s%4s%4s  %11.11s\n",
+	        "Name", "Lev", "Rar", "Spd", "Hp", "Ev", "Ar", "Visual Info");
+	x_file_putf(fh, "%-40.40s%4s%4s%6s%8s%4s%4s  %11.11s\n",
+	        "----", "---", "---", "---", "--", "--", "--", "-----------");
 
 	/* Allocate the "who" array */
 	who = C_ZNEW(z_info->r_max, u16b);
@@ -619,8 +620,11 @@ static void spoil_mon_desc(const char *fname)
 		else
 			strnfmt(spd, sizeof(spd), "-%d", (110 - r_ptr->speed));
 
-		/* Armor Class */
-		strnfmt(ac, sizeof(ac), "%d", r_ptr->ac);
+		/* Evasion */
+		strnfmt(evasion, sizeof(evasion), "%d", r_ptr->evasion);
+		
+		/* Armour */
+		strnfmt(armour, sizeof(armour), "%d", r_ptr->armour);
 
 		/* Hitpoints */
 		strnfmt(hp, sizeof(hp), "%d", r_ptr->avg_hp);
@@ -633,8 +637,8 @@ static void spoil_mon_desc(const char *fname)
 		strnfmt(exp, sizeof(exp), "%s '%c'", attr_to_text(r_ptr->d_attr), r_ptr->d_char);
 
 		/* Dump the info */
-		x_file_putf(fh, "%-40.40s%4s%4s%6s%8s%4s  %11.11s\n",
-		        nam, lev, rar, spd, hp, ac, exp);
+		x_file_putf(fh, "%-40.40s%4s%4s%6s%8s%4s%4s  %11.11s\n",
+		        nam, lev, rar, spd, hp, evasion, armour, exp);
 	}
 
 	/* End it */
@@ -765,8 +769,11 @@ static void spoil_mon_info(const char *fname)
 		/* Hitpoints */
 		text_out("Hp:%d  ", r_ptr->avg_hp);
 
-		/* Armor Class */
-		text_out("Ac:%d  ", r_ptr->ac);
+		/* Evasion */
+		text_out("Evasion:%d  ", r_ptr->evasion);
+		
+		/* Armour */
+		text_out("Armour: %d, ", r_ptr->armour);
 
 		/* Experience */
 		text_out("Exp:%ld\n", (long)(r_ptr->mexp));

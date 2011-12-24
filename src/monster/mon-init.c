@@ -249,7 +249,8 @@ static enum parser_error parse_r_i(struct parser *p) {
 	r->speed = parser_getint(p, "speed");
 	r->avg_hp = parser_getint(p, "hp");
 	r->aaf = parser_getint(p, "aaf");
-	r->ac = parser_getint(p, "ac");
+	r->armour = parser_getint(p, "armour");
+	r->evasion = parser_getint(p, "evasion");
 	r->sleep = parser_getint(p, "sleep");
 	return PARSE_ERROR_NONE;
 }
@@ -511,7 +512,7 @@ struct parser *init_parse_r(void) {
 	parser_reg(p, "T sym base", parse_r_t);
 	parser_reg(p, "G char glyph", parse_r_g);
 	parser_reg(p, "C sym color", parse_r_c);
-	parser_reg(p, "I int speed int hp int aaf int ac int sleep", parse_r_i);
+	parser_reg(p, "I int speed int hp int aaf int evasion int armour int sleep", parse_r_i);
 	parser_reg(p, "W int level int rarity int power int mexp", parse_r_w);
 	parser_reg(p, "B sym method ?sym effect ?rand damage", parse_r_b);
 	parser_reg(p, "F ?str flags", parse_r_f);
