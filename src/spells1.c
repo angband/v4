@@ -18,7 +18,7 @@
 
 #include "angband.h"
 #include "cave.h"
-#include "generate.h"
+#include "level/generate.h"
 #include "object/tvalsval.h"
 #include "object/object.h"
 #include "monster/mon-make.h"

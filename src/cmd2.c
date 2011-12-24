@@ -23,7 +23,7 @@
 #include "files.h"
 #include "game-cmd.h"
 #include "game-event.h"
-#include "generate.h"
+#include "level/generate.h"
 #include "monster/mon-timed.h"
 #include "monster/mon-util.h"
 #include "monster/monster.h"
