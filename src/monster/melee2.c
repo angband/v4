@@ -1439,6 +1439,28 @@ static int monster_critical(int dice, int sides, int dam)
 	return (1 + max);
 }
 
+/* 
+ * Determine whether the monster hits a player
+ *
+ * This is identical to the old version of test_hit in v3.3.0.
+ */
+
+bool mon_test_hit(int chance, int ac)
+{
+	int k = randint0(100);
+
+	/* There is an automatic 12% chance to hit,
+	 * and 5% chance to miss.
+	 */
+	if (k < 17) return k < 12;
+
+	/* Starting a bit higher up on the scale */
+	if (chance < 9) chance = 9;
+
+	/* Power competes against armor */
+	return randint0(chance) >= (ac * 2 / 3);
+}
+
 /*
  * Determine if a monster attack against the player succeeds.
  */
@@ -1457,7 +1479,7 @@ bool check_hit(struct player *p, int power, int level)
 	object_notice_on_defend(p);
 
 	/* Check if the player was hit */
-	return test_hit(chance, ac, TRUE);
+	return mon_test_hit(chance, ac);
 }
 
 
