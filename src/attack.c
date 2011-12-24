@@ -63,20 +63,33 @@ int breakage_chance(const object_type *o_ptr, bool hit_target) {
 
 
 /**
- * Determine if the player "hits" a monster. For now, ignore monster AC; this
- * will change when evasion gets implemented.
+ * Determine if the player "hits" a monster.
+ *
  */
-bool test_hit(int chance, int ac, int vis) {
-	int k = randint0(100);
+bool test_hit(int base_chance, int evasion, int vis) {
+	int chance;
 
-	/* There is an automatic 5% chance to hit or miss.
-	 */
-	if (k < 10) return k < 5;
-
+	chance = base_chance - evasion + (p_ptr->state.to_finesse / 25);
+	
+	/* Set minimum chance to hit */
+	if (chance < 40) {
+	chance = 40;
+    }
+    
+	/* Penalize for stunned characters */
+	if (p_ptr->timed[TMD_STUN] > 50){
+		chance -= 10;
+	}
+	
 	/* Penalize invisible targets */
 	if (!vis) chance /= 2;
-
-    return (randint0(100) < chance);
+	
+	/* Set automatic 5 percent miss chance */
+	if (chance > 95){
+		chance = 95;
+	}
+		
+	return (randint0(100) < chance);
 }
 
 
@@ -181,7 +194,7 @@ static int critical_norm(player_state state, object_type *o_ptr, int dam,
 
 /**
  * Return the player's chance to hit the given monster, on a scale from 0
- * to 100. Chance to-hit is a flat 80% for now.
+ * to 100. Chance to-hit is a flat 75% for now.
  */
 int get_hit_chance(const player_state state, const monster_race *r_ptr)
 {
@@ -618,7 +631,7 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
     /* Reduce chance based on distance to target */
-    int chance = get_hit_chance(p_ptr->state, r_ptr) - distance(p_ptr->py, p_ptr->px, y, x);
+    int chance = get_hit_chance(p_ptr->state, r_ptr) - distance(p_ptr->py, p_ptr->px, y, x)/2;
 
 	int multiplier = 1;
 	const struct slay *best_s_ptr = NULL;
