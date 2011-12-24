@@ -152,10 +152,6 @@ static int critical_norm(player_state state, object_type *o_ptr, int dam,
     }
 
     switch (power) {
-        case 0:
-            /* Just a normal hit */
-            *msg_type = MSG_HIT;
-            return dam;
         case 1:
             /* Good hit */
             *msg_type = MSG_HIT_GOOD;
@@ -176,6 +172,10 @@ static int critical_norm(player_state state, object_type *o_ptr, int dam,
             /* Best critical hit */
             *msg_type = MSG_HIT_HI_SUPERB;
             return 4 * dam + 20;
+		default:
+            /* Just a normal hit */
+            *msg_type = MSG_HIT;
+            return dam;
     }
 }
 
