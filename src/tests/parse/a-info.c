@@ -2,11 +2,13 @@
 
 #include "unit-test.h"
 #include "unit-test-data.h"
+#include "test-utils.h"
 #include "object/tvalsval.h"
 #include "init.h"
 #include "types.h"
 
 int setup_tests(void **state) {
+	read_edit_files(); /* really, we only need z_info/k_info */
 	*state = init_parse_a();
 	return !*state;
 }
@@ -40,29 +42,19 @@ int test_badtval1(void *state) {
 	ok;
 }
 
-/* Causes segfault: lookup_sval() requires z_info/k_info */
-int test_badsval(void *state) {
-	errr r = parser_parse(state, "I:light:badsval:3");
-	eq(r, PARSE_ERROR_UNRECOGNISED_SVAL);
-	ok;
-}
-
-/* Causes segfault: lookup_sval() requires z_info/k_info */
-int test_badsval1(void *state) {
-	enum parser_error r = parser_parse(state, "I:light:-2:3");
-	eq(r, PARSE_ERROR_UNRECOGNISED_SVAL);
-	ok;
-}
+/* Now that we have the add_kind() behavior in parse_a_i, there are no
+ * longer invalid values for the sval field... */
 
 int test_i0(void *state) {
-	enum parser_error r = parser_parse(state, "I:light:6");
+	enum parser_error r = parser_parse(state, "I:light:Arkenstone");
 	struct artifact *a;
 
 	eq(r, PARSE_ERROR_NONE);
 	a = parser_priv(state);
 	require(a);
 	eq(a->tval, TV_LIGHT);
-	eq(a->sval, 6);
+	/* This is very fragile! Need a more robust sval test */
+	eq(a->sval, 52); 
 	ok;
 }
 
@@ -187,8 +179,6 @@ struct test tests[] = {
 	{ "n0", test_n0 },
 	{ "badtval0", test_badtval0 },
 	{ "badtval1", test_badtval1 },
-/*	{ "badsval0", test_badsval0 },
-	{ "badsval1", test_badsval1 }, */
 	{ "i0", test_i0 },
 	{ "w0", test_w0 },
 	{ "a0", test_a0 },
