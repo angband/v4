@@ -47,7 +47,7 @@ int test_s0(void *state) {
 }
 
 int test_c0(void *state) {
-	enum parser_error r = parser_parse(state, "C:30:32:28:3:24:16:56:72:72:0");
+	enum parser_error r = parser_parse(state, "C:30:32:28:3:24:16:56:30:72:72:0");
 	struct player_class *c;
 
 	eq(r, PARSE_ERROR_NONE);
@@ -60,7 +60,7 @@ int test_c0(void *state) {
 	eq(c->c_skills[SKILL_SEARCH], 24);
 	eq(c->c_skills[SKILL_SEARCH_FREQUENCY], 16);
 	eq(c->c_skills[SKILL_FINESSE_MELEE], 56);
-	eq(c->c_skills[SKILL_PROWESS_MELEE], 56);
+	eq(c->c_skills[SKILL_PROWESS_MELEE], 30);
 	eq(c->c_skills[SKILL_TO_HIT_BOW], 72);
 	eq(c->c_skills[SKILL_TO_HIT_THROW], 72);
 	eq(c->c_skills[SKILL_DIGGING], 0);
@@ -68,7 +68,7 @@ int test_c0(void *state) {
 }
 
 int test_x0(void *state) {
-	enum parser_error r = parser_parse(state, "X:8:10:10:0:0:0:30:45:45:0");
+	enum parser_error r = parser_parse(state, "X:8:10:10:0:0:0:30:20:45:45:0");
 	struct player_class *c;
 
 	eq(r, PARSE_ERROR_NONE);
@@ -81,7 +81,7 @@ int test_x0(void *state) {
 	eq(c->x_skills[SKILL_SEARCH], 0);
 	eq(c->x_skills[SKILL_SEARCH_FREQUENCY], 0);
 	eq(c->x_skills[SKILL_FINESSE_MELEE], 30);
-	eq(c->x_skills[SKILL_PROWESS_MELEE], 30);
+	eq(c->x_skills[SKILL_PROWESS_MELEE], 20);
 	eq(c->x_skills[SKILL_TO_HIT_BOW], 45);
 	eq(c->x_skills[SKILL_TO_HIT_THROW], 45);
 	eq(c->x_skills[SKILL_DIGGING], 0);
