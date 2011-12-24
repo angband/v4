@@ -44,7 +44,7 @@ int test_s0(void *state) {
 }
 
 int test_r0(void *state) {
-	enum parser_error r = parser_parse(state, "R:1:3:5:7:9:2:4:6:8:10");
+	enum parser_error r = parser_parse(state, "R:1:3:5:7:9:2:4:-4:6:8:10");
 	struct player_race *pr;
 
 	eq(r, PARSE_ERROR_NONE);
@@ -57,7 +57,7 @@ int test_r0(void *state) {
 	eq(pr->r_skills[SKILL_SEARCH], 9);
 	eq(pr->r_skills[SKILL_SEARCH_FREQUENCY], 2);
 	eq(pr->r_skills[SKILL_FINESSE_MELEE], 4);
-	eq(pr->r_skills[SKILL_PROWESS_MELEE], 4);
+	eq(pr->r_skills[SKILL_PROWESS_MELEE], -4);
 	eq(pr->r_skills[SKILL_TO_HIT_BOW], 6);
 	eq(pr->r_skills[SKILL_TO_HIT_THROW], 8);
 	eq(pr->r_skills[SKILL_DIGGING], 10);
