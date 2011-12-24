@@ -259,6 +259,7 @@ typedef struct monster
 
 /* melee2.c */
 extern bool check_hit(struct player *p, int power, int level);
+extern bool mon_test_hit(int chance, int ac);
 extern void process_monsters(struct cave *c, byte min_energy);
 int mon_hp(const struct monster_race *r_ptr, aspect hp_aspect);
 

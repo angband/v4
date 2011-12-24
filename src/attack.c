@@ -66,16 +66,8 @@ int breakage_chance(const object_type *o_ptr, bool hit_target) {
  * Determine if the player "hits" a monster.
  *
  */
-bool test_hit(int base_chance, int evasion, int vis) {
-	int chance;
-
-	chance = base_chance - evasion + (p_ptr->state.to_finesse / 25);
+bool test_hit(int chance, int vis) {
 	
-	/* Set minimum chance to hit */
-	if (chance < 40) {
-	chance = 40;
-    }
-    
 	/* Penalize for stunned characters */
 	if (p_ptr->timed[TMD_STUN] > 50){
 		chance -= 10;
@@ -84,10 +76,6 @@ bool test_hit(int base_chance, int evasion, int vis) {
 	/* Penalize invisible targets */
 	if (!vis) chance /= 2;
 	
-	/* Set automatic 5 percent miss chance */
-	if (chance > 95){
-		chance = 95;
-	}
 		
 	return (randint0(100) < chance);
 }
@@ -198,7 +186,22 @@ static int critical_norm(player_state state, object_type *o_ptr, int dam,
  */
 int get_hit_chance(const player_state state, const monster_race *r_ptr)
 {
-    return 75;
+	int chance;
+    int base_chance = 75;
+	
+	/* Calculate chance */
+	chance = base_chance - r_ptr->evasion + (state.to_finesse / 25);
+	
+	/* Set minima and maxima */
+	if (chance > 95){
+		chance = 95;
+	}
+	
+	if (chance < 40){
+		chance = 40;
+	}
+	
+	return chance;
 }
 
 /**
@@ -243,7 +246,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	mon_clear_timed(m_ptr, MON_TMD_SLEEP, MON_TMD_FLG_NOMESSAGE, FALSE);
 
 	/* See if the player hit */
-	success = test_hit(chance, r_ptr->evasion, m_ptr->ml);
+	success = test_hit(chance, m_ptr->ml);
 
 	/* If a miss, skip this hit */
 	if (!success) {
@@ -596,7 +599,7 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 	const struct slay *best_s_ptr = NULL;
 
 	/* Did we hit it */
-	if (!test_hit(chance, r_ptr->evasion, m_ptr->ml)) return result;
+	if (!test_hit(chance, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
@@ -640,7 +643,7 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	const struct slay *best_s_ptr = NULL;
 
 	/* If we missed then we're done */
-	if (!test_hit(chance, r_ptr->evasion, m_ptr->ml)) return result;
+	if (!test_hit(chance, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 

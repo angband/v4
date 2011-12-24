@@ -4,7 +4,7 @@
 #define ATTACK_H
 
 extern int breakage_chance(const object_type *o_ptr, bool hit_target);
-extern bool test_hit(int chance, int ac, int vis);
+extern bool test_hit(int chance, int vis);
 extern int get_hit_chance(const player_state state, const monster_race *r_ptr);
 extern void py_attack(int y, int x);
 

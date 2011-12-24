@@ -17,7 +17,7 @@
  */
 
 #include "angband.h"
-#include "attack.h"
+#include "monster/monster.h"
 #include "cave.h"
 #include "effects.h"
 #include "spells.h"
@@ -30,7 +30,7 @@
  */
 bool trap_check_hit(int power)
 {
-	return test_hit(power, p_ptr->state.ac + p_ptr->state.to_a, TRUE);
+	return mon_test_hit(power, p_ptr->state.ac + p_ptr->state.to_a);
 }
 
 
