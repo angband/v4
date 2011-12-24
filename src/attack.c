@@ -294,6 +294,9 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	/* Apply the prowess multiplier. */
 	dmg = (dmg * p_ptr->state.dam_multiplier) / 100;
 
+	/* Subtract damage that is absorbed by monster armour */
+	dmg = (dmg - r_ptr->armour);
+	
 	/* No negative damage */
 	if (dmg <= 0) dmg = 0;
 
