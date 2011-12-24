@@ -364,13 +364,14 @@ static long eval_hp_adjust(monster_race *r_ptr)
 	resists = resists * 25;
 
 	/* Monster resistances */
-	if (resists < (r_ptr->ac + resists) / 3)
+	/* XXX This calculation is not valid with evasion/armour XXX */
+	if (resists < (r_ptr->evasion + resists) / 3)
 	{
 		hp += (hp * resists) / (150 + r_ptr->level); 	
 	}
 	else
 	{
-		hp += (hp * (r_ptr->ac + resists) / 3) / (150 + r_ptr->level); 			
+		hp += (hp * (r_ptr->evasion + resists) / 3) / (150 + r_ptr->level); 			
 	}
 
 	/*boundry control*/

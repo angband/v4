@@ -780,7 +780,7 @@ static int stats_dump_monsters(void)
 		if (!r_ptr->name) continue;
 
 		err = stats_db_bind_ints(info_stmt, 10, 0, idx,
-			r_ptr->ac, r_ptr->sleep, r_ptr->speed, r_ptr->mexp,
+			r_ptr->evasion, r_ptr->sleep, r_ptr->speed, r_ptr->mexp,
 			r_ptr->avg_hp, r_ptr->freq_innate, r_ptr->freq_spell,
 			r_ptr->level, r_ptr->rarity);
 		if (err) return err;

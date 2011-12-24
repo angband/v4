@@ -1688,9 +1688,13 @@ static void describe_monster_toughness(const monster_race *r_ptr,
 	/* Describe monster "toughness" */
 	if (know_armour(r_ptr, l_ptr))
 	{
-		/* Armor */
-		text_out("%s has an armor rating of ", wd_he[msex]);
-		text_out_c(TERM_L_BLUE, "%d", r_ptr->ac);
+		/* Evasion */
+		text_out("%s has an evasion rating of ", wd_he[msex]);
+		text_out_c(TERM_L_BLUE, "%d", r_ptr->evasion);
+		
+		/* Armour */
+		text_out(", and an armour rating of ", wd_he[msex]);
+		text_out_c(TERM_L_BLUE, "%d", r_ptr->armour);
 
 		/* Hitpoints */
 		text_out(", and a");

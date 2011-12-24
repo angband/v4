@@ -132,8 +132,9 @@ typedef struct monster_race
 	
 	u16b avg_hp;				/* Average HP for this creature */
 
-	s16b ac;				/* Armour Class */
-
+	s16b evasion;				/* Evasion */
+	s16b armour;			/* Armour (or absorption) value */
+	
 	s16b sleep;				/* Inactive counter (base) */
 	byte aaf;				/* Area affect radius (1-100) */
 	byte speed;				/* Speed (normally 110) */

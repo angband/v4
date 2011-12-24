@@ -4762,8 +4762,8 @@ static int borg_thrust_damage_one(int i)
 	/* Bonuses for combat */
 	chance = (borg_skill[BI_THN] + ((borg_skill[BI_TOHIT] + item->to_finesse) * 3));
 
-	/* Chance of hitting the monsters AC */
-	if (chance < (r_ptr->ac * 3/4) * 8/10) dam = 0;
+	/* Chance of hitting the monsters AC XXX invalid XXX*/
+	if (chance < (r_ptr->evasion * 3/4) * 8/10) dam = 0;
 
     /* 5% automatic success/fail */
     if (chance > 95) chance = 95;
@@ -5166,7 +5166,7 @@ int borg_launch_damage_one(int i, int dam, int typ, int ammo_location)
 	/* Calculation our chance of hitting.  Player bonuses, Bow bonuses, Ammo Bonuses */
 	bonus = (borg_skill[BI_TOHIT] + borg_items[INVEN_BOW].to_finesse + borg_items[ammo_location].to_finesse);
 	chance = (borg_skill[BI_THB] + (bonus * BTH_PLUS_ADJ));
-	armor = r_ptr->ac + cur_dis;
+	armor = r_ptr->evasion + cur_dis;
 
 	/* Very quickly look for gold eating monsters */
     for (k = 0; k < 4; k++)

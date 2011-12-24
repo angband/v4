@@ -243,7 +243,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	mon_clear_timed(m_ptr, MON_TMD_SLEEP, MON_TMD_FLG_NOMESSAGE, FALSE);
 
 	/* See if the player hit */
-	success = test_hit(chance, r_ptr->ac, m_ptr->ml);
+	success = test_hit(chance, r_ptr->evasion, m_ptr->ml);
 
 	/* If a miss, skip this hit */
 	if (!success) {
@@ -593,7 +593,7 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 	const struct slay *best_s_ptr = NULL;
 
 	/* Did we hit it */
-	if (!test_hit(chance, r_ptr->ac, m_ptr->ml)) return result;
+	if (!test_hit(chance, r_ptr->evasion, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
@@ -637,7 +637,7 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	const struct slay *best_s_ptr = NULL;
 
 	/* If we missed then we're done */
-	if (!test_hit(chance, r_ptr->ac, m_ptr->ml)) return result;
+	if (!test_hit(chance, r_ptr->evasion, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
