@@ -790,55 +790,56 @@ K:bolt:Bolt:0x8A:0xB3 # & Bolt~
 K:bolt:Seeker Bolt:0x8A:0xB4 # & Seeker Bolt~  
 K:bolt:Mithril Bolt:0x8A:0xE3 # & Mithril Bolt~  
 K:shot:Rounded Pebble:0x8A:0xB5 # & Rounded Pebble~  
-K:shot:Iron Shot:0x8A:0xB6 # & Iron Shot~  
+K:shot:Sling Shot:0x8A:0xB6 # & Sling Shot~  
 K:shot:Mithril Shot:0x8B:0xB6 # & Mithril Shot~  
 K:digger:Shovel:0x87:0x9E # & Shovel~  
 K:digger:Pick:0x87:0x9B # & Pick~  
 K:digger:Mattock:0x87:0x9D # & Mattock~  
-K:boots:Pair of Leather Sandals:0x80:0x94 # & Pair~ of Leather Sandals  
-K:boots:Pair of Leather Boots:0x80:0x95 # & Pair~ of Leather Boots  
-K:boots:Pair of Iron Shod Boots:0x80:0x96 # & Pair~ of Iron Shod Boots  
-K:boots:Pair of Steel Shod Boots:0x8B:0xB4 # & Pair~ of Steel Shod Boots  
+K:boots:Pair of Sandals:0x80:0x94 # & Pair~ of Sandals  
+K:boots:Pair of Soft Boots:0x80:0x95 # & Pair~ of Soft Boots  
+K:boots:Pair of Hard Boots:0x80:0x96 # & Pair~ of Hard Boots  
+K:boots:Pair of Greaves:0x8B:0xB4 # & Pair~ of Greaves
 K:boots:Pair of Mithril Shod Boots:0x8B:0xB5 # & Pair~ of Mithril Shod Boots  
-K:boots:Pair of Ethereal Slippers:0x80:0x93 # & Pair~ of Ethereal Slippers  
-K:helm:Hard Leather Cap:0x80:0xC6 # & Hard Leather Cap~  
-K:helm:Metal Cap:0x80:0x8B # & Metal Cap~  
-K:helm:Iron Helm:0x80:0x8C # & Iron Helm~  
-K:helm:Steel Helm:0x80:0x8D # & Steel Helm~  
-K:crown:Iron Crown:0x80:0x8F # & Iron Crown~  
+K:boots:Pair of Slippers:0x80:0x93 # & Pair~ of Slippers  
+K:helm:Soft Cap:0x80:0xC6
+K:helm:Hard Cap:0x80:0x8B  
+K:helm:Helm:0x80:0x8C
+K:helm:Full Helm:0x80:0x8D
+K:crown:Crown:0x80:0x8F
 K:crown:Golden Crown:0x80:0x90 # & Golden Crown~  
 K:crown:Jewel Encrusted Crown:0x80:0x91 # & Jewel Encrusted Crown~  
 K:soft armor:Robe:0x80:0xA2 # & Robe~  
-K:soft armor:Soft Leather Armour:0x80:0xA6 # Soft Leather Armour~  
-K:soft armor:Studded Leather Armour:0x80:0xA9 # Studded Leather Armour~  
-K:soft armor:Hard Leather Armour:0x80:0xA8 # Hard Leather Armour~  
-K:soft armor:Leather Scale Mail:0x80:0xAA # Leather Scale Mail~  
-K:hard armor:Metal Scale Mail:0x80:0xAB # Metal Scale Mail~  
+K:soft armor:Jerkin:0x80:0xA6 # Soft Leather Armour~  
+K:soft armor:Studded Armour:0x80:0xA9 # Studded Leather Armour~  
+K:soft armor:Banded Armour:0x80:0xA8 # Hard Leather Armour~  
+K:soft armor:Splinted Armour:0x80:0xAA # Leather Scale Mail~  
+K:hard armor:Ring Mail:0x80:0xAB # Metal Scale Mail~  
 K:hard armor:Chain Mail:0x80:0xAD # Chain Mail~  
 K:hard armor:Augmented Chain Mail:0x80:0xAF # Augmented Chain Mail~  
-K:hard armor:Bar Chain Mail:0x80:0xB0 # Bar Chain Mail~  
-K:hard armor:Metal Brigandine Armour:0x80:0xB1 # Metal Brigandine Armour~  
-K:hard armor:Partial Plate Armour:0x80:0xB2 # Partial Plate Armour~  
-K:hard armor:Metal Lamellar Armour:0x80:0xB3 # Metal Lamellar Armour~  
+K:hard armor:Breastplate:0x80:0xB0 # Bar Chain Mail~  
+K:hard armor:Brigandine Armour:0x80:0xB1 # Metal Brigandine Armour~  
+K:hard armor:Plate Mail:0x80:0xB2 # Partial Plate Armour~  
+K:hard armor:Lamellar Armour:0x80:0xB3 # Metal Lamellar Armour~  
 K:hard armor:Full Plate Armour:0x80:0xB4 # Full Plate Armour~  
 K:hard armor:Ribbed Plate Armour:0x80:0xB5 # Ribbed Plate Armour~  
 K:hard armor:Mithril Chain Mail:0x80:0xB7 # Mithril Chain Mail~  
 K:hard armor:Mithril Plate Mail:0x80:0xB6 # Mithril Plate Mail~  
 K:hard armor:Adamantite Plate Mail:0x80:0xB8 # Adamantite Plate Mail~  
 K:cloak:Cloak:0x80:0x81 # & Cloak~  
-K:cloak:Fur Cloak:0x80:0x82 # & Fur Cloak~  
+K:cloak:Heavy Cloak:0x80:0x82 # & Fur Cloak~  
 K:cloak:Elven Cloak:0x80:0x83 # & Elven Cloak~  
 K:cloak:Ethereal Cloak:0x80:0x84 # & Ethereal Cloak~  
-K:gloves:Set of Leather Gloves:0x80:0x97 # & Set~ of Leather Gloves  
+K:gloves:Set of Gloves:0x80:0x97 # & Set~ of Leather Gloves  
 K:gloves:Set of Gauntlets:0x80:0x98 # & Set~ of Gauntlets  
-K:gloves:Set of Mithril Gauntlets:0x80:0x9A # & Set~ of Mithril Gauntlets  
+K:gloves:Set of Bracers:0x80:0x9A # & Set~ of Mithril Gauntlets  
 K:gloves:Set of Caestus:0x80:0x9B # & Set~ of Caestus  
 K:gloves:Set of Alchemist's Gloves:0x80:0x99 # & Set~ of Alchemist's Gloves  
-K:shield:Wicker Shield:0x80:0x9C # & Wicker Shield~  
-K:shield:Small Metal Shield:0x80:0x9E # & Small Metal Shield~  
-K:shield:Leather Shield:0x80:0x9D # & Leather Shield~  
-K:shield:Large Metal Shield:0x80:0x9F # & Large Metal Shield~  
-K:shield:Mithril Shield:0x80:0xA0 # & Mithril Shield~  
+K:shield:Buckler:0x80:0x9C
+K:shield:Small Shield:0x80:0x9C # & Wicker Shield~  
+K:shield:Kite Shield:0x80:0x9E # & Small Metal Shield~  
+K:shield:Large Shield:0x80:0x9D # & Leather Shield~  
+K:shield:Tower Shield:0x80:0x9F # & Large Metal Shield~  
+K:shield:Bulwark:0x80:0xA0 # & Mithril Shield~  
 ### K:190:          # Strength
 ### K:191:          # Intelligence
 ### K:192:          # Dexterity
@@ -1063,16 +1064,16 @@ K:prayer book:[Beginners Handbook]:0x86:0x89 # [Beginners Handbook]
 K:prayer book:[Words of Wisdom]:0x86:0x8A # [Words of Wisdom]  
 K:prayer book:[Chants and Blessings]:0x86:0x8B # [Chants and Blessings]  
 K:prayer book:[Exorcism and Dispelling]:0x86:0x8C # [Exorcism and Dispelling]  
-K:magic book:[Resistances of Scarabtarices]:0x86:0x84 # [Resistances of Scarabtarices]   (note resistances)
-K:magic book:[Raal's Tome of Destruction]:0x86:0x85 # [Raal's Tome of Destruction]  
-K:magic book:[Mordenkainen's Escapes]:0x86:0x86 # [Mordenkainen's Escapes]  
-K:magic book:[Tenser's Transformations]:0x86:0x87 # [Tenser's Transformations]  
-K:magic book:[Kelek's Grimoire of Power]:0x86:0x88 # [Kelek's Grimoire of Power]  
-K:prayer book:[Ethereal Openings]:0x86:0x8D # [Ethereal Openings]  
-K:prayer book:[Godly Insights]:0x86:0x8E # [Godly Insights]  
-K:prayer book:[Purifications and Healing]:0x86:0x8F # [Purifications and Healing]  
-K:prayer book:[Holy Infusions]:0x86:0x90 # [Holy Infusions]  
-K:prayer book:[Wrath of God]:0x86:0x91 # [Wrath of God]  
+K:magic book:4:0x86:0x84 # [Resistances of Scarabtarices]   (note resistances)
+K:magic book:5:0x86:0x85 # [Raal's Tome of Destruction]  
+K:magic book:6:0x86:0x86 # [Mordenkainen's Escapes]  
+K:magic book:7:0x86:0x87 # [Tenser's Transformations]  
+K:magic book:8:0x86:0x88 # [Kelek's Grimoire of Power]  
+K:prayer book:4:0x86:0x8D # [Ethereal Openings]  
+K:prayer book:5:0x86:0x8E # [Godly Insights]  
+K:prayer book:6:0x86:0x8F # [Purifications and Healing]  
+K:prayer book:7:0x86:0x90 # [Holy Infusions]  
+K:prayer book:8:0x86:0x91 # [Wrath of God]
 K:chest:Small wooden chest:0x87:0x80 # & Small wooden chest~  
 K:chest:Large wooden chest:0x87:0x81 # & Large wooden chest~  
 K:chest:Small iron chest:0x87:0x82 # & Small iron chest~  
@@ -1116,21 +1117,21 @@ K:gold:mithril:0x87:0x8A # mithril
 K:gold:adamantite:0x87:0x8B # adamantite  
 K:hafted:Mighty Hammer:0x8A:0xE4 # & Mighty Hammer~  
 K:crown:Massive Iron Crown:0x80:0x92 # & Massive Iron Crown~  
-K:light:4:0x87:0xB3 # & Phial~  
-K:light:5:0x87:0xB4 # & Star~  
-K:light:6:0x87:0xB5 # & Arkenstone~  
-K:amulet:50:0x85:0xA6 # & Amulet~  
-K:amulet:51:0x85:0xCB # & Amulet~  
-K:amulet:52:0x85:0xCC # & Necklace~  
-K:ring:50:0x85:0x95 # & Ring~  
-K:ring:51:0x85:0x95 # & Ring~  
-K:ring:52:0x85:0x96 # & Ring~  
-K:ring:53:0x85:0x93 # & Ring~  
-K:ring:54:0x85:0x94 # & Ring~  
-K:ring:55:0x85:0x97 # & Ring~  
-K:light:7:0x85:0xAA # & Palantír~  
-K:amulet:53:0x85:0xA9 # & Elfstone~  
-K:amulet:54:0x85:0xA8 # & Jewel~  
+K:light:Phial:0x87:0xB3 # & Phial~  
+K:light:Star:0x87:0xB4 # & Star~  
+K:light:Arkenstone:0x87:0xB5 # & Arkenstone~  
+#K:amulet:50:0x85:0xA6 # & Amulet~  
+#K:amulet:51:0x85:0xCB # & Amulet~  
+#K:amulet:52:0x85:0xCC # & Necklace~  
+#K:ring:50:0x85:0x95 # & Ring~  
+#K:ring:51:0x85:0x95 # & Ring~  
+#K:ring:52:0x85:0x96 # & Ring~  
+#K:ring:53:0x85:0x93 # & Ring~  
+#K:ring:54:0x85:0x94 # & Ring~  
+#K:ring:55:0x85:0x97 # & Ring~  
+K:light:Palantír:0x85:0xAA # & Palantír~  
+#K:amulet:53:0x85:0xA9 # & Elfstone~  
+#K:amulet:54:0x85:0xA8 # & Jewel~  
 
 # Load the flavor pictures
 %:flvr-shb.prf
