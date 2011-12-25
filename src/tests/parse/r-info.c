@@ -55,7 +55,7 @@ int test_c0(void *state) {
 }
 
 int test_i0(void *state) {
-	enum parser_error r = parser_parse(state, "I:7:500:80:22:3");
+	enum parser_error r = parser_parse(state, "I:7:500:80:22:0:3");
 	struct monster_race *mr;
 
 	eq(r, PARSE_ERROR_NONE);
@@ -64,7 +64,7 @@ int test_i0(void *state) {
 	eq(mr->speed, 7);
 	eq(mr->avg_hp, 500);
 	eq(mr->aaf, 80);
-	eq(mr->ac, 22);
+	eq(mr->evasion, 22);
 	eq(mr->sleep, 3);
 	ok;
 }

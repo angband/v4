@@ -397,7 +397,8 @@ static struct monster_race TEST_DATA test_r_human = {
 	.base = &test_rb_info,
 
 	.avg_hp = 10,
-	.ac = 12,
+	.evasion = 12,
+	.armour = 1,
 	.sleep = 0,
 	.aaf = 20,
 	.speed = 110,
