@@ -417,7 +417,7 @@ int context_menu_cave(struct cave *cave, int y, int x, int adjacent, int mx, int
 		object_type *o_ptr = object_byid(cave->o_idx[y][x]);
 
 		/* Obtain an object description */
-		object_desc(o_name, sizeof (o_name), o_ptr, ODESC_PREFIX | ODESC_FULL);
+		object_desc(o_name, sizeof (o_name), o_ptr, ODESC_ARTICLE | ODESC_FULL);
 
 		prt(format("(Enter to select command, ESC to cancel) You see %s:", o_name), 0, 0);
 	} else
@@ -577,7 +577,7 @@ int context_menu_object(const object_type *o_ptr, const int slot)
 	if (!m || !o_ptr) {
 		return 0;
 	}
-	object_desc(header, sizeof(header), o_ptr, ODESC_PREFIX | ODESC_BASE);
+	object_desc(header, sizeof(header), o_ptr, ODESC_ARTICLE | ODESC_BASE);
 
 	m->selections = lower_case;
 	menu_dynamic_add(m, "Inspect", 1);
@@ -905,7 +905,7 @@ int context_menu_store_item(struct store *store, const int oid, int mx, int my)
 	if (!m || !store) {
 		return 0;
 	}
-	object_desc(header, sizeof(header), o_ptr, ODESC_PREFIX | ODESC_BASE);
+	object_desc(header, sizeof(header), o_ptr, ODESC_ARTICLE | ODESC_BASE);
 
 	m->selections = lower_case;
 	menu_dynamic_add(m, "Examine", 4);

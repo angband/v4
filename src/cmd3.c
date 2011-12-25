@@ -151,7 +151,6 @@ void do_cmd_equip(void)
 {
 	int item;
 	int ret = 3;
-	int diff = weight_remaining();
 
 	/* Hack -- Start in "inventory" mode */
 	p_ptr->command_wrk = (USE_EQUIP);
