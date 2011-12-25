@@ -61,6 +61,21 @@ learn them, they go by the names you would expect (like "Resist Fire").
 Inspecting items will show their known and unknown runes - but items 
 sold in stores have their runes scratched off.
 
+ * Combat. We have moved to "finesse" and "prowess" as replacements for 
+to-hit and to-dam. These are not simple replacements: both are skills 
+which vary by race/class and increase with character level. Finesse 
+determines both how fast you attack (how many blows) and how accurate 
+you are (to-hit). Prowess determines how much damage you do. Weapons 
+have ratings for "balance" and "heft", which is how much they prefer 
+finesse and prowess, respectively. So combat is now a lot more subtle 
+than simply maximising blows and loading up on to-dam.
+
+ * Monsters now have an 'evasion' rating which determines how hard they 
+are to hit. Their armour rating no longer affects this, and instead 
+indicates how much damage they will absorb from a hit. Some heavily 
+armoured monsters may not be affected by low-damage weapons (but you can 
+still kill them with spells or devices).
+
 
 User interface
 ==============
