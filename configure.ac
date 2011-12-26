@@ -202,7 +202,7 @@ if test "$enable_curses" = "yes"; then
 		AC_DEFINE(USE_NCURSES, 1, [Define to 1 if NCurses is found.])
 		AC_DEFINE(USE_GCU, 1, [Define to 1 if using the Curses frontend.])
 		CFLAGS="${CFLAGS} ${NCURSES_CFLAGS}"
-		LDFLAGS="${LDFLAGS} ${NCURSES_LIBS}"
+	    LIBS="${LIBS} ${NCURSES_LIBS}"
 	fi 
 fi
 
@@ -217,7 +217,7 @@ if test "$enable_x11" = "yes"; then
 	else
 		AC_DEFINE(USE_X11, 1, [Define to 1 if using the X11 frontend and X11 libraries are found.])
 		CFLAGS="$CFLAGS $X_CFLAGS"
-		LDFLAGS="$LDFLAGS $X_PRE_LIBS $X_LIBS -lX11 $X_EXTRA_LIBS"
+		LIBS="${LIBS} $X_PRE_LIBS $X_LIBS -lX11 $X_EXTRA_LIBS"
 		with_x11=yes
 	fi
 fi
@@ -235,7 +235,7 @@ if test "$enable_sdl" = "yes"; then
 		if test "$with_sdl" = "yes"; then
 			AC_DEFINE(USE_SDL, 1, [Define to 1 if using the SDL interface and SDL is found.])
 			CFLAGS="${CFLAGS} ${SDL_CFLAGS}"
-			LDFLAGS="${LDFLAGS} ${SDL_LIBS} -lSDL_image -lSDL_ttf"
+			LIBS="${LIBS} ${SDL_LIBS} -lSDL_image -lSDL_ttf"
 		fi
 	fi
 fi
@@ -260,7 +260,8 @@ if test "$enable_gtk" = "yes"; then
 	if test "$with_gtk" = "yes"; then
 		AC_DEFINE(USE_GTK, 1, [Define to 1 if using the GTK+ 2.x interface and GTK+ 2.x is found.])
 		CFLAGS="${CFLAGS} $GTK_CFLAGS"
-		LDFLAGS="${LDFLAGS} $GTK_LIBS -rdynamic -export-dynamic"
+		LDFLAGS="${LDFLAGS} -rdynamic -export-dynamic"
+		LIBS="${LIBS} $GTK_LIBS"
 	fi
 fi
 
