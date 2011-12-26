@@ -578,23 +578,23 @@ static size_t obj_desc_pval(const object_type *o_ptr, char *buf, size_t max,
 {
 	bitflag f[OF_SIZE], f2[OF_SIZE];
 	int i, known = 0;
+	int highest = 0;
 
 	object_flags(o_ptr, f);
 	create_pval_mask(f2);
 
 	if (!of_is_inter(f, f2)) return end;
 
-	strnfcat(buf, max, &end, " <");
 	for (i = 0; i < o_ptr->num_pvals; i++) {
 		if (spoil || object_this_pval_is_visible(o_ptr, i)) {
-			if (known > 0)
-				strnfcat(buf, max, &end, ", ");
-			strnfcat(buf, max, &end, "%+d", o_ptr->pval[i]);
+			if (o_ptr->pval[i] > highest)
+				highest = o_ptr->pval[i];
 			known++;
 		}
 	}
 
-	strnfcat(buf, max, &end, ">");
+	strnfcat(buf, max, &end, " <%+d%s>", highest,
+	         known > 1 ? ".." : "");
 
 	return end;
 }
