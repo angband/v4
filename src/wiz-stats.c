@@ -24,7 +24,8 @@
 #include "monster/constants.h"
 #include "object/tvalsval.h"
 #include "effects.h"
-#include "generate.h"
+#include "level/generate.h"
+
 /*
  * The stats programs here will provide information on the dungeon, the monsters
  * in it, and the items that they drop.  Statistics are gotten from a given level

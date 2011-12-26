@@ -18,7 +18,7 @@
 
 #include "angband.h"
 #include "cave.h"
-#include "generate.h"
+#include "level/generate.h"
 #include "history.h"
 #include "monster/mon-lore.h"
 #include "monster/mon-make.h"
