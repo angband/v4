@@ -834,7 +834,7 @@ K:gloves:Set of Gauntlets:0x80:0x98 # & Set~ of Gauntlets
 K:gloves:Set of Bracers:0x80:0x9A # & Set~ of Mithril Gauntlets  
 K:gloves:Set of Caestus:0x80:0x9B # & Set~ of Caestus  
 K:gloves:Set of Alchemist's Gloves:0x80:0x99 # & Set~ of Alchemist's Gloves  
-K:shield:Buckler:0x80:0x9C
+K:shield:Buckler:0x80:0xE6
 K:shield:Small Shield:0x80:0x9C # & Wicker Shield~  
 K:shield:Kite Shield:0x80:0x9E # & Small Metal Shield~  
 K:shield:Large Shield:0x80:0x9D # & Leather Shield~  
