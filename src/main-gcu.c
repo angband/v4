@@ -844,8 +844,8 @@ errr init_gcu(int argc, char **argv) {
 		colortable[TERM_VIOLET]      = (COLOR_PAIR(PAIR_MAGENTA));
 		colortable[TERM_TEAL]        = (COLOR_PAIR(PAIR_CYAN));
 		colortable[TERM_MUD]         = (COLOR_PAIR(PAIR_YELLOW));
-		colortable[TERM_L_YELLOW]    = (COLOR_PAIR(PAIR_YELLOW | A_BRIGHT));
-		colortable[TERM_MAGENTA]     = (COLOR_PAIR(PAIR_MAGENTA | A_BRIGHT));
+		colortable[TERM_L_YELLOW]    = (COLOR_PAIR(PAIR_YELLOW) | A_BRIGHT);
+		colortable[TERM_MAGENTA]     = (COLOR_PAIR(PAIR_MAGENTA) | A_BRIGHT);
 		colortable[TERM_L_TEAL]      = (COLOR_PAIR(PAIR_CYAN) | A_BRIGHT);
 		colortable[TERM_L_VIOLET]    = (COLOR_PAIR(PAIR_MAGENTA) | A_BRIGHT);
 		colortable[TERM_L_PINK]      = (COLOR_PAIR(PAIR_MAGENTA) | A_BRIGHT);
