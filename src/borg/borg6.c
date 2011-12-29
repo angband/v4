@@ -7651,8 +7651,7 @@ static int borg_attack_aux_launch_dragon(void)
         if (!item->iqty) continue;
 
         if (item->sval == SV_AMMO_HEAVY) continue;
-        if (!of_has(item->flags, OF_SLAY_DRAGON) &&
-			!of_has(item->flags, OF_KILL_DRAGON)) continue;
+        if (!of_has(item->flags, OF_SLAY_DRAGON)) continue;
 
         /* Skip bad missiles */
         if (item->tval != my_ammo_tval) continue;

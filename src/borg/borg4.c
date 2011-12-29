@@ -234,9 +234,6 @@ static void borg_notice_aux1(void)
         if (of_has(item->flags, OF_SLAY_TROLL))  borg_skill[BI_WS_TROLL] = TRUE;
         if (of_has(item->flags, OF_SLAY_GIANT))  borg_skill[BI_WS_GIANT] = TRUE;
         if (of_has(item->flags, OF_SLAY_DRAGON)) borg_skill[BI_WS_DRAGON] = TRUE;
-        if (of_has(item->flags, OF_KILL_UNDEAD)) borg_skill[BI_WK_UNDEAD] = TRUE;
-        if (of_has(item->flags, OF_KILL_DEMON))  borg_skill[BI_WK_DEMON] = TRUE;
-        if (of_has(item->flags, OF_KILL_DRAGON)) borg_skill[BI_WK_DRAGON] = TRUE;
         if (of_has(item->flags, OF_IMPACT))      borg_skill[BI_W_IMPACT] = TRUE;
         if (of_has(item->flags, OF_BRAND_ACID))  borg_skill[BI_WB_ACID] = TRUE;
         if (of_has(item->flags, OF_BRAND_ELEC))  borg_skill[BI_WB_ELEC] = TRUE;
@@ -1954,9 +1951,6 @@ void borg_notice_weapon_swap(void)
             if (of_has(item->flags, OF_SLAY_TROLL))  weapon_swap_slay_troll = TRUE;
             if (of_has(item->flags, OF_SLAY_GIANT))  weapon_swap_slay_giant = TRUE;
             if (of_has(item->flags, OF_SLAY_DRAGON)) weapon_swap_slay_dragon = TRUE;
-            if (of_has(item->flags, OF_KILL_UNDEAD)) weapon_swap_slay_undead = TRUE;
-            if (of_has(item->flags, OF_KILL_DEMON))  weapon_swap_slay_demon = TRUE;
-            if (of_has(item->flags, OF_KILL_DRAGON)) weapon_swap_kill_dragon = TRUE;
             if (of_has(item->flags, OF_IMPACT))      weapon_swap_impact = TRUE;
             if (of_has(item->flags, OF_BRAND_ACID))  weapon_swap_brand_acid = TRUE;
             if (of_has(item->flags, OF_BRAND_ELEC))  weapon_swap_brand_elec = TRUE;
@@ -2261,9 +2255,6 @@ void borg_notice_weapon_swap(void)
     if (of_has(item->flags, OF_SLAY_TROLL))  weapon_swap_slay_troll = TRUE;
     if (of_has(item->flags, OF_SLAY_GIANT))  weapon_swap_slay_giant = TRUE;
     if (of_has(item->flags, OF_SLAY_DRAGON)) weapon_swap_slay_dragon = TRUE;
-    if (of_has(item->flags, OF_KILL_UNDEAD)) weapon_swap_kill_undead = TRUE;
-    if (of_has(item->flags, OF_KILL_DEMON))  weapon_swap_kill_demon = TRUE;
-    if (of_has(item->flags, OF_KILL_DRAGON)) weapon_swap_kill_dragon = TRUE;
     if (of_has(item->flags, OF_IMPACT))      weapon_swap_impact = TRUE;
     if (of_has(item->flags, OF_BRAND_ACID))  weapon_swap_brand_acid = TRUE;
     if (of_has(item->flags, OF_BRAND_ELEC))  weapon_swap_brand_elec = TRUE;
@@ -2459,9 +2450,6 @@ void borg_notice_armour_swap(void)
             if (of_has(item->flags, OF_SLAY_TROLL))  armour_swap_slay_troll = TRUE;
             if (of_has(item->flags, OF_SLAY_GIANT))  armour_swap_slay_giant = TRUE;
             if (of_has(item->flags, OF_SLAY_DRAGON)) armour_swap_slay_dragon = TRUE;
-            if (of_has(item->flags, OF_KILL_UNDEAD)) armour_swap_kill_undead = TRUE;
-            if (of_has(item->flags, OF_KILL_DEMON))  armour_swap_kill_demon = TRUE;
-            if (of_has(item->flags, OF_KILL_DRAGON)) armour_swap_kill_dragon = TRUE;
             if (of_has(item->flags, OF_IMPACT))      armour_swap_impact = TRUE;
             if (of_has(item->flags, OF_BRAND_ACID))  armour_swap_brand_acid = TRUE;
             if (of_has(item->flags, OF_BRAND_ELEC))  armour_swap_brand_elec = TRUE;
@@ -2724,9 +2712,6 @@ void borg_notice_armour_swap(void)
             if (of_has(item->flags, OF_SLAY_TROLL))  armour_swap_slay_troll = TRUE;
             if (of_has(item->flags, OF_SLAY_GIANT))  armour_swap_slay_giant = TRUE;
             if (of_has(item->flags, OF_SLAY_DRAGON)) armour_swap_slay_dragon = TRUE;
-            if (of_has(item->flags, OF_KILL_UNDEAD)) armour_swap_kill_undead = TRUE;
-            if (of_has(item->flags, OF_KILL_DEMON)) armour_swap_kill_demon = TRUE;
-            if (of_has(item->flags, OF_KILL_DRAGON)) armour_swap_kill_dragon = TRUE;
             if (of_has(item->flags, OF_IMPACT))      armour_swap_impact = TRUE;
             if (of_has(item->flags, OF_BRAND_ACID))  armour_swap_brand_acid = TRUE;
             if (of_has(item->flags, OF_BRAND_ELEC))  armour_swap_brand_elec = TRUE;

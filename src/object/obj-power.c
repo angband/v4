@@ -164,7 +164,7 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 		improve_attack_modifier((object_type *)o_ptr, m_ptr, &best_s_ptr,
 				FALSE, !known);
 		if (best_s_ptr) {
-			mult = best_s_ptr->mult;
+			mult = 1; /* CC: needs pval */
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 				mult += 100;
@@ -182,7 +182,7 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 		/* Write info about the slay combination and multiplier */
 		file_putf(log_file, "Slay multiplier for: ");
 
-		j = list_slays(s_index, s_index, desc, brand, s_mult, FALSE);
+		j = list_slays(s_index, s_index, desc, brand);
 
 		for (i = 0; i < j; i++) {
 			if (brand[i]) {
@@ -190,6 +190,7 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 			} else {
 				file_putf(log_file, desc[i]);
 			}
+/* CC: this is unfinished: needs s_mult[i] = pval */
 			file_putf(log_file, "x%d ", s_mult[i]);
 		}
 		file_putf(log_file, "\nsv is: %d\n", sv);
@@ -247,7 +248,7 @@ s32b object_power(const object_type* o_ptr, int verbose, ang_file *log_file,
 
 	/* Get the slay power and number of slay/brand types */
 	create_mask(mask, FALSE, OFT_SLAY, OFT_KILL, OFT_BRAND, OFT_MAX);
-	num_slays = list_slays(flags, mask, NULL, NULL, NULL, TRUE);
+	num_slays = list_slays(flags, mask, NULL, NULL);
 	if (num_slays)
 		slay_pwr = slay_power(o_ptr, verbose, log_file, known);
 

@@ -610,9 +610,6 @@ static void remove_contradictory(artifact_type *a_ptr)
 	}
 
 	if (of_has(a_ptr->flags, OF_LIGHT_CURSE)) of_off(a_ptr->flags, OF_BLESSED);
-	if (of_has(a_ptr->flags, OF_KILL_DRAGON)) of_off(a_ptr->flags, OF_SLAY_DRAGON);
-	if (of_has(a_ptr->flags, OF_KILL_DEMON)) of_off(a_ptr->flags, OF_SLAY_DEMON);
-	if (of_has(a_ptr->flags, OF_KILL_UNDEAD)) of_off(a_ptr->flags, OF_SLAY_UNDEAD);
 	if (of_has(a_ptr->flags, OF_DRAIN_EXP)) of_off(a_ptr->flags, OF_HOLD_LIFE);
 }
 
@@ -767,9 +764,9 @@ static void parse_frequencies(void)
 			if (of_is_inter(a_ptr->flags, mask))
 			{
 				/* We have some brands or slays - count them */
-				temp = list_slays(a_ptr->flags, mask, NULL, NULL, NULL,	FALSE);
+				temp = list_slays(a_ptr->flags, mask, NULL, NULL);
 				create_mask(mask, FALSE, OFT_BRAND, OFT_MAX);
-				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL, NULL, FALSE);
+				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL);
 
 				file_putf(log_file, "Adding %d for slays\n", temp - temp2);
 				file_putf(log_file, "Adding %d for brands\n", temp2);
@@ -865,9 +862,9 @@ static void parse_frequencies(void)
 			if (of_is_inter(a_ptr->flags, mask))
 			{
 				/* We have some brands or slays - count them */
-				temp = list_slays(a_ptr->flags, mask, NULL, NULL, NULL,	FALSE);
+				temp = list_slays(a_ptr->flags, mask, NULL, NULL);
 				create_mask(mask, FALSE, OFT_BRAND, OFT_MAX);
-				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL, NULL, FALSE);
+				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL);
 
 				file_putf(log_file, "Adding %d for slays\n", temp - temp2);
 				file_putf(log_file, "Adding %d for brands\n", temp2);
@@ -975,9 +972,9 @@ static void parse_frequencies(void)
 			if (of_is_inter(a_ptr->flags, mask))
 			{
 				/* We have some brands or slays - count them */
-				temp = list_slays(a_ptr->flags, mask, NULL, NULL, NULL,	FALSE);
+				temp = list_slays(a_ptr->flags, mask, NULL, NULL);
 				create_mask(mask, FALSE, OFT_BRAND, OFT_MAX);
-				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL, NULL, FALSE);
+				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL);
 
 				file_putf(log_file, "Adding %d for slays\n", temp - temp2);
 				file_putf(log_file, "Adding %d for brands\n", temp2);

@@ -397,12 +397,11 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 {
 	bool printed = FALSE;
 	const char *slay_descs[SL_MAX] = { 0 };
-	bitflag slay_mask[OF_SIZE], kill_mask[OF_SIZE], brand_mask[OF_SIZE];
+	bitflag slay_mask[OF_SIZE], brand_mask[OF_SIZE];
 	size_t count;
 	bool fulldesc;
 
 	create_mask(slay_mask, FALSE, OFT_SLAY, OFT_MAX);
-	create_mask(kill_mask, FALSE, OFT_KILL, OFT_MAX);
 	create_mask(brand_mask, FALSE, OFT_BRAND, OFT_MAX);
 
 	if (tval == TV_SWORD || tval == TV_HAFTED || tval == TV_POLEARM ||
@@ -413,9 +412,8 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 		fulldesc = TRUE;
 
 	/* Slays */
-	count = list_slays(flags, slay_mask, slay_descs, NULL, NULL, TRUE);
-	if (count)
-	{
+	count = list_slays(flags, slay_mask, slay_descs, NULL);
+	if (count) {
 		if (fulldesc)
 			textblock_append(tb, "It causes your melee attacks to slay ");
 		else
@@ -424,22 +422,9 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 		printed = TRUE;
 	}
 
-	/* Kills */
-	count = list_slays(flags, kill_mask, slay_descs, NULL, NULL, TRUE);
-	if (count)
-	{
-		if (fulldesc)
-			textblock_append(tb, "It causes your melee attacks to *slay* ");
-		else
-			textblock_append(tb, "*Slays* ");
-		info_out_list(tb, slay_descs, count);
-		printed = TRUE;
-	}
-
 	/* Brands */
-	count = list_slays(flags, brand_mask, NULL, slay_descs, NULL, TRUE);
-	if (count)
-	{
+	count = list_slays(flags, brand_mask, NULL, slay_descs);
+	if (count) {
 		if (fulldesc)
 			textblock_append(tb, "It brands your melee attacks with ");
 		else
@@ -626,9 +611,10 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
     }
 
 	/* Output damage for creatures effected by the brands or slays */
-	cnt = list_slays(f, mask, desc, NULL, mult, TRUE); 
+	cnt = list_slays(f, mask, desc, NULL);
 	for (i = 0; i < cnt; i++) {
 		/* Include bonus damage and slay in stated average */
+		/* CC: this is unfinished - needs mult[i] = pval(slay) */
 		total_dam = dam * (multiplier + mult[i]) / 100;
 		total_dam = (total_dam * crit_mult + crit_add) / crit_div;
 

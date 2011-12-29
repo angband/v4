@@ -162,8 +162,7 @@ bool theme_is_prefix(int i)
 
 
 /**
- * Check item flags for legality. This function currently does three things:
- *  - checks slay_table for slay & brand contradictions (dedup_slays)
+ * Check item flags for legality. This function currently does two things:
  *  - checks gf_table for imm/res/vuln contradictions (dedup_gf_flags)
  *  - removes all attrs from ammo except slays/brands/ignore/hates
  */
@@ -171,8 +170,6 @@ void check_flags(object_type *o_ptr)
 {
 	bitflag f[OF_SIZE];
 	int i;
-
-	dedup_slays(o_ptr->flags);
 
 	dedup_gf_flags(o_ptr->flags);
 

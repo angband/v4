@@ -25,8 +25,8 @@
  */
 const struct slay slay_table[] =
 {
-	#define SLAY(a, b, c, d, e, f, g, h, i, j, k, l) \
-		{ SL_##a, b, c, d, e, f, g, h, i, j, k, l},
+	#define SLAY(a, b, c, d, e, f, g, h, i, j, k) \
+		{ SL_##a, b, c, d, e, f, g, h, i, j, k},
 	#include "list-slays.h"
 	#undef SLAY
 };
@@ -35,40 +35,6 @@ const struct slay slay_table[] =
  * Cache of slay values (for object_power)
  */
 static struct flag_cache *slay_cache;
-
-
-/**
- * Remove slays which are duplicates, i.e. they have exactly the same "monster
- * flag" and the same "resist flag". The one with highest multiplier is kept.
- *
- * \param flags is the flagset from which to remove duplicates.
- * count is the number of dups removed.
- */
-int dedup_slays(bitflag *flags) {
-	int i, j;
-	int count = 0;
-
-	for (i = 0; i < SL_MAX; i++) {
-		const struct slay *s_ptr = &slay_table[i];
-		if (of_has(flags, s_ptr->object_flag)) {
-			for (j = i + 1; j < SL_MAX; j++) {
-				const struct slay *t_ptr = &slay_table[j];
-				if (of_has(flags, t_ptr->object_flag) &&
-						(t_ptr->monster_flag == s_ptr->monster_flag) &&
-						(t_ptr->resist_flag == s_ptr->resist_flag) &&
-						(t_ptr->mult != s_ptr->mult)) {
-					count++;
-					if (t_ptr->mult > s_ptr->mult)
-						of_off(flags, s_ptr->object_flag);
-					else
-						of_off(flags, t_ptr->object_flag);
-				}
-			}
-		}
-	}
-
-	return count;
-}
 
 
 /**
@@ -96,13 +62,11 @@ const struct slay *random_slay(const bitflag mask[OF_SIZE])
  * \param mask is the flagset against which to test
  * \param desc[] is the array of descriptions of matching slays - can be null
  * \param brand[] is the array of descriptions of brands - can be null
- * \param mult[] is the array of multipliers of those slays - can be null
- * \param dedup is whether or not to remove duplicates
  *
  * desc[], brand[] and mult[] must be >= SL_MAX in size
  */
 int list_slays(const bitflag flags[OF_SIZE], const bitflag mask[OF_SIZE],
-	const char *desc[], const char *brand[], int mult[], bool dedup)
+	const char *desc[], const char *brand[])
 {
 	int i, count = 0;
 	bitflag f[OF_SIZE];
@@ -111,15 +75,10 @@ int list_slays(const bitflag flags[OF_SIZE], const bitflag mask[OF_SIZE],
 	of_copy(f, flags);
 	of_inter(f, mask);
 
-	/* Remove "duplicate" flags if desired */
-	if (dedup) dedup_slays(f);
-
 	/* Collect slays */
 	for (i = 0; i < SL_MAX; i++) {
 		const struct slay *s_ptr = &slay_table[i];
 		if (of_has(f, s_ptr->object_flag)) {
-			if (mult)
-				mult[count] = s_ptr->mult;
 			if (brand)
 				brand[count] = s_ptr->brand;
 			if (desc)
@@ -150,6 +109,7 @@ void object_notice_slays(object_type *o_ptr, const bitflag mask[OF_SIZE])
 	of_inter(f, mask);
 
 	/* if you learn a slay, print a message */
+/* CC: this should use of_next over o_ptr->flags */
 	for (i = 0; i < SL_MAX; i++) {
 		const struct slay *s_ptr = &slay_table[i];
 		if (of_has(f, s_ptr->object_flag)) {
@@ -229,8 +189,8 @@ void improve_attack_modifier(object_type *o_ptr, const monster_type
 				rf_has(r_ptr->flags, s_ptr->vuln_flag))) {
 
 			/* compare multipliers to determine best attack */
-			if ((*best_s_ptr == NULL) || ((*best_s_ptr)->mult < s_ptr->mult))
-				*best_s_ptr = s_ptr; 
+			if ((*best_s_ptr == NULL))
+				*best_s_ptr = s_ptr; /* Need to check pvals */
 		}
 	}
 }

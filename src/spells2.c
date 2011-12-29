@@ -3086,7 +3086,7 @@ void brand_object(object_type *o_ptr, int brand_type)
 
 		of_wipe(f);
 		of_on(f, brand_type);
-		i = list_slays(f, f, NULL, brand, NULL, FALSE);
+		i = list_slays(f, f, NULL, brand);
 
 		/* Describe */
 		msg("The %s %s surrounded with an aura of %s.", o_name,

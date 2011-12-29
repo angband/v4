@@ -274,7 +274,7 @@ static bool py_attack_real(int y, int x, bool *fear) {
 
 		if (best_s_ptr) {
 			hit_verb = best_s_ptr->melee_verb;
-			mult = best_s_ptr->mult;
+			mult = 1; /* CC: unfinished: needs pval */
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 				mult += 100;
@@ -609,7 +609,7 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 	/* If we have a slay, modify the multiplier appropriately */
 	if (best_s_ptr != NULL) {
 		result.hit_verb = best_s_ptr->range_verb;
-		multiplier += best_s_ptr->mult;
+		multiplier += 1; /* CC: needs pval */
 		if (best_s_ptr->vuln_flag &&
 				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 			multiplier += 100;
@@ -652,7 +652,7 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	/* If we have a slay, modify the multiplier appropriately */
 	if (best_s_ptr != NULL) {
 		result.hit_verb = best_s_ptr->range_verb;
-		multiplier += best_s_ptr->mult;
+		multiplier += 1; /* CC: needs pval */
 		if (best_s_ptr->vuln_flag &&
 				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 			multiplier += 100;
