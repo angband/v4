@@ -5642,7 +5642,7 @@ s32b borg_power(void)
     for (i = 1; i <= borg_skill[BI_MAXDEPTH]+50; i++)
     {
         /* Dump fear code*/
-        if ((cptr)NULL != borg_prepared(i)) break;
+        if ((char *)NULL != borg_prepared(i)) break;
     }
    	value +=((i-1) * 40000L);
 
@@ -8946,7 +8946,7 @@ int borg_danger(int y, int x, int c, bool average, bool full_damage)
  * Note that we ignore "restock" issues for the first several turns
  * on each level, to prevent repeated "level bouncing".
  */
-cptr borg_restock(int depth)
+char *borg_restock(int depth)
 {
 
     /* We are now looking at our preparedness */
@@ -8954,13 +8954,13 @@ cptr borg_restock(int depth)
         borg_ready_morgoth = 0;
 
     /* Always ready for the town */
-    if (!depth) return ((cptr)NULL);
+    if (!depth) return ((char *)NULL);
 
 	/* Always Ready to leave town */
-	if (borg_skill[BI_CDEPTH] == 0) return ((cptr)NULL);
+	if (borg_skill[BI_CDEPTH] == 0) return ((char *)NULL);
 
     /* Always spend time on a level unless 100*/
-    if (borg_t - borg_began < 100 && borg_skill[BI_CDEPTH] != 100) return ((cptr)NULL);
+    if (borg_t - borg_began < 100 && borg_skill[BI_CDEPTH] != 100) return ((char *)NULL);
 
 
     /*** Level 1 ***/
@@ -8975,7 +8975,7 @@ cptr borg_restock(int depth)
     if (borg_skill[BI_FOOD] < 1) return ("rs amt_food");
 
     /* Assume happy at level 1 */
-    if (depth <= 1) return ((cptr)NULL);
+    if (depth <= 1) return ((char *)NULL);
 
     /*** Level 2 and 3 ***/
 
@@ -8989,11 +8989,11 @@ cptr borg_restock(int depth)
     /* if (borg_skill[BI_RECALL] < 2) return ("rs recall"); */
 
     /* Assume happy at level 3 */
-    if (depth <= 3) return ((cptr)NULL);
+    if (depth <= 3) return ((char *)NULL);
 
     /*** Level 3 to 5 ***/
 
-    if (depth <= 5) return ((cptr)NULL);
+    if (depth <= 5) return ((char *)NULL);
 
     /*** Level 6 to 9 ***/
 
@@ -9004,7 +9004,7 @@ cptr borg_restock(int depth)
     if ((borg_skill[BI_MAXCLEVEL] < 30) && borg_skill[BI_ACLW] + borg_skill[BI_ACSW] + borg_skill[BI_ACCW]< 1) return ("rs clw/csw");
 
     /* Assume happy at level 9 */
-    if (depth <= 9) return ((cptr)NULL);
+    if (depth <= 9) return ((char *)NULL);
 
 
     /*** Level 10 - 19  ***/
@@ -9019,7 +9019,7 @@ cptr borg_restock(int depth)
     if (borg_skill[BI_ATELEPORT] + borg_skill[BI_AESCAPE] < 2) return ("rs tele&esc(1)");
 
     /* Assume happy at level 19 */
-    if (depth <= 19) return ((cptr)NULL);
+    if (depth <= 19) return ((char *)NULL);
 
 
     /*** Level 20 - 35  ***/
@@ -9031,7 +9031,7 @@ cptr borg_restock(int depth)
     if (borg_skill[BI_ATELEPORT] + borg_skill[BI_AESCAPE] < 4) return ("rs tele&esc(4)");
 
     /* Assume happy at level 44 */
-    if (depth <= 35) return ((cptr)NULL);
+    if (depth <= 35) return ((char *)NULL);
 
 
     /*** Level 36 - 45  ***/
@@ -9040,13 +9040,13 @@ cptr borg_restock(int depth)
     if (borg_skill[BI_ATELEPORT] + borg_skill[BI_ATELEPORTLVL] < 2) return ("rs teleport(1)");
 
     /* Assume happy at level 44 */
-    if (depth <= 45) return ((cptr)NULL);
+    if (depth <= 45) return ((char *)NULL);
 
 
     /*** Level 46 - 64  ***/
 
     /* Assume happy at level 65 */
-    if (depth <= 64) return ((cptr)NULL);
+    if (depth <= 64) return ((char *)NULL);
 
     /*** Level 65 - 99  ***/
 
@@ -9054,7 +9054,7 @@ cptr borg_restock(int depth)
     if (borg_skill[BI_AHEAL] + borg_has[ROD_HEAL] + borg_skill[BI_AEZHEAL] < 1) return ("rs heal");
 
     /* Assume happy at level 99 */
-    if (depth <= 99) return ((cptr)NULL);
+    if (depth <= 99) return ((char *)NULL);
 
     /*** Level 100  ***/
 
@@ -9063,25 +9063,25 @@ cptr borg_restock(int depth)
     if (borg_t - borg_began < 10 && borg_skill[BI_AEZHEAL] < 15) return ("rs *heal*");
 
     /* Assume happy */
-    return ((cptr)NULL);
+    return ((char *)NULL);
 }
 
 
 /*
  * Determine if the Borg meets the "minimum" requirements for a level
  */
-static cptr borg_prepared_aux(int depth)
+static char *borg_prepared_aux(int depth)
 {
     if ( -1 == borg_ready_morgoth)
         borg_ready_morgoth = 0;
     if (borg_skill[BI_KING])
         {
             borg_ready_morgoth = 1;
-            return ((cptr)NULL);
+            return ((char *)NULL);
         }
 
     /* Always ready for the town */
-    if (!depth) return ((cptr)NULL);
+    if (!depth) return ((char *)NULL);
 
 
     /*** Essential Items for Level 1 ***/
@@ -9093,7 +9093,7 @@ static cptr borg_prepared_aux(int depth)
     if (borg_skill[BI_FOOD] < 5) return ("5 Food");
 
     /* Usually ready for level 1 */
-    if (depth <= 1) return ((cptr)NULL);
+    if (depth <= 1) return ((char *)NULL);
 
 
     /*** Essential Items for Level 2 ***/
@@ -9111,7 +9111,7 @@ static cptr borg_prepared_aux(int depth)
     }
 
     /* Usually ready for level 2 */
-    if (depth <= 2) return ((cptr)NULL);
+    if (depth <= 2) return ((char *)NULL);
 
     /*** Essential Items for Level 3 and 4 ***/
 
@@ -9154,7 +9154,7 @@ static cptr borg_prepared_aux(int depth)
     if (amt_ident < 2 && (borg_skill[BI_CDEPTH])) return ("2 ident");
 #endif
     /* Usually ready for level 3 and 4 */
-    if (depth <= 4) return ((cptr)NULL);
+    if (depth <= 4) return ((char *)NULL);
 
 
     /*** Essential Items for Level 5 to 9 ***/
@@ -9204,7 +9204,7 @@ static cptr borg_prepared_aux(int depth)
     if (borg_skill[BI_RECALL] < 1) return ("1 recall");
 
     /* Usually ready for level 5 to 9 */
-    if (depth <= 9) return ((cptr)NULL);
+    if (depth <= 9) return ((char *)NULL);
 
 
     /*** Essential Items for Level 10 to 19 ***/
@@ -9255,7 +9255,7 @@ static cptr borg_prepared_aux(int depth)
          !borg_skill[BI_ESP])) return ("See Invis : ESP");
 
     /* Usually ready for level 10 to 19 */
-    if (depth <= 19) return ((cptr)NULL);
+    if (depth <= 19) return ((char *)NULL);
 
 
     /*** Essential Items for Level 20 ***/
@@ -9265,7 +9265,7 @@ static cptr borg_prepared_aux(int depth)
     if (!borg_skill[BI_FRACT]) return ("FA");
 
     /* ready for level 20 */
-    if (depth <= 20) return ((cptr)NULL);
+    if (depth <= 20) return ((char *)NULL);
 
 
     /*** Essential Items for Level 25 ***/
@@ -9328,7 +9328,7 @@ static cptr borg_prepared_aux(int depth)
     }
 
     /* Ready for level 25 */
-    if (depth <= 25) return ((cptr)NULL);
+    if (depth <= 25) return ((char *)NULL);
 
 
 /*** Essential Items for Level 25 to 39 ***/
@@ -9345,13 +9345,13 @@ static cptr borg_prepared_aux(int depth)
     if ((borg_skill[BI_MAXCLEVEL] < 30) && (borg_skill[BI_ACCW] + borg_skill[BI_ACSW]) < 10) return ("cure10");
 
     /* Ready for level 33 */
-    if (depth <= 33) return ((cptr)NULL);
+    if (depth <= 33) return ((char *)NULL);
 
     /* Minimal level */
     if (borg_skill[BI_MAXCLEVEL] < 40  && !borg_plays_risky) return ("level 40");
 
     /* Usually ready for level 20 to 39 */
-    if (depth <= 39) return ((cptr)NULL);
+    if (depth <= 39) return ((char *)NULL);
 
 
 
@@ -9376,7 +9376,7 @@ static cptr borg_prepared_aux(int depth)
 
 
 	/* Ok to continue */
-    if (depth <= 45) return ((cptr)NULL);
+    if (depth <= 45) return ((char *)NULL);
 
 
 /*** Essential Items for Level 46 to 55 ***/
@@ -9412,7 +9412,7 @@ static cptr borg_prepared_aux(int depth)
         !armour_swap_hold_life) && (borg_skill[BI_MAXCLEVEL] < 50) ) return ("hold life");
 
     /* Usually ready for level 46 to 55 */
-    if (depth <= 55) return ((cptr)NULL);
+    if (depth <= 55) return ((char *)NULL);
 
 /*** Essential Items for Level 55 to 59 ***/
 
@@ -9430,7 +9430,7 @@ static cptr borg_prepared_aux(int depth)
     if (!borg_skill[BI_ESP]) return ("ESP");
 
     /* Usually ready for level 55 to 59 */
-    if (depth <= 59) return ((cptr)NULL);
+    if (depth <= 59) return ((char *)NULL);
 
 
 
@@ -9445,21 +9445,21 @@ static cptr borg_prepared_aux(int depth)
     if (!borg_skill[BI_SRDIS]) return ("RDisen");
 
     /* Usually ready for level 61 to 80 */
-    if (depth <= 80) return ((cptr)NULL);
+    if (depth <= 80) return ((char *)NULL);
 
 /*** Essential Items for Level 81-85 ***/
     /* Minimal Speed */
     if (borg_skill[BI_SPEED] < 130) return ("+20 Speed");
 
     /* Usually ready for level 81 to 85 */
-    if (depth <= 85) return ((cptr)NULL);
+    if (depth <= 85) return ((char *)NULL);
 
 
 /*** Essential Items for Level 86-99 ***/
 
 
     /* Usually ready for level 86 to 99 */
-    if (depth <= 99) return ((cptr)NULL);
+    if (depth <= 99) return ((char *)NULL);
 
 /*** Essential Items for Level 100 ***/
 
@@ -9480,10 +9480,10 @@ static cptr borg_prepared_aux(int depth)
       }
 
     /* Its good to be the king */
-    if (depth <= 127) return ((cptr)NULL);
+    if (depth <= 127) return ((char *)NULL);
 
     /* all bases covered */
-    return ((cptr)NULL);
+    return ((char *)NULL);
 }
 
 /* buffer for borg_prepared mesage
@@ -9503,12 +9503,12 @@ static char borg_prepared_buffer[MAX_REASON];
  * This now returns a string with the reason you are not prepared.
  *
  */
-cptr borg_prepared(int depth)
+char *borg_prepared(int depth)
 {
-    cptr reason;
+    char *reason;
 
     /* Town and First level */
-    if (depth == 1) return ((cptr)NULL);
+    if (depth == 1) return ((char *)NULL);
 
     /* Not prepared if I need to restock */
     if ((reason = borg_restock(depth)))	return (reason);
@@ -9533,7 +9533,7 @@ cptr borg_prepared(int depth)
     /* Once Morgoth is dead */
     if (borg_skill[BI_KING])
     {
-        return ((cptr)NULL);
+        return ((char *)NULL);
     }
 
     /* Always okay from town */
@@ -9580,10 +9580,10 @@ cptr borg_prepared(int depth)
 
 		/* are too many uniques alive */
         if (borg_numb_live_unique < 3 || borg_plays_risky ||
-        	borg_skill[BI_CLEVEL] == 50 || borg_kills_uniques == FALSE) return ((cptr)NULL);
+        	borg_skill[BI_CLEVEL] == 50 || borg_kills_uniques == FALSE) return ((char *)NULL);
 
 		/* Check for the dlevel of the unique */
-		if (depth < borg_unique_depth) return ((cptr)NULL);
+		if (depth < borg_unique_depth) return ((char *)NULL);
 
        	/* To avoid double calls to format() */
  	   	/* Reset our description for not diving */
@@ -9607,7 +9607,7 @@ cptr borg_prepared(int depth)
               borg_living_unique_index == 547) /* Morgoth */
           {
             	if (depth >= 99) borg_ready_morgoth = 1;
-            	return ((cptr)NULL);
+            	return ((char *)NULL);
           }
 
           /* Under special cases allow the borg to dive to 99 then quickly
@@ -9618,7 +9618,7 @@ cptr borg_prepared(int depth)
                borg_spell_legal_fail(6, 2, 20) || /* Teleport Level */
                borg_skill[BI_ATELEPORTLVL] >= 1)) /* Teleport Level scroll */
           {
-              return ((cptr)NULL);
+              return ((char *)NULL);
           }
 
       	/* To avoid double calls to format() */
@@ -9626,7 +9626,7 @@ cptr borg_prepared(int depth)
       	return (borg_prepared_buffer);
 
     }
-    return (cptr)NULL;
+    return (char *)NULL;
 }
 
 /*
