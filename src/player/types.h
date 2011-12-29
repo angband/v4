@@ -45,6 +45,8 @@ typedef struct
 	bool icky_wield;	/* Icky weapon shooter */
 
 	bitflag flags[OF_SIZE];	/* Status flags from race and items */
+	s16b slay_mult[SL_MAX];	/* Current slay and brand multipliers */
+
 } player_state;
 
 

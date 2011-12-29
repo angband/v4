@@ -19,6 +19,7 @@
 #include "angband.h"
 #include "attack.h"
 #include "cave.h"
+#include "monster/melee2.h"
 #include "monster/mon-make.h"
 #include "monster/mon-spell.h"
 #include "monster/mon-timed.h"

@@ -17,7 +17,7 @@
  */
 
 #include "angband.h"
-#include "monster/monster.h"
+#include "monster/melee2.h"
 #include "cave.h"
 #include "effects.h"
 #include "spells.h"

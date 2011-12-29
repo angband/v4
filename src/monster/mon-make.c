@@ -19,6 +19,7 @@
 #include "angband.h"
 #include "history.h"
 #include "target.h"
+#include "monster/melee2.h"
 #include "monster/mon-lore.h"
 #include "monster/mon-make.h"
 #include "monster/mon-timed.h"

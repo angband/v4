@@ -19,12 +19,6 @@
 #ifndef MONSTER_MONSTER_H
 #define MONSTER_MONSTER_H
 
-#include "defines.h"
-#include "h-basic.h"
-#include "z-bitflag.h"
-#include "z-rand.h"
-#include "cave.h"
-#include "player/types.h"
 #include "monster/mon-timed.h"
 
 /** Constants **/
@@ -173,7 +167,7 @@ typedef struct monster_race
 	byte cur_num;			/* Monster population on current level */
 
 	struct monster_drop *drops;
-	
+
 	struct monster_mimic *mimic_kinds;
 } monster_race;
 
@@ -243,7 +237,7 @@ typedef struct monster
 
 	bool ml;			/* Monster is "visible" */
 	bool unaware;		/* Player doesn't know this is a monster */
-	
+
 	s16b mimicked_o_idx; /* Object this monster is mimicking */
 
 	s16b hold_o_idx;	/* Object being held (if any) */
@@ -254,17 +248,5 @@ typedef struct monster
 
 	bitflag known_pflags[OF_SIZE]; /* Known player flags */
 } monster_type;
-
-/*** Functions ***/
-
-/* melee2.c */
-extern bool check_hit(struct player *p, int power, int level);
-extern bool mon_test_hit(int chance, int ac);
-extern void process_monsters(struct cave *c, byte min_energy);
-int mon_hp(const struct monster_race *r_ptr, aspect hp_aspect);
-
-#ifdef TEST
-extern bool (*testfn_make_attack_normal)(struct monster *m, struct player *p);
-#endif /* !TEST */
 
 #endif /* !MONSTER_MONSTER_H */
