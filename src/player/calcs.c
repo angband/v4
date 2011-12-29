@@ -1453,15 +1453,12 @@ int weight_remaining(void)
 void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 {
 	int i, j, hold;
-
-	int extra_blows = 0;
-	int extra_shots = 0;
-	int extra_might = 0;
+	int extra_blows = 0, extra_shots = 0, extra_might = 0;
 
 	object_type *o_ptr;
 
-	bitflag f[OF_SIZE];
-	bitflag collect_f[OF_SIZE];
+	bitflag f[OF_SIZE], collect_f[OF_SIZE];
+	bitflag slay_flags[OF_SIZE], allslays[OF_SIZE];
 
 	/*** Reset ***/
 
@@ -1471,7 +1468,6 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	state->speed = 110;
 	state->num_blows = 100;
     state->dam_multiplier = 100;
-
 
 	/*** Extract race/class info ***/
 
@@ -1492,8 +1488,7 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/*** Analyze equipment ***/
 
 	/* Scan the equipment */
-	for (i = INVEN_WIELD; i < INVEN_TOTAL; i++)
-	{
+	for (i = INVEN_WIELD; i < INVEN_TOTAL; i++)	{
 		o_ptr = &inventory[i];
 
 		/* Skip non-objects */
@@ -1570,6 +1565,21 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 		/* Apply the mental bonuses to armor class, if known */
 		if (object_defence_plusses_are_visible(o_ptr))
 			state->dis_to_a += o_ptr->to_a;
+
+		/* Update the slay/brand multiplier array
+		 * n.b. we do not update state.flags[] here because it's done after
+		 * the loop */
+		create_mask(allslays, FALSE, OFT_SLAY, OFT_MAX);
+		of_copy(slay_flags, o_ptr->flags);
+		of_inter(slay_flags, allslays);
+
+		for (j = of_next(slay_flags, FLAG_START); j != FLAG_END;
+				j = of_next(slay_flags, j + 1)) {
+			const struct slay *s_ptr = lookup_slay(j);
+			int mult = o_ptr->pval[which_pval(o_ptr, j)];
+			if (mult > state->slay_mult[s_ptr->index])
+				state->slay_mult[s_ptr->index] = mult;
+		}
 
 		/* Hack -- do not apply "weapon" bonuses */
 		if (i == INVEN_WIELD) continue;

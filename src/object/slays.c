@@ -63,7 +63,7 @@ const struct slay *random_slay(const bitflag mask[OF_SIZE])
  * \param desc[] is the array of descriptions of matching slays - can be null
  * \param brand[] is the array of descriptions of brands - can be null
  *
- * desc[], brand[] and mult[] must be >= SL_MAX in size
+ * desc[] and brand[] must be >= SL_MAX in size
  */
 int list_slays(const bitflag flags[OF_SIZE], const bitflag mask[OF_SIZE],
 	const char *desc[], const char *brand[])
@@ -320,6 +320,7 @@ void free_slay_cache(void)
 	mem_free(slay_cache);
 }
 
+
 /**
  * Return whether a given flagset contains a flag which hurts this
  * monster
@@ -339,4 +340,22 @@ bool obj_hurts_mon(bitflag *flags, const monster_type *m_ptr)
 			return TRUE;
 	}
 	return FALSE;
+}
+
+
+/**
+ * Return the slay from a given slay flag
+ */
+const struct slay *lookup_slay(int flag)
+{
+	size_t i;
+
+	for (i = 0; i < SL_MAX; i++) {
+		const struct slay *s_ptr = &slay_table[i];
+		if (s_ptr->object_flag == flag)
+			return s_ptr;
+	}
+
+	msg("Illegal flag in lookup_slay");
+	assert(0);
 }
