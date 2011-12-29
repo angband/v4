@@ -125,16 +125,6 @@
 
 #endif /* ALLOW_BORG */
 
-#ifndef GetWindowLongPtr
-#define GetWindowLongPtr GetWindowLong
-#endif
-#ifndef SetWindowLongPtr
-#define SetWindowLongPtr SetWindowLong
-#endif
-#ifndef GWLP_USERDATA
-#define GWLP_USERDATA GWL_USERDATA
-#endif
-
 /*
  * Menu constants -- see "ANGBAND.RC"
  */
@@ -294,6 +284,16 @@
  */
 #include <windows.h>
 #include <windowsx.h>
+
+#ifndef GetWindowLongPtr
+#define GetWindowLongPtr GetWindowLong
+#endif
+#ifndef SetWindowLongPtr
+#define SetWindowLongPtr SetWindowLong
+#endif
+#ifndef GWLP_USERDATA
+#define GWLP_USERDATA GWL_USERDATA
+#endif
 
 #ifdef USE_SOUND
 
@@ -2995,7 +2995,7 @@ static void init_windows(void)
 	/* setup the alpha blending function */
 	blendfn.BlendOp = AC_SRC_OVER;
 	blendfn.BlendFlags = 0;
-	blendfn.AlphaFormat = AC_SRC_NO_PREMULT_ALPHA;//AC_SRC_ALPHA;
+	blendfn.AlphaFormat = AC_SRC_ALPHA;//AC_SRC_NO_PREMULT_ALPHA;
 	blendfn.SourceConstantAlpha = 255;
 
 
