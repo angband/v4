@@ -1,9 +1,8 @@
 /* parse/p-info */
 
 #include "unit-test.h"
+#include "angband.h"
 #include "init.h"
-#include "player/types.h"
-#include "types.h"
 
 int setup_tests(void **state) {
 	*state = init_parse_p();

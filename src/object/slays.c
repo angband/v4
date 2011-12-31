@@ -17,8 +17,7 @@
  */
 
 #include "angband.h"
-#include "object/slays.h"
-
+#include "object/pval.h"
 
 /**
  * Info about slays (see src/slays.h for structure)
@@ -358,4 +357,44 @@ const struct slay *lookup_slay(int flag)
 
 	msg("Illegal flag in lookup_slay");
 	assert(0);
+}
+
+/**
+ * Check the slays on an object and update the mult[] array if any of the
+ * object's slay pvals are better than those already in the array. Returns
+ * TRUE if changes were made.
+ * \param o_ptr is the object we're checking
+ * \param mult[] is the array of mults that we're updating - it must be at
+ * least SL_MAX in size
+ */
+bool object_slay_mults(object_type *o_ptr, s16b mult[])
+{
+	size_t i;
+	bitflag slay_flags[OF_SIZE], allslays[OF_SIZE];
+	bool changed = FALSE;
+	int newmult = 0;
+
+	/* Find the slay flags on this object */
+	create_mask(allslays, FALSE, OFT_SLAY, OFT_BRAND, OFT_MAX);
+	of_copy(slay_flags, o_ptr->flags);
+	of_inter(slay_flags, allslays);
+
+	/* Cycle through them */
+	for (i = of_next(slay_flags, FLAG_START); i != FLAG_END;
+			i = of_next(slay_flags, i + 1)) {
+		const struct slay *s_ptr = lookup_slay(i);
+
+		/* Disallow forbidden off-weapon slays */
+		if (wield_slot(o_ptr) > INVEN_BOW && wield_slot(o_ptr) < INVEN_TOTAL
+				&& !s_ptr->nonweap) continue;
+
+		/* Use the multiplier if it's higher than the existing one */
+		newmult = o_ptr->pval[which_pval(o_ptr, i)];
+		if (newmult > mult[s_ptr->index]) {
+			mult[s_ptr->index] = newmult;
+			changed = TRUE;
+		}
+	}
+
+	return changed;
 }

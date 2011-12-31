@@ -1458,10 +1458,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	object_type *o_ptr;
 
 	bitflag f[OF_SIZE], collect_f[OF_SIZE];
-	bitflag slay_flags[OF_SIZE], allslays[OF_SIZE];
 
 	/*** Reset ***/
-
 	memset(state, 0, sizeof *state);
 
 	/* Set various defaults */
@@ -1566,26 +1564,14 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 		if (object_defence_plusses_are_visible(o_ptr))
 			state->dis_to_a += o_ptr->to_a;
 
-		/* Update the slay/brand multiplier array
-		 * n.b. we do not update state.flags[] here because it's done after
-		 * the loop */
-		create_mask(allslays, FALSE, OFT_SLAY, OFT_MAX);
-		of_copy(slay_flags, o_ptr->flags);
-		of_inter(slay_flags, allslays);
-
-		for (j = of_next(slay_flags, FLAG_START); j != FLAG_END;
-				j = of_next(slay_flags, j + 1)) {
-			const struct slay *s_ptr = lookup_slay(j);
-			int mult = o_ptr->pval[which_pval(o_ptr, j)];
-			if (mult > state->slay_mult[s_ptr->index])
-				state->slay_mult[s_ptr->index] = mult;
-		}
-
-		/* Hack -- do not apply "weapon" bonuses */
-		if (i == INVEN_WIELD) continue;
-
-		/* Hack -- do not apply "bow" bonuses */
+		/* Do not apply launcher fin/prow/slay bonuses yet */
 		if (i == INVEN_BOW) continue;
+
+		/* Update the melee slay/brand multiplier array */
+		(void)object_slay_mults(o_ptr, state->slay_mult);
+
+		/* Do not apply weapon fin/prow bonuses yet */
+		if (i == INVEN_WIELD) continue;
 
 		/* Apply the bonuses to hit/damage */
 		if (!id_only || object_is_known(o_ptr))

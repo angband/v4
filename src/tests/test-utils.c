@@ -6,11 +6,8 @@
  *             26 Apr 2011
  */
 
-#include "h-basic.h"
-#include "config.h"
+#include "angband.h"
 #include "init.h"
-#include "z-util.h"
-#include "externs.h"
 
 /*
  * Call this function to simulate init_stuff() and populate the *_info arrays
