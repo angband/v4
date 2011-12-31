@@ -146,9 +146,9 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 		oldbest = bestmult;
 
 		/* If it's a brand the monster doesn't resist or a matching slay */
-		if ((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
+		if (((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
 				(s_ptr->monster_flag && rf_has(r_ptr->flags,
-				s_ptr->monster_flag))) {
+				s_ptr->monster_flag))) && mult[i] > 100) {
 			/* In a real attack, learn about object and monster flags */
 			if (real) {
 				of_on(learn_flags, s_ptr->object_flag);
@@ -164,7 +164,8 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 		}
 
 		/* If the monster is explicitly vulnerable, mult will be 1x higher */
-		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag)) {
+		if ((s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag)) &&
+				mult[i] > 100) {
 			if (real) {
 				of_on(learn_flags, s_ptr->object_flag);
 				if (m_ptr->ml)
