@@ -114,7 +114,7 @@ static s16b ability_power[25] =
 static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 	log_file, bool known)
 {
-	bitflag s_index[OF_SIZE], f[OF_SIZE], f2[OF_SIZE];
+	bitflag s_index[OF_SIZE], f2[OF_SIZE];
 	u32b sv = 0;
 	int i, j;
 	int mult;
@@ -124,15 +124,17 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 	monster_type monster_type_body;
 	const char *desc[SL_MAX] = { 0 }, *brand[SL_MAX] = { 0 };
 	s16b s_mult[SL_MAX] = { 100 };
+	object_type object_type_body;
+	object_type *i_ptr = &object_type_body;
 
-	if (known)
-		object_flags(o_ptr, f);
-	else
-		object_flags_known(o_ptr, f);
+	/* Prevent leakage if we're not fully known */
+	object_copy(i_ptr, o_ptr);
+	if (!known)
+		of_copy(i_ptr->flags, o_ptr->known_flags);
 
 	/* Combine the slay bytes into an index value, return if there are none */
-	of_copy(s_index, f);
-	create_mask(f2, FALSE, OFT_SLAY, OFT_KILL, OFT_BRAND, OFT_MAX);
+	of_copy(s_index, i_ptr->flags);
+	create_mask(f2, FALSE, OFT_SLAY, OFT_BRAND, OFT_MAX);
 
 	if (!of_is_inter(s_index, f2))
 		return tot_mon_power;
@@ -161,7 +163,7 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 		m_ptr->r_idx = i;
 
 		/* Find the best multiplier against this monster */
-		object_slay_mults((object_type *)o_ptr, s_mult);
+		object_slay_mults((object_type *)i_ptr, s_mult);
 		improve_attack_modifier(s_mult, m_ptr, &best_s_ptr, NULL, FALSE);
 		if (best_s_ptr) {
 			mult = s_mult[best_s_ptr->index];
