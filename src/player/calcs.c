@@ -1466,6 +1466,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	state->speed = 110;
 	state->num_blows = 100;
     state->dam_multiplier = 100;
+	for (i = 0; i < SL_MAX; i++)
+		state->slay_mult[i] = 100;
 
 	/*** Extract race/class info ***/
 

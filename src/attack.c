@@ -23,7 +23,6 @@
 #include "cmds.h"
 #include "monster/mon-make.h"
 #include "monster/mon-msg.h"
-#include "monster/mon-timed.h"
 #include "monster/mon-util.h"
 #include "object/tvalsval.h"
 #include "spells.h"
@@ -205,7 +204,8 @@ int get_hit_chance(const player_state state, const monster_race *r_ptr)
 /**
  * Attack the monster at the given location with a single blow.
  */
-static bool py_attack_real(int y, int x, bool *fear) {
+static bool py_attack_real(int y, int x, bool *fear)
+{
 	/* Information about the target of the attack */
 	monster_type *m_ptr = cave_monster_at(cave, y, x);
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
@@ -254,25 +254,20 @@ static bool py_attack_real(int y, int x, bool *fear) {
 
 	/* Handle normal weapon */
 	if (o_ptr->kind) {
-		int i, mult = 100;
+		int mult = 100;
 		const struct slay *best_s_ptr = NULL;
 
 		hit_verb = "hit";
 
-		/* Get the best attack from all slays or
+		/* Get the best attack multiplier from all slays or
 		 * brands on all non-launcher equipment */
-		for (i = INVEN_LEFT; i < INVEN_TOTAL; i++) {
-			struct object *obj = &p_ptr->inventory[i];
-			if (obj->kind)
-				improve_attack_modifier(obj, m_ptr, &best_s_ptr, TRUE, FALSE);
-		}
-		improve_attack_modifier(o_ptr, m_ptr, &best_s_ptr, TRUE, FALSE);
+		improve_attack_modifier(p_ptr->state.slay_mult, m_ptr, &best_s_ptr);
 
 		dmg = damroll(o_ptr->dd, o_ptr->ds);
 
 		if (best_s_ptr) {
 			hit_verb = best_s_ptr->melee_verb;
-			mult = 1; /* CC: unfinished: needs pval */
+			mult = p_ptr->state.slay_mult[best_s_ptr->index];
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 				mult += 100;
@@ -359,7 +354,7 @@ void py_attack(int y, int x) {
 	int blows = 0;
 	bool fear = FALSE;
 	monster_type *m_ptr = cave_monster_at(cave, y, x);
-	
+
 	/* disturb the player */
 	disturb(p_ptr, 0,0);
 
@@ -374,8 +369,8 @@ void py_attack(int y, int x) {
 		if (stop || p_ptr->energy_use + blow_energy > 100) break;
 		blows++;
 	}
-	
-	/* Hack - delay fear messages */
+
+	/* Hack - delay fear messages (see #1502) */
 	if (fear && m_ptr->ml) {
 		char m_name[80];
 		monster_desc(m_name, sizeof(m_name), m_ptr, 0);
@@ -595,19 +590,22 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 
 	int multiplier = p_ptr->state.ammo_mult;
 	const struct slay *best_s_ptr = NULL;
+	s16b slay_mult[SL_MAX] = { 100 };
 
 	/* Did we hit it */
 	if (!test_hit(chance, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
-	improve_attack_modifier(o_ptr, m_ptr, &best_s_ptr, TRUE, FALSE);
-	improve_attack_modifier(j_ptr, m_ptr, &best_s_ptr, TRUE, FALSE);
+	/* Look for the best slay/brand from launcher and missile */
+	object_slay_mults(o_ptr, slay_mult);
+	object_slay_mults(j_ptr, slay_mult);
+	improve_attack_modifier(slay_mult, m_ptr, &best_s_ptr);
 
 	/* If we have a slay, modify the multiplier appropriately */
 	if (best_s_ptr != NULL) {
 		result.hit_verb = best_s_ptr->range_verb;
-		multiplier += 1; /* CC: needs pval */
+		multiplier += slay_mult[best_s_ptr->index];
 		if (best_s_ptr->vuln_flag &&
 				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 			multiplier += 100;
@@ -639,18 +637,21 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 
 	int multiplier = 1;
 	const struct slay *best_s_ptr = NULL;
+	s16b slay_mult[SL_MAX] = { 100 };
 
 	/* If we missed then we're done */
 	if (!test_hit(chance, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
-	improve_attack_modifier(o_ptr, m_ptr, &best_s_ptr, TRUE, FALSE);
+	/* Get the best slay or brand from the missile */
+	object_slay_mults(o_ptr, slay_mult);
+	improve_attack_modifier(slay_mult, m_ptr, &best_s_ptr);
 
 	/* If we have a slay, modify the multiplier appropriately */
 	if (best_s_ptr != NULL) {
 		result.hit_verb = best_s_ptr->range_verb;
-		multiplier += 1; /* CC: needs pval */
+		multiplier += slay_mult[best_s_ptr->index];
 		if (best_s_ptr->vuln_flag &&
 				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 			multiplier += 100;

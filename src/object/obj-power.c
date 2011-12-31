@@ -123,7 +123,7 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 	monster_type *m_ptr;
 	monster_type monster_type_body;
 	const char *desc[SL_MAX] = { 0 }, *brand[SL_MAX] = { 0 };
-	int s_mult[SL_MAX] = { 0 };
+	s16b s_mult[SL_MAX] = { 100 };
 
 	if (known)
 		object_flags(o_ptr, f);
@@ -155,16 +155,16 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 	 */
 	for (i = 0; i < z_info->r_max; i++)	{
 		best_s_ptr = NULL;
-		mult = 1;
+		mult = 100;
 		r_ptr = &r_info[i];
 		m_ptr = &monster_type_body;
 		m_ptr->r_idx = i;
 
 		/* Find the best multiplier against this monster */
-		improve_attack_modifier((object_type *)o_ptr, m_ptr, &best_s_ptr,
-				FALSE, !known);
+		object_slay_mults((object_type *)o_ptr, s_mult);
+		improve_attack_modifier(s_mult, m_ptr, &best_s_ptr);
 		if (best_s_ptr) {
-			mult = 1; /* CC: needs pval */
+			mult = s_mult[best_s_ptr->index];
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 				mult += 100;
@@ -190,8 +190,7 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 			} else {
 				file_putf(log_file, desc[i]);
 			}
-/* CC: this is unfinished: needs s_mult[i] = pval */
-			file_putf(log_file, "x%d ", s_mult[i]);
+			file_putf(log_file, "x%d%% ", s_mult[i]);
 		}
 		file_putf(log_file, "\nsv is: %d\n", sv);
 		file_putf(log_file, " and t_m_p is: %d \n", tot_mon_power);

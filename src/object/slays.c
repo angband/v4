@@ -125,72 +125,37 @@ void object_notice_slays(object_type *o_ptr, const bitflag mask[OF_SIZE])
 
 
 /**
- * Extract the multiplier from a given object hitting a given monster.
+ * Extract the multiplier from a given mult array against a given monster.
  *
- * \param o_ptr is the object being used to attack
+ * \param mult[] is the array of slay multipliers (must be >= SL_MAX)
  * \param m_ptr is the monster being attacked
  * \param best_s_ptr is the best applicable slay_table entry, or NULL if no
  *  slay already known
- * \param real is whether this is a real attack (where we update lore) or a
- *  simulation (where we don't)
- * \param known_only is whether we are using all the object flags, or only
- * the ones we *already* know about
  */
-void improve_attack_modifier(object_type *o_ptr, const monster_type
-	*m_ptr, const struct slay **best_s_ptr, bool real, bool known_only)
+void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
+	const struct slay **best_s_ptr)
 {
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
-	monster_lore *l_ptr = &l_list[m_ptr->r_idx];
-	bitflag f[OF_SIZE], known_f[OF_SIZE], note_f[OF_SIZE];
-	int i;
-
-	object_flags(o_ptr, f);
-	object_flags_known(o_ptr, known_f);
+	int i, bestmult = 100, oldbest = 0;
 
 	for (i = 0; i < SL_MAX; i++) {
 		const struct slay *s_ptr = &slay_table[i];
-		if ((known_only && !of_has(known_f, s_ptr->object_flag)) ||
-				(!known_only && !of_has(f, s_ptr->object_flag))) continue;
+		oldbest = bestmult;
 
-		/* Disallow forbidden off-weapon slays/brands */
-		if (wield_slot(o_ptr) > INVEN_BOW && wield_slot(o_ptr) < INVEN_TOTAL
- 				&& !s_ptr->nonweap) continue;
-
-		/* In a real attack, learn about monster resistance or slay match if:
-		 * EITHER the slay flag on the object is known,
-		 * OR the monster is vulnerable to the slay/brand
-		 */
-		if (real && (of_has(known_f, s_ptr->object_flag) || (s_ptr->monster_flag
-				&& rf_has(r_ptr->flags,	s_ptr->monster_flag)) ||
-				(s_ptr->resist_flag && !rf_has(r_ptr->flags,
-				s_ptr->resist_flag)) || (s_ptr->vuln_flag &&
-				rf_has(r_ptr->flags, s_ptr->vuln_flag)))) {
-
-			/* notice any brand or slay that would affect monster */
-			of_wipe(note_f);
-			of_on(note_f, s_ptr->object_flag);
-			object_notice_slays(o_ptr, note_f);
-
-			if (m_ptr->ml && s_ptr->monster_flag)
-				rf_on(l_ptr->flags, s_ptr->monster_flag);
-
-			if (m_ptr->ml && s_ptr->resist_flag)
-				rf_on(l_ptr->flags, s_ptr->resist_flag);
-
-			if (m_ptr->ml && s_ptr->vuln_flag)
-				rf_on(l_ptr->flags, s_ptr->vuln_flag);
-		}
-
-		/* If the monster doesn't resist or the slay flag matches */
-		if ((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
+		/* If it's a brand the monster doesn't resist or a matching slay */
+		if (((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
 				(s_ptr->monster_flag && rf_has(r_ptr->flags,
-				s_ptr->monster_flag)) || (s_ptr->vuln_flag &&
-				rf_has(r_ptr->flags, s_ptr->vuln_flag))) {
+				s_ptr->monster_flag))) && mult[i] > bestmult)
+			bestmult = mult[i];
 
-			/* compare multipliers to determine best attack */
-			if ((*best_s_ptr == NULL))
-				*best_s_ptr = s_ptr; /* Need to check pvals */
-		}
+		/* If the monster is explicitly vulnerable, mult will be 1x higher */
+		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag) &&
+				mult[i] + 100 > bestmult)
+			bestmult = mult[i] + 100;
+
+		/* use this slay if it's better than the previous best */
+		if (*best_s_ptr == NULL || bestmult > oldbest)
+			*best_s_ptr = s_ptr;
 	}
 }
 
