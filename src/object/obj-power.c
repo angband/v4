@@ -162,7 +162,7 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 
 		/* Find the best multiplier against this monster */
 		object_slay_mults((object_type *)o_ptr, s_mult);
-		improve_attack_modifier(s_mult, m_ptr, &best_s_ptr);
+		improve_attack_modifier(s_mult, m_ptr, &best_s_ptr, NULL, FALSE);
 		if (best_s_ptr) {
 			mult = s_mult[best_s_ptr->index];
 			if (best_s_ptr->vuln_flag &&

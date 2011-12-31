@@ -185,19 +185,19 @@ int get_hit_chance(const player_state state, const monster_race *r_ptr)
 {
 	int chance;
     int base_chance = 75;
-	
+
 	/* Calculate chance */
 	chance = base_chance - r_ptr->evasion + (state.to_finesse / 25);
-	
+
 	/* Set minima and maxima */
 	if (chance > 95){
 		chance = 95;
 	}
-	
+
 	if (chance < 40){
 		chance = 40;
 	}
-	
+
 	return chance;
 }
 
@@ -214,9 +214,10 @@ static bool py_attack_real(int y, int x, bool *fear)
 
 	/* The weapon used */
 	object_type *o_ptr = &p_ptr->inventory[INVEN_WIELD];
+	bitflag learn_flags[OF_SIZE];
 
 	/* Information about the attack */
-	int chance = get_hit_chance(p_ptr->state, r_ptr);
+	int i, chance = get_hit_chance(p_ptr->state, r_ptr);
 	bool do_quake = FALSE;
 	bool success = FALSE;
 
@@ -261,8 +262,16 @@ static bool py_attack_real(int y, int x, bool *fear)
 
 		/* Get the best attack multiplier from all slays or
 		 * brands on all non-launcher equipment */
-		improve_attack_modifier(p_ptr->state.slay_mult, m_ptr, &best_s_ptr);
+		of_wipe(learn_flags);
+		improve_attack_modifier(p_ptr->state.slay_mult, m_ptr, &best_s_ptr,
+			learn_flags, TRUE);
 
+		/* Learn any applicable slays flags on equipment */
+		object_notice_slays(o_ptr, learn_flags);
+		for (i = INVEN_LEFT; i < INVEN_TOTAL; i++)
+			object_notice_slays(&p_ptr->inventory[i], learn_flags);
+
+		/* Calculate the damage (needs factoring out - CC */
 		dmg = damroll(o_ptr->dd, o_ptr->ds);
 
 		if (best_s_ptr) {
@@ -591,6 +600,8 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 	int multiplier = p_ptr->state.ammo_mult;
 	const struct slay *best_s_ptr = NULL;
 	s16b slay_mult[SL_MAX] = { 100 };
+	bitflag learn_flags[OF_SIZE];
+	of_wipe(learn_flags);
 
 	/* Did we hit it */
 	if (!test_hit(chance, m_ptr->ml)) return result;
@@ -600,7 +611,11 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 	/* Look for the best slay/brand from launcher and missile */
 	object_slay_mults(o_ptr, slay_mult);
 	object_slay_mults(j_ptr, slay_mult);
-	improve_attack_modifier(slay_mult, m_ptr, &best_s_ptr);
+	improve_attack_modifier(slay_mult, m_ptr, &best_s_ptr, learn_flags, TRUE);
+
+	/* Learn any applicable slays/brands */
+	object_notice_slays(o_ptr, learn_flags);
+	object_notice_slays(j_ptr, learn_flags);
 
 	/* If we have a slay, modify the multiplier appropriately */
 	if (best_s_ptr != NULL) {
@@ -638,6 +653,8 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	int multiplier = 1;
 	const struct slay *best_s_ptr = NULL;
 	s16b slay_mult[SL_MAX] = { 100 };
+	bitflag learn_flags[OF_SIZE];
+	of_wipe(learn_flags);
 
 	/* If we missed then we're done */
 	if (!test_hit(chance, m_ptr->ml)) return result;
@@ -646,7 +663,10 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 
 	/* Get the best slay or brand from the missile */
 	object_slay_mults(o_ptr, slay_mult);
-	improve_attack_modifier(slay_mult, m_ptr, &best_s_ptr);
+	improve_attack_modifier(slay_mult, m_ptr, &best_s_ptr, learn_flags, TRUE);
+
+	/* Learn any applicable slays/brands */
+	object_notice_slays(o_ptr, learn_flags);
 
 	/* If we have a slay, modify the multiplier appropriately */
 	if (best_s_ptr != NULL) {

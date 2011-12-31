@@ -131,9 +131,11 @@ void object_notice_slays(object_type *o_ptr, const bitflag mask[OF_SIZE])
  * \param m_ptr is the monster being attacked
  * \param best_s_ptr is the best applicable slay_table entry, or NULL if no
  *  slay already known
+ * \param real is whether this is a real attack (where we learn stuff) or a sim
+ * \param learn_flags is the set of object flags we've learned (can be NULL)
  */
 void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
-	const struct slay **best_s_ptr)
+	const struct slay **best_s_ptr, bitflag *learn_flags, bool real)
 {
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 	int i, bestmult = 100, oldbest = 0;
@@ -143,15 +145,22 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 		oldbest = bestmult;
 
 		/* If it's a brand the monster doesn't resist or a matching slay */
-		if (((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
+		if ((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
 				(s_ptr->monster_flag && rf_has(r_ptr->flags,
-				s_ptr->monster_flag))) && mult[i] > bestmult)
-			bestmult = mult[i];
+				s_ptr->monster_flag))) {
+			if (real)
+				of_on(learn_flags, s_ptr->object_flag);
+			if (mult[i] > bestmult)
+				bestmult = mult[i];
+		}
 
 		/* If the monster is explicitly vulnerable, mult will be 1x higher */
-		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag) &&
-				mult[i] + 100 > bestmult)
-			bestmult = mult[i] + 100;
+		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag)) {
+			if (real)
+				of_on(learn_flags, s_ptr->object_flag);
+			if (mult[i] + 100 > bestmult)
+				bestmult = mult[i] + 100;
+		}
 
 		/* use this slay if it's better than the previous best */
 		if (*best_s_ptr == NULL || bestmult > oldbest)
