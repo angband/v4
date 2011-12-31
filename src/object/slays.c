@@ -138,6 +138,7 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 	const struct slay **best_s_ptr, bitflag *learn_flags, bool real)
 {
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
+	monster_lore *l_ptr = &l_list[m_ptr->r_idx];
 	int i, bestmult = 100, oldbest = 0;
 
 	for (i = 0; i < SL_MAX; i++) {
@@ -148,16 +149,27 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 		if ((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
 				(s_ptr->monster_flag && rf_has(r_ptr->flags,
 				s_ptr->monster_flag))) {
-			if (real)
+			/* In a real attack, learn about object and monster flags */
+			if (real) {
 				of_on(learn_flags, s_ptr->object_flag);
+				if (m_ptr->ml) {
+					if (s_ptr->monster_flag)
+						rf_on(l_ptr->flags, s_ptr->monster_flag);
+					if (s_ptr->resist_flag)
+						rf_on(l_ptr->flags, s_ptr->resist_flag);
+				}
+			}
 			if (mult[i] > bestmult)
 				bestmult = mult[i];
 		}
 
 		/* If the monster is explicitly vulnerable, mult will be 1x higher */
 		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag)) {
-			if (real)
+			if (real) {
 				of_on(learn_flags, s_ptr->object_flag);
+				if (m_ptr->ml)
+					rf_on(l_ptr->flags, s_ptr->vuln_flag);
+			}
 			if (mult[i] + 100 > bestmult)
 				bestmult = mult[i] + 100;
 		}
