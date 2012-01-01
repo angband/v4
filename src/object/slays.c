@@ -164,8 +164,7 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 		}
 
 		/* If the monster is explicitly vulnerable, mult will be 1x higher */
-		if ((s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag)) &&
-				mult[i] > 100) {
+		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag)) {
 			if (real) {
 				of_on(learn_flags, s_ptr->object_flag);
 				if (m_ptr->ml)
