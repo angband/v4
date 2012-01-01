@@ -393,45 +393,64 @@ static bool describe_misc_magic(textblock *tb, const bitflag flags[OF_SIZE])
  * Describe slays and brands on weapons
  */
 static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
-		int tval)
+		object_type *o_ptr)
 {
-	bool printed = FALSE;
-	const char *slay_descs[SL_MAX] = { 0 };
+	bool fulldesc, printed = FALSE;
 	bitflag slay_mask[OF_SIZE], brand_mask[OF_SIZE];
-	size_t count;
-	bool fulldesc;
+	bitflag slay_flags[OF_SIZE], brand_flags[OF_SIZE];
+	size_t i = 0;
+	s16b slay_mult[SL_MAX] = { 100 };
+	const struct slay *s_ptr = NULL;
+	char *slay_descs[SL_MAX] = { 0 };
 
 	create_mask(slay_mask, FALSE, OFT_SLAY, OFT_MAX);
 	create_mask(brand_mask, FALSE, OFT_BRAND, OFT_MAX);
+	of_copy(slay_flags, flags);
+	of_copy(brand_flags, flags);
+	of_inter(slay_flags, slay_mask);
+	of_inter(brand_flags, brand_mask);
 
-	if (tval == TV_SWORD || tval == TV_HAFTED || tval == TV_POLEARM ||
-			tval == TV_DIGGING || tval == TV_BOW || tval == TV_SHOT ||
-			tval == TV_ARROW || tval == TV_BOLT || tval == TV_FLASK)
+	if (kind_is_weapon(o_ptr->tval) || kind_is_bow(o_ptr->tval) ||
+			kind_is_ammo(o_ptr->tval || o_ptr->tval == TV_FLASK))
 		fulldesc = FALSE;
 	else
 		fulldesc = TRUE;
 
+	object_slay_mults(o_ptr, slay_mult);
+
 	/* Slays */
-	count = list_slays(flags, slay_mask, slay_descs, NULL);
-	if (count) {
+	if (!of_is_empty(slay_flags)) {
 		if (fulldesc)
 			textblock_append(tb, "It causes your melee attacks to slay ");
 		else
 			textblock_append(tb, "Slays ");
-		info_out_list(tb, slay_descs, count);
+		for (i = of_next(slay_flags, FLAG_START); i != FLAG_END;
+				i = of_next(slay_flags, i + 1)) {
+			s_ptr = lookup_slay(i);
+			slay_descs[s_ptr->index] = string_make(format("%s (x%d%%)",
+				s_ptr->desc, slay_mult[s_ptr->index]));
+		}
+		info_out_list(tb, slay_descs, SL_MAX);
 		printed = TRUE;
 	}
-
 	/* Brands */
-	count = list_slays(flags, brand_mask, NULL, slay_descs);
-	if (count) {
+	if (!of_is_empty(brand_flags)) {
 		if (fulldesc)
 			textblock_append(tb, "It brands your melee attacks with ");
 		else
 			textblock_append(tb, "Branded with ");
-		info_out_list(tb, slay_descs, count);
+		for (i = of_next(slay_flags, FLAG_START); i != FLAG_END;
+				i = of_next(slay_flags, i + 1)) {
+			s_ptr = lookup_slay(i);
+			slay_descs[s_ptr->index] = string_make(format("%s (x%d%%)",
+				s_ptr->brand, slay_mult[s_ptr->index]));
+		}
+		info_out_list(tb, slay_descs, SL_MAX);
 		printed = TRUE;
 	}
+	/* Free the string memory */
+	for (i = 0; i < SL_MAX; i++)
+		string_free(slay_descs[i]);
 
 	return printed;
 }
@@ -1300,7 +1319,7 @@ static textblock *object_info_out(const object_type *o_ptr, oinfo_detail_t mode)
 
 	if (describe_curses(tb, o_ptr, flags)) something = TRUE;
 	if (describe_stats(tb, o_ptr, pval_flags, mode)) something = TRUE;
-	if (describe_slays(tb, flags, o_ptr->tval)) something = TRUE;
+	if (describe_slays(tb, flags, o_ptr)) something = TRUE;
 	if (describe_immune(tb, flags)) something = TRUE;
 	if (describe_ignores(tb, flags)) something = TRUE;
 	dedup_hates_flags(flags);
