@@ -50,7 +50,7 @@ enum {
 
 /* Maximum number pvals on objects (and therefore of L: lines in
    object.txt and ego-item.txt) */
-#define MAX_PVALS 		3
+#define MAX_PVALS 		15
 #define DEFAULT_PVAL	0 /* TODO: remove this */
 
 /* Maximum number of T: and R/R2: lines in ego-item.txt, and no-op value for

@@ -383,7 +383,8 @@ T:sword:0:99:great:15:30 to 127
 # The "Branded" weapons (5)
 
 N:72:suffix:of Acid
-F:BRAND_ACID | RES_ACID | IGNORE_ACID
+F:RES_ACID | IGNORE_ACID
+L:250+M50:250:BRAND_ACID
 T:hafted:0:99:great:11:33 to 100
 T:polearm:0:99:great:11:33 to 100
 T:sword:0:99:great:11:33 to 100
@@ -392,7 +393,8 @@ T:arrow:0:99:great:8:10 to 100
 T:bolt:0:99:great:8:10 to 100
 
 N:73:suffix:of Lightning
-F:BRAND_ELEC | RES_ELEC | IGNORE_ELEC
+L:250+M50:250:BRAND_ELEC
+F:RES_ELEC | IGNORE_ELEC
 T:hafted:0:99:great:10:33 to 100
 T:polearm:0:99:great:10:33 to 100
 T:sword:0:99:great:10:33 to 100
@@ -401,7 +403,8 @@ T:arrow:0:99:great:8:10 to 100
 T:bolt:0:99:great:8:10 to 100
 
 N:74:suffix:of Flame
-F:BRAND_FIRE | RES_FIRE | IGNORE_FIRE
+L:250+M50:250:BRAND_FIRE
+F:RES_FIRE | IGNORE_FIRE
 T:hafted:0:99:great:17:33 to 100
 T:polearm:0:99:great:17:33 to 100
 T:sword:0:99:great:17:33 to 100
@@ -410,7 +413,8 @@ T:arrow:0:99:great:12:10 to 100
 T:bolt:0:99:great:12:10 to 100
 
 N:75:suffix:of Frost
-F:BRAND_COLD | RES_COLD | IGNORE_COLD
+L:250+M50:250:BRAND_COLD
+F:RES_COLD | IGNORE_COLD
 T:hafted:0:99:great:16:33 to 100
 T:polearm:0:99:great:16:33 to 100
 T:sword:0:99:great:16:33 to 100
@@ -419,7 +423,7 @@ T:arrow:0:99:great:12:10 to 100
 T:bolt:0:99:great:12:10 to 100
 
 N:76:suffix:of Venom
-F:BRAND_POIS
+L:250+M50:250:BRAND_POIS
 T:hafted:0:99:great:18:10 to 100
 T:polearm:0:99:great:18:10 to 100
 T:sword:0:99:great:18:10 to 100
@@ -457,7 +461,7 @@ D:Magically enhances your defences.
 # The "Slay" weapons (8)
 
 N:80:suffix:of Slay Animal
-F:SLAY_ANIMAL
+L:200:200:SLAY_ANIMAL
 T:hafted:0:99:great:20:1 to 50
 T:hafted:0:99:good:10:51 to 100
 T:polearm:0:99:great:20:1 to 50
@@ -469,7 +473,7 @@ T:arrow:0:99:great:12:1 to 100
 T:bolt:0:99:great:12:1 to 100
 
 N:81:suffix:of Slay Evil
-F:SLAY_EVIL
+L:200:200:SLAY_EVIL
 T:hafted:0:99:great:20:1 to 100
 T:polearm:0:99:great:20:1 to 100
 T:sword:0:99:great:20:1 to 100
@@ -478,7 +482,7 @@ T:arrow:0:99:great:12:1 to 100
 T:bolt:0:99:great:12:1 to 100
 
 N:82:suffix:of Slay Undead
-F:SLAY_UNDEAD
+L:300:300:SLAY_UNDEAD
 T:hafted:0:18:great:20:33 to 100
 T:polearm:0:99:great:20:33 to 100
 T:sword:0:99:great:20:33 to 100
@@ -487,7 +491,7 @@ T:arrow:0:99:great:8:24 to 100
 T:bolt:0:99:great:8:24 to 100
 
 N:83:suffix:of Slay Demon
-F:SLAY_DEMON
+L:300:300:SLAY_DEMON
 T:hafted:0:99:great:20:33 to 100
 T:polearm:0:99:great:20:33 to 100
 T:sword:0:99:great:20:33 to 100
@@ -496,19 +500,19 @@ T:arrow:0:99:great:8:26 to 100
 T:bolt:0:99:great:8:26 to 100
 
 N:84:suffix:of Slay Orc
-F:SLAY_ORC
+L:300:300:SLAY_ORC
 T:hafted:0:99:good:20:5 to 44
 T:polearm:0:99:good:20:5 to 44
 T:sword:0:99:good:20:5 to 44
 
 N:85:suffix:of Slay Troll
-F:SLAY_TROLL
+L:300:300:SLAY_TROLL
 T:hafted:0:99:good:20:16 to 66
 T:polearm:0:99:good:20:16 to 66
 T:sword:0:99:good:20:16 to 66
 
 N:86:suffix:of Slay Giant
-F:SLAY_GIANT
+L:300:300:SLAY_GIANT
 T:hafted:0:99:great:20:24 to 70
 T:hafted:0:99:good:10:71 to 100
 T:polearm:0:99:great:20:24 to 70
@@ -520,7 +524,7 @@ T:arrow:0:99:great:8:24 to 100
 T:bolt:0:99:great:8:24 to 100
 
 N:87:suffix:of Slay Dragon
-F:SLAY_DRAGON
+L:300:300:SLAY_DRAGON
 T:hafted:0:99:great:20:25 to 75
 T:hafted:0:99:good:10:76 to 100
 T:polearm:0:99:great:20:25 to 75
@@ -534,19 +538,19 @@ T:bolt:0:99:great:8:8 to 100
 # The *Slay* weapons (8)
 
 N:90:suffix:of Nightbane
-F:KILL_UNDEAD
+L:500:500:SLAY_UNDEAD
 T:hafted:0:18:uber:20:67 to 127
 T:polearm:0:99:uber:20:67 to 127
 T:sword:0:99:uber:20:67 to 127
 
 N:91:suffix:of Demonbane
-F:KILL_DEMON
+L:500:500:SLAY_DEMON
 T:hafted:0:99:uber:20:67 to 127
 T:polearm:0:99:uber:20:67 to 127
 T:sword:0:99:uber:20:67 to 127
 
 N:95:suffix:of Dragonbane
-F:KILL_DRAGON
+L:500:500:SLAY_DRAGON
 T:hafted:0:99:uber:20:67 to 100
 T:polearm:0:99:uber:20:67 to 100
 T:sword:0:99:uber:20:67 to 100
@@ -586,8 +590,9 @@ T:digger:0:99:great:5:20 to 127
 ### Cursed Weapons
 
 N:102:suffix:of Morgul
-F:SEE_INVIS | AGGRAVATE | HEAVY_CURSE | LIGHT_CURSE |
-F:HOLD_LIFE | DRAIN_EXP | SLAY_UNDEAD | BRAND_POIS
+F:SEE_INVIS | AGGRAVATE | HEAVY_CURSE | LIGHT_CURSE
+F:HOLD_LIFE | DRAIN_EXP
+L:300:300:SLAY_UNDEAD | BRAND_POIS
 # should be a theme
 
 # 103 (unused)
@@ -841,7 +846,7 @@ T:arrow:0:99:good:18:25 to 100
 D:It provides the wielder with accurate blows.
 
 N:159:make:Forester's
-F:BRAND_ICKY
+L:150+M50:150:BRAND_POIS
 T:polearm:0:99:great:20:6 to 55
 T:polearm:0:99:good:10:56 to 100
 T:sword:0:99:great:20:6 to 55
@@ -906,7 +911,7 @@ T:bolt:0:99:good:10:16 to 100
 D:It is made from the bones of dragons.
 
 N:167:material:Iron
-F:HURT_DEMON
+L:200:200:SLAY_DEMON
 T:hafted:10:99:good:20:6 to 55
 T:hafted:10:99:average:10:56 to 76
 T:polearm:0:99:good:20:6 to 55
@@ -918,7 +923,7 @@ T:arrow:0:99:good:10:1 to 100
 T:bolt:0:99:good:10:1 to 100
 
 N:168:material:Silver
-F:HURT_UNDEAD
+L:200:200:SLAY_UNDEAD
 T:hafted:10:99:good:20:6 to 76
 T:hafted:10:99:average:10:56 to 76
 T:polearm:0:99:good:20:6 to 55
@@ -940,7 +945,7 @@ T:bolt:0:99:good:15:15 to 100
 D:It is made from the toughest rock.
 
 N:171:material:Emerald
-F:BRAND_FIZZ
+L:150+M50:150:BRAND_ACID
 T:hafted:10:99:great:20:6 to 55
 T:hafted:10:99:good:10:56 to 100
 T:polearm:0:99:great:20:6 to 55
@@ -952,7 +957,7 @@ T:arrow:0:99:great:10:45 to 100
 T:bolt:0:99:great:10:45 to 100
 
 N:172:material:Topaz
-F:BRAND_BUZZ
+L:150+M50:150:BRAND_ELEC
 T:hafted:10:99:great:20:6 to 55
 T:hafted:10:99:good:10:56 to 100
 T:polearm:0:99:great:20:6 to 55
@@ -964,7 +969,7 @@ T:arrow:0:99:great:10:45 to 100
 T:bolt:0:99:great:10:45 to 100
 
 N:173:material:Ruby
-F:BRAND_WARM
+L:150+M50:150:BRAND_FIRE
 T:hafted:10:99:great:20:6 to 55
 T:hafted:10:99:good:10:56 to 100
 T:polearm:0:99:great:20:6 to 55
@@ -976,7 +981,7 @@ T:arrow:0:99:great:10:45 to 100
 T:bolt:0:99:great:10:45 to 100
 
 N:174:material:Sapphire
-F:BRAND_COOL
+L:150+M50:150:BRAND_COLD
 T:hafted:10:99:great:20:6 to 55
 T:hafted:10:99:good:10:56 to 100
 T:polearm:0:99:great:20:6 to 55
@@ -1167,7 +1172,7 @@ T:sword:11:99:uber:10:70 to 100
 
 N:207:suffix:of Disruption
 C:10d2M80:10d2M80:0:0:233:3:4
-F:SLAY_UNDEAD
+L:300:300:SLAY_UNDEAD
 T:hafted:0:99:uber:10:70 to 100
 
 N:199:quality:Tough
