@@ -89,6 +89,7 @@ void theme_set_squelch(struct theme *theme, int tval, bool state);
 void affix_setall_squelch(ego_item_type *affix, bool state);
 void theme_setall_squelch(struct theme *theme, bool state);
 bool squelch_item_ok(const object_type *o_ptr);
+bool object_is_squelched(const object_type *o_ptr);
 bool squelch_hide_item(object_type *o_ptr);
 void squelch_drop(void);
 void do_cmd_options_item(const char *title, int row);
