@@ -353,7 +353,7 @@ const struct slay *lookup_slay(int flag)
  * \param mult[] is the array of mults that we're updating - it must be at
  * least SL_MAX in size
  */
-bool object_slay_mults(object_type *o_ptr, s16b mult[])
+bool object_slay_mults(const object_type *o_ptr, s16b mult[])
 {
 	size_t i;
 	bitflag slay_flags[OF_SIZE], allslays[OF_SIZE];

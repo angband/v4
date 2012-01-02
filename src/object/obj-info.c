@@ -393,15 +393,15 @@ static bool describe_misc_magic(textblock *tb, const bitflag flags[OF_SIZE])
  * Describe slays and brands on weapons
  */
 static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
-		object_type *o_ptr)
+		const object_type *o_ptr)
 {
 	bool fulldesc, printed = FALSE;
 	bitflag slay_mask[OF_SIZE], brand_mask[OF_SIZE];
 	bitflag slay_flags[OF_SIZE], brand_flags[OF_SIZE];
-	size_t i = 0;
+	size_t i = 0, slay_count = 0, brand_count = 0;
 	s16b slay_mult[SL_MAX] = { 100 };
 	const struct slay *s_ptr = NULL;
-	char *slay_descs[SL_MAX] = { 0 };
+	const char *slay_descs[SL_MAX] = { 0 };
 
 	create_mask(slay_mask, FALSE, OFT_SLAY, OFT_MAX);
 	create_mask(brand_mask, FALSE, OFT_BRAND, OFT_MAX);
@@ -427,10 +427,10 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 		for (i = of_next(slay_flags, FLAG_START); i != FLAG_END;
 				i = of_next(slay_flags, i + 1)) {
 			s_ptr = lookup_slay(i);
-			slay_descs[s_ptr->index] = string_make(format("%s (x%d%%)",
-				s_ptr->desc, slay_mult[s_ptr->index]));
+			slay_descs[slay_count++] = string_make(format("%s (x%.2f)",
+				s_ptr->desc, slay_mult[s_ptr->index] / 100.0));
 		}
-		info_out_list(tb, slay_descs, SL_MAX);
+		info_out_list(tb, slay_descs, slay_count);
 		printed = TRUE;
 	}
 	/* Brands */
@@ -439,18 +439,18 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 			textblock_append(tb, "It brands your melee attacks with ");
 		else
 			textblock_append(tb, "Branded with ");
-		for (i = of_next(slay_flags, FLAG_START); i != FLAG_END;
-				i = of_next(slay_flags, i + 1)) {
+		for (i = of_next(brand_flags, FLAG_START); i != FLAG_END;
+				i = of_next(brand_flags, i + 1)) {
 			s_ptr = lookup_slay(i);
-			slay_descs[s_ptr->index] = string_make(format("%s (x%d%%)",
-				s_ptr->brand, slay_mult[s_ptr->index]));
+			slay_descs[brand_count++] = string_make(format("%s (x%.2f)",
+				s_ptr->brand, slay_mult[s_ptr->index] / 100.0));
 		}
-		info_out_list(tb, slay_descs, SL_MAX);
+		info_out_list(tb, slay_descs, brand_count);
 		printed = TRUE;
 	}
 	/* Free the string memory */
 	for (i = 0; i < SL_MAX; i++)
-		string_free(slay_descs[i]);
+		string_free((char *)slay_descs[i]);
 
 	return printed;
 }
