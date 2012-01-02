@@ -13971,6 +13971,7 @@ static int borg_perma_aux_berserk_potion(void)
     return (0);
 }
 
+#ifdef UNUSED
 /* Glyph of Warding in a a-s corridor */
 static int borg_perma_aux_glyph(void)
 {
@@ -14065,6 +14066,7 @@ static int borg_perma_aux_glyph(void)
     /* default to can't do it. */
     return (0);
 }
+#endif
 
 /*
  * Detect Inviso/Monsters
