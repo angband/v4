@@ -276,7 +276,7 @@ static bool py_attack_real(int y, int x, bool *fear)
 
 		if (best_s_ptr) {
 			hit_verb = best_s_ptr->melee_verb;
-			mult = p_ptr->state.slay_mult[best_s_ptr->index];
+			mult += p_ptr->state.slay_mult[best_s_ptr->index];
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 				mult += 100;
@@ -599,7 +599,7 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 
 	int multiplier = p_ptr->state.ammo_mult;
 	const struct slay *best_s_ptr = NULL;
-	s16b slay_mult[SL_MAX] = { 100 };
+	s16b slay_mult[SL_MAX] = { 0 };
 	bitflag learn_flags[OF_SIZE];
 	of_wipe(learn_flags);
 
@@ -652,7 +652,7 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 
 	int multiplier = 1;
 	const struct slay *best_s_ptr = NULL;
-	s16b slay_mult[SL_MAX] = { 100 };
+	s16b slay_mult[SL_MAX] = { 0 };
 	bitflag learn_flags[OF_SIZE];
 	of_wipe(learn_flags);
 

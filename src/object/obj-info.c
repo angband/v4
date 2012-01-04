@@ -399,7 +399,7 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 	bitflag slay_mask[OF_SIZE], brand_mask[OF_SIZE];
 	bitflag slay_flags[OF_SIZE], brand_flags[OF_SIZE];
 	size_t i = 0, slay_count = 0, brand_count = 0;
-	s16b slay_mult[SL_MAX] = { 100 };
+	s16b slay_mult[SL_MAX] = { 0 };
 	const struct slay *s_ptr = NULL;
 	const char *slay_descs[SL_MAX] = { 0 };
 
@@ -428,7 +428,7 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 				i = of_next(slay_flags, i + 1)) {
 			s_ptr = lookup_slay(i);
 			slay_descs[slay_count++] = string_make(format("%s (x%.2f)",
-				s_ptr->desc, slay_mult[s_ptr->index] / 100.0));
+				s_ptr->desc, (100 + slay_mult[s_ptr->index]) / 100.0));
 		}
 		info_out_list(tb, slay_descs, slay_count);
 		printed = TRUE;
