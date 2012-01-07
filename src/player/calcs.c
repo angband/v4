@@ -18,6 +18,7 @@
  */
 
 #include "angband.h"
+#include "attack.h"
 #include "cave.h"
 #include "files.h"
 #include "game-event.h"
@@ -919,6 +920,80 @@ const int blows_table[12][12] =
 };
 
 
+/**
+ * Modify damage dealt based on any critical hits that occur (return the
+ * modified damage).
+ * TODO: doesn't currently handle missile crits.
+ *
+ * Crit chance is based on the player's finesse and prowess scores, folded
+ *  together.
+ * /param dam Damage dealt prior to crits kicking in
+ * /param attack_type ATTACK_MELEE for melee attacks, ATTACK_MISSILE for missile
+ *        launcher attacks, ATTACK_THROWN for thrown attacks.
+ * /param msg_type Message describing the hit.
+ * \param info Whether this is an info call which needs an expected value
+ */
+int critical_norm(player_state state, const object_type *o_ptr, int dam,
+        int attack_type, u32b *msg_type, bool info)
+{
+    /* Everyone gets at least 100 in these values, so subtract it out to baseli$
+     * our values.
+     */
+    int mod_finesse = state.num_blows - 100;
+    int mod_prowess = state.dam_multiplier - 100;
+    int chance = 0;
+    int power;
+
+    if (attack_type == ATTACK_MISSILE) {
+        mod_finesse = state.skills[SKILL_TO_HIT_BOW];
+        mod_prowess = 0;
+    }
+    else if (attack_type == ATTACK_THROWN) {
+        mod_finesse = state.skills[SKILL_TO_HIT_THROW];
+        /* Hack: re-use throwing skill for prowess as well */
+        mod_prowess = state.skills[SKILL_TO_HIT_THROW];
+    }
+
+    /* HACK: scale the chance by an arbitrary value to get it to somewhere in t$
+     * 1-100 range.
+     */
+    chance = mod_finesse * mod_finesse + mod_prowess * mod_prowess;
+    chance = chance / 2500 + 1;
+    power = 0;
+    /* Upgrade crit power until we hit the cap or fail the roll. */
+    while (randint0(100) <= chance && power < 4) {
+        power++;
+    }
+
+    switch (power) {
+        case 1:
+            /* Good hit */
+            *msg_type = MSG_HIT_GOOD;
+            return 3 * dam / 2 + 10;
+        case 2:
+            /* Great hit */
+            *msg_type = MSG_HIT_GREAT;
+            return 2 * dam + 10;
+        case 3:
+            /* Superb hit */
+            *msg_type = MSG_HIT_SUPERB;
+            return 3 * dam + 15;
+        case 4:
+            /* Penultimate critical */
+            *msg_type = MSG_HIT_HI_GREAT;
+            return 7 * dam / 2 + 20;
+        case 5:
+            /* Best critical hit */
+            *msg_type = MSG_HIT_HI_SUPERB;
+            return 4 * dam + 20;
+        default:
+            /* Just a normal hit */
+            *msg_type = MSG_HIT;
+            return dam;
+    }
+}
+
+
 /*
  * Calculate number of spells player should have, and forget,
  * or remember, spells until that number is properly reflected.
@@ -1370,9 +1445,10 @@ static void calc_torch(void)
 }
 
 /*
- * Calculate the blows a player would get. Blows are given by 
+ * Calculate the blows a player would get. Blows are given by
  * 100 + finesse * (balance / 100)
- * This is actually 100x the actual number of blows (e.g. 150 = 1.5 blows/round).
+ * This is actually 100x the actual number of blows
+ * (e.g. 150 = 1.5 blows/round).
  *
  * \param o_ptr is the object for which we are calculating blows
  * \param state is the player state for which we are calculating blows
@@ -1395,8 +1471,48 @@ int calc_blows(const object_type *o_ptr, player_state *state)
  */
 int calc_multiplier(const object_type *o_ptr, player_state *state)
 {
-    return 100 + (state->to_prowess + o_ptr->to_prowess) * o_ptr->heft / 100; 
+    return 100 + (state->to_prowess + o_ptr->to_prowess) * o_ptr->heft / 100;
 }
+
+/**
+ * Calculate the damage from an attack with an object by the player,
+ * including any critical hits. Note that damage is currently treated as
+ * homogenous. If we want to separate physical and elemental damage, we'll
+ * need to pass in an &elemental_dam arg or something. On no account should
+ * this function ever take an m_ptr, as that defeats its purpose (which is to
+ * service both combat and inspection info).
+ *
+ * \param o_ptr is the object we're attacking with
+ * \param state is the attacker's state
+ * \param slay_index is the best applicable slay or brand (this could be an
+      array if we want to allow multiple effects)
+ * \param attack_type is melee/missile/thrown (CC: this should go - we should
+ *    have consistent logic for all attacks)
+ * \param msg_type is the message to use (CC: this should go in the master
+ *    message refactor - see #1502)
+ * \param info is whether this is an actual attack or an info call
+ * \param aspect is whether we want average, random, maximum etc.
+ */
+int calc_damage(const object_type *o_ptr, player_state state, int slay_index,
+	int attack_type, u32b *msg_type, bool info, aspect dam_aspect)
+{
+	int dam = 0;
+
+	/* Calculate the base damage from dice */
+	int base_dam = damcalc(o_ptr->dd, o_ptr->ds, dam_aspect);
+
+	/* Check for critical hits */
+	dam = critical_norm(state, o_ptr, base_dam, attack_type, msg_type, info);
+
+	/* Adjust for prowess and heft */
+	dam = (dam * state.dam_multiplier) / 100;
+
+	/* Adjust for the best applicable slay */
+	dam += base_dam * (100 + state.slay_mult[slay_index]) / 100;
+
+	return dam;
+}
+
 
 /*
  * Computes current weight limit.
