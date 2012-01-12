@@ -1508,7 +1508,8 @@ int calc_damage(const object_type *o_ptr, player_state state, int slay_index,
 	dam = (dam * state.dam_multiplier) / 100;
 
 	/* Adjust for the best applicable slay */
-	dam += base_dam * (100 + state.slay_mult[slay_index]) / 100;
+	if (slay_index)
+		dam += base_dam * (100 + state.slay_mult[slay_index]) / 100;
 
 	return dam;
 }

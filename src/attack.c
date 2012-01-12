@@ -177,7 +177,7 @@ static bool py_attack_real(int y, int x, bool *fear)
 
 	/* Handle normal weapon */
 	if (o_ptr->kind) {
-		int mult = 100;
+		int mult = 100, slay_index = 0;
 		const struct slay *best_s_ptr = NULL;
 
 		hit_verb = "hit";
@@ -193,22 +193,24 @@ static bool py_attack_real(int y, int x, bool *fear)
 		for (i = INVEN_LEFT; i < INVEN_TOTAL; i++)
 			object_notice_slays(&p_ptr->inventory[i], learn_flags);
 
-		/* Calculate the damage (needs factoring out - CC */
-		dmg = damroll(o_ptr->dd, o_ptr->ds);
-
+		/* Set mult, verb and index for best applicable slay */
 		if (best_s_ptr) {
 			hit_verb = best_s_ptr->melee_verb;
+			slay_index = best_s_ptr->index;
 			mult += p_ptr->state.slay_mult[best_s_ptr->index];
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 				mult += 100;
 		}
-		dmg = (dmg * mult) / 100;
-		dmg = critical_norm(p_ptr->state, o_ptr, dmg, ATTACK_MELEE, &msg_type, FALSE);
+
+		/* Calculate the damage (including criticals and slays) */
+		dmg = calc_damage(o_ptr, p_ptr->state, slay_index, ATTACK_MELEE,
+			&msg_type, FALSE, RANDOMISE);
 
 		/* Learn by use for the weapon */
 		object_notice_attack_plusses(o_ptr);
 
+		/* Hack - earthquake proc */
 		if (check_state(p_ptr, OF_IMPACT, p_ptr->state.flags) && dmg > 50) {
 			do_quake = TRUE;
 			wieldeds_notice_flag(p_ptr, OF_IMPACT);
@@ -218,12 +220,9 @@ static bool py_attack_real(int y, int x, bool *fear)
 	/* Learn by use for other equipped items */
 	wieldeds_notice_on_attack();
 
-	/* Apply the prowess multiplier. */
-	dmg = (dmg * p_ptr->state.dam_multiplier) / 100;
-
 	/* Subtract damage that is absorbed by monster armour */
 	dmg = (dmg - r_ptr->armour);
-	
+
 	/* No negative damage */
 	if (dmg <= 0) dmg = 0;
 

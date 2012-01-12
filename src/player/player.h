@@ -41,6 +41,8 @@ void handle_stuff(struct player *p);
 int weight_remaining(void);
 int critical_norm(player_state state, const object_type *o_ptr, int dam,
 	int attack_type, u32b *msg_type, bool info);
+int calc_damage(const object_type *o_ptr, player_state state, int slay_index,
+	int attack_type, u32b *msg_type, bool info, aspect dam_aspect);
 
 /* class.c */
 extern struct player_class *player_id2class(guid id);
