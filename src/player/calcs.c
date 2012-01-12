@@ -1685,7 +1685,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 		if (i == INVEN_BOW) continue;
 
 		/* Update the melee slay/brand multiplier array */
-		(void)object_slay_mults(o_ptr, state->slay_mult);
+		if (o_ptr->kind)
+			(void)object_slay_mults(o_ptr, state->slay_mult);
 
 		/* Do not apply weapon fin/prow bonuses yet */
 		if (i == INVEN_WIELD) continue;
