@@ -365,8 +365,6 @@ L:-d10:0:SPEED | STEALTH
 
 N:66:suffix:of Piety
 F:BLESSED
-T:hafted:0:99:good:19:1 to 60
-T:hafted:0:99:average:19:61 to 100
 T:polearm:0:99:good:19:1 to 60
 T:polearm:0:99:average:19:61 to 100
 T:sword:0:99:good:19:1 to 60
