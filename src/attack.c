@@ -205,7 +205,7 @@ static bool py_attack_real(int y, int x, bool *fear)
 
 		/* Calculate the damage (including criticals and slays) */
 		dmg = calc_damage(o_ptr, p_ptr->state, slay_index, ATTACK_MELEE,
-			&msg_type, FALSE, RANDOMISE);
+			&msg_type, RANDOMISE);
 
 		/* Learn by use for the weapon */
 		object_notice_attack_plusses(o_ptr);
@@ -603,7 +603,7 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	result.dmg += o_ptr->to_prowess;
 	result.dmg = (result.dmg * multiplier) / 100;
 	result.dmg = critical_norm(p_ptr->state, o_ptr, result.dmg,
-            ATTACK_THROWN, &result.msg_type, FALSE);
+            ATTACK_THROWN, &result.msg_type, RANDOMISE);
 
 	return result;
 }

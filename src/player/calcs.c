@@ -931,10 +931,10 @@ const int blows_table[12][12] =
  * /param attack_type ATTACK_MELEE for melee attacks, ATTACK_MISSILE for missile
  *        launcher attacks, ATTACK_THROWN for thrown attacks.
  * /param msg_type Message describing the hit.
- * \param info Whether this is an info call which needs an expected value
+ * \param aspect The type of calculation we want (random, average, min, max)
  */
 int critical_norm(player_state state, const object_type *o_ptr, int dam,
-        int attack_type, u32b *msg_type, bool info)
+        int attack_type, u32b *msg_type, aspect dam_aspect)
 {
     /* Everyone gets at least 100 in these values, so subtract it out to baseli$
      * our values.
@@ -1494,7 +1494,7 @@ int calc_multiplier(const object_type *o_ptr, player_state *state)
  * \param aspect is whether we want average, random, maximum etc.
  */
 int calc_damage(const object_type *o_ptr, player_state state, int slay_index,
-	int attack_type, u32b *msg_type, bool info, aspect dam_aspect)
+	int attack_type, u32b *msg_type, aspect dam_aspect)
 {
 	int dam = 0;
 
@@ -1502,7 +1502,8 @@ int calc_damage(const object_type *o_ptr, player_state state, int slay_index,
 	int base_dam = damcalc(o_ptr->dd, o_ptr->ds, dam_aspect);
 
 	/* Check for critical hits */
-	dam = critical_norm(state, o_ptr, base_dam, attack_type, msg_type, info);
+	dam = critical_norm(state, o_ptr, base_dam, attack_type, msg_type,
+		dam_aspect);
 
 	/* Adjust for prowess and heft */
 	dam = (dam * state.dam_multiplier) / 100;
