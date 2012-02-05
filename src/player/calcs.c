@@ -1491,7 +1491,7 @@ int calc_multiplier(const object_type *o_ptr, player_state *state)
 }
 
 /**
- * Calculate the damage from an attack with an object by the player,
+ * Calculate 10x the damage from an attack with an object by the player,
  * including any critical hits. Note that damage is currently treated as
  * homogenous. If we want to separate physical and elemental damage, we'll
  * need to pass in an &elemental_dam arg or something. On no account should
@@ -1521,12 +1521,12 @@ int calc_damage(const object_type *o_ptr, player_state state, int slay_index,
 	dam = critical_norm(state, o_ptr, base_dam, attack_type, msg_type,
 		dam_aspect);
 
-	/* Adjust for prowess and heft */
-	dam = (dam * state.dam_multiplier) / 100;
+	/* Adjust for prowess and heft, and multiply by 10 */
+	dam = (dam * state.dam_multiplier) / 10;
 
-	/* Adjust for the best applicable slay */
+	/* Adjust for the best applicable slay (also x10) */
 	if (slay_index)
-		dam += base_dam * (100 + state.slay_mult[slay_index]) / 100;
+		dam += base_dam * (100 + state.slay_mult[slay_index]) / 10;
 
 	return dam;
 }

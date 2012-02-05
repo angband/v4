@@ -205,7 +205,7 @@ static bool py_attack_real(int y, int x, bool *fear)
 
 		/* Calculate the damage (including criticals and slays) */
 		dmg = calc_damage(o_ptr, p_ptr->state, slay_index, ATTACK_MELEE,
-			&msg_type, RANDOMISE);
+			&msg_type, RANDOMISE) / 10;
 
 		/* Learn by use for the weapon */
 		object_notice_attack_plusses(o_ptr);
