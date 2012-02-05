@@ -927,22 +927,21 @@ const int blows_table[12][12] =
  *
  * Crit chance is based on the player's finesse and prowess scores, folded
  *  together.
- * /param dam Damage dealt prior to crits kicking in
- * /param attack_type ATTACK_MELEE for melee attacks, ATTACK_MISSILE for missile
- *        launcher attacks, ATTACK_THROWN for thrown attacks.
- * /param msg_type Message describing the hit.
+ *
+ * \param o_ptr is the weapon being swung/thrown or ammo being fired
+ * \param dam Damage dealt prior to crits kicking in
+ * \param attack_type ATTACK_MELEE for melee attacks, ATTACK_MISSILE for missile
+ *   launcher attacks, ATTACK_THROWN for thrown attacks.
+ * \param msg_type Message describing the hit (needs factoring out, see #1502).
  * \param aspect The type of calculation we want (random, average, min, max)
  */
 int critical_norm(player_state state, const object_type *o_ptr, int dam,
         int attack_type, u32b *msg_type, aspect dam_aspect)
 {
-    /* Everyone gets at least 100 in these values, so subtract it out to baseli$
-     * our values.
-     */
+    /* Everyone gets at least 100 in these values, so subtract it out */
     int mod_finesse = state.num_blows - 100;
     int mod_prowess = state.dam_multiplier - 100;
-    int chance = 0;
-    int power;
+    int chance = 0, power = 0;
 
     if (attack_type == ATTACK_MISSILE) {
         mod_finesse = state.skills[SKILL_TO_HIT_BOW];
@@ -954,43 +953,60 @@ int critical_norm(player_state state, const object_type *o_ptr, int dam,
         mod_prowess = state.skills[SKILL_TO_HIT_THROW];
     }
 
-    /* HACK: scale the chance by an arbitrary value to get it to somewhere in t$
-     * 1-100 range.
-     */
-    chance = mod_finesse * mod_finesse + mod_prowess * mod_prowess;
-    chance = chance / 2500 + 1;
-    power = 0;
-    /* Upgrade crit power until we hit the cap or fail the roll. */
-    while (randint0(100) <= chance && power < 4) {
-        power++;
-    }
+	/* Calculate the chance of a critical hit */
+	switch (dam_aspect) {
+		case MAXIMISE: case EXTREMIFY:
+			chance = 100;
+			break;
+		case AVERAGE: case RANDOMISE:
+	    /* Scale the chance by an arbitrary value to get it to somewhere in the
+    	 * 1-100 range. Check to avoid div/0 */
+		    chance = mod_finesse * mod_finesse + mod_prowess * mod_prowess;
+    		chance = chance / 2500 + 1;
+			if (chance > 99)
+				chance = 99;
+			if (dam_aspect == AVERAGE)
+				return dam + (o_ptr->ds + 1) * chance / (2 * (100 - chance));
+			break;
+		case MINIMISE:
+			break; /* chance is already zero */
+		default:
+			msg("Illegal aspect in critical_norm\n");
+			assert(0);
+	}
 
+    /* Upgrade crit power until we fail the roll. (Cap at power 5?) */
+    while (randint0(100) <= chance) {
+        power++;
+		dam += damcalc(1, o_ptr->ds, dam_aspect);
+	}
+
+	if (power > 5)
+		power = 5;
+
+	/* Set the right hit message (this does not belong here - see #1502) */
     switch (power) {
         case 1:
-            /* Good hit */
             *msg_type = MSG_HIT_GOOD;
-            return 3 * dam / 2 + 10;
+			break;
         case 2:
-            /* Great hit */
             *msg_type = MSG_HIT_GREAT;
-            return 2 * dam + 10;
+			break;
         case 3:
-            /* Superb hit */
             *msg_type = MSG_HIT_SUPERB;
-            return 3 * dam + 15;
+			break;
         case 4:
-            /* Penultimate critical */
             *msg_type = MSG_HIT_HI_GREAT;
-            return 7 * dam / 2 + 20;
+			break;
         case 5:
             /* Best critical hit */
             *msg_type = MSG_HIT_HI_SUPERB;
-            return 4 * dam + 20;
+			break;
         default:
             /* Just a normal hit */
             *msg_type = MSG_HIT;
-            return dam;
     }
+	return dam;
 }
 
 
