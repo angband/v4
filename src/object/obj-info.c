@@ -443,7 +443,7 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 				i = of_next(brand_flags, i + 1)) {
 			s_ptr = lookup_slay(i);
 			slay_descs[brand_count++] = string_make(format("%s (x%.2f)",
-				s_ptr->brand, slay_mult[s_ptr->index] / 100.0));
+				s_ptr->brand, (100 + slay_mult[s_ptr->index]) / 100.0));
 		}
 		info_out_list(tb, slay_descs, brand_count);
 		printed = TRUE;
