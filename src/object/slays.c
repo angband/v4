@@ -346,6 +346,18 @@ const struct slay *lookup_slay(int flag)
 }
 
 /**
+ * Return the slay from a given slay index
+ */
+const struct slay *lookup_slay_by_index(int index)
+{
+	const struct slay *s_ptr = &slay_table[index];
+
+	assert(index < SL_MAX);
+
+	return s_ptr;
+}
+
+/**
  * Check the slays on an object and update the mult[] array if any of the
  * object's slay pvals are better than those already in the array. Returns
  * TRUE if changes were made.

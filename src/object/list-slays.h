@@ -18,7 +18,7 @@
  * brand name
  */
 /*   name		object flag		mon flag	res flag 	vuln flag		nonweap	ranged verb			melee verb			active verb			affected creatures							brand name */
-SLAY(XXX, 		FLAG_END,       FLAG_END,  	FLAG_END,	FLAG_END,		FALSE,	NULL,	    		NULL,      			NULL,         		NULL, 										NULL)
+SLAY(XXX, 		FLAG_END,       FLAG_END,  	FLAG_END,	FLAG_END,		FALSE,	NULL,	    		NULL,      			NULL,         		"normal creatures", 										NULL)
 SLAY(IMPACT,	OF_IMPACT,		FLAG_END,	FLAG_END,	RF_HURT_ROCK,	TRUE,	"bores into",		"hack at",			"hums",				"creatures made of stone",					NULL)
 SLAY(TUNNEL,	OF_TUNNEL,		FLAG_END,	FLAG_END,	RF_HURT_ROCK,	FALSE,	"bores into",		"hack at",			"hums",				"creatures made of stone",					NULL)
 SLAY(LIGHT,		OF_LIGHT,		FLAG_END,	FLAG_END,	RF_HURT_LIGHT,	FALSE,	"dazzles",			"dazzle",			"glows",			"creatures hurt by light",					NULL)
