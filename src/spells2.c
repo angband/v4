@@ -1270,8 +1270,8 @@ static const int enchant_table[ENCHANT_MAX + 1] =
  */
 static bool enchant_score(int flag, object_type *o_ptr, bool is_artifact)
 {
-	int chance, mult;
-	s16b *score;
+	int chance = 0, mult = 0;
+	s16b *score = NULL;
 
 	/* Artifacts resist enchantment half the time */
 	if (is_artifact && randint0(100) < 50) return FALSE;
@@ -1297,9 +1297,12 @@ static bool enchant_score(int flag, object_type *o_ptr, bool is_artifact)
 	}
 
 	/* Figure out the chance to enchant */
-	if (*score < 0) chance = 0;
-	else if (*score > ENCHANT_MAX * mult) chance = 1000;
-	else chance = enchant_table[*score / mult];
+	if (*score < 0)
+		chance = 0;
+	else if (*score > ENCHANT_MAX * mult)
+		chance = 1000;
+	else
+		chance = enchant_table[*score / mult];
 
 	/* If we roll less-than-or-equal to chance, it fails */
 	if (randint1(1000) <= chance) return FALSE;
