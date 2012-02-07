@@ -152,6 +152,9 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 		return sv;
 	}
 
+	/* Get the slay mults for this object */
+	object_slay_mults((object_type *)i_ptr, s_mult);
+
 	/*
 	 * Otherwise we need to calculate the expected average multiplier
 	 * for this combination (multiplied by the total number of
@@ -165,7 +168,6 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 		m_ptr->r_idx = i;
 
 		/* Find the best multiplier against this monster */
-		object_slay_mults((object_type *)i_ptr, s_mult);
 		improve_attack_modifier(s_mult, m_ptr, &best_s_ptr, NULL, FALSE);
 		if (best_s_ptr) {
 			mult = s_mult[best_s_ptr->index];
@@ -189,12 +191,10 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 		j = list_slays(s_index, s_index, desc, brand);
 
 		for (i = 0; i < j; i++) {
-			if (brand[i]) {
+			if (brand[i])
 				file_putf(log_file, brand[i]);
-			} else {
+			else
 				file_putf(log_file, desc[i]);
-			}
-			file_putf(log_file, "x%d%% ", s_mult[i]);
 		}
 		file_putf(log_file, "\nsv is: %d\n", sv);
 		file_putf(log_file, " and t_m_p is: %d \n", tot_mon_power);
