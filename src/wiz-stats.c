@@ -743,13 +743,7 @@ static void get_obj_data(const object_type *o_ptr, int y, int x, bool mon, bool 
 			/* slay evil */
 			if (of_has(f,OF_SLAY_EVIL))
 				add_stats( slweap_total,  slweap_mon,  slweap_vault, vault, mon,number);
-			
-			/* kill flag */
-			if ((of_has(f,OF_KILL_DRAGON)) ||
-				(of_has(f,OF_KILL_DEMON)) ||
-				(of_has(f,OF_KILL_UNDEAD)))
-					add_stats( klweap_total,  klweap_mon,  klweap_vault, vault, mon,number);
-				
+
 			/* branded weapons */
 			if ((of_has(f,OF_BRAND_ACID)) ||
 				(of_has(f,OF_BRAND_ELEC)) ||

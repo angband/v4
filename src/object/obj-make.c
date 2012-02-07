@@ -162,27 +162,20 @@ bool theme_is_prefix(int i)
 
 
 /**
- * Check item flags for legality. This function currently does three things:
- *  - checks slay_table for slay & brand contradictions (dedup_slays)
+ * Check item flags for legality. This function currently does two things:
  *  - checks gf_table for imm/res/vuln contradictions (dedup_gf_flags)
  *  - removes all attrs from ammo except slays/brands/ignore/hates
  */
-void check_flags(object_type *o_ptr)
+static void check_obj_flags(object_type *o_ptr)
 {
 	bitflag f[OF_SIZE];
-	int i;
-
-	dedup_slays(o_ptr->flags);
 
 	dedup_gf_flags(o_ptr->flags);
 
 	if (kind_is_ammo(o_ptr->tval)) {
-		create_mask(f, FALSE, OFT_SLAY, OFT_BRAND, OFT_KILL, OFT_IGNORE,
-			OFT_HATES, OFT_INT, OFT_MAX);
+		create_mask(f, FALSE, OFT_SLAY, OFT_BRAND, OFT_IGNORE, OFT_HATES,
+			OFT_INT, OFT_MAX);
 		of_inter(o_ptr->flags, f);
-		for (i = 0; i < MAX_PVALS; i++)
-			of_wipe(o_ptr->pval_flags[i]);
-		o_ptr->num_pvals = 0;
 		o_ptr->ac = 0;
 		o_ptr->to_a = 0;
 	}
@@ -401,7 +394,7 @@ void ego_apply_magic(object_type *o_ptr, int level, int affix)
 		o_ptr->ds = 1;
 
 	/* Tidy up and de-duplicate flags, and set the correct prefix/suffix */
-	check_flags(o_ptr);
+	check_obj_flags(o_ptr);
 	obj_affix_names(o_ptr);
 
 	return;

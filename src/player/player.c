@@ -2,9 +2,8 @@
  * Copyright (c) 2011 elly+angband@leptoquark.net. See COPYING.
  */
 
-#include "externs.h" /* player_exp */
+#include "angband.h"
 #include "history.h" /* history_add */
-#include "player/player.h"
 
 bool player_stat_inc(struct player *p, int stat)
 {

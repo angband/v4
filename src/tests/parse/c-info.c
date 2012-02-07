@@ -2,11 +2,9 @@
 
 #include "unit-test.h"
 
+#include "angband.h"
 #include "init.h"
-#include "object/obj-flag.h"
-#include "object/object.h"
 #include "object/tvalsval.h"
-#include "player/types.h"
 
 int setup_tests(void **state) {
 	*state = init_parse_c();

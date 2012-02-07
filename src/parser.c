@@ -24,14 +24,8 @@
  * assigned a value.
  */
 
-#include "externs.h"
+#include "angband.h"
 #include "parser.h"
-#include "z-file.h"
-#include "z-form.h"
-#include "z-util.h"
-#include "z-virt.h"
-#include "z-term.h"
-
 
 const char *parser_error_str[PARSE_ERROR_MAX] = {
 	"(none)",

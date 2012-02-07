@@ -50,7 +50,7 @@ enum {
 
 /* Maximum number pvals on objects (and therefore of L: lines in
    object.txt and ego-item.txt) */
-#define MAX_PVALS 		3
+#define MAX_PVALS 		15
 #define DEFAULT_PVAL	0 /* TODO: remove this */
 
 /* Maximum number of T: and R/R2: lines in ego-item.txt, and no-op value for
@@ -174,12 +174,12 @@ typedef enum {
 #define HIGH_TO_AC             26
 #define VERYHIGH_TO_AC         36
 #define INHIBIT_AC             51
-#define HIGH_TO_HIT            16
-#define VERYHIGH_TO_HIT        26
-#define INHIBIT_TO_HIT         41
-#define HIGH_TO_DAM            16
-#define VERYHIGH_TO_DAM        26
-#define INHIBIT_TO_DAM         41
+#define HIGH_FINESSE          120
+#define VERYHIGH_FINESSE      220
+#define INHIBIT_FINESSE       350
+#define HIGH_PROWESS          120
+#define VERYHIGH_PROWESS      220
+#define INHIBIT_PROWESS       350
 #define AMMO_RESCALER          20 /* this value is also used for torches */
 
 /* Values for struct object->marked */

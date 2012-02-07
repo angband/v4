@@ -18,6 +18,7 @@
  */
 
 #include "angband.h"
+#include "attack.h"
 #include "cave.h"
 #include "files.h"
 #include "game-event.h"
@@ -919,6 +920,96 @@ const int blows_table[12][12] =
 };
 
 
+/**
+ * Modify damage dealt based on any critical hits that occur (return the
+ * modified damage).
+ * TODO: doesn't currently handle missile crits.
+ *
+ * Crit chance is based on the player's finesse and prowess scores, folded
+ *  together.
+ *
+ * \param o_ptr is the weapon being swung/thrown or ammo being fired
+ * \param dam Damage dealt prior to crits kicking in
+ * \param attack_type ATTACK_MELEE for melee attacks, ATTACK_MISSILE for missile
+ *   launcher attacks, ATTACK_THROWN for thrown attacks.
+ * \param msg_type Message describing the hit (needs factoring out, see #1502).
+ * \param aspect The type of calculation we want (random, average, min, max)
+ */
+int critical_norm(player_state state, const object_type *o_ptr, int dam,
+        int attack_type, u32b *msg_type, aspect dam_aspect)
+{
+    /* Everyone gets at least 100 in these values, so subtract it out */
+    int mod_finesse = state.num_blows - 100;
+    int mod_prowess = state.dam_multiplier - 100;
+    int chance = 0, power = 0;
+
+    if (attack_type == ATTACK_MISSILE) {
+        mod_finesse = state.skills[SKILL_TO_HIT_BOW];
+        mod_prowess = 0;
+    }
+    else if (attack_type == ATTACK_THROWN) {
+        mod_finesse = state.skills[SKILL_TO_HIT_THROW];
+        /* Hack: re-use throwing skill for prowess as well */
+        mod_prowess = state.skills[SKILL_TO_HIT_THROW];
+    }
+
+	/* Calculate the chance of a critical hit */
+	switch (dam_aspect) {
+		case MAXIMISE: case EXTREMIFY:
+			chance = 100;
+			break;
+		case AVERAGE: case RANDOMISE:
+	    /* Scale the chance by an arbitrary value to get it to somewhere in the
+    	 * 1-100 range. Check to avoid div/0 */
+		    chance = mod_finesse * mod_finesse + mod_prowess * mod_prowess;
+    		chance = chance / 2500 + 1;
+			if (chance > 99)
+				chance = 99;
+			if (dam_aspect == AVERAGE)
+				return dam + (o_ptr->ds + 1) * chance / (2 * (100 - chance));
+			break;
+		case MINIMISE:
+			break; /* chance is already zero */
+		default:
+			msg("Illegal aspect in critical_norm\n");
+			assert(0);
+	}
+
+    /* Upgrade crit power until we fail the roll. (Cap at power 5?) */
+    while (randint0(100) <= chance) {
+        power++;
+		dam += damcalc(1, o_ptr->ds, dam_aspect);
+	}
+
+	if (power > 5)
+		power = 5;
+
+	/* Set the right hit message (this does not belong here - see #1502) */
+    switch (power) {
+        case 1:
+            *msg_type = MSG_HIT_GOOD;
+			break;
+        case 2:
+            *msg_type = MSG_HIT_GREAT;
+			break;
+        case 3:
+            *msg_type = MSG_HIT_SUPERB;
+			break;
+        case 4:
+            *msg_type = MSG_HIT_HI_GREAT;
+			break;
+        case 5:
+            /* Best critical hit */
+            *msg_type = MSG_HIT_HI_SUPERB;
+			break;
+        default:
+            /* Just a normal hit */
+            *msg_type = MSG_HIT;
+    }
+	return dam;
+}
+
+
 /*
  * Calculate number of spells player should have, and forget,
  * or remember, spells until that number is properly reflected.
@@ -1370,9 +1461,10 @@ static void calc_torch(void)
 }
 
 /*
- * Calculate the blows a player would get. Blows are given by 
+ * Calculate the blows a player would get. Blows are given by
  * 100 + finesse * (balance / 100)
- * This is actually 100x the actual number of blows (e.g. 150 = 1.5 blows/round).
+ * This is actually 100x the actual number of blows
+ * (e.g. 150 = 1.5 blows/round).
  *
  * \param o_ptr is the object for which we are calculating blows
  * \param state is the player state for which we are calculating blows
@@ -1395,8 +1487,50 @@ int calc_blows(const object_type *o_ptr, player_state *state)
  */
 int calc_multiplier(const object_type *o_ptr, player_state *state)
 {
-    return 100 + (state->to_prowess + o_ptr->to_prowess) * o_ptr->heft / 100; 
+    return 100 + (state->to_prowess + o_ptr->to_prowess) * o_ptr->heft / 100;
 }
+
+/**
+ * Calculate 10x the damage from an attack with an object by the player,
+ * including any critical hits. Note that damage is currently treated as
+ * homogenous. If we want to separate physical and elemental damage, we'll
+ * need to pass in an &elemental_dam arg or something. On no account should
+ * this function ever take an m_ptr, as that defeats its purpose (which is to
+ * service both combat and inspection info).
+ *
+ * \param o_ptr is the object we're attacking with
+ * \param state is the attacker's state
+ * \param slay_index is the best applicable slay or brand (this could be an
+      array if we want to allow multiple effects)
+ * \param attack_type is melee/missile/thrown (CC: this should go - we should
+ *    have consistent logic for all attacks)
+ * \param msg_type is the message to use (CC: this should go in the master
+ *    message refactor - see #1502)
+ * \param info is whether this is an actual attack or an info call
+ * \param aspect is whether we want average, random, maximum etc.
+ */
+int calc_damage(const object_type *o_ptr, player_state state, int slay_index,
+	int attack_type, u32b *msg_type, aspect dam_aspect)
+{
+	int dam = 0;
+
+	/* Calculate the base damage from dice */
+	int base_dam = damcalc(o_ptr->dd, o_ptr->ds, dam_aspect);
+
+	/* Check for critical hits */
+	dam = critical_norm(state, o_ptr, base_dam, attack_type, msg_type,
+		dam_aspect);
+
+	/* Adjust for prowess and heft, and multiply by 10 */
+	dam = (dam * state.dam_multiplier) / 10;
+
+	/* Adjust for the best applicable slay (also x10) */
+	if (slay_index)
+		dam += base_dam * (100 + state.slay_mult[slay_index]) / 10;
+
+	return dam;
+}
+
 
 /*
  * Computes current weight limit.
@@ -1453,25 +1587,19 @@ int weight_remaining(void)
 void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 {
 	int i, j, hold;
-
-	int extra_blows = 0;
-	int extra_shots = 0;
-	int extra_might = 0;
+	int extra_blows = 0, extra_shots = 0, extra_might = 0;
 
 	object_type *o_ptr;
 
-	bitflag f[OF_SIZE];
-	bitflag collect_f[OF_SIZE];
+	bitflag f[OF_SIZE], collect_f[OF_SIZE];
 
 	/*** Reset ***/
-
 	memset(state, 0, sizeof *state);
 
 	/* Set various defaults */
 	state->speed = 110;
 	state->num_blows = 100;
     state->dam_multiplier = 100;
-
 
 	/*** Extract race/class info ***/
 
@@ -1492,8 +1620,7 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/*** Analyze equipment ***/
 
 	/* Scan the equipment */
-	for (i = INVEN_WIELD; i < INVEN_TOTAL; i++)
-	{
+	for (i = INVEN_WIELD; i < INVEN_TOTAL; i++)	{
 		o_ptr = &inventory[i];
 
 		/* Skip non-objects */
@@ -1571,11 +1698,15 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 		if (object_defence_plusses_are_visible(o_ptr))
 			state->dis_to_a += o_ptr->to_a;
 
-		/* Hack -- do not apply "weapon" bonuses */
-		if (i == INVEN_WIELD) continue;
-
-		/* Hack -- do not apply "bow" bonuses */
+		/* Do not apply launcher fin/prow/slay bonuses yet */
 		if (i == INVEN_BOW) continue;
+
+		/* Update the melee slay/brand multiplier array */
+		if (o_ptr->kind)
+			(void)object_slay_mults(o_ptr, state->slay_mult);
+
+		/* Do not apply weapon fin/prow bonuses yet */
+		if (i == INVEN_WIELD) continue;
 
 		/* Apply the bonuses to hit/damage */
 		if (!id_only || object_is_known(o_ptr))

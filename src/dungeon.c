@@ -24,7 +24,7 @@
 #include "game-event.h"
 #include "generate.h"
 #include "init.h"
-#include "monster/monster.h"
+#include "monster/melee2.h"
 #include "monster/mon-make.h"
 #include "monster/mon-spell.h"
 #include "monster/mon-util.h"

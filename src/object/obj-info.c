@@ -393,125 +393,66 @@ static bool describe_misc_magic(textblock *tb, const bitflag flags[OF_SIZE])
  * Describe slays and brands on weapons
  */
 static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
-		int tval)
+		const object_type *o_ptr)
 {
-	bool printed = FALSE;
+	bool fulldesc, printed = FALSE;
+	bitflag slay_mask[OF_SIZE], brand_mask[OF_SIZE];
+	bitflag slay_flags[OF_SIZE], brand_flags[OF_SIZE];
+	size_t i = 0, slay_count = 0, brand_count = 0;
+	s16b slay_mult[SL_MAX] = { 0 };
+	const struct slay *s_ptr = NULL;
 	const char *slay_descs[SL_MAX] = { 0 };
-	bitflag slay_mask[OF_SIZE], kill_mask[OF_SIZE], brand_mask[OF_SIZE];
-	size_t count;
-	bool fulldesc;
 
 	create_mask(slay_mask, FALSE, OFT_SLAY, OFT_MAX);
-	create_mask(kill_mask, FALSE, OFT_KILL, OFT_MAX);
 	create_mask(brand_mask, FALSE, OFT_BRAND, OFT_MAX);
+	of_copy(slay_flags, flags);
+	of_copy(brand_flags, flags);
+	of_inter(slay_flags, slay_mask);
+	of_inter(brand_flags, brand_mask);
 
-	if (tval == TV_SWORD || tval == TV_HAFTED || tval == TV_POLEARM ||
-			tval == TV_DIGGING || tval == TV_BOW || tval == TV_SHOT ||
-			tval == TV_ARROW || tval == TV_BOLT || tval == TV_FLASK)
+	if (kind_is_weapon(o_ptr->tval) || kind_is_bow(o_ptr->tval) ||
+			kind_is_ammo(o_ptr->tval || o_ptr->tval == TV_FLASK))
 		fulldesc = FALSE;
 	else
 		fulldesc = TRUE;
 
+	object_slay_mults(o_ptr, slay_mult);
+
 	/* Slays */
-	count = list_slays(flags, slay_mask, slay_descs, NULL, NULL, TRUE);
-	if (count)
-	{
+	if (!of_is_empty(slay_flags)) {
 		if (fulldesc)
 			textblock_append(tb, "It causes your melee attacks to slay ");
 		else
 			textblock_append(tb, "Slays ");
-		info_out_list(tb, slay_descs, count);
+		for (i = of_next(slay_flags, FLAG_START); i != FLAG_END;
+				i = of_next(slay_flags, i + 1)) {
+			s_ptr = lookup_slay(i);
+			slay_descs[slay_count++] = string_make(format("%s (x%.2f)",
+				s_ptr->desc, (100 + slay_mult[s_ptr->index]) / 100.0));
+		}
+		info_out_list(tb, slay_descs, slay_count);
 		printed = TRUE;
 	}
-
-	/* Kills */
-	count = list_slays(flags, kill_mask, slay_descs, NULL, NULL, TRUE);
-	if (count)
-	{
-		if (fulldesc)
-			textblock_append(tb, "It causes your melee attacks to *slay* ");
-		else
-			textblock_append(tb, "*Slays* ");
-		info_out_list(tb, slay_descs, count);
-		printed = TRUE;
-	}
-
 	/* Brands */
-	count = list_slays(flags, brand_mask, NULL, slay_descs, NULL, TRUE);
-	if (count)
-	{
+	if (!of_is_empty(brand_flags)) {
 		if (fulldesc)
 			textblock_append(tb, "It brands your melee attacks with ");
 		else
 			textblock_append(tb, "Branded with ");
-		info_out_list(tb, slay_descs, count);
+		for (i = of_next(brand_flags, FLAG_START); i != FLAG_END;
+				i = of_next(brand_flags, i + 1)) {
+			s_ptr = lookup_slay(i);
+			slay_descs[brand_count++] = string_make(format("%s (x%.2f)",
+				s_ptr->brand, (100 + slay_mult[s_ptr->index]) / 100.0));
+		}
+		info_out_list(tb, slay_descs, brand_count);
 		printed = TRUE;
 	}
+	/* Free the string memory */
+	for (i = 0; i < SL_MAX; i++)
+		string_free((char *)slay_descs[i]);
 
 	return printed;
-}
-
-/*
- * Account for criticals in the calculation of melee prowess
- *
- * Note -- This relies on the criticals being an affine function
- * of previous damage, since we are used to transform the mean
- * of a roll.
- *
- * Also note -- rounding error makes this not completely accurate
- * (but for the big crit weapons like Grond an odd point of damage
- * won't be missed)
- *
- * This code written according to the KISS principle.  650 adds
- * are cheaper than a FOV call and get the job done fine.
- */
-static void calculate_melee_crits(player_state *state, int weight,
-		int plus, int *mult, int *add, int *div)
-{
-	int k, to_crit = weight + 5*(state->to_finesse + plus) + 3*p_ptr->lev;
-	to_crit = MIN(5000, MAX(0, to_crit));
-
-	*mult = *add = 0;
-
-	for (k = weight; k < weight + 650; k++)
-	{
-		if (k <  400) { *mult += 4; *add += 10; continue; }
-		if (k <  700) { *mult += 4; *add += 20; continue; }
-		if (k <  900) { *mult += 6; *add += 30; continue; }
-		if (k < 1300) { *mult += 6; *add += 40; continue; }
-		                *mult += 7; *add += 50;
-	}
-
-	/*
-	 * Scale the output down to a more reasonable size, to prevent
-	 * integer overflow downstream.
-	 */
-	*mult = 100 + to_crit*(*mult - 1300)/(50*1300);
-	*add  = *add * to_crit / (500*50);
-	*div  = 100;
-}
-
-/*
- * Missile crits follow the same approach as melee crits.
- */
-static void calculate_missile_crits(player_state *state, int weight,
-		int plus, int *mult, int *add, int *div)
-{
-	int k, to_crit = weight + 4*(state->to_finesse + plus) + 2*p_ptr->lev;
-	to_crit = MIN(5000, MAX(0, to_crit));
-
-	*mult = *add = 0;
-
-	for (k = weight; k < weight + 500; k++)
-	{
-		if (k <  500) { *mult += 2; *add +=  5; continue; }
-		if (k < 1000) { *mult += 2; *add += 10; continue; }
-		                *mult += 3; *add += 15;
-	}
-
-	*mult = 100 + to_crit*(*mult - 500)/(500*50);
-	*add  = *add * to_crit / (500*50);
-	*div  = 100;
 }
 
 
@@ -537,138 +478,77 @@ static bool describe_blows(textblock *tb, player_state state)
  * Describe damage.
  */
 static bool describe_damage(textblock *tb, const object_type *o_ptr,
-		player_state state, bitflag f[OF_SIZE], oinfo_detail_t mode)
+		player_state state, oinfo_detail_t mode)
 {
-	const char *desc[SL_MAX] = { 0 };
-	size_t i, cnt;
-	int mult[SL_MAX];
-	int dice, sides, dam, total_dam, plus = 0;
-	int crit_mult, crit_div, crit_add;
-	int old_blows = 0;
+	size_t i, cnt = 0;
+	int dam, total_dam;
 	object_type *bow = &p_ptr->inventory[INVEN_BOW];
-
-	bitflag tmp_f[OF_SIZE], mask[OF_SIZE];
+	object_type object_type_body;
+	object_type *i_ptr = &object_type_body;
 
 	bool weapon = (wield_slot(o_ptr) == INVEN_WIELD);
 	bool ammo   = (p_ptr->state.ammo_tval == o_ptr->tval) &&
 	              (bow->kind);
-	int multiplier = 1;
 	bool full = mode & OINFO_FULL;
 
-	/* Create the "all slays" mask */
-	create_mask(mask, FALSE, OFT_SLAY, OFT_KILL, OFT_BRAND, OFT_MAX);
+	/* Defaults for weapons which are changed later for ammo */
+	int attack_type = ATTACK_MELEE;
+
+	/* Take a copy of o_ptr, in case we need to mess with its dice */
+	object_copy(i_ptr, o_ptr);
 
 	/* Use displayed dice if real dice not known */
-	if (full || object_attack_plusses_are_visible(o_ptr)) {
-		dice = o_ptr->dd;
-		sides = o_ptr->ds;
-	} else {
-		dice = o_ptr->kind->dd;
-		sides = o_ptr->kind->ds;
+	if (!full && !object_attack_plusses_are_visible(o_ptr)) {
+		i_ptr->dd = o_ptr->kind->dd;
+		i_ptr->ds = o_ptr->kind->ds;
 	}
 
-	/* Calculate average damage in tenths */
-	dam = ((sides + 1) * dice * 5);
-
-	if (weapon)	{
-		calculate_melee_crits(&state, o_ptr->weight, plus,
-				&crit_mult, &crit_add, &crit_div);
-
-		old_blows = calc_blows(o_ptr, &state);
-	} else { /* Ammo */
-		if (object_attack_plusses_are_visible(o_ptr) || full)
-			plus += o_ptr->to_finesse;
-
-		calculate_missile_crits(&p_ptr->state, o_ptr->weight, plus,
-				&crit_mult, &crit_add, &crit_div);
-
-		if (object_attack_plusses_are_visible(o_ptr) || full)
-			dam += (o_ptr->to_prowess * 10);
-		if (object_attack_plusses_are_visible(bow))
-			dam += (bow->to_prowess * 10);
-
-		/* Apply brands/slays from the shooter to the ammo, but only if known
-		 * Note that this is not dependent on mode, so that viewing shop-held
-		 * ammo (fully known) does not leak information about launcher */
-		object_flags_known(bow, tmp_f);
-		of_union(f, tmp_f);
+	/* Add ammo and launcher slays for ammo objects, and set type/mult */
+	if (ammo) {
+		/* Need to use only known ammo slays unless mode is FULL */
+		object_slay_mults(o_ptr, state.slay_mult);
+		/* Oh dear. Need to use only known slays from bow in all cases */
+		object_slay_mults(bow, state.slay_mult);
+		attack_type = ATTACK_MISSILE;
 	}
 
-	/* Collect slays */
-	/* Melee weapons get slays and brands from other items now */
-	if (weapon)	{
-		bool nonweap_slay = FALSE;
-
-		for (i = INVEN_LEFT; i < INVEN_TOTAL; i++) {
-			if (!p_ptr->inventory[i].kind)
-				continue;
-
-			object_flags_known(&p_ptr->inventory[i], tmp_f);
-
-			/* Strip out non-slays */
-			of_inter(tmp_f, mask);
-
-			if (of_union(f, tmp_f))
-				nonweap_slay = TRUE;
-		}
-
-		if (nonweap_slay)
-			textblock_append(tb, "This weapon may benefit from one or more off-weapon brands or slays.\n");
-	}
+	/* CC notes to self: need to ensure that calc_damage returns only the
+	 * damage available from known prowess (for weapon or bow+ammo)
+	 * by using object_attack_plusses_are_visible -
+	 * calc_bonuses takes care of this for the rest */
 
 	textblock_append(tb, "Average damage/round: ");
 
-	if (ammo) {
-        multiplier = p_ptr->state.ammo_mult * 100;
-    }
-    else {
-        multiplier = calc_multiplier(o_ptr, &state);
-    }
+	/* Iterate over slays */
+	for (i = 0; i < SL_MAX; i++) {
+		const struct slay *s_ptr = lookup_slay_by_index(i);
+		/* Ignore slays with 0 mult (i.e. x1.00) after the first time */
+		if (i && !state.slay_mult[i]) continue;
 
-	/* Output damage for creatures effected by the brands or slays */
-	cnt = list_slays(f, mask, desc, NULL, mult, TRUE); 
-	for (i = 0; i < cnt; i++) {
-		/* Include bonus damage and slay in stated average */
-		total_dam = dam * (multiplier + mult[i]) / 100;
-		total_dam = (total_dam * crit_mult + crit_add) / crit_div;
+		/* Calculate the damage using this slay */
+		/* N.B. Actually needs to return 10x damage */
+		dam = calc_damage(i_ptr, state, i, attack_type, NULL, AVERAGE);
 
+		/* Multiply by blows or shots */
 		if (weapon)
-			total_dam = (total_dam * old_blows) / 100;
+			total_dam = (dam * state.num_blows) / 100;
 		else
-			total_dam *= p_ptr->state.num_shots;
+			total_dam = dam * p_ptr->state.num_shots;
 
+		/* Append the result to the textblock */
+		if (cnt)
+			textblock_append(tb, ", ");
 		if (total_dam <= 0)
 			textblock_append_c(tb, TERM_L_RED, "%d", 0);
 		else if (total_dam % 10)
-			textblock_append_c(tb, TERM_L_GREEN, "%d.%d",
-					total_dam / 10, total_dam % 10);
+			textblock_append_c(tb, TERM_L_GREEN, "%d.%d", total_dam / 10,
+				total_dam % 10);
 		else
 			textblock_append_c(tb, TERM_L_GREEN, "%d", total_dam / 10);
 
-		textblock_append(tb, " vs. %s, ", desc[i]);
+		textblock_append(tb, " vs. %s", s_ptr->desc);
+		cnt++;
 	}
-
-	if (cnt) textblock_append(tb, "and ");
-
-	/* Include bonus damage in stated average */
-    total_dam = dam * multiplier / 100;
-	total_dam = (total_dam * crit_mult + crit_add) / crit_div; 
-
-	/* Normal damage, not considering brands or slays */
-	if (weapon)
-		total_dam = (total_dam * old_blows) / 100;
-	else
-		total_dam *= p_ptr->state.num_shots;
-
-	if (total_dam <= 0)
-		textblock_append_c(tb, TERM_L_RED, "%d", 0);
-	else if (total_dam % 10)
-		textblock_append_c(tb, TERM_L_GREEN, "%d.%d",
-				total_dam / 10, total_dam % 10);
-	else
-		textblock_append_c(tb, TERM_L_GREEN, "%d", total_dam / 10);
-
-	if (cnt) textblock_append(tb, " vs. others");
 	textblock_append(tb, ".\n");
 
 	return TRUE;
@@ -745,7 +625,7 @@ static bool describe_combat(textblock *tb, const object_type *o_ptr,
 	}
 
 	/* Describe damage */
-	describe_damage(tb, o_ptr, state, f, mode);
+	describe_damage(tb, o_ptr, state, mode);
 
 	/* Note the impact flag */
 	if (of_has(f, OF_IMPACT))
@@ -1314,7 +1194,7 @@ static textblock *object_info_out(const object_type *o_ptr, oinfo_detail_t mode)
 
 	if (describe_curses(tb, o_ptr, flags)) something = TRUE;
 	if (describe_stats(tb, o_ptr, pval_flags, mode)) something = TRUE;
-	if (describe_slays(tb, flags, o_ptr->tval)) something = TRUE;
+	if (describe_slays(tb, flags, o_ptr)) something = TRUE;
 	if (describe_immune(tb, flags)) something = TRUE;
 	if (describe_ignores(tb, flags)) something = TRUE;
 	dedup_hates_flags(flags);

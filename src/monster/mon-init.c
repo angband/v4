@@ -16,15 +16,12 @@
  *    are included in all such copies.  Other copyrights may also apply.
  */
 
-#include "externs.h"
+#include "angband.h"
 #include "monster/mon-msg.h"
 #include "monster/mon-power.h"
 #include "monster/mon-spell.h"
 #include "monster/mon-util.h"
-#include "monster/monster.h"
 #include "parser.h"
-#include "z-util.h"
-#include "z-virt.h"
 
 /* Parsing functions for monster_base.txt */
 

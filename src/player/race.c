@@ -2,9 +2,7 @@
  * Copyright (c) 2011 elly+angband@leptoquark.net. See COPYING.
  */
 
-#include "externs.h"
-#include "player/player.h"
-#include "player/types.h"
+#include "angband.h"
 
 struct player_race *player_id2race(guid id)
 {

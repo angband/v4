@@ -23,21 +23,11 @@
 #include "cmds.h"
 #include "monster/mon-make.h"
 #include "monster/mon-msg.h"
-#include "monster/mon-timed.h"
 #include "monster/mon-util.h"
-#include "monster/monster.h"
-#include "object/slays.h"
 #include "object/tvalsval.h"
 #include "spells.h"
 #include "target.h"
 
-/* Types of attacks */
-enum
-{
-    ATTACK_MELEE = 0,
-    ATTACK_MISSILE,
-    ATTACK_THROWN,
-};
 
 /**
  * Returns percent chance of an object breaking after throwing or shooting.
@@ -110,77 +100,6 @@ static int critical_shot(int weight, int plus, int dam, u32b *msg_type) {
 
 
 /**
- * Modify damage dealt based on any critical hits that occur (return the 
- * modified damage). 
- * TODO: doesn't currently handle missile crits.
- *
- * Crit chance is based on the player's finesse and prowess scores, folded together.
- * /param dam Damage dealt prior to crits kicking in
- * /param attack_type ATTACK_MELEE for melee attacks, ATTACK_MISSILE for missile
- *        launcher attacks, ATTACK_THROWN for thrown attacks.
- * /param msg_type Message describing the hit. 
- */
-static int critical_norm(player_state state, object_type *o_ptr, int dam, 
-        int attack_type, u32b *msg_type) {
-
-    /* Everyone gets at least 100 in these values, so subtract it out to baseline
-     * our values.
-     */
-    int mod_finesse = state.num_blows - 100;
-    int mod_prowess = state.dam_multiplier - 100;
-    int chance = 0;
-    int power;
-
-    if (attack_type == ATTACK_MISSILE) {
-        mod_finesse = state.skills[SKILL_TO_HIT_BOW];
-        mod_prowess = 0;
-    }
-    else if (attack_type == ATTACK_THROWN) {
-        mod_finesse = state.skills[SKILL_TO_HIT_THROW];
-        /* Hack: re-use throwing skill for prowess as well */
-        mod_prowess = state.skills[SKILL_TO_HIT_THROW];
-    }
-
-    /* HACK: scale the chance by an arbitrary value to get it to somewhere in the
-     * 1-100 range.
-     */
-    chance = mod_finesse * mod_finesse + mod_prowess * mod_prowess;
-    chance = chance / 2500 + 1;
-    power = 0;
-    /* Upgrade crit power until we hit the cap or fail the roll. */
-    while (randint0(100) <= chance && power < 4) {
-        power++;
-    }
-
-    switch (power) {
-        case 1:
-            /* Good hit */
-            *msg_type = MSG_HIT_GOOD;
-            return 3 * dam / 2 + 10;
-        case 2:
-            /* Great hit */
-            *msg_type = MSG_HIT_GREAT;
-            return 2 * dam + 10;
-        case 3:
-            /* Superb hit */
-            *msg_type = MSG_HIT_SUPERB;
-            return 3 * dam + 15;
-        case 4:
-            /* Penultimate critical */
-            *msg_type = MSG_HIT_HI_GREAT;
-            return 7 * dam / 2 + 20;
-        case 5:
-            /* Best critical hit */
-            *msg_type = MSG_HIT_HI_SUPERB;
-            return 4 * dam + 20;
-		default:
-            /* Just a normal hit */
-            *msg_type = MSG_HIT;
-            return dam;
-    }
-}
-
-/**
  * Return the player's chance to hit the given monster, on a scale from 0
  * to 100. Chance to-hit is a flat 75% for now.
  */
@@ -188,26 +107,27 @@ int get_hit_chance(const player_state state, const monster_race *r_ptr)
 {
 	int chance;
     int base_chance = 75;
-	
+
 	/* Calculate chance */
 	chance = base_chance - r_ptr->evasion + (state.to_finesse / 25);
-	
+
 	/* Set minima and maxima */
 	if (chance > 95){
 		chance = 95;
 	}
-	
+
 	if (chance < 40){
 		chance = 40;
 	}
-	
+
 	return chance;
 }
 
 /**
  * Attack the monster at the given location with a single blow.
  */
-static bool py_attack_real(int y, int x, bool *fear) {
+static bool py_attack_real(int y, int x, bool *fear)
+{
 	/* Information about the target of the attack */
 	monster_type *m_ptr = cave_monster_at(cave, y, x);
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
@@ -216,9 +136,10 @@ static bool py_attack_real(int y, int x, bool *fear) {
 
 	/* The weapon used */
 	object_type *o_ptr = &p_ptr->inventory[INVEN_WIELD];
+	bitflag learn_flags[OF_SIZE];
 
 	/* Information about the attack */
-	int chance = get_hit_chance(p_ptr->state, r_ptr);
+	int i, chance = get_hit_chance(p_ptr->state, r_ptr);
 	bool do_quake = FALSE;
 	bool success = FALSE;
 
@@ -256,35 +177,41 @@ static bool py_attack_real(int y, int x, bool *fear) {
 
 	/* Handle normal weapon */
 	if (o_ptr->kind) {
-		int i, mult = 100;
+		int mult = 100, slay_index = 0;
 		const struct slay *best_s_ptr = NULL;
 
 		hit_verb = "hit";
 
-		/* Get the best attack from all slays or
+		/* Get the best attack multiplier from all slays or
 		 * brands on all non-launcher equipment */
-		for (i = INVEN_LEFT; i < INVEN_TOTAL; i++) {
-			struct object *obj = &p_ptr->inventory[i];
-			if (obj->kind)
-				improve_attack_modifier(obj, m_ptr, &best_s_ptr, TRUE, FALSE);
-		}
-		improve_attack_modifier(o_ptr, m_ptr, &best_s_ptr, TRUE, FALSE);
+		of_wipe(learn_flags);
+		improve_attack_modifier(p_ptr->state.slay_mult, m_ptr, &best_s_ptr,
+			learn_flags, TRUE);
 
-		dmg = damroll(o_ptr->dd, o_ptr->ds);
+		/* Learn any applicable slays flags on equipment */
+		object_notice_slays(o_ptr, learn_flags);
+		for (i = INVEN_LEFT; i < INVEN_TOTAL; i++)
+			if (p_ptr->inventory[i].kind)
+				object_notice_slays(&p_ptr->inventory[i], learn_flags);
 
+		/* Set mult, verb and index for best applicable slay */
 		if (best_s_ptr) {
 			hit_verb = best_s_ptr->melee_verb;
-			mult = best_s_ptr->mult;
+			slay_index = best_s_ptr->index;
+			mult += p_ptr->state.slay_mult[best_s_ptr->index];
 			if (best_s_ptr->vuln_flag &&
 					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 				mult += 100;
 		}
-		dmg = (dmg * mult) / 100;
-		dmg = critical_norm(p_ptr->state, o_ptr, dmg, ATTACK_MELEE, &msg_type);
+
+		/* Calculate the damage (including criticals and slays) */
+		dmg = calc_damage(o_ptr, p_ptr->state, slay_index, ATTACK_MELEE,
+			&msg_type, RANDOMISE) / 10;
 
 		/* Learn by use for the weapon */
 		object_notice_attack_plusses(o_ptr);
 
+		/* Hack - earthquake proc */
 		if (check_state(p_ptr, OF_IMPACT, p_ptr->state.flags) && dmg > 50) {
 			do_quake = TRUE;
 			wieldeds_notice_flag(p_ptr, OF_IMPACT);
@@ -294,14 +221,12 @@ static bool py_attack_real(int y, int x, bool *fear) {
 	/* Learn by use for other equipped items */
 	wieldeds_notice_on_attack();
 
-	/* Apply the prowess multiplier. */
-	dmg = (dmg * p_ptr->state.dam_multiplier) / 100;
-
 	/* Subtract damage that is absorbed by monster armour */
-	dmg = (dmg - r_ptr->armour);
-	
+	dmg -= r_ptr->armour;
+
 	/* No negative damage */
-	if (dmg <= 0) dmg = 0;
+	if (dmg <= 0)
+		dmg = 0;
 
 	/* Tell the player what happened */
 	if (dmg <= 0)
@@ -361,7 +286,7 @@ void py_attack(int y, int x) {
 	int blows = 0;
 	bool fear = FALSE;
 	monster_type *m_ptr = cave_monster_at(cave, y, x);
-	
+
 	/* disturb the player */
 	disturb(p_ptr, 0,0);
 
@@ -376,8 +301,8 @@ void py_attack(int y, int x) {
 		if (stop || p_ptr->energy_use + blow_energy > 100) break;
 		blows++;
 	}
-	
-	/* Hack - delay fear messages */
+
+	/* Hack - delay fear messages (see #1502) */
 	if (fear && m_ptr->ml) {
 		char m_name[80];
 		monster_desc(m_name, sizeof(m_name), m_ptr, 0);
@@ -597,19 +522,28 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 
 	int multiplier = p_ptr->state.ammo_mult;
 	const struct slay *best_s_ptr = NULL;
+	s16b slay_mult[SL_MAX] = { 0 };
+	bitflag learn_flags[OF_SIZE];
+	of_wipe(learn_flags);
 
 	/* Did we hit it */
 	if (!test_hit(chance, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
-	improve_attack_modifier(o_ptr, m_ptr, &best_s_ptr, TRUE, FALSE);
-	improve_attack_modifier(j_ptr, m_ptr, &best_s_ptr, TRUE, FALSE);
+	/* Look for the best slay/brand from launcher and missile */
+	object_slay_mults(o_ptr, slay_mult);
+	object_slay_mults(j_ptr, slay_mult);
+	improve_attack_modifier(slay_mult, m_ptr, &best_s_ptr, learn_flags, TRUE);
+
+	/* Learn any applicable slays/brands */
+	object_notice_slays(o_ptr, learn_flags);
+	object_notice_slays(j_ptr, learn_flags);
 
 	/* If we have a slay, modify the multiplier appropriately */
 	if (best_s_ptr != NULL) {
 		result.hit_verb = best_s_ptr->range_verb;
-		multiplier += best_s_ptr->mult;
+		multiplier += slay_mult[best_s_ptr->index];
 		if (best_s_ptr->vuln_flag &&
 				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 			multiplier += 100;
@@ -641,18 +575,26 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 
 	int multiplier = 1;
 	const struct slay *best_s_ptr = NULL;
+	s16b slay_mult[SL_MAX] = { 0 };
+	bitflag learn_flags[OF_SIZE];
+	of_wipe(learn_flags);
 
 	/* If we missed then we're done */
 	if (!test_hit(chance, m_ptr->ml)) return result;
 
 	result.success = TRUE;
 
-	improve_attack_modifier(o_ptr, m_ptr, &best_s_ptr, TRUE, FALSE);
+	/* Get the best slay or brand from the missile */
+	object_slay_mults(o_ptr, slay_mult);
+	improve_attack_modifier(slay_mult, m_ptr, &best_s_ptr, learn_flags, TRUE);
+
+	/* Learn any applicable slays/brands */
+	object_notice_slays(o_ptr, learn_flags);
 
 	/* If we have a slay, modify the multiplier appropriately */
 	if (best_s_ptr != NULL) {
 		result.hit_verb = best_s_ptr->range_verb;
-		multiplier += best_s_ptr->mult;
+		multiplier += slay_mult[best_s_ptr->index];
 		if (best_s_ptr->vuln_flag &&
 				rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
 			multiplier += 100;
@@ -663,7 +605,7 @@ static struct attack_result make_ranged_throw(object_type *o_ptr, int y, int x) 
 	result.dmg += o_ptr->to_prowess;
 	result.dmg = (result.dmg * multiplier) / 100;
 	result.dmg = critical_norm(p_ptr->state, o_ptr, result.dmg,
-            ATTACK_THROWN, &result.msg_type);
+            ATTACK_THROWN, &result.msg_type, RANDOMISE);
 
 	return result;
 }

@@ -247,10 +247,10 @@ s16b *base_freq; 			/* base items */
  * Mean start and increment values for to_hit, to_dam and AC.  Update these
  * if the algorithm changes.  They are used in frequency generation.
  */
-static s16b mean_hit_increment = 4;
-static s16b mean_dam_increment = 4;
-static s16b mean_hit_startval = 10;
-static s16b mean_dam_startval = 10;
+static s16b mean_hit_increment = 20;
+static s16b mean_dam_increment = 20;
+static s16b mean_hit_startval = 40;
+static s16b mean_dam_startval = 40;
 static s16b mean_ac_startval = 15;
 static s16b mean_ac_increment = 5;
 
@@ -610,9 +610,6 @@ static void remove_contradictory(artifact_type *a_ptr)
 	}
 
 	if (of_has(a_ptr->flags, OF_LIGHT_CURSE)) of_off(a_ptr->flags, OF_BLESSED);
-	if (of_has(a_ptr->flags, OF_KILL_DRAGON)) of_off(a_ptr->flags, OF_SLAY_DRAGON);
-	if (of_has(a_ptr->flags, OF_KILL_DEMON)) of_off(a_ptr->flags, OF_SLAY_DEMON);
-	if (of_has(a_ptr->flags, OF_KILL_UNDEAD)) of_off(a_ptr->flags, OF_SLAY_UNDEAD);
 	if (of_has(a_ptr->flags, OF_DRAIN_EXP)) of_off(a_ptr->flags, OF_HOLD_LIFE);
 }
 
@@ -767,9 +764,9 @@ static void parse_frequencies(void)
 			if (of_is_inter(a_ptr->flags, mask))
 			{
 				/* We have some brands or slays - count them */
-				temp = list_slays(a_ptr->flags, mask, NULL, NULL, NULL,	FALSE);
+				temp = list_slays(a_ptr->flags, mask, NULL, NULL);
 				create_mask(mask, FALSE, OFT_BRAND, OFT_MAX);
-				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL, NULL, FALSE);
+				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL);
 
 				file_putf(log_file, "Adding %d for slays\n", temp - temp2);
 				file_putf(log_file, "Adding %d for brands\n", temp2);
@@ -865,9 +862,9 @@ static void parse_frequencies(void)
 			if (of_is_inter(a_ptr->flags, mask))
 			{
 				/* We have some brands or slays - count them */
-				temp = list_slays(a_ptr->flags, mask, NULL, NULL, NULL,	FALSE);
+				temp = list_slays(a_ptr->flags, mask, NULL, NULL);
 				create_mask(mask, FALSE, OFT_BRAND, OFT_MAX);
-				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL, NULL, FALSE);
+				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL);
 
 				file_putf(log_file, "Adding %d for slays\n", temp - temp2);
 				file_putf(log_file, "Adding %d for brands\n", temp2);
@@ -975,9 +972,9 @@ static void parse_frequencies(void)
 			if (of_is_inter(a_ptr->flags, mask))
 			{
 				/* We have some brands or slays - count them */
-				temp = list_slays(a_ptr->flags, mask, NULL, NULL, NULL,	FALSE);
+				temp = list_slays(a_ptr->flags, mask, NULL, NULL);
 				create_mask(mask, FALSE, OFT_BRAND, OFT_MAX);
-				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL, NULL, FALSE);
+				temp2 = list_slays(a_ptr->flags, mask, NULL, NULL);
 
 				file_putf(log_file, "Adding %d for slays\n", temp - temp2);
 				file_putf(log_file, "Adding %d for brands\n", temp2);
@@ -1923,9 +1920,26 @@ static void add_high_resist(artifact_type *a_ptr)
 	}
 }
 
+/*
+ * Return the pval which governs a particular flag. This should be combined
+ * with pval.c's which_pval, from which it was copied, using an unspecified
+ * type for the first argument
+ */
+static int which_art_pval(const artifact_type *a_ptr, const int flag)
+{
+	size_t i;
+
+	for (i = 0; i < MAX_PVALS; i++)
+		if (of_has(a_ptr->pval_flags[i], flag))
+			return i;
+
+	quit_fmt("Bad call to which_art_pval: flag is %d", flag);
+	return 0;
+}
+
 static void add_slay(artifact_type *a_ptr, bool brand)
 {
-	int count = 0;
+	int pval = 0;
 	const struct slay *s_ptr;
 	bitflag mask[OF_SIZE];
 
@@ -1934,16 +1948,22 @@ static void add_slay(artifact_type *a_ptr, bool brand)
 	else
 		create_mask(mask, FALSE, OFT_SLAY, OFT_KILL, OFT_MAX);
 
-	for(count = 0; count < MAX_TRIES; count++) {
-		s_ptr = random_slay(mask);
+	s_ptr = random_slay(mask);
+	pval = 25 + damroll(5, 5);
 
-		if (!of_has(a_ptr->flags, s_ptr->object_flag)) {
-			of_on(a_ptr->flags, s_ptr->object_flag);
+	if (!of_has(a_ptr->flags, s_ptr->object_flag)) {
+		of_on(a_ptr->flags, s_ptr->object_flag);
+		of_on(a_ptr->pval_flags[a_ptr->num_pvals], s_ptr->object_flag);
+		a_ptr->pval[a_ptr->num_pvals++] = pval;
+	} else
+		a_ptr->pval[which_art_pval(a_ptr, s_ptr->object_flag)] += pval;
 
-			file_putf(log_file, "Adding %s: %s\n", s_ptr->brand ? "brand" : "slay", s_ptr->brand ? s_ptr->brand : s_ptr->desc);
-			return;
-		}
-	}
+	file_putf(log_file, "Adding %s: %s (+%d%%)\n",
+		s_ptr->brand ? "brand" : "slay",
+		s_ptr->brand ? s_ptr->brand : s_ptr->desc,
+		pval);
+
+	return;
 }
 
 static void add_damage_dice(artifact_type *a_ptr)
@@ -1958,7 +1978,7 @@ static void add_damage_dice(artifact_type *a_ptr)
 static void add_to_hit(artifact_type *a_ptr, int fixed, int random)
 {
 	/* Inhibit above certain threshholds */
-	if (a_ptr->to_finesse > VERYHIGH_TO_HIT)
+	if (a_ptr->to_finesse > VERYHIGH_FINESSE)
 	{
 		if (!INHIBIT_STRONG)
 		{
@@ -1966,7 +1986,7 @@ static void add_to_hit(artifact_type *a_ptr, int fixed, int random)
 			return;
 		}
 	}
-	else if (a_ptr->to_finesse > HIGH_TO_HIT)
+	else if (a_ptr->to_finesse > HIGH_FINESSE)
 	{
 		if (!INHIBIT_WEAK)
 		{
@@ -1981,7 +2001,7 @@ static void add_to_hit(artifact_type *a_ptr, int fixed, int random)
 static void add_to_dam(artifact_type *a_ptr, int fixed, int random)
 {
 	/* Inhibit above certain threshholds */
-	if (a_ptr->to_prowess > VERYHIGH_TO_DAM)
+	if (a_ptr->to_prowess > VERYHIGH_PROWESS)
 	{
 		if (!INHIBIT_STRONG)
 		{
@@ -1989,7 +2009,7 @@ static void add_to_dam(artifact_type *a_ptr, int fixed, int random)
 			return;
 		}
 	}
-	else if (a_ptr->to_finesse > HIGH_TO_DAM)
+	else if (a_ptr->to_finesse > HIGH_PROWESS)
 	{
 		if (!INHIBIT_WEAK)
 		{
@@ -2469,14 +2489,12 @@ static void add_ability_aux(artifact_type *a_ptr, int r, s32b target_power)
 			break;
 
 		case ART_IDX_GEN_LIGHT: {
-				if (a_ptr->tval != TV_LIGHT &&
-						!of_is_empty(a_ptr->pval_flags[DEFAULT_PVAL])) {
-					of_on(a_ptr->flags, OF_LIGHT);
-					of_on(a_ptr->pval_flags[DEFAULT_PVAL + 1], OF_LIGHT);
-					a_ptr->pval[DEFAULT_PVAL + 1] = 1;
-					recalc_num_pvals(a_ptr);
-				} else
-					break;
+			if (a_ptr->tval != TV_LIGHT && !of_has(a_ptr->flags, OF_LIGHT)) {
+				of_on(a_ptr->flags, OF_LIGHT);
+				of_on(a_ptr->pval_flags[a_ptr->num_pvals], OF_LIGHT);
+				a_ptr->pval[a_ptr->num_pvals++] = 1;
+			} else
+				break;
 			}
 			break;
 

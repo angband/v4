@@ -8,6 +8,13 @@ extern bool test_hit(int chance, int vis);
 extern int get_hit_chance(const player_state state, const monster_race *r_ptr);
 extern void py_attack(int y, int x);
 
+/* Types of attacks */
+enum {
+    ATTACK_MELEE = 0,
+    ATTACK_MISSILE,
+    ATTACK_THROWN,
+};
+
 /**
  *
  */

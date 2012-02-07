@@ -904,8 +904,8 @@ static int stats_dump_lists(void)
 
 	struct slay slay_table[] =
 	{
-		#define SLAY(a, b, c, d, e, f, g, h, i, j, k, l) \
-			{ SL_##a, b, c, d, e, f, g, h, i, j, #a, l},
+		#define SLAY(a, b, c, d, e, f, g, h, i, j, k) \
+			{ SL_##a, b, c, d, e, f, g, h, i, #a, k},
 		#include "object/list-slays.h"
 		#undef SLAY
 	};
@@ -985,18 +985,17 @@ static int stats_dump_lists(void)
 
 	STATS_DB_FINALIZE(sql_stmt)
 
-	err = stats_db_stmt_prep(&sql_stmt, 
-		"INSERT INTO object_slays_list VALUES(?,?,?,?,?,?);");
+	err = stats_db_stmt_prep(&sql_stmt,
+		"INSERT INTO object_slays_list VALUES(?,?,?,?,?);");
 	if (err) return err;
 
-	for (idx = 1; idx < SL_MAX; idx++)
-	{
+	for (idx = 1; idx < SL_MAX; idx++) {
 		struct slay *s_ptr = &slay_table[idx];
 		if (! s_ptr->desc) continue;
 
-		err = stats_db_bind_ints(sql_stmt, 5, 0, idx, 
-			s_ptr->object_flag, s_ptr->monster_flag, 
-			s_ptr->resist_flag, s_ptr->mult);
+		err = stats_db_bind_ints(sql_stmt, 4, 0, idx,
+			s_ptr->object_flag, s_ptr->monster_flag,
+			s_ptr->resist_flag);
 		if (err) return err;
 		err = sqlite3_bind_text(sql_stmt, 6, s_ptr->desc,
 			strlen(s_ptr->desc), SQLITE_STATIC);

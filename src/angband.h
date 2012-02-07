@@ -41,6 +41,7 @@
 #include "object/object.h"
 #include "monster/constants.h"
 #include "monster/monster.h"
+#include "object/slays.h"
 #include "player/types.h"
 #include "player/player.h"
 #include "store.h"
