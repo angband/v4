@@ -43,7 +43,7 @@
 #define BASE_JEWELRY_POWER		 4
 #define BASE_ARMOUR_POWER		 1
 #define DAMAGE_POWER             5 /* i.e. 2.5 */
-#define TO_HIT_POWER             3 /* i.e. 1.5 */
+#define FINESSE_POWER            3 /* i.e. 1.5 */
 #define BASE_AC_POWER            2 /* i.e. 1 */
 #define TO_AC_POWER              2 /* i.e. 1 */
 #define MAX_BLOWS                5
@@ -123,7 +123,7 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 	monster_type *m_ptr;
 	monster_type monster_type_body;
 	const char *desc[SL_MAX] = { 0 }, *brand[SL_MAX] = { 0 };
-	s16b s_mult[SL_MAX] = { 100 };
+	s16b s_mult[SL_MAX] = { 0 };
 	object_type object_type_body;
 	object_type *i_ptr = &object_type_body;
 
@@ -142,7 +142,9 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 		of_inter(s_index, f2);
 
 	/* Look in the cache to see if we know this one yet */
-	sv = check_slay_cache(s_index);
+/*	sv = check_slay_cache(s_index); */
+/* CC: this needs to wait until the cache rewrite, because the same flags
+ * could now have different pvals, so would get false matches */
 
 	/* If it's cached (or there are no slays), return the value */
 	if (sv)	{
@@ -157,7 +159,7 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 	 */
 	for (i = 0; i < z_info->r_max; i++)	{
 		best_s_ptr = NULL;
-		mult = 100;
+		mult = 0;
 		r_ptr = &r_info[i];
 		m_ptr = &monster_type_body;
 		m_ptr->r_idx = i;
@@ -172,7 +174,7 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 				mult += 100;
 		}
 		/* Add the multiple to sv */
-		sv += (mult * r_ptr->scaled_power) / 100;
+		sv += ((mult + 100) * r_ptr->scaled_power) / 100;
 	}
 
 	/*
@@ -254,12 +256,12 @@ s32b object_power(const object_type* o_ptr, int verbose, ang_file *log_file,
 		slay_pwr = slay_power(o_ptr, verbose, log_file, known);
 
 	/* Start with any damage boost from the item itself */
-	if (o_ptr->to_prowess >= INHIBIT_TO_DAM) {
+	if (o_ptr->to_prowess >= INHIBIT_PROWESS) {
 		p += INHIBIT_POWER;
-		file_putf(log_file, "INHIBITING: damage bonus too high\n");
+		file_putf(log_file, "INHIBITING: prowess bonus too high\n");
 	} else {
-		p += (o_ptr->to_prowess * DAMAGE_POWER / 2);
-		file_putf(log_file, "Adding power from to_dam, total is %d\n", p);
+		p += (o_ptr->to_prowess * DAMAGE_POWER / 20);
+		file_putf(log_file, "Adding power from +prowess, total is %d\n", p);
 	}
 	/* Add damage from dice for any wieldable weapon or ammo */
 	if (wield_slot(o_ptr) == INVEN_WIELD || kind_is_ammo(o_ptr->tval)) {
@@ -267,8 +269,8 @@ s32b object_power(const object_type* o_ptr, int verbose, ang_file *log_file,
 		file_putf(log_file, "Adding %d power for dam dice\n", dice_pwr);
 	/* Add 2nd lot of damage power for nonweapons */
 	} else if (wield_slot(o_ptr) != INVEN_BOW) {
-		p += (o_ptr->to_prowess * DAMAGE_POWER);
-		file_putf(log_file, "Adding power from nonweap to_dam, total is %d\n", p);
+		p += (o_ptr->to_prowess * DAMAGE_POWER / 10);
+		file_putf(log_file, "Adding power from nonweap prowess, total is %d\n", p);
 		/* Add power boost for nonweapons with combat flags */
 		if (num_slays || of_has(flags, OF_BLOWS) || of_has(flags, OF_SHOTS) ||
 				of_has(flags, OF_MIGHT)) {
@@ -358,12 +360,12 @@ s32b object_power(const object_type* o_ptr, int verbose, ang_file *log_file,
 	}
 
 	/* Add power for +to_hit */
-	if (o_ptr->to_finesse >= INHIBIT_TO_HIT) {
+	if (o_ptr->to_finesse >= INHIBIT_FINESSE) {
 		p += INHIBIT_POWER;
-		file_putf(log_file, "INHIBITING: to-hit bonus too high\n");
+		file_putf(log_file, "INHIBITING: finesse bonus too high\n");
 	} else {
-		p += (o_ptr->to_finesse * TO_HIT_POWER / 2);
-		file_putf(log_file, "Adding power for to hit, total is %d\n", p);
+		p += (o_ptr->to_finesse * FINESSE_POWER / 20);
+		file_putf(log_file, "Adding power for +finesse, total is %d\n", p);
 	}
 	/* Add power for base AC and adjust for weight */
 	if (o_ptr->ac) {

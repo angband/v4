@@ -1955,7 +1955,7 @@ static void add_damage_dice(artifact_type *a_ptr)
 static void add_to_hit(artifact_type *a_ptr, int fixed, int random)
 {
 	/* Inhibit above certain threshholds */
-	if (a_ptr->to_finesse > VERYHIGH_TO_HIT)
+	if (a_ptr->to_finesse > VERYHIGH_FINESSE)
 	{
 		if (!INHIBIT_STRONG)
 		{
@@ -1963,7 +1963,7 @@ static void add_to_hit(artifact_type *a_ptr, int fixed, int random)
 			return;
 		}
 	}
-	else if (a_ptr->to_finesse > HIGH_TO_HIT)
+	else if (a_ptr->to_finesse > HIGH_FINESSE)
 	{
 		if (!INHIBIT_WEAK)
 		{
@@ -1978,7 +1978,7 @@ static void add_to_hit(artifact_type *a_ptr, int fixed, int random)
 static void add_to_dam(artifact_type *a_ptr, int fixed, int random)
 {
 	/* Inhibit above certain threshholds */
-	if (a_ptr->to_prowess > VERYHIGH_TO_DAM)
+	if (a_ptr->to_prowess > VERYHIGH_PROWESS)
 	{
 		if (!INHIBIT_STRONG)
 		{
@@ -1986,7 +1986,7 @@ static void add_to_dam(artifact_type *a_ptr, int fixed, int random)
 			return;
 		}
 	}
-	else if (a_ptr->to_finesse > HIGH_TO_DAM)
+	else if (a_ptr->to_finesse > HIGH_PROWESS)
 	{
 		if (!INHIBIT_WEAK)
 		{
