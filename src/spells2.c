@@ -1268,23 +1268,44 @@ static const int enchant_table[ENCHANT_MAX + 1] =
  *
  * \returns true if the bonus was increased
  */
-static bool enchant_score(s16b *score, bool is_artifact)
+static bool enchant_score(int flag, object_type *o_ptr, bool is_artifact)
 {
-	int chance;
+	int chance, mult;
+	s16b *score;
 
 	/* Artifacts resist enchantment half the time */
 	if (is_artifact && randint0(100) < 50) return FALSE;
 
+	switch (flag) {
+		case ENCH_TOHIT: {
+			score = &o_ptr->to_finesse;
+			mult = 10;
+			break;
+		}
+		case ENCH_TODAM: {
+			score = &o_ptr->to_prowess;
+			mult = 10;
+			break;
+		}
+		case ENCH_TOAC: {
+			score = &o_ptr->to_a;
+			mult = 1;
+			break;
+		}
+		default:
+			quit_fmt("Bad call to enchant_score, flag is %d\n", flag);
+	}
+
 	/* Figure out the chance to enchant */
 	if (*score < 0) chance = 0;
-	else if (*score > ENCHANT_MAX) chance = 1000;
-	else chance = enchant_table[*score];
+	else if (*score > ENCHANT_MAX * mult) chance = 1000;
+	else chance = enchant_table[*score / mult];
 
 	/* If we roll less-than-or-equal to chance, it fails */
 	if (randint1(1000) <= chance) return FALSE;
 
 	/* Increment the score */
-	++*score;
+	*score += damroll(1, mult);
 
 	return TRUE;
 }
@@ -1322,11 +1343,11 @@ static bool enchant_curse(object_type *o_ptr, bool is_artifact)
  *
  * \returns true if a bonus was increased or a curse was broken
  */
-static bool enchant2(object_type *o_ptr, s16b *score)
+static bool enchant2(object_type *o_ptr, int flag)
 {
 	bool result = FALSE;
 	bool is_artifact = o_ptr->artifact ? TRUE : FALSE;
-	if (enchant_score(score, is_artifact)) result = TRUE;
+	if (enchant_score(flag, o_ptr, is_artifact)) result = TRUE;
 	if (enchant_curse(o_ptr, is_artifact)) result = TRUE;
 	return result;
 }
@@ -1367,9 +1388,12 @@ bool enchant(object_type *o_ptr, int n, int eflag)
 		if (prob > 100 && randint0(prob) >= 100) continue;
 
 		/* Try the three kinds of enchantment we can do */
-		if ((eflag & ENCH_TOHIT) && enchant2(o_ptr, &o_ptr->to_finesse)) res = TRUE;
-		if ((eflag & ENCH_TODAM) && enchant2(o_ptr, &o_ptr->to_prowess)) res = TRUE;
-		if ((eflag & ENCH_TOAC)  && enchant2(o_ptr, &o_ptr->to_a)) res = TRUE;
+		if ((eflag & ENCH_TOHIT) && enchant2(o_ptr, ENCH_TOHIT))
+			res = TRUE;
+		if ((eflag & ENCH_TODAM) && enchant2(o_ptr, ENCH_TODAM))
+			res = TRUE;
+		if ((eflag & ENCH_TOAC) && enchant2(o_ptr, ENCH_TOAC))
+			res = TRUE;
 	}
 
 	/* Failure */

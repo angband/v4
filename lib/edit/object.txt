@@ -1765,7 +1765,7 @@ E:DETECT_INVIS
 
 ### Enchantments ###
 
-N:270:Enchant Weapon To-Hit
+N:270:Enchant Weapon (Finesse)
 G:?:w
 I:70:11
 W:15:0:5:125
@@ -1774,7 +1774,7 @@ M:25:2
 F:EASY_KNOW
 E:ENCHANT_TOHIT
 
-N:271:Enchant Weapon To-Dam
+N:271:Enchant Weapon (Prowess)
 G:?:w
 I:70:12
 W:15:0:5:125
