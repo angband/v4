@@ -191,7 +191,8 @@ static bool py_attack_real(int y, int x, bool *fear)
 		/* Learn any applicable slays flags on equipment */
 		object_notice_slays(o_ptr, learn_flags);
 		for (i = INVEN_LEFT; i < INVEN_TOTAL; i++)
-			object_notice_slays(&p_ptr->inventory[i], learn_flags);
+			if (p_ptr->inventory[i].kind)
+				object_notice_slays(&p_ptr->inventory[i], learn_flags);
 
 		/* Set mult, verb and index for best applicable slay */
 		if (best_s_ptr) {
