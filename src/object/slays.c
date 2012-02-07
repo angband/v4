@@ -139,9 +139,9 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 {
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 	monster_lore *l_ptr = &l_list[m_ptr->r_idx];
-	int i, bestmult = 100, oldbest = 0;
+	int i, bestmult = 0, oldbest = 0;
 
-	for (i = 0; i < SL_MAX; i++) {
+	for (i = 1; i < SL_MAX; i++) {
 		const struct slay *s_ptr = &slay_table[i];
 		oldbest = bestmult;
 
@@ -175,7 +175,7 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 		}
 
 		/* use this slay if it's better than the previous best */
-		if (*best_s_ptr == NULL || bestmult > oldbest)
+		if (bestmult > oldbest)
 			*best_s_ptr = s_ptr;
 	}
 }

@@ -222,10 +222,11 @@ static bool py_attack_real(int y, int x, bool *fear)
 	wieldeds_notice_on_attack();
 
 	/* Subtract damage that is absorbed by monster armour */
-	dmg = (dmg - r_ptr->armour);
+	dmg -= r_ptr->armour;
 
 	/* No negative damage */
-	if (dmg <= 0) dmg = 0;
+	if (dmg <= 0)
+		dmg = 0;
 
 	/* Tell the player what happened */
 	if (dmg <= 0)

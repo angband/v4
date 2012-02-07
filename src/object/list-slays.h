@@ -18,7 +18,7 @@
  * brand name
  */
 /*   name		object flag		mon flag	res flag 	vuln flag		nonweap	ranged verb			melee verb			active verb			affected creatures							brand name */
-SLAY(XXX, 		FLAG_END,       FLAG_END,  	FLAG_END,	FLAG_END,		FALSE,	NULL,	    		NULL,      			NULL,         		"normal creatures", 										NULL)
+SLAY(XXX, 		FLAG_END,       FLAG_END,  	FLAG_END,	FLAG_END,		FALSE,	NULL,	    		NULL,      			NULL,         		"normal creatures", 						NULL)
 SLAY(IMPACT,	OF_IMPACT,		FLAG_END,	FLAG_END,	RF_HURT_ROCK,	TRUE,	"bores into",		"hack at",			"hums",				"creatures made of stone",					NULL)
 SLAY(TUNNEL,	OF_TUNNEL,		FLAG_END,	FLAG_END,	RF_HURT_ROCK,	FALSE,	"bores into",		"hack at",			"hums",				"creatures made of stone",					NULL)
 SLAY(LIGHT,		OF_LIGHT,		FLAG_END,	FLAG_END,	RF_HURT_LIGHT,	FALSE,	"dazzles",			"dazzle",			"glows",			"creatures hurt by light",					NULL)
@@ -32,6 +32,6 @@ SLAY(GIANT,		OF_SLAY_GIANT,  RF_GIANT,  	FLAG_END,	FLAG_END,		TRUE,	"pierces",  
 SLAY(DRAGON,	OF_SLAY_DRAGON, RF_DRAGON, 	FLAG_END,	FLAG_END,		TRUE,	"pierces",  		"smite",   			"glows",      		"dragons", 									NULL)
 SLAY(ACID,		OF_BRAND_ACID,  FLAG_END,  	RF_IM_ACID,	FLAG_END,		TRUE,	"dissolves", 		"dissolve", 		"spits",      		"creatures not resistant to acid", 			"acid")
 SLAY(ELEC,		OF_BRAND_ELEC,  FLAG_END,  	RF_IM_ELEC,	FLAG_END,		TRUE,	"shocks",     		"shock",     		"crackles",   		"creatures not resistant to electricity", 	"lightning")
-SLAY(FIRE,		OF_BRAND_FIRE,  FLAG_END,  	RF_IM_FIRE,	FLAG_END,		TRUE,	"burns",    		"burn",    			"flares",     		"creatures not resistant to fire", 			"flames")
-SLAY(COLD,		OF_BRAND_COLD,  FLAG_END,  	RF_IM_COLD,	RF_HURT_FIRE,	TRUE,	"freezes" , 		"freeze",  			"grows cold", 		"creatures not resistant to cold", 			"frost")
-SLAY(POISON,	OF_BRAND_POIS,  FLAG_END,  	RF_IM_POIS,	RF_HURT_COLD,	TRUE,	"poisons",  		"poison",  			"seethes",    		"creatures not resistant to poison", 		"venom")
+SLAY(FIRE,		OF_BRAND_FIRE,  FLAG_END,  	RF_IM_FIRE,	RF_HURT_FIRE,	TRUE,	"burns",    		"burn",    			"flares",     		"creatures not resistant to fire", 			"flames")
+SLAY(COLD,		OF_BRAND_COLD,  FLAG_END,  	RF_IM_COLD,	RF_HURT_COLD,	TRUE,	"freezes" , 		"freeze",  			"grows cold", 		"creatures not resistant to cold", 			"frost")
+SLAY(POISON,	OF_BRAND_POIS,  FLAG_END,  	RF_IM_POIS,	FLAG_END,		TRUE,	"poisons",  		"poison",  			"seethes",    		"creatures not resistant to poison", 		"venom")
