@@ -411,7 +411,7 @@ static bool describe_slays(textblock *tb, const bitflag flags[OF_SIZE],
 	of_inter(brand_flags, brand_mask);
 
 	if (kind_is_weapon(o_ptr->tval) || kind_is_bow(o_ptr->tval) ||
-			kind_is_ammo(o_ptr->tval || o_ptr->tval == TV_FLASK))
+			kind_is_ammo(o_ptr->tval) || o_ptr->tval == TV_FLASK)
 		fulldesc = FALSE;
 	else
 		fulldesc = TRUE;
