@@ -1634,7 +1634,7 @@ static errr finish_parse_e(struct parser *p) {
 		}
 
 	/* Cache the slay combinations on ego affixes for later lookup */
-	create_slay_cache(e_info);
+	create_slay_cache();
 
 	parser_destroy(p);
 	return 0;

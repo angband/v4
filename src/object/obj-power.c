@@ -141,19 +141,17 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 	else
 		of_inter(s_index, f2);
 
+	/* Get the slay mults for this object */
+	object_slay_mults((object_type *)i_ptr, s_mult);
+
 	/* Look in the cache to see if we know this one yet */
-/*	sv = check_slay_cache(s_index); */
-/* CC: this needs to wait until the cache rewrite, because the same flags
- * could now have different pvals, so would get false matches */
+	sv = check_slay_cache(s_mult);
 
 	/* If it's cached (or there are no slays), return the value */
 	if (sv)	{
 		file_putf(log_file, "Slay cache hit\n");
 		return sv;
 	}
-
-	/* Get the slay mults for this object */
-	object_slay_mults((object_type *)i_ptr, s_mult);
 
 	/*
 	 * Otherwise we need to calculate the expected average multiplier
@@ -202,8 +200,8 @@ static s32b slay_power(const object_type *o_ptr, int verbose, ang_file*
 	}
 
 	/* Add to the cache */
-	if (fill_slay_cache(s_index, sv))
-		file_putf(log_file, "Added to slay cache\n");
+	add_slay_cache(s_mult, sv);
+	file_putf(log_file, "Added to slay cache\n");
 
 	return sv;
 }

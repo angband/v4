@@ -33,7 +33,8 @@ const struct slay slay_table[] =
 /**
  * Cache of slay values (for object_power)
  */
-static struct flag_cache *slay_cache;
+#define SLAY_CACHE_SIZE	257
+static struct flag_cache **slay_cache;
 
 
 /**
@@ -199,20 +200,67 @@ void react_to_slay(bitflag *obj_flags, bitflag *mon_flags)
 
 
 /**
- * Check the slay cache for a combination of slays and return a slay value
+ * Hash the slay multipliers passed in
  *
- * \param index is the set of slay flags to look for
+ * DJB2 hash function from comp.lang.c attributed to Dan Bernstein
  */
-s32b check_slay_cache(bitflag *index)
+static size_t slay_hash(s16b mult[], size_t length, size_t table_size)
+{
+	unsigned long hash = 5381;
+	size_t i;
+
+	for (i = 0; i < length; i++) {
+		hash = ((hash << 5) + hash) + mult[i];
+	}
+	return hash % table_size;
+}
+
+
+/**
+ * Compare two sets of slay multipliers
+ *
+ * \return True if they are equal, False if they are not
+ */
+static bool slay_match(s16b mults1[], s16b mults2[])
 {
 	int i;
 
-	for (i = 0; !of_is_empty(slay_cache[i].flags); i++)
-		if (of_is_equal(index, slay_cache[i].flags)) break;
+	for (i = 0; i < SL_MAX; i++)
+		if (mults1[i] != mults2[i])
+			return false;
 
-	return slay_cache[i].value;
+	return true;
 }
 
+
+/**
+ * Check the slay cache for a combination of slays and return a slay value
+ *
+ * \param mult is the set of slay multipliers to look for
+ *
+ * \return 0 if an entry was not found
+ *         the cached value if an entry was found
+ */
+u32b check_slay_cache(s16b mult[])
+{
+	size_t hash;
+	struct flag_cache *entry;
+
+	hash = slay_hash(mult, SL_MAX, SLAY_CACHE_SIZE);
+	entry = slay_cache[hash];
+
+	while (entry != NULL) {
+		if (slay_match(mult, entry->mults))
+			break;
+		entry = entry->next;
+	}
+
+	if (entry) {
+		return entry->value;
+	} else {
+		return 0;
+	}
+}
 
 /**
  * Fill in a value in the slay cache. Return TRUE if a change is made.
@@ -220,81 +268,39 @@ s32b check_slay_cache(bitflag *index)
  * \param index is the set of slay flags whose value we are adding
  * \param value is the value of the slay flags in index
  */
-bool fill_slay_cache(bitflag *index, s32b value)
+void add_slay_cache(s16b mult[], u32b value)
 {
 	int i;
+	size_t hash;
+	struct flag_cache **entry_p;
 
-	for (i = 0; !of_is_empty(slay_cache[i].flags); i++) {
-		if (of_is_equal(index, slay_cache[i].flags)) {
-			slay_cache[i].value = value;
-			return TRUE;
-		}
-	}
+	hash = slay_hash(mult, SL_MAX, SLAY_CACHE_SIZE);
+	entry_p = &slay_cache[hash];
 
-	return FALSE;
+	while (*entry_p)
+		entry_p = &((*entry_p)->next);
+
+	*entry_p = C_ZNEW(1, struct flag_cache);
+	(*entry_p)->value = value;
+	(*entry_p)->next = NULL;
+	for (i = 0; i < SL_MAX; i++)
+		(*entry_p)->mults[i] = mult[i];
 }
 
 /**
- * Create a cache of slay combinations found on ego items, and the values of
- * these combinations. This is to speed up slay_power(), which will be called
+ * Create a cache ready for slay combinations found on ego items.
+ *
+ * The power values corresponding to these combinations will be populated at
+ * a later date. This is to speed up slay_power(), which will be called
  * many times for ego items during the game.
  *
- * \param items is the set of ego types from which we are extracting slay
- * combinations
+ * The cache is a hash table, with linked lists of entries at each hash
+ * position, each entry initialised to NULL
  */
-errr create_slay_cache(struct ego_item *items)
+errr create_slay_cache(void)
 {
-    int i;
-    int j;
-    int count = 0;
-    bitflag cacheme[OF_SIZE];
-    bitflag slay_mask[OF_SIZE];
-    bitflag **dupcheck;
-    ego_item_type *e_ptr;
-
-    /* Build the slay mask */
-	create_mask(slay_mask, FALSE, OFT_SLAY, OFT_KILL, OFT_BRAND, OFT_MAX);
-
-    /* Calculate necessary size of slay_cache */
-    dupcheck = C_ZNEW(z_info->e_max, bitflag *);
-
-    for (i = 0; i < z_info->e_max; i++) {
-        dupcheck[i] = C_ZNEW(OF_SIZE, bitflag);
-        e_ptr = items + i;
-
-        /* Find the slay flags on this ego */
-        of_copy(cacheme, e_ptr->flags);
-        of_inter(cacheme, slay_mask);
-
-        /* Only consider non-empty combinations of slay flags */
-        if (!of_is_empty(cacheme)) {
-            /* Skip previously scanned combinations */
-            for (j = 0; j < i; j++)
-                if (of_is_equal(cacheme, dupcheck[j])) continue;
-
-            /* msg("Found a new slay combo on an ego item"); */
-            count++;
-            of_copy(dupcheck[i], cacheme);
-        }
-    }
-
-    /* Allocate slay_cache with an extra empty element for an iteration stop */
-    slay_cache = C_ZNEW((count + 1), struct flag_cache);
-    count = 0;
-
-    /* Populate the slay_cache */
-    for (i = 0; i < z_info->e_max; i++) {
-        if (!of_is_empty(dupcheck[i])) {
-            of_copy(slay_cache[count].flags, dupcheck[i]);
-            slay_cache[count].value = 0;
-            count++;
-            /*msg("Cached a slay combination");*/
-        }
-    }
-
-    for (i = 0; i < z_info->e_max; i++)
-        FREE(dupcheck[i]);
-    FREE(dupcheck);
+    /* Allocate slay_cache */
+    slay_cache = C_ZNEW(SLAY_CACHE_SIZE, struct flag_cache *);
 
     /* Success */
     return 0;
@@ -302,6 +308,18 @@ errr create_slay_cache(struct ego_item *items)
 
 void free_slay_cache(void)
 {
+	int i;
+	struct flag_cache *entry;
+	struct flag_cache *prev;
+
+	for (i = 0; i < SLAY_CACHE_SIZE; i++) {
+		entry = slay_cache[i];
+		while (entry) {
+			prev = entry;
+			entry = entry->next;
+			mem_free(prev);
+		}
+	}
 	mem_free(slay_cache);
 }
 
