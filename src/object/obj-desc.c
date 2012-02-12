@@ -578,7 +578,7 @@ static size_t obj_desc_pval(const object_type *o_ptr, char *buf, size_t max,
 {
 	bitflag f[OF_SIZE], f2[OF_SIZE];
 	int i, known = 0;
-	int highest = 0;
+	int highest = -32767;
 
 	object_flags(o_ptr, f);
 	create_pval_mask(f2);
