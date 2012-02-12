@@ -165,7 +165,8 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 		}
 
 		/* If the monster is explicitly vulnerable, mult will be 1x higher */
-		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag)) {
+		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag) &&
+				mult[i] != 0) {
 			if (real) {
 				of_on(learn_flags, s_ptr->object_flag);
 				if (m_ptr->ml)
@@ -391,7 +392,7 @@ bool object_slay_mults(const object_type *o_ptr, s16b mult[])
 	int newmult = 0;
 
 	/* Find the slay flags on this object */
-	create_mask(allslays, FALSE, OFT_SLAY, OFT_BRAND, OFT_MAX);
+	create_mask(allslays, FALSE, OFT_SLAY, OFT_BRAND, OFT_HURT, OFT_MAX);
 	of_copy(slay_flags, o_ptr->flags);
 	of_inter(slay_flags, allslays);
 
@@ -403,6 +404,12 @@ bool object_slay_mults(const object_type *o_ptr, s16b mult[])
 		/* Disallow forbidden off-weapon slays */
 		if (wield_slot(o_ptr) > INVEN_BOW && wield_slot(o_ptr) < INVEN_TOTAL
 				&& !s_ptr->nonweap) continue;
+
+		/* Use -1 for HURT flags, which don't use a pval for modifying damage */
+		if (obj_flag_type(s_ptr->object_flag) == OFT_HURT) {
+			mult[s_ptr->index] = -1;
+			continue;
+		}
 
 		/* Use the multiplier if it's higher than the existing one */
 		newmult = o_ptr->pval[which_pval(o_ptr, i)];

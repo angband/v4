@@ -12,7 +12,7 @@ OFT(PVAL,	TRUE,	"granular flag")	/* pval-related but not to a stat */
 OFT(STAT,	TRUE,	"stat")				/* affects a stat */
 OFT(SUST,	FALSE,	"sustain")			/* sustains a stat */
 OFT(SLAY,	FALSE,	"creature slay")	/* a "normal" creature-type slay */
-OFT(BRAND,	FALSE,	"brand")			/* a brand against monsters lacking the resist */
+OFT(BRAND,	TRUE,	"brand")			/* a brand against monsters lacking the resist */
 OFT(KILL,	FALSE,	"creature bane")	/* a powerful creature-type slay */
 OFT(VULN,	FALSE,	"vulnerability")	/* lowers resistance to an element */
 OFT(IMM,	FALSE,	"immunity")			/* offers immunity to an element */
@@ -27,4 +27,5 @@ OFT(MELEE,	FALSE,	"melee power")		/* applicable only to melee weapons */
 OFT(CURSE,	FALSE,	"curse")			/* a "sticky" curse */
 OFT(BAD,	FALSE,	"malus")			/* an undesirable flag that isn't a curse */
 OFT(INT,	FALSE,	"internal flag")	/* an internal flag, not shown in game */
+OFT(HURT,	FALSE,	"limited slay")		/* affects creatures with the corresponding HURT_ flag */
 OFT(MAX,	FALSE,	NULL)
