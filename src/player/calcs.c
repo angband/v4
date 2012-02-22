@@ -962,7 +962,7 @@ int critical_norm(player_state state, const object_type *o_ptr, int dam,
 	    /* Scale the chance by an arbitrary value to get it to somewhere in the
     	 * 1-100 range. Check to avoid div/0 */
 		    chance = mod_finesse * mod_finesse + mod_prowess * mod_prowess;
-    		chance = chance / 2500 + 1;
+    		chance = chance / 5000 + 1;
 			if (chance > 99)
 				chance = 99;
 			if (dam_aspect == AVERAGE)
