@@ -975,10 +975,12 @@ int critical_norm(player_state state, const object_type *o_ptr, int dam,
 			assert(0);
 	}
 
-    /* Upgrade crit power until we fail the roll. (Cap at power 5?) */
+    /* Upgrade crit power until we fail the roll. Reduce chance by 5% each
+	 * time to avoid infinite crits. */
     while (randint0(100) <= chance) {
         power++;
 		dam += damcalc(1, o_ptr->ds, dam_aspect);
+		chance = (19 * chance) / 20;
 	}
 
 	if (power > 5)
