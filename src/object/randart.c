@@ -480,6 +480,8 @@ static object_kind *choose_item(int a_idx)
 		sval = k_info[i].sval;
 	}
 	file_putf(log_file, "Creating tval %d sval %d\n", tval, sval);
+
+	/* Get the object kind and copy some basic stats */
 	k_ptr = lookup_kind(tval, sval);
 	a_ptr->tval = k_ptr->tval;
 	a_ptr->sval = k_ptr->sval;
@@ -490,6 +492,10 @@ static object_kind *choose_item(int a_idx)
 	a_ptr->dd = k_ptr->dd;
 	a_ptr->ds = k_ptr->ds;
 	a_ptr->weight = k_ptr->weight;
+	a_ptr->balance = k_ptr->balance;
+	a_ptr->heft = k_ptr->heft;
+
+	/* Set flags, pvals and other stuff */
 	of_copy(a_ptr->flags, k_ptr->flags);
 	for (i = 0; i < MAX_PVALS; i++) {
 		of_copy(a_ptr->pval_flags[i], k_ptr->pval_flags[i]);
