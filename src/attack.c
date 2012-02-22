@@ -520,7 +520,7 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
     /* Reduce chance based on distance to target */
     int chance = get_hit_chance(p_ptr->state, r_ptr) - distance(p_ptr->py, p_ptr->px, y, x);
 
-	int multiplier = p_ptr->state.ammo_mult;
+	int multiplier = p_ptr->state.ammo_mult * 100;
 	const struct slay *best_s_ptr = NULL;
 	s16b slay_mult[SL_MAX] = { 0 };
 	bitflag learn_flags[OF_SIZE];
@@ -551,7 +551,7 @@ static struct attack_result make_ranged_shot(object_type *o_ptr, int y, int x) {
 
 	/* Apply damage: multiplier, slays, criticals, bonuses */
 	result.dmg = damroll(o_ptr->dd, o_ptr->ds);
-	result.dmg += o_ptr->to_prowess + j_ptr->to_prowess;
+	multiplier += o_ptr->to_prowess + j_ptr->to_prowess;
 	result.dmg = (result.dmg * multiplier) / 100;
 	result.dmg = critical_shot(o_ptr->weight, o_ptr->to_finesse, result.dmg, &result.msg_type);
 
