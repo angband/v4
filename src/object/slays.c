@@ -149,7 +149,7 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 		/* If it's a brand the monster doesn't resist or a matching slay */
 		if (((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
 				(s_ptr->monster_flag && rf_has(r_ptr->flags,
-				s_ptr->monster_flag))) && mult[i] > 100) {
+				s_ptr->monster_flag))) && mult[i] > 0) {
 			/* In a real attack, learn about object and monster flags */
 			if (real) {
 				of_on(learn_flags, s_ptr->object_flag);
