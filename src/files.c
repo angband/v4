@@ -619,7 +619,7 @@ static const char *show_speed(void)
 	int tmp = p_ptr->state.speed;
 	if (p_ptr->timed[TMD_FAST]) tmp -= 10;
 	if (p_ptr->timed[TMD_SLOW]) tmp += 10;
-	if (p_ptr->searching) tmp += 10;
+	if (p_ptr->searching) tmp += 2;
 	if (tmp == 110) return "Normal";
 	strnfmt(buffer, sizeof(buffer), "%d", tmp - 110);
 	return buffer;
@@ -812,7 +812,7 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 				skills[i].skill == SKILL_SEARCH)
 		{
 			if (skill < 0) skill = 0;
-			if (skill > 100) skill = 100;
+			// if (skill > 100) skill = 100;
 			panel[i].fmt = "%y%%";
 			panel[i].value[0] = i2u(skill);
 			panel[i].color = colour_table[skill / 10];
