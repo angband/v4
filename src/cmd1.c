@@ -48,6 +48,7 @@ bool search(bool verbose)
 	bool found = FALSE;
 
 	object_type *o_ptr;
+	monster_type *m_ptr;
 
 	/* Start with base search ability */
 	chance = p_ptr->state.skills[SKILL_SEARCH];
@@ -129,6 +130,14 @@ bool search(bool verbose)
 						disturb(p_ptr, 0, 0);
 					}
 				}
+				
+				/* Look for mimics */
+				m_ptr = cave_monster_at(cave, y, x);
+				if (is_mimicking(m_ptr))
+					become_aware(m_ptr);
+				
+				/* Disturb */
+				disturb(p_ptr, 0, 0);
 			}
 		}
 	}
