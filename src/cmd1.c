@@ -133,11 +133,12 @@ bool search(bool verbose)
 				
 				/* Look for mimics */
 				m_ptr = cave_monster_at(cave, y, x);
-				if (is_mimicking(m_ptr))
+				if (is_mimicking(m_ptr)) {
 					become_aware(m_ptr);
 				
-				/* Disturb */
-				disturb(p_ptr, 0, 0);
+					/* Disturb */
+					disturb(p_ptr, 0, 0);
+				}
 			}
 		}
 	}
