@@ -1980,9 +1980,7 @@ void do_cmd_hold(cmd_code code, cmd_arg args[])
 	do_autopickup();
 
 	/* Hack -- enter a store if we are on one */
-	if ((cave->feat[p_ptr->py][p_ptr->px] >= FEAT_SHOP_HEAD) &&
-	    (cave->feat[p_ptr->py][p_ptr->px] <= FEAT_SHOP_TAIL))
-	{
+	if (cave_isshop(cave, p_ptr->py, p_ptr->px)) {
 		/* Disturb */
 		disturb(p_ptr, 0, 0);
 

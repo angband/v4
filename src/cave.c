@@ -3090,9 +3090,7 @@ void cave_illuminate(struct cave *c, bool daytime)
 		for (x = 0; x < c->width; x++)
 		{
 			/* Track shop doorways */
-			if ((c->feat[y][x] >= FEAT_SHOP_HEAD) &&
-			    (c->feat[y][x] <= FEAT_SHOP_TAIL))
-			{
+			if (cave_isshop(c, y, x)) {
 				for (i = 0; i < 8; i++)
 				{
 					int yy = y + ddy_ddd[i];
@@ -3794,11 +3792,17 @@ bool cave_istrap(struct cave *c, int y, int x) {
 }
 
 /**
+ * True if the feature is a shop entrance.
+ */
+bool feature_isshop(int feat) {
+	return (feat >= FEAT_SHOP_HEAD && feat <= FEAT_SHOP_TAIL);
+}
+
+/**
  * True if the square is a shop entrance.
  */
 bool cave_isshop(struct cave *c, int y, int x) {
-	int feat = c->feat[y][x];
-	return feat >= FEAT_SHOP_HEAD && feat <= FEAT_SHOP_TAIL;
+	return feature_isshop(c->feat[y][x]);
 }
 
 /**

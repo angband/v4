@@ -482,7 +482,7 @@ int context_menu_cave(struct cave *cave, int y, int x, int adjacent, int mx, int
 		if (feat == FEAT_INVIS) name = f_info[FEAT_FLOOR].name;
 
 		/* Hack -- special introduction for store doors */
-		if ((feat >= FEAT_SHOP_HEAD) && (feat <= FEAT_SHOP_TAIL)) {
+		if (feature_isshop(feat)) {
 			prt(format("(Enter to select command, ESC to cancel) You see the entrance to the %s:", name), 0, 0);
 		} else {
 			prt(format("(Enter to select command, ESC to cancel) You see %s %s:",

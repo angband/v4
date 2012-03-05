@@ -677,9 +677,7 @@ void move_player(int dir, bool disarm)
 		search(FALSE);
 
 		/* Handle "store doors" */
-		if ((cave->feat[p_ptr->py][p_ptr->px] >= FEAT_SHOP_HEAD) &&
-			(cave->feat[p_ptr->py][p_ptr->px] <= FEAT_SHOP_TAIL))
-		{
+		if (cave_isshop(cave, p_ptr->py, p_ptr->px)) {
 			/* Disturb */
 			disturb(p_ptr, 0, 0);
 			cmd_insert(CMD_ENTER_STORE);
