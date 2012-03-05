@@ -44,7 +44,7 @@ static bool is_valid_pf(int y, int x)
 	if (!(cave->info[y][x] & (CAVE_MARK))) return (TRUE);
 
 	/* Require open space */
-	return (cave_floor_bold(y, x));
+	return (cave_ispassable(cave, y, x));
 }
 
 static void fill_terrain_info(void)
@@ -649,7 +649,7 @@ static bool run_test(void)
 		}
 
 		/* Analyze unknown grids and floors */
-		if (inv || cave_floor_bold(row, col))
+		if (inv || cave_ispassable(cave, row, col))
 		{
 			/* Looking for open area */
 			if (p_ptr->run_open_area)
@@ -747,7 +747,7 @@ static bool run_test(void)
 			col = px + ddx[new_dir];
 
 			/* Unknown grid or non-wall */
-			/* Was: cave_floor_bold(row, col) */
+			/* Was: cave_ispassable(cave, row, col) */
 			if (!(cave->info[row][col] & (CAVE_MARK)) ||
 			    (cave->feat[row][col] < FEAT_SECRET))
 			{
@@ -778,7 +778,7 @@ static bool run_test(void)
 			col = px + ddx[new_dir];
 
 			/* Unknown grid or non-wall */
-			/* Was: cave_floor_bold(row, col) */
+			/* Was: cave_ispassable(cave, row, col) */
 			if (!(cave->info[row][col] & (CAVE_MARK)) ||
 			    (cave->feat[row][col] < FEAT_SECRET))
 			{
@@ -902,7 +902,7 @@ void run_step(int dir)
 				x = p_ptr->px + ddx[pf_result[pf_result_index] - '0'];
 
 				/* Known wall */
-				if ((cave->info[y][x] & (CAVE_MARK)) && !cave_floor_bold(y, x))
+				if ((cave->info[y][x] & (CAVE_MARK)) && !cave_ispassable(cave, y, x))
 				{
 					disturb(p_ptr, 0,0);
 					p_ptr->running_withpathfind = FALSE;
@@ -927,7 +927,7 @@ void run_step(int dir)
 				x = p_ptr->px + ddx[pf_result[pf_result_index] - '0'];
 
 				/* Known wall */
-				if ((cave->info[y][x] & (CAVE_MARK)) && !cave_floor_bold(y, x))
+				if ((cave->info[y][x] & (CAVE_MARK)) && !cave_ispassable(cave, y, x))
 				{
 					disturb(p_ptr, 0,0);
 					p_ptr->running_withpathfind = FALSE;
@@ -939,7 +939,7 @@ void run_step(int dir)
 				x = x + ddx[pf_result[pf_result_index-1] - '0'];
 
 				/* Known wall */
-				if ((cave->info[y][x] & (CAVE_MARK)) && !cave_floor_bold(y, x))
+				if ((cave->info[y][x] & (CAVE_MARK)) && !cave_ispassable(cave, y, x))
 				{
 					p_ptr->running_withpathfind = FALSE;
 

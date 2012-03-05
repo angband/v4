@@ -911,7 +911,7 @@ static bool do_cmd_tunnel_test(int y, int x)
 	}
 
 	/* Must be a wall/door/etc */
-	if (cave_floor_bold(y, x))
+	if (cave_ispassable(cave, y, x))
 	{
 		/* Message */
 		msg("You see nothing there to tunnel.");
@@ -938,7 +938,7 @@ static bool do_cmd_tunnel_test(int y, int x)
 static bool twall(int y, int x)
 {
 	/* Paranoia -- Require a wall or door or some such */
-	if (cave_floor_bold(y, x)) return (FALSE);
+	if (cave_ispassable(cave, y, x)) return (FALSE);
 
 	/* Sound */
 	sound(MSG_DIG);
@@ -1836,7 +1836,7 @@ static bool do_cmd_walk_test(int y, int x)
 		return TRUE;
 
 	/* Require open space */
-	if (!cave_floor_bold(y, x))
+	if (!cave_ispassable(cave, y, x))
 	{
 		/* Rubble */
 		if (cave->feat[y][x] == FEAT_RUBBLE)
