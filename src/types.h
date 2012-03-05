@@ -55,6 +55,7 @@ typedef struct color_type color_type;
 typedef struct maxima
 {
 	u16b f_max;     /**< Maximum number of terrain features */
+	u16b trap_max;	/**< Maximum number of trap kinds */
 	u16b k_max;     /**< Maximum number of object base kinds */
 	u16b a_max;     /**< Maximum number of artifact kinds */
 	u16b e_max;     /**< Maximum number of ego-item affixes */
@@ -100,6 +101,24 @@ typedef struct feature
 	wchar_t x_char[3];   /**< Desired feature character (set by user/pref file) */
 } feature_type;
 
+/**
+ * Information about traps.
+ */
+typedef struct trap
+{
+	char *name;
+	int idx;
+
+	struct trap *next;
+
+	u32b effect;   /**< Effect on entry to grid */
+
+	byte d_attr;   /**< Default feature attribute */
+	wchar_t d_char;   /**< Default feature character */
+
+	byte x_attr[3];   /**< Desired feature attribute (set by user/pref file) */
+	wchar_t x_char[3];   /**< Desired feature character (set by user/pref file) */
+} trap_type;
 
 
 /*
@@ -230,6 +249,7 @@ typedef struct
 {
 	u32b m_idx;		/* Monster index */
 	u32b f_idx;		/* Feature index */
+	u32b trap_idx;	/* Trap index */
 	struct object_kind *first_kind;	/* The "kind" of the first item on the grid */
 	bool multiple_objects;	/* Is there more than one item there? */
 	bool unseen_object;	/* Is there an unaware object there? */

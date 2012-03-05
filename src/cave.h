@@ -56,6 +56,7 @@ struct cave {
 	byte (*info)[256];
 	byte (*info2)[256];
 	byte (*feat)[DUNGEON_WID];
+	byte (*trap)[DUNGEON_WID];
 	byte (*cost)[DUNGEON_WID];
 	byte (*when)[DUNGEON_WID];
 	s16b (*m_idx)[DUNGEON_WID];
@@ -73,6 +74,7 @@ extern struct cave *cave_new(void);
 extern void cave_free(struct cave *c);
 
 extern void cave_set_feat(struct cave *c, int y, int x, int feat);
+extern void cave_set_trap(struct cave *c, int y, int x, int trap_idx);
 extern void cave_note_spot(struct cave *c, int y, int x);
 extern void cave_light_spot(struct cave *c, int y, int x);
 extern void cave_update_flow(struct cave *c);

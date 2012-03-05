@@ -92,24 +92,34 @@ void pick_trap(int y, int x)
 	cave_set_feat(cave, y, x, feat);
 }
 
-/* Places a trap. All traps are untyped until discovered. */
-void place_trap(struct cave *c, int y, int x)
-{
+void place_trap(struct cave *c, int y, int x) {
+	int trap_idx;
+
 	assert(cave_in_bounds(c, y, x));
-	assert(cave_isempty(c, y, x));
+	assert(cave->trap[y][x] == 0);
 
-	/* Place an invisible trap */
-	cave_set_feat(c, y, x, FEAT_INVIS);
-}
+	/* Remove this when we can have trapped doors etc. */
+	assert(cave_isfloor(cave, y, x));
+	
+	
+	/* Pick a trap */
+	/* This should be more like the monster picking code */
+	while (1)
+	{
+		trap_idx = randint1(z_info->trap_max - 1);
 
-/* Create a trap during play. All traps are untyped until discovered. */
-void create_trap(struct cave *c, int y, int x)
-{
-	assert(cave_in_bounds(c, y, x));
-	assert(cave_isempty(cave, y, x));
+		/* Check against depth */
 
-	/* Place an invisible trap */
-	cave_set_feat(c, y, x, FEAT_INVIS);
+		/* Hack -- no trap doors on quest levels */
+
+		/* Hack -- no trap doors on the deepest level */
+
+		/* Done */
+		break;
+	}
+
+	/* Activate the trap */
+	cave_set_trap(cave, y, x, trap_idx);
 }
 
 /*
@@ -118,7 +128,7 @@ void create_trap(struct cave *c, int y, int x)
 void hit_trap(int y, int x)
 {
 	bool ident;
-	struct feature *trap = &f_info[cave->feat[y][x]];
+	struct trap *trap = &trap_info[cave->trap[y][x]];
 
 	/* Disturb the player */
 	disturb(p_ptr, 0, 0);

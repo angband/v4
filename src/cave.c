@@ -551,6 +551,12 @@ void grid_data_as_text(grid_data *g, byte *ap, wchar_t *cp, byte *tap, wchar_t *
 		}
 	}
 
+	/* Deal with traps */
+	if (g->trap_idx > 0) {
+		a = trap_info[g->trap_idx].d_attr;
+		c = trap_info[g->trap_idx].d_char;
+	}
+	
 	/* If there's a monster */
 	if (g->m_idx > 0) {
 		if (g->hallucinate) {
@@ -773,6 +779,7 @@ void map_info(unsigned y, unsigned x, grid_data *g)
 	g->f_idx = cave->feat[y][x];
 	if (f_info[g->f_idx].mimic)
 		g->f_idx = f_info[g->f_idx].mimic;
+	g->trap_idx = cave->trap[y][x];
 
 	g->in_view = (info & CAVE_SEEN) ? TRUE : FALSE;
 	g->is_player = (cave->m_idx[y][x] < 0) ? TRUE : FALSE;
@@ -3126,6 +3133,22 @@ void cave_set_feat(struct cave *c, int y, int x, int feat)
 	}
 }
 
+void cave_set_trap(struct cave *c, int y, int x, int trap_idx)
+{
+	assert(c);
+	assert(y >= 0 && y < DUNGEON_HGT);
+	assert(x >= 0 && x < DUNGEON_WID);
+	/* XXX: Check against c->height and c->width instead, once everywhere
+	 * honors those... */
+
+	c->trap[y][x] = trap_idx;
+
+	if (character_dungeon) {
+		cave_note_spot(c, y, x);
+		cave_light_spot(c, y, x);
+	}
+}
+
 bool cave_in_bounds(struct cave *c, int y, int x)
 {
 	return x >= 0 && x < c->width && y >= 0 && y < c->height;
@@ -3592,6 +3615,7 @@ struct cave *cave_new(void) {
 	c->info = C_ZNEW(DUNGEON_HGT, byte_256);
 	c->info2 = C_ZNEW(DUNGEON_HGT, byte_256);
 	c->feat = C_ZNEW(DUNGEON_HGT, byte_wid);
+	c->trap = C_ZNEW(DUNGEON_HGT, byte_wid);
 	c->cost = C_ZNEW(DUNGEON_HGT, byte_wid);
 	c->when = C_ZNEW(DUNGEON_HGT, byte_wid);
 	c->m_idx = C_ZNEW(DUNGEON_HGT, s16b_wid);
@@ -3608,6 +3632,7 @@ void cave_free(struct cave *c) {
 	mem_free(c->info);
 	mem_free(c->info2);
 	mem_free(c->feat);
+	mem_free(c->trap);
 	mem_free(c->cost);
 	mem_free(c->when);
 	mem_free(c->m_idx);
@@ -3785,7 +3810,7 @@ bool feat_is_known_trap(int feat) {
  * True if the square is a known trap.
  */
 bool cave_isknowntrap(struct cave *c, int y, int x) {
-	return feat_is_known_trap(c->feat[y][x]);
+	return (c->trap[y][x] != 0);
 }
 
 /**
@@ -3927,7 +3952,7 @@ bool feat_isboring(feature_type *f_ptr) {
  * True if the cave square is "boring".
  */
 bool cave_isboring(struct cave *c, int y, int x) {
-	return feat_isboring(&f_info[c->feat[y][x]]);
+	return (feat_isboring(&f_info[c->feat[y][x]]) && cave->trap[y][x] == 0);
 }
 
 /**

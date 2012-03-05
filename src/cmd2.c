@@ -1309,7 +1309,7 @@ static bool do_cmd_disarm_aux(int y, int x)
 
 
 	/* Get the trap name */
-	name = f_info[cave->feat[y][x]].name;
+	name = trap_info[cave->trap[y][x]].name;
 
 	/* Get the "disarm" factor */
 	i = p_ptr->state.skills[SKILL_DISARM];
@@ -1342,7 +1342,7 @@ static bool do_cmd_disarm_aux(int y, int x)
 		cave->info[y][x] &= ~(CAVE_MARK);
 
 		/* Remove the trap */
-		cave_set_feat(cave, y, x, FEAT_FLOOR);
+		cave_set_trap(cave, y, x, 0);
 	}
 
 	/* Failure -- Keep trying */

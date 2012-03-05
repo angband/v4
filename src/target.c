@@ -945,33 +945,44 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 		/* Terrain feature if needed */
 		if (boring || (feat > FEAT_INVIS))
 		{
-			const char *name = f_info[feat].name;
+			/* Handle traps */
+			if (cave->trap[y][x] > 0) {
+				const char *name = trap_info[cave->trap[y][x]].name;
+				
+				/* Pick proper indefinite article */
+				s3 = (is_a_vowel(name[0])) ? "an " : "a ";
 
-			/* Hack -- handle unknown grids */
-			if (feat == FEAT_NONE) name = "unknown grid";
-
-			/* Pick a prefix */
-			if (*s2 && (feat >= FEAT_DOOR_HEAD)) s2 = "in ";
-
-			/* Pick proper indefinite article */
-			s3 = (is_a_vowel(name[0])) ? "an " : "a ";
-
-			/* Hack -- special introduction for store doors */
-			if (feature_isshop(feat))
-			{
-				s3 = "the entrance to the ";
-			}
-
-			/* Display a message */
-			if (p_ptr->wizard)
-			{
-				strnfmt(out_val, sizeof(out_val),
-						"%s%s%s%s, %s (%d:%d).", s1, s2, s3, name, coords, y, x);
-			}
-			else
-			{
 				strnfmt(out_val, sizeof(out_val),
 						"%s%s%s%s, %s.", s1, s2, s3, name, coords);
+			} else {
+				const char *name = f_info[feat].name;
+
+				/* Hack -- handle unknown grids */
+				if (feat == FEAT_NONE) name = "unknown grid";
+
+				/* Pick a prefix */
+				if (*s2 && (feat >= FEAT_DOOR_HEAD)) s2 = "in ";
+
+				/* Pick proper indefinite article */
+				s3 = (is_a_vowel(name[0])) ? "an " : "a ";
+
+				/* Hack -- special introduction for store doors */
+				if (feature_isshop(feat))
+				{
+					s3 = "the entrance to the ";
+				}
+
+				/* Display a message */
+				if (p_ptr->wizard)
+				{
+					strnfmt(out_val, sizeof(out_val),
+							"%s%s%s%s, %s (%d:%d).", s1, s2, s3, name, coords, y, x);
+				}
+				else
+				{
+					strnfmt(out_val, sizeof(out_val),
+							"%s%s%s%s, %s.", s1, s2, s3, name, coords);
+				}
 			}
 
 			prt(out_val, 0, 0);
