@@ -479,7 +479,6 @@ int context_menu_cave(struct cave *cave, int y, int x, int adjacent, int mx, int
 
 		/* Hack -- handle unknown grids */
 		if (feat == FEAT_NONE) name = "unknown_grid";
-		if (feat == FEAT_INVIS) name = f_info[FEAT_FLOOR].name;
 
 		/* Hack -- special introduction for store doors */
 		if (feature_isshop(feat)) {

@@ -464,7 +464,7 @@ static void grid_get_attr(grid_data *g, byte *a)
 				*a = TERM_L_DARK;
 		}
 	}
-	else if (g->f_idx > FEAT_INVIS)
+	else if (g->f_idx > FEAT_FLOOR)
 	{
 		if (g->lighting == FEAT_LIGHTING_DARK) {
 			if (*a == TERM_WHITE)
@@ -2981,7 +2981,7 @@ void wiz_light(void)
 					cave->info[yy][xx] |= (CAVE_GLOW);
 
 					/* Memorize normal features */
-					if (cave->feat[yy][xx] > FEAT_INVIS)
+					if (cave->feat[yy][xx] > FEAT_FLOOR)
 						cave->info[yy][xx] |= (CAVE_MARK);
 				}
 			}
@@ -3053,7 +3053,7 @@ void cave_illuminate(struct cave *c, bool daytime)
 		for (x = 0; x < c->width; x++)
 		{
 			/* Interesting grids */
-			if (c->feat[y][x] > FEAT_INVIS)
+			if (c->feat[y][x] > FEAT_FLOOR)
 			{
 				/* Illuminate the grid */
 				c->info[y][x] |= (CAVE_GLOW);
@@ -3960,7 +3960,7 @@ bool feat_isboring(feature_type *f_ptr) {
  * True if the cave square is "boring".
  */
 bool cave_isboring(struct cave *c, int y, int x) {
-	return (feat_isboring(&f_info[c->feat[y][x]]) && cave->trap[y][x] == 0);
+	return (feat_isboring(&f_info[c->feat[y][x]]) && !cave_isknowntrap(c, y, x));
 }
 
 /**

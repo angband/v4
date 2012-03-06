@@ -1390,7 +1390,7 @@ static bool project_f(int who, int r, int y, int x, int dam, int typ, bool obvio
 				cave->info[y][x] &= ~(CAVE_GLOW);
 
 				/* Hack -- Forget "boring" grids */
-				if (cave->feat[y][x] <= FEAT_INVIS)
+				if (cave->feat[y][x] <= FEAT_FLOOR)
 					cave->info[y][x] &= ~(CAVE_MARK);
 			}
 

@@ -502,7 +502,7 @@ void map_area(void)
 				if (!in_bounds_fully(y, x)) continue;
 
 				/* Memorize normal features */
-				if (cave->feat[y][x] > FEAT_INVIS)
+				if (cave->feat[y][x] > FEAT_FLOOR)
 				{
 					/* Memorize the object */
 					cave->info[y][x] |= (CAVE_MARK);
@@ -562,10 +562,8 @@ bool detect_traps(bool aware)
 			if (!in_bounds_fully(y, x)) continue;
 
 			/* Detect invisible traps */
-			if (cave_issecrettrap(cave, y, x));
-			{
+			if (cave_issecrettrap(cave, y, x))
 				reveal_trap(cave, y, x);
-			}
 
 			/* Detect traps */
 			if (cave_isknowntrap(cave, y, x))
@@ -2561,7 +2559,7 @@ static void cave_unlight(struct point_set *ps)
 		cave->info[y][x] &= ~(CAVE_GLOW);
 
 		/* Hack -- Forget "boring" grids */
-		if (cave->feat[y][x] <= FEAT_INVIS)
+		if (cave->feat[y][x] <= FEAT_FLOOR)
 		{
 			/* Forget the grid */
 			cave->info[y][x] &= ~(CAVE_MARK);

@@ -609,9 +609,6 @@ static bool run_test(void)
 				/* Floors */
 				case FEAT_FLOOR:
 
-				/* Invis traps */
-				case FEAT_INVIS:
-
 				/* Secret doors */
 				case FEAT_SECRET:
 
