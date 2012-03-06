@@ -26,7 +26,6 @@ typedef byte byte_wid[DUNGEON_WID];
 typedef s16b s16b_wid[DUNGEON_WID];
 
 
-
 /** Function hook types **/
 
 /** Function prototype for the UI to provide to create native buttons */
@@ -67,6 +66,7 @@ typedef struct maxima
 
 	u16b o_max;     /**< Maximum number of objects on a given level */
 	u16b m_max;     /**< Maximum number of monsters on a given level */
+	u16b tr_max;	/**< Maximum number of traps on a given level */
 } maxima;
 
 
@@ -102,14 +102,16 @@ typedef struct feature
 } feature_type;
 
 /**
- * Information about traps.
+ * Information about trap kinds.
  */
-typedef struct trap
+typedef struct trap_kind
 {
 	char *name;
 	int idx;
 
-	struct trap *next;
+	struct trap_kind *next;
+
+	int hidden;		/* How hidden is the trap? */
 
 	u32b effect;   /**< Effect on entry to grid */
 
@@ -118,8 +120,18 @@ typedef struct trap
 
 	byte x_attr[3];   /**< Desired feature attribute (set by user/pref file) */
 	wchar_t x_char[3];   /**< Desired feature character (set by user/pref file) */
-} trap_type;
+} trap_kind;
 
+/**
+ * Information about one particular trap.
+ */
+typedef struct trap
+{
+	struct trap_kind *kind;
+	
+	int hidden;
+
+} trap_type;
 
 /*
  * Information about "vault generation"

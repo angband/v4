@@ -1297,7 +1297,7 @@ static bool do_cmd_lock_door(int y, int x)
  */
 static bool do_cmd_disarm_aux(int y, int x)
 {
-	int i, j, power;
+	int i, j, power, trap_idx;
 
 	const char *name;
 
@@ -1307,9 +1307,9 @@ static bool do_cmd_disarm_aux(int y, int x)
 	/* Verify legality */
 	if (!do_cmd_disarm_test(y, x)) return (FALSE);
 
-
 	/* Get the trap name */
-	name = trap_info[cave->trap[y][x]].name;
+	trap_idx = cave->trap[y][x];
+	name = cave->traps[trap_idx].kind->name;
 
 	/* Get the "disarm" factor */
 	i = p_ptr->state.skills[SKILL_DISARM];
@@ -1341,8 +1341,7 @@ static bool do_cmd_disarm_aux(int y, int x)
 		/* Forget the trap */
 		cave->info[y][x] &= ~(CAVE_MARK);
 
-		/* Remove the trap */
-		cave_set_trap(cave, y, x, 0);
+		remove_trap(cave, y, x);
 	}
 
 	/* Failure -- Keep trying */

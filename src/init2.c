@@ -249,6 +249,8 @@ static enum parser_error parse_z(struct parser *p) {
 		z->m_max = value;
 	else if (streq(label, "I"))
 		z->pit_max = value;
+	else if (streq(label, "TR"))
+		z->tr_max = value;
 	else
 		return PARSE_ERROR_UNDEFINED_DIRECTIVE;
 
@@ -1292,13 +1294,24 @@ struct file_parser f_parser = {
 static enum parser_error parse_trap_n(struct parser *p) {
 	int idx = parser_getuint(p, "index");
 	const char *name = parser_getstr(p, "name");
-	struct trap *h = parser_priv(p);
+	struct trap_kind *h = parser_priv(p);
 
-	struct trap *t = mem_zalloc(sizeof *t);
+	struct trap_kind *t = mem_zalloc(sizeof *t);
 	t->next = h;
 	t->idx = idx;
 	t->name = string_make(name);
+	t->hidden = 0;
 	parser_setpriv(p, t);
+	return PARSE_ERROR_NONE;
+}
+
+static enum parser_error parse_trap_i(struct parser *p) {
+	int hidden = parser_getuint(p, "hidden");
+	struct trap_kind *t = parser_priv(p);
+	
+	if (!t)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+	t->hidden = hidden;
 	return PARSE_ERROR_NONE;
 }
 
@@ -1306,7 +1319,7 @@ static enum parser_error parse_trap_g(struct parser *p) {
 	wchar_t glyph = parser_getchar(p, "glyph");
 	const char *color = parser_getsym(p, "color");
 	int attr = 0;
-	struct trap *t = parser_priv(p);
+	struct trap_kind *t = parser_priv(p);
 
 	if (!t)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
@@ -1322,7 +1335,7 @@ static enum parser_error parse_trap_g(struct parser *p) {
 }
 
 static enum parser_error parse_trap_e(struct parser *p) {
-	struct trap *t = parser_priv(p);
+	struct trap_kind *t = parser_priv(p);
 
 	if (!t)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
@@ -1338,6 +1351,7 @@ struct parser *init_parse_trap(void) {
 	parser_reg(p, "V sym version", ignored);
 	parser_reg(p, "N uint index str name", parse_trap_n);
 	parser_reg(p, "G char glyph sym color", parse_trap_g);
+	parser_reg(p, "I uint hidden", parse_trap_i);
 	parser_reg(p, "E str effect", parse_trap_e);
 	return p;
 }
@@ -1347,7 +1361,7 @@ static errr run_parse_trap(struct parser *p) {
 }
 
 static errr finish_parse_trap(struct parser *p) {
-	struct trap *t, *n;
+	struct trap_kind *t, *n;
 
 	/* scan the list for the max id */
 	z_info->trap_max = 0;

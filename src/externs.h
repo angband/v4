@@ -84,7 +84,7 @@ extern byte tval_to_attr[128];
 extern player_other *op_ptr;
 extern player_type *p_ptr;
 extern feature_type *f_info;
-extern trap_type *trap_info;
+extern trap_kind *trap_info;
 extern object_base *kb_info;
 extern object_kind *k_info;
 extern artifact_type *a_info;

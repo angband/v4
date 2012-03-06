@@ -553,8 +553,8 @@ void grid_data_as_text(grid_data *g, byte *ap, wchar_t *cp, byte *tap, wchar_t *
 
 	/* Deal with traps */
 	if (g->trap_idx > 0) {
-		a = trap_info[g->trap_idx].d_attr;
-		c = trap_info[g->trap_idx].d_char;
+		a = cave->traps[g->trap_idx].kind->d_attr;
+		c = cave->traps[g->trap_idx].kind->d_char;
 	}
 	
 	/* If there's a monster */
@@ -3133,7 +3133,7 @@ void cave_set_feat(struct cave *c, int y, int x, int feat)
 	}
 }
 
-void cave_set_trap(struct cave *c, int y, int x, int trap_idx)
+void cave_set_trap(struct cave *c, int y, int x, struct trap *t_ptr)
 {
 	assert(c);
 	assert(y >= 0 && y < DUNGEON_HGT);
@@ -3141,7 +3141,7 @@ void cave_set_trap(struct cave *c, int y, int x, int trap_idx)
 	/* XXX: Check against c->height and c->width instead, once everywhere
 	 * honors those... */
 
-	c->trap[y][x] = trap_idx;
+	// c->trap[y][x] = t_ptr;
 
 	if (character_dungeon) {
 		cave_note_spot(c, y, x);
@@ -3623,6 +3623,8 @@ struct cave *cave_new(void) {
 
 	c->monsters = C_ZNEW(z_info->m_max, struct monster);
 	c->mon_max = 1;
+	c->traps = C_ZNEW(z_info->trap_max, struct trap);
+	c->trap_max = 1;
 
 	c->created_at = 1;
 	return c;
@@ -3638,6 +3640,7 @@ void cave_free(struct cave *c) {
 	mem_free(c->m_idx);
 	mem_free(c->o_idx);
 	mem_free(c->monsters);
+	mem_free(c->traps);
 	mem_free(c);
 }
 

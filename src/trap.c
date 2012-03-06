@@ -92,36 +92,94 @@ void pick_trap(int y, int x)
 	cave_set_feat(cave, y, x, feat);
 }
 
-void place_trap(struct cave *c, int y, int x) {
-	int trap_idx;
+/**
+ * Returns the index of a "free" monster, or 0 if no slot is available.
+ *
+ * This routine should almost never fail, but it *can* happen.
+ * The calling code must check for and handle a 0 return.
+ */
+static s16b trap_pop(void)
+{
+	int idx;
 
+	/* Normal allocation */
+	if (cave->trap_max < z_info->tr_max) {
+		/* Get the next hole */
+		idx = cave->trap_max;
+
+		/* Expand the array */
+		cave->trap_max++;
+
+		/* Count monsters */
+		//cave->mon_cnt++;
+
+		return idx;
+	}
+
+	/* Warn the player if no index is available 
+	 * (except during dungeon creation)
+	 */
+	if (character_dungeon) {
+		msg("Too many traps!");
+	}
+
+	/* Try not to crash */
+	return 0;
+}
+
+void place_trap(struct cave *c, int y, int x) {
+	int trap_idx, idx;
+	struct trap *t_ptr;
+	struct trap *n_ptr;
+	struct trap trap_body;
+	
 	assert(cave_in_bounds(c, y, x));
 
 	/* Remove this when we can have trapped doors etc. */
-	assert(cave_isfloor(cave, y, x));
+	assert(cave_isfloor(c, y, x));
 	
 	/* There is already a trap here */
-	if (cave->trap[y][x] > 0) return;
+	if (c->trap[y][x] > 0) return;
 
-	
 	/* Pick a trap */
-	/* This should be more like the monster picking code */
-	while (1)
-	{
-		trap_idx = randint1(z_info->trap_max - 1);
+	/* This should eventually respect min/max depths */
+	trap_idx = randint1(z_info->trap_max - 1);
 
-		/* Check against depth */
+	/* Create a trap of the given type */
+	t_ptr = &trap_body;
+	(void)WIPE(t_ptr, trap_type);
+	
+	/* Fill out defaults */
+	t_ptr->kind = &trap_info[trap_idx];
+	t_ptr->hidden = trap_info[trap_idx].hidden;
 
-		/* Hack -- no trap doors on quest levels */
+	/* Get a new record */
+	idx = trap_pop();
 
-		/* Hack -- no trap doors on the deepest level */
+	if (!idx) return;
 
-		/* Done */
-		break;
-	}
+	/* Notify cave of the new trap */
+	c->trap[y][x] = idx;
 
+	/* Copy the trap */
+	n_ptr = &c->traps[idx];
+	COPY(n_ptr, t_ptr, trap_type);
+	
 	/* Activate the trap */
-	cave_set_trap(cave, y, x, trap_idx);
+	// cave_set_trap(cave, y, x, t_ptr);
+	
+	if (character_dungeon) {
+		cave_note_spot(c, y, x);
+		cave_light_spot(c, y, x);
+	}	
+}
+
+void remove_trap(struct cave *c, int y, int x) {
+	c->trap[y][x] = 0;
+
+	if (character_dungeon) {
+		cave_light_spot(c, y, x);
+	}
 }
 
 /*
@@ -130,11 +188,12 @@ void place_trap(struct cave *c, int y, int x) {
 void hit_trap(int y, int x)
 {
 	bool ident;
-	struct trap *trap = &trap_info[cave->trap[y][x]];
+	struct trap *t_ptr = &cave->traps[cave->trap[y][x]];
 
 	/* Disturb the player */
 	disturb(p_ptr, 0, 0);
 
 	/* Run the effect */
-	effect_do(trap->effect, &ident, FALSE, 0, 0, 0);
+	effect_do(t_ptr->kind->effect, &ident, FALSE, 0, 0, 0);
 }
+

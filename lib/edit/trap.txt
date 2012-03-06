@@ -1,0 +1,115 @@
+# File: trap.txt
+
+# This file is used to initialize the "trap" information for 
+# the Angband game.
+
+# Do not modify this file unless you know exactly what you are doing,
+# unless you wish to risk possible system crashes and broken savefiles.
+
+# === Understanding trap.txt ===
+
+# N : serial number : terrain name
+# G : symbol : color
+# I : hidden
+# E : effect on entry
+
+# N' indicates the beginning of an entry. The serial number must
+# increase for each new item.
+
+# 'G' is for graphics - symbol, color, and display priority.
+# There are 16 colors, as follows:
+
+# 'I' is for information. 'hidden' is how hidden the trap is. A value of 0
+# indicates that the trap is not hidden at all. Otherwise the trap starts
+# out hidden.
+
+# D - Dark Gray    w - White          s - Gray          o - Orange
+# r - Red          g - Green          b - Blue          u - Brown
+# d - Black        W - Light Gray     v - Violet        y - Yellow
+# R - Light Red    G - Light Green    B - Light Blue    U - Light Brown
+
+# 'E' is for entry effects.  See list-effects.h.
+
+
+# Version stamp (required)
+
+V:3.0.11
+
+# Dummy trap
+N:0:(nothing)
+
+N:1:trap door
+G:^:w
+E:TRAP_DOOR
+
+N:2:pit
+G:^:s
+E:TRAP_PIT
+
+N:3:pit
+G:^:s
+E:TRAP_PIT_SPIKES
+
+N:4:pit
+G:^:s
+E:TRAP_PIT_POISON
+
+N:5:strange rune
+G:^:B
+E:TRAP_RUNE_SUMMON
+
+N:6:strange rune
+G:^:o
+E:TRAP_RUNE_TELEPORT
+
+N:7:discolored spot
+G:^:u
+E:TRAP_SPOT_FIRE
+
+N:8:discolored spot
+G:^:u
+E:TRAP_SPOT_ACID
+
+N:9:dart trap
+G:^:r
+I:10
+E:TRAP_DART_SLOW
+
+N:10:dart trap
+G:^:r
+I:10
+E:TRAP_DART_LOSE_STR
+
+N:11:dart trap
+G:^:r
+I:10
+E:TRAP_DART_LOSE_DEX
+
+N:12:dart trap
+G:^:r
+I:10
+E:TRAP_DART_LOSE_CON
+
+N:13:gas trap
+G:^:g
+I:10
+E:TRAP_GAS_BLIND
+
+N:14:gas trap
+G:^:g
+I:10
+E:TRAP_GAS_CONFUSE
+
+N:15:gas trap
+G:^:g
+I:10
+E:TRAP_GAS_POISON
+
+N:16:gas trap
+G:^:g
+I:10
+E:TRAP_GAS_SLEEP
+
+N:17:rune of darkness
+G:;:D
+E:DARKNESS

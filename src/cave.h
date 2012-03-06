@@ -65,6 +65,8 @@ struct cave {
 	struct monster *monsters;
 	int mon_max;
 	int mon_cnt;
+	struct trap *traps;
+	int trap_max;
 };
 
 /* XXX: temporary while I refactor */
@@ -74,7 +76,7 @@ extern struct cave *cave_new(void);
 extern void cave_free(struct cave *c);
 
 extern void cave_set_feat(struct cave *c, int y, int x, int feat);
-extern void cave_set_trap(struct cave *c, int y, int x, int trap_idx);
+extern void cave_set_trap(struct cave *c, int y, int x, struct trap *t_ptr);
 extern void cave_note_spot(struct cave *c, int y, int x);
 extern void cave_light_spot(struct cave *c, int y, int x);
 extern void cave_update_flow(struct cave *c);

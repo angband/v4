@@ -947,7 +947,7 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 		{
 			/* Handle traps */
 			if (cave->trap[y][x] > 0) {
-				const char *name = trap_info[cave->trap[y][x]].name;
+				const char *name = cave->traps[cave->trap[y][x]].kind->name;
 				
 				/* Pick proper indefinite article */
 				s3 = (is_a_vowel(name[0])) ? "an " : "a ";
