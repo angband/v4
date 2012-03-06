@@ -442,6 +442,8 @@ static void ranged_helper(int item, int dir, int range, int shots, ranged_attack
 			/* Learn by use for other equipped items */
 			wieldeds_notice_to_hit_on_attack();
 		
+			/* Subtract damage that is absorbed by monster armour */
+			dmg -= r_ptr->armour;
 			/* No negative damage; change verb if no damage done */
 			if (dmg <= 0) {
 				dmg = 0;

@@ -146,27 +146,31 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 		const struct slay *s_ptr = &slay_table[i];
 		oldbest = bestmult;
 
+		/* If we don't actually have this slay or brand anywhere */
+		if (!mult[i]) continue;
+
+		/* For resistable brands, we learn the presence or absence of
+		 * resistance if the monster is visible and the attack is real */
+		if (s_ptr->brand && m_ptr->ml && s_ptr->resist_flag && real)
+			rf_on(l_ptr->flags, s_ptr->resist_flag);
+
 		/* If it's a brand the monster doesn't resist or a matching slay */
-		if (((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
+		/* Note that this does not yet accommodate unresistable brands */
+		if ((s_ptr->brand && !rf_has(r_ptr->flags, s_ptr->resist_flag)) ||
 				(s_ptr->monster_flag && rf_has(r_ptr->flags,
-				s_ptr->monster_flag))) && mult[i] > 0) {
+				s_ptr->monster_flag))) {
 			/* In a real attack, learn about object and monster flags */
 			if (real) {
 				of_on(learn_flags, s_ptr->object_flag);
-				if (m_ptr->ml) {
-					if (s_ptr->monster_flag)
+				if (m_ptr->ml && s_ptr->monster_flag)
 						rf_on(l_ptr->flags, s_ptr->monster_flag);
-					if (s_ptr->resist_flag)
-						rf_on(l_ptr->flags, s_ptr->resist_flag);
-				}
 			}
 			if (mult[i] > bestmult)
 				bestmult = mult[i];
 		}
 
 		/* If the monster is explicitly vulnerable, mult will be 1x higher */
-		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag) &&
-				mult[i] != 0) {
+		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag)) {
 			if (real) {
 				of_on(learn_flags, s_ptr->object_flag);
 				if (m_ptr->ml)
