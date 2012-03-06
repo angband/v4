@@ -82,7 +82,7 @@ bool search(bool verbose)
 					found = TRUE;
 
 					/* Pick a trap */
-					pick_trap(y, x);
+					reveal_trap(cave, y, x);
 
 					/* Message */
 					msg("You have found a trap.");
@@ -701,7 +701,7 @@ void move_player(int dir, bool disarm)
 			msg("You found a trap!");
 
 			/* Pick a trap */
-			pick_trap(y, x);
+			reveal_trap(cave, y, x);
 
 			tripchance = 30 + 2 * p_ptr->state.stat_ind[A_DEX];
 			if (p_ptr->timed[TMD_BLIND] || no_light()) 

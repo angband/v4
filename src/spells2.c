@@ -562,10 +562,9 @@ bool detect_traps(bool aware)
 			if (!in_bounds_fully(y, x)) continue;
 
 			/* Detect invisible traps */
-			if (cave->feat[y][x] == FEAT_INVIS)
+			if (cave_issecrettrap(cave, y, x));
 			{
-				/* Pick a trap */
-				pick_trap(y, x);
+				reveal_trap(cave, y, x);
 			}
 
 			/* Detect traps */

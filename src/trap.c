@@ -33,65 +33,6 @@ bool trap_check_hit(int power)
 	return mon_test_hit(power, p_ptr->state.ac + p_ptr->state.to_a);
 }
 
-
-/*
- * Hack -- instantiate a trap
- *
- * XXX XXX XXX This routine should be redone to reflect trap "level".
- * That is, it does not make sense to have spiked pits at 50 feet.
- * Actually, it is not this routine, but the "trap instantiation"
- * code, which should also check for "trap doors" on quest levels.
- */
-void pick_trap(int y, int x)
-{
-	int feat;
-
-	static const int min_level[] =
-	{
-		2,		/* Trap door */
-		2,		/* Open pit */
-		2,		/* Spiked pit */
-		2,		/* Poison pit */
-		3,		/* Summoning rune */
-		1,		/* Teleport rune */
-		2,		/* Fire rune */
-		2,		/* Acid rune */
-		2,		/* Slow rune */
-		6,		/* Strength dart */
-		6,		/* Dexterity dart */
-		6,		/* Constitution dart */
-		2,		/* Gas blind */
-		1,		/* Gas confuse */
-		2,		/* Gas poison */
-		2,		/* Gas sleep */
-	};
-
-	/* Paranoia */
-	if (cave->feat[y][x] != FEAT_INVIS) return;
-
-	/* Pick a trap */
-	while (1)
-	{
-		/* Hack -- pick a trap */
-		feat = FEAT_TRAP_HEAD + randint0(16);
-
-		/* Check against minimum depth */
-		if (min_level[feat - FEAT_TRAP_HEAD] > p_ptr->depth) continue;
-
-		/* Hack -- no trap doors on quest levels */
-		if ((feat == FEAT_TRAP_HEAD + 0x00) && is_quest(p_ptr->depth)) continue;
-
-		/* Hack -- no trap doors on the deepest level */
-		if ((feat == FEAT_TRAP_HEAD + 0x00) && (p_ptr->depth >= MAX_DEPTH-1)) continue;
-
-		/* Done */
-		break;
-	}
-
-	/* Activate the trap */
-	cave_set_feat(cave, y, x, feat);
-}
-
 /**
  * Returns the index of a "free" monster, or 0 if no slot is available.
  *
@@ -174,6 +115,17 @@ void place_trap(struct cave *c, int y, int x) {
 	}	
 }
 
+void reveal_trap(struct cave *c, int y, int x) {
+	struct trap *t_ptr;
+
+	assert(c->trap[y][x] > 0);
+	
+	t_ptr = cave_trap_at(c, y, x);
+	t_ptr->hidden = 0;
+	
+	cave_light_spot(c, y, x);
+}
+
 void remove_trap(struct cave *c, int y, int x) {
 	c->trap[y][x] = 0;
 
@@ -188,7 +140,7 @@ void remove_trap(struct cave *c, int y, int x) {
 void hit_trap(int y, int x)
 {
 	bool ident;
-	struct trap *t_ptr = &cave->traps[cave->trap[y][x]];
+	struct trap *t_ptr = cave_trap_at(cave, y, x);
 
 	/* Disturb the player */
 	disturb(p_ptr, 0, 0);

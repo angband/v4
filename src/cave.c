@@ -446,7 +446,7 @@ bool dtrap_edge(int y, int x)
 static void grid_get_attr(grid_data *g, byte *a)
 {
 	/* Trap detect edge, but don't colour traps themselves, or treasure */
-	if (g->trapborder && !feat_is_known_trap(g->f_idx) &&
+	if (g->trapborder && !g->trap_idx &&
 			!feat_is_treasure(g->f_idx))
 	{
 		if (g->in_view)
@@ -779,7 +779,10 @@ void map_info(unsigned y, unsigned x, grid_data *g)
 	g->f_idx = cave->feat[y][x];
 	if (f_info[g->f_idx].mimic)
 		g->f_idx = f_info[g->f_idx].mimic;
-	g->trap_idx = cave->trap[y][x];
+	if (cave_isknowntrap(cave, y, x))
+		g->trap_idx = cave->trap[y][x];
+	else
+		g->trap_idx = 0;
 
 	g->in_view = (info & CAVE_SEEN) ? TRUE : FALSE;
 	g->is_player = (cave->m_idx[y][x] < 0) ? TRUE : FALSE;
@@ -3799,7 +3802,8 @@ bool cave_isdoor(struct cave *c, int y, int x) {
  * True if the square is an unknown trap (it will appear as a floor tile).
  */
 bool cave_issecrettrap(struct cave *c, int y, int x) {
-    return c->feat[y][x] == FEAT_INVIS;
+	int trap_idx = c->trap[y][x];
+	return (trap_idx > 0 && c->traps[trap_idx].hidden > 0);
 }
 
 /**
@@ -3813,7 +3817,8 @@ bool feat_is_known_trap(int feat) {
  * True if the square is a known trap.
  */
 bool cave_isknowntrap(struct cave *c, int y, int x) {
-	return (c->trap[y][x] != 0);
+	int trap_idx = c->trap[y][x];
+	return (trap_idx > 0 && c->traps[trap_idx].hidden == 0);
 }
 
 /**
@@ -3956,6 +3961,20 @@ bool feat_isboring(feature_type *f_ptr) {
  */
 bool cave_isboring(struct cave *c, int y, int x) {
 	return (feat_isboring(&f_info[c->feat[y][x]]) && cave->trap[y][x] == 0);
+}
+
+/**
+ * Get a monster on the current level by its index.
+ */
+struct trap *cave_trap(struct cave *c, int idx) {
+	return &c->traps[idx];
+}
+
+/**
+ * Get a monster on the current level by its position.
+ */
+struct trap *cave_trap_at(struct cave *c, int y, int x) {
+	return cave_trap(cave, cave->trap[y][x]);
 }
 
 /**
