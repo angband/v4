@@ -34,4 +34,4 @@ prefer it removed altogether.
 
 Enjoy!
 
--- the Angband devteam
+-- The Angband Dev Team
