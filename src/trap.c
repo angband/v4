@@ -96,11 +96,13 @@ void place_trap(struct cave *c, int y, int x) {
 	int trap_idx;
 
 	assert(cave_in_bounds(c, y, x));
-	assert(cave->trap[y][x] == 0);
 
 	/* Remove this when we can have trapped doors etc. */
 	assert(cave_isfloor(cave, y, x));
 	
+	/* There is already a trap here */
+	if (cave->trap[y][x] > 0) return;
+
 	
 	/* Pick a trap */
 	/* This should be more like the monster picking code */
