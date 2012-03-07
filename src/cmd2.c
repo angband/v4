@@ -100,7 +100,7 @@ void do_cmd_go_down(cmd_code code, cmd_arg args[])
 void do_cmd_search(cmd_code code, cmd_arg args[])
 {
 	/* Only take a turn if attempted */
-	if (search(TRUE))
+	if (search(TRUE, 2))
 		p_ptr->energy_use = 100;
 }
 
@@ -245,78 +245,6 @@ static void chest_death(int y, int x, s16b o_idx)
 
 
 /*
- * Chests have traps too.
- *
- * Exploding chest destroys contents (and traps).
- * Note that the chest itself is never destroyed.
- */
-static void chest_trap(int y, int x, s16b o_idx)
-{
-	int i, trap;
-
-	object_type *o_ptr = object_byid(o_idx);
-
-
-	/* Ignore disarmed chests */
-	if (o_ptr->extent <= 0) return;
-
-	/* Obtain the traps */
-	trap = chest_traps[o_ptr->extent];
-
-	/* Lose strength */
-	if (trap & (CHEST_LOSE_STR))
-	{
-		msg("A small needle has pricked you!");
-		take_hit(p_ptr, damroll(1, 4), "a poison needle");
-		(void)do_dec_stat(A_STR, FALSE);
-	}
-
-	/* Lose constitution */
-	if (trap & (CHEST_LOSE_CON))
-	{
-		msg("A small needle has pricked you!");
-		take_hit(p_ptr, damroll(1, 4), "a poison needle");
-		(void)do_dec_stat(A_CON, FALSE);
-	}
-
-	/* Poison */
-	if (trap & (CHEST_POISON))
-	{
-		msg("A puff of green gas surrounds you!");
-		(void)player_inc_timed(p_ptr, TMD_POISONED, 10 + randint1(20), TRUE, TRUE);
-	}
-
-	/* Paralyze */
-	if (trap & (CHEST_PARALYZE))
-	{
-		msg("A puff of yellow gas surrounds you!");
-		(void)player_inc_timed(p_ptr, TMD_PARALYZED, 10 + randint1(20), TRUE, TRUE);
-	}
-
-	/* Summon monsters */
-	if (trap & (CHEST_SUMMON))
-	{
-		int num = 2 + randint1(3);
-		msg("You are enveloped in a cloud of smoke!");
-		sound(MSG_SUM_MONSTER);
-		for (i = 0; i < num; i++)
-		{
-			(void)summon_specific(y, x, p_ptr->depth, 0, 1);
-		}
-	}
-
-	/* Explode */
-	if (trap & (CHEST_EXPLODE))
-	{
-		msg("There is a sudden explosion!");
-		msg("Everything inside the chest is destroyed!");
-		o_ptr->extent = 0;
-		take_hit(p_ptr, damroll(5, 8), "an exploding chest");
-	}
-}
-
-
-/*
  * Attempt to open the given chest at the given location
  *
  * Assume there is no monster blocking the destination
@@ -353,7 +281,7 @@ static bool do_cmd_open_chest(int y, int x, s16b o_idx)
 		/* Always have a small chance of success */
 		if (j < 2) j = 2;
 
-		/* Success -- May still have traps */
+		/* Success */
 		if (randint0(100) < j)
 		{
 			msgt(MSG_LOCKPICK, "You have picked the lock.");
@@ -374,9 +302,6 @@ static bool do_cmd_open_chest(int y, int x, s16b o_idx)
 	/* Allowed to open */
 	if (flag)
 	{
-		/* Apply chest traps, if any */
-		chest_trap(y, x, o_idx);
-
 		/* Let the Chest drop items */
 		chest_death(y, x, o_idx);
 
@@ -391,81 +316,6 @@ static bool do_cmd_open_chest(int y, int x, s16b o_idx)
 	return (more);
 }
 
-
-/*
- * Attempt to disarm the chest at the given location
- *
- * Assume there is no monster blocking the destination
- *
- * Returns TRUE if repeated commands may continue
- */
-static bool do_cmd_disarm_chest(int y, int x, s16b o_idx)
-{
-	int i, j;
-
-	bool more = FALSE;
-
-	object_type *o_ptr = object_byid(o_idx);
-
-
-	/* Get the "disarm" factor */
-	i = p_ptr->state.skills[SKILL_DISARM];
-
-	/* Penalize some conditions */
-	if (p_ptr->timed[TMD_BLIND] || no_light()) i = i / 10;
-	if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE]) i = i / 10;
-
-	/* Extract the difficulty */
-	j = i - o_ptr->extent;
-
-	/* Always have a small chance of success */
-	if (j < 2) j = 2;
-
-	/* Must find the trap first. */
-	if (!object_is_known(o_ptr))
-	{
-		msg("I don't see any traps.");
-	}
-
-	/* Already disarmed/unlocked */
-	else if (o_ptr->extent <= 0)
-	{
-		msg("The chest is not trapped.");
-	}
-
-	/* No traps to find. */
-	else if (!chest_traps[o_ptr->extent])
-	{
-		msg("The chest is not trapped.");
-	}
-
-	/* Success (get a lot of experience) */
-	else if (randint0(100) < j)
-	{
-		msgt(MSG_DISARM, "You have disarmed the chest.");
-		player_exp_gain(p_ptr, o_ptr->extent);
-		o_ptr->extent = (0 - o_ptr->extent);
-	}
-
-	/* Failure -- Keep trying */
-	else if ((i > 5) && (randint1(i) > 5))
-	{
-		/* We may keep trying */
-		more = TRUE;
-		flush();
-		msg("You failed to disarm the chest.");
-	}
-
-	/* Failure -- Set off the trap */
-	else
-	{
-		msg("You set off a trap!");
-		chest_trap(y, x, o_idx);
-	}
-
-	/* Result */
-	return (more);
-}
 
 /*
  * Return the number of doors/traps around (or under) the character.
@@ -512,7 +362,7 @@ int count_feats(int *y, int *x, bool (*test)(struct cave *cave, int y, int x), b
  * Return the number of chests around (or under) the character.
  * If requested, count only trapped chests.
  */
-int count_chests(int *y, int *x, bool trapped)
+int count_chests(int *y, int *x)
 {
 	int d, count, o_idx;
 
@@ -536,15 +386,6 @@ int count_chests(int *y, int *x, bool trapped)
 
 		/* Already open */
 		if (o_ptr->extent == 0) continue;
-
-		/* No (known) traps here */
-		if (trapped &&
-		    (!object_is_known(o_ptr) ||
-		     (o_ptr->extent < 0) ||
-		     !chest_traps[o_ptr->extent]))
-		{
-			continue;
-		}
 
 		/* Count it */
 		++count;
@@ -1119,9 +960,6 @@ static bool do_cmd_tunnel_aux(int y, int x)
 			/* We may continue tunelling */
 			msg("You tunnel into the granite wall.");
 			more = TRUE;
-
-			/* Occasional Search XXX XXX */
-			if (randint0(100) < 25) search(FALSE);
 		}
 	}
 
@@ -1378,8 +1216,6 @@ void do_cmd_disarm(cmd_code code, cmd_arg args[])
 {
 	int y, x, dir;
 
-	s16b o_idx;
-
 	bool more = FALSE;
 
 	dir = args[0].direction;
@@ -1388,12 +1224,8 @@ void do_cmd_disarm(cmd_code code, cmd_arg args[])
 	y = p_ptr->py + ddy[dir];
 	x = p_ptr->px + ddx[dir];
 
-	/* Check for chests */
-	o_idx = chest_check(y, x);
-
-
 	/* Verify legality */
-	if (!o_idx && !do_cmd_disarm_test(y, x))
+	if (!do_cmd_disarm_test(y, x))
 	{
 		/* Cancel repeat */
 		disturb(p_ptr, 0, 0);
@@ -1410,8 +1242,6 @@ void do_cmd_disarm(cmd_code code, cmd_arg args[])
 		y = p_ptr->py + ddy[dir];
 		x = p_ptr->px + ddx[dir];
 
-		/* Check for chests */
-		o_idx = chest_check(y, x);
 	}
 
 
@@ -1420,10 +1250,6 @@ void do_cmd_disarm(cmd_code code, cmd_arg args[])
 		msg("There is a monster in the way!");
 		py_attack(y, x);
 	}
-
-	/* Chest */
-	else if (o_idx)
-		more = do_cmd_disarm_chest(y, x, o_idx);
 
 	/* Door to lock */
 	else if (cave->feat[y][x] == FEAT_DOOR_HEAD)
@@ -1973,7 +1799,7 @@ void do_cmd_hold(cmd_code code, cmd_arg args[])
 	p_ptr->energy_use = 100;
 
 	/* Spontaneous Searching */
-	search(FALSE);
+	search(FALSE, 1);
 
 	/* Pick things up, not using extra energy */
 	do_autopickup();

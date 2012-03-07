@@ -146,13 +146,13 @@ extern struct keypress *inkey_next;
 extern void player_birth(bool quickstart_allowed);
 
 /* cmd1.c */
-extern bool search(bool verbose);
+extern bool search(bool verbose, int radius);
 extern byte py_pickup(int pickup);
 extern void move_player(int dir, bool disarm);
 
 /* cmd2.c */
 int count_feats(int *y, int *x, bool (*test)(struct cave *cave, int y, int x), bool under);
-int count_chests(int *y, int *x, bool trapped);
+int count_chests(int *y, int *x);
 int coords_to_dir(int y, int x);
 
 /* death.c */

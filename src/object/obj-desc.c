@@ -445,55 +445,10 @@ static size_t obj_desc_chest(const object_type *o_ptr, char *buf, size_t max,
 	/* May be "empty" */
 	if (!o_ptr->extent)
 		strnfcat(buf, max, &end, " (empty)");
-
-	/* May be "disarmed" */
 	else if (o_ptr->extent < 0)
-	{
-		if (chest_traps[0 - o_ptr->extent])
-			strnfcat(buf, max, &end, " (disarmed)");
-		else
-			strnfcat(buf, max, &end, " (unlocked)");
-	}
-
-	/* Describe the traps, if any */
+		strnfcat(buf, max, &end, " (unlocked)");
 	else
-	{
-		/* Describe the traps */
-		switch (chest_traps[o_ptr->extent])
-		{
-			case 0:
-				strnfcat(buf, max, &end, " (Locked)");
-				break;
-
-			case CHEST_LOSE_STR:
-				strnfcat(buf, max, &end, " (Poison Needle)");
-				break;
-
-			case CHEST_LOSE_CON:
-				strnfcat(buf, max, &end, " (Poison Needle)");
-				break;
-
-			case CHEST_POISON:
-				strnfcat(buf, max, &end, " (Gas Trap)");
-				break;
-
-			case CHEST_PARALYZE:
-				strnfcat(buf, max, &end, " (Gas Trap)");
-				break;
-
-			case CHEST_EXPLODE:
-				strnfcat(buf, max, &end, " (Explosion Device)");
-				break;
-
-			case CHEST_SUMMON:
-				strnfcat(buf, max, &end, " (Summoning Runes)");
-				break;
-
-			default:
-				strnfcat(buf, max, &end, " (Multiple Traps)");
-				break;
-		}
-	}
+		strnfcat(buf, max, &end, " (Locked)");
 
 	return end;
 }

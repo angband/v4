@@ -29,6 +29,7 @@
 #include "ui-menu.h"
 #include "spells.h"
 #include "target.h"
+#include "trap.h"
 #include "wizard.h"
 #include "z-term.h"
 

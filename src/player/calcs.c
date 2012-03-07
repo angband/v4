@@ -1926,7 +1926,7 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	if (p_ptr->food >= PY_FOOD_MAX) state->speed -= 10;
 
 	/* Searching slows the player down */
-	if (p_ptr->searching) state->speed -= 2;
+	if (p_ptr->searching) state->speed -= 10;
 
 	/* Sanity check on extreme speeds */
 	if (state->speed < 0) state->speed = 0;

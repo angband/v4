@@ -38,27 +38,26 @@
  * false when the player has a 0% chance of finding anything.  Prints messages
  * for negative confirmation when verbose mode is requested.
  */
-bool search(bool verbose)
+bool search(bool verbose, int radius)
 {
 	int py = p_ptr->py;
 	int px = p_ptr->px;
 
-	int y, x, chance;
+	int y, x, skill;
 
 	bool found = FALSE;
 
-	object_type *o_ptr;
 	monster_type *m_ptr;
 
 	/* Start with base search ability */
-	chance = p_ptr->state.skills[SKILL_SEARCH];
+	skill = p_ptr->state.skills[SKILL_SEARCH];
 
 	/* Penalize various conditions */
-	if (p_ptr->timed[TMD_BLIND] || no_light()) chance = chance / 10;
-	if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE]) chance = chance / 10;
+	if (p_ptr->timed[TMD_BLIND] || no_light()) skill = skill / 10;
+	if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE]) skill = skill / 10;
 
 	/* Prevent fruitless searches */
-	if (chance <= 0) {
+	if (skill <= 0) {
 		if (verbose) {
 			msg("You can't make out your surroundings well enough to search.");
 
@@ -70,15 +69,14 @@ bool search(bool verbose)
 	}
 
 	/* Search the nearby grids, which are always in bounds */
-	for (y = (py - 3); y <= (py + 3); y++) {
-		for (x = (px - 3); x <= (px + 3); x++) {
+	for (y = (py - radius); y <= (py + radius); y++) {
+		for (x = (px - radius); x <= (px + radius); x++) {
 			/* Check for line-of-sight */
 			if (!los(py, px, y, x)) continue;
 		
-			/* Sometimes, notice things */
-			if (randint0(100) * distance(py, px, y, x) <= chance) {
-				/* Invisible trap */
-				if (cave_issecrettrap(cave, y, x)) {
+			/* Check for traps */
+			if (cave_issecrettrap(cave, y, x)) {
+				if (skill >= cave_trap_at(cave, y, x)->hidden) {
 					found = TRUE;
 
 					/* Pick a trap */
@@ -90,50 +88,30 @@ bool search(bool verbose)
 					/* Disturb */
 					disturb(p_ptr, 0, 0);
 				}
+			}
 
-				/* Secret door */
-				if (cave_issecretdoor(cave, y, x)) {
+			/* Secret door */
+			if (cave_issecretdoor(cave, y, x)) {
+				/* TODO: Make some secret doors better hidden */
+
+				found = TRUE;
+
+				/* Message */
+				msg("You have found a secret door.");
+
+				/* Pick a door */
+				place_closed_door(cave, y, x);
+
+				/* Disturb */
+				disturb(p_ptr, 0, 0);
+			}
+
+			/* Look for mimics */
+			m_ptr = cave_monster_at(cave, y, x);
+			if (m_ptr && is_mimicking(m_ptr)) {
+				if (skill >= r_info[m_ptr->r_idx].level) {
 					found = TRUE;
-
-					/* Message */
-					msg("You have found a secret door.");
-
-					/* Pick a door */
-					place_closed_door(cave, y, x);
-
-					/* Disturb */
-					disturb(p_ptr, 0, 0);
-				}
-
-				/* Scan all objects in the grid */
-				for (o_ptr = get_first_object(y, x); o_ptr; o_ptr = get_next_object(o_ptr)) {
-					/* Skip non-chests */
-					if (o_ptr->tval != TV_CHEST) continue;
-
-					/* Skip disarmed chests */
-					if (o_ptr->extent <= 0) continue;
-
-					/* Skip non-trapped chests */
-					if (!chest_traps[o_ptr->extent]) continue;
-
-					/* Identify once */
-					if (!object_is_known(o_ptr)) {
-						found = TRUE;
-
-						/* Message */
-						msg("You have discovered a trap on the chest!");
-
-						/* Know the trap */
-						object_notice_everything(o_ptr);
-
-						/* Notice it */
-						disturb(p_ptr, 0, 0);
-					}
-				}
 				
-				/* Look for mimics */
-				m_ptr = cave_monster_at(cave, y, x);
-				if (is_mimicking(m_ptr)) {
 					become_aware(m_ptr);
 				
 					/* Disturb */
@@ -143,12 +121,8 @@ bool search(bool verbose)
 		}
 	}
 
-	if (verbose && !found) {
-		if (chance >= 100)
-			msg("There are no secrets here.");
-		else
-			msg("You found nothing.");
-	}
+	if (verbose && !found)
+		msg("You found nothing.");
 
 	return TRUE;
 }
@@ -673,8 +647,11 @@ void move_player(int dir, bool disarm)
 		y = py = p_ptr->py;
 		x = px = p_ptr->px;
 
-		/* Searching */
-		search(FALSE);
+		/* Make a passive search */
+		if (p_ptr->searching)
+			search(FALSE, 2);
+		else
+			search(FALSE, 1);
 
 		/* Handle "store doors" */
 		if (cave_isshop(cave, p_ptr->py, p_ptr->px)) {
@@ -700,7 +677,7 @@ void move_player(int dir, bool disarm)
 			/* Message */
 			msg("You found a trap!");
 
-			/* Pick a trap */
+			/* Reveal the trap */
 			reveal_trap(cave, y, x);
 
 			tripchance = 30 + 2 * p_ptr->state.stat_ind[A_DEX];
