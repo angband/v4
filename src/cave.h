@@ -104,7 +104,6 @@ extern bool cave_islockeddoor(struct cave *c, int y, int x);
 extern bool cave_isjammeddoor(struct cave *c, int y, int x);
 extern bool cave_isdoor(struct cave *c, int y, int x);
 extern bool cave_issecrettrap(struct cave *c, int y, int x);
-extern bool feat_is_known_trap(int feat);
 extern bool cave_isknowntrap(struct cave *c, int y, int x);
 extern bool cave_istrap(struct cave *c, int y, int x);
 extern bool feature_isshop(int feat);

@@ -51,18 +51,14 @@ static s16b trap_pop(void)
 		/* Expand the array */
 		cave->trap_max++;
 
-		/* Count monsters */
-		//cave->mon_cnt++;
-
 		return idx;
 	}
 
 	/* Warn the player if no index is available 
 	 * (except during dungeon creation)
 	 */
-	if (character_dungeon) {
+	if (character_dungeon)
 		msg("Too many traps!");
-	}
 
 	/* Try not to crash */
 	return 0;

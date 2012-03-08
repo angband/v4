@@ -775,14 +775,11 @@ void map_info(unsigned y, unsigned x, grid_data *g)
 	g->multiple_objects = FALSE;
 	g->lighting = FEAT_LIGHTING_DARK;
 	g->unseen_object = FALSE;
+	g->trap_idx = 0;
 
 	g->f_idx = cave->feat[y][x];
 	if (f_info[g->f_idx].mimic)
 		g->f_idx = f_info[g->f_idx].mimic;
-	if (cave_isknowntrap(cave, y, x))
-		g->trap_idx = cave->trap[y][x];
-	else
-		g->trap_idx = 0;
 
 	g->in_view = (info & CAVE_SEEN) ? TRUE : FALSE;
 	g->is_player = (cave->m_idx[y][x] < 0) ? TRUE : FALSE;
@@ -792,6 +789,9 @@ void map_info(unsigned y, unsigned x, grid_data *g)
 
 	if (g->in_view)
 	{
+		if (cave_isknowntrap(cave, y, x))
+			g->trap_idx = cave->trap[y][x];
+
 		g->lighting = FEAT_LIGHTING_LIT;
 
 		if (!(info & CAVE_GLOW) && OPT(view_yellow_light))
@@ -3804,13 +3804,6 @@ bool cave_isdoor(struct cave *c, int y, int x) {
 bool cave_issecrettrap(struct cave *c, int y, int x) {
 	int trap_idx = c->trap[y][x];
 	return (trap_idx > 0 && c->traps[trap_idx].hidden > 0);
-}
-
-/**
- * True if the square is a known trap.
- */
-bool feat_is_known_trap(int feat) {
-	return feat >= FEAT_TRAP_HEAD && feat <= FEAT_TRAP_TAIL;
 }
 
 /**

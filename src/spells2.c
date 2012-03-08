@@ -540,8 +540,6 @@ bool detect_traps(bool aware)
 
 	bool detect = FALSE;
 
-	object_type *o_ptr;
-
 	(void)aware;
 
 	/* Pick an area to map */
