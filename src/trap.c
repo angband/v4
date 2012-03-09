@@ -64,8 +64,28 @@ static s16b trap_pop(void)
 	return 0;
 }
 
+/** 
+ * Pick a level-appropriate trap.
+ */
+int get_trap_num(int level) {
+	int trap_count, trap_idx, i;
+	
+	trap_count = 0;
+	trap_idx = 0;
+	
+	for (i = 1; i <= z_info->trap_max; i++) {
+		if (trap_info[i].min_level <= level && trap_info[i].max_level >= level) {
+			trap_count++;
+			if (one_in_(trap_count))
+				trap_idx = i;
+		}
+	}
+	
+	return trap_idx;
+}
+
 void place_trap(struct cave *c, int y, int x) {
-	int trap_idx, idx;
+	int trap_idx, idx, hidden;
 	struct trap *t_ptr;
 	struct trap *n_ptr;
 	struct trap trap_body;
@@ -79,8 +99,10 @@ void place_trap(struct cave *c, int y, int x) {
 	if (c->trap[y][x] > 0) return;
 
 	/* Pick a trap */
-	/* This should eventually respect min/max depths */
-	trap_idx = randint1(z_info->trap_max - 1);
+	trap_idx = get_trap_num(p_ptr->depth);
+	
+	/* No valid traps */
+	if (!trap_idx) return;
 
 	/* Create a trap of the given type */
 	t_ptr = &trap_body;
@@ -88,7 +110,15 @@ void place_trap(struct cave *c, int y, int x) {
 	
 	/* Fill out defaults */
 	t_ptr->kind = &trap_info[trap_idx];
-	t_ptr->hidden = trap_info[trap_idx].hidden;
+	
+	/* Use trap kind's hidden value +/- 5 */
+	hidden = trap_info[trap_idx].hidden;
+	if (hidden == 0) {
+		/* Special case -- hidden = 0 means never hidden */
+		t_ptr->hidden = 0;
+	} else {
+		t_ptr->hidden = hidden + randint1(11) - 6;
+	}
 
 	/* Get a new record */
 	idx = trap_pop();
@@ -101,9 +131,6 @@ void place_trap(struct cave *c, int y, int x) {
 	/* Copy the trap */
 	n_ptr = &c->traps[idx];
 	COPY(n_ptr, t_ptr, trap_type);
-	
-	/* Activate the trap */
-	// cave_set_trap(cave, y, x, t_ptr);
 	
 	if (character_dungeon) {
 		cave_note_spot(c, y, x);

@@ -10,6 +10,7 @@
 
 # N : serial number : terrain name
 # G : symbol : color
+# A : min level : max level
 # I : hidden
 # E : effect on entry
 
@@ -18,6 +19,9 @@
 
 # 'G' is for graphics - symbol, color, and display priority.
 # There are 16 colors, as follows:
+
+# 'A' is for allocation. This trap can only be generated between min level
+# and max level.
 
 # 'I' is for information. 'hidden' is how hidden the trap is. A value of 0
 # indicates that the trap is not hidden at all. Otherwise the trap starts
@@ -38,78 +42,141 @@ V:3.0.11
 # Dummy trap
 N:0:(nothing)
 
-N:1:trap door
-G:^:w
-E:TRAP_DOOR
+N:1:pit
+G:^:s
+A:1:10
+I:35:0
+E:TRAP_PIT
 
 N:2:pit
 G:^:s
-E:TRAP_PIT
+A:6:15
+I:38:0
+E:TRAP_PIT_SPIKES
 
 N:3:pit
 G:^:s
-E:TRAP_PIT_SPIKES
-
-N:4:pit
-G:^:s
+A:11:20
+I:40:0
 E:TRAP_PIT_POISON
 
-N:5:strange rune
+N:4:rune of summoning
 G:^:B
+A:6:25
+I:0:1
 E:TRAP_RUNE_SUMMON
 
-N:6:strange rune
+N:5:rune of summoning
+G:^:B
+A:26:50
+I:0:1
+E:TRAP_RUNE_SUMMON2
+
+N:6:rune of summoning
+G:^:B
+A:51:128
+I:0:1
+E:TRAP_RUNE_SUMMON3
+
+N:7:rune of teleportation
 G:^:o
+A:1:10
+I:0:1
+E:TRAP_RUNE_PHASE
+
+N:8:rune of teleportation
+G:^:o
+A:11:25
+I:0:1
 E:TRAP_RUNE_TELEPORT
 
-N:7:discolored spot
+N:9:rune of teleportation
+G:^:o
+A:26:128
+I:0:1
+E:TRAP_RUNE_TELEPORT2
+
+N:10:flame jet
 G:^:u
+A:6:20
+I:38
 E:TRAP_SPOT_FIRE
 
-N:8:discolored spot
+N:11:flame jet
 G:^:u
+A:21:40
+I:45
+E:TRAP_SPOT_FIRE2
+
+N:12:flame jet
+G:^:u
+A:41:60
+I:55
+E:TRAP_SPOT_FIRE3
+
+N:13:acid jet
+G:^:u
+A:6:20
+I:38
 E:TRAP_SPOT_ACID
 
-N:9:dart trap
+N:14:acid jet
+G:^:u
+A:21:40
+I:45
+E:TRAP_SPOT_ACID2
+
+N:15:acid jet
+G:^:u
+A:41:60
+I:55
+E:TRAP_SPOT_ACID3
+
+N:16:dart trap
 G:^:r
-I:10
+A:50:128
+I:50
 E:TRAP_DART_SLOW
 
-N:10:dart trap
+N:17:dart trap
 G:^:r
-I:10
+A:10:35
+I:50
 E:TRAP_DART_LOSE_STR
 
-N:11:dart trap
+N:18:dart trap
 G:^:r
-I:10
+A:10:35
+I:50
 E:TRAP_DART_LOSE_DEX
 
-N:12:dart trap
+N:19:dart trap
 G:^:r
-I:10
+A:10:35
+I:50
 E:TRAP_DART_LOSE_CON
 
-N:13:gas trap
+N:20:gas trap
 G:^:g
-I:10
+A:6:25
+I:28
 E:TRAP_GAS_BLIND
 
-N:14:gas trap
+N:21:gas trap
 G:^:g
-I:10
+A:16:35
+I:33
 E:TRAP_GAS_CONFUSE
 
-N:15:gas trap
+N:22:gas trap
 G:^:g
-I:10
+A:6:25
+I:48
 E:TRAP_GAS_POISON
 
-N:16:gas trap
+N:23:gas trap
 G:^:g
-I:10
+A:26:45
+I:38
 E:TRAP_GAS_SLEEP
 
-N:17:rune of darkness
-G:;:D
-E:DARKNESS

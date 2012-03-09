@@ -2004,13 +2004,12 @@ bool effect_do(effect_type effect, bool *ident, bool aware, int dir, int beam,
 		case EF_TRAP_RUNE_SUMMON:
 		{
 			int i;
-			int num = 2 + randint1(3);
+			int num = randint1(2);
 
 			msgt(MSG_SUM_MONSTER, "You are enveloped in a cloud of smoke!");
 
 			/* Remove trap */
-			cave->info[py][px] &= ~(CAVE_MARK);
-			cave_set_feat(cave, py, px, FEAT_FLOOR);
+			remove_trap(cave, py, px);
 
 			for (i = 0; i < num; i++)
 				(void)summon_specific(py, px, p_ptr->depth, 0, 1);
@@ -2018,7 +2017,53 @@ bool effect_do(effect_type effect, bool *ident, bool aware, int dir, int beam,
 			return TRUE;
 		}
 
+		case EF_TRAP_RUNE_SUMMON2:
+		{
+			int i;
+			int num = 1 + randint1(2);
+
+			msgt(MSG_SUM_MONSTER, "You are enveloped in a cloud of smoke!");
+
+			/* Remove trap */
+			remove_trap(cave, py, px);
+
+			for (i = 0; i < num; i++)
+				(void)summon_specific(py, px, p_ptr->depth, 0, 1);
+
+			return TRUE;
+		}
+
+		case EF_TRAP_RUNE_SUMMON3:
+		{
+			int i;
+			int num = 2 + randint1(3);
+
+			msgt(MSG_SUM_MONSTER, "You are enveloped in a cloud of smoke!");
+
+			/* Remove trap */
+			remove_trap(cave, py, px);
+
+			for (i = 0; i < num; i++)
+				(void)summon_specific(py, px, p_ptr->depth, 0, 1);
+
+			return TRUE;
+		}
+
+		case EF_TRAP_RUNE_PHASE:
+		{
+			msg("You hit a teleport trap!");
+			teleport_player(10);
+			return TRUE;
+		}
+
 		case EF_TRAP_RUNE_TELEPORT:
+		{
+			msg("You hit a teleport trap!");
+			teleport_player(25);
+			return TRUE;
+		}
+
+		case EF_TRAP_RUNE_TELEPORT2:
 		{
 			msg("You hit a teleport trap!");
 			teleport_player(100);
@@ -2040,12 +2085,72 @@ bool effect_do(effect_type effect, bool *ident, bool aware, int dir, int beam,
 			return TRUE;
 		}
 
+		case EF_TRAP_SPOT_FIRE2:
+		{
+			int dam;
+
+			msg("You are enveloped in flames!");
+			dam = damroll(8, 6);
+			dam = adjust_dam(p_ptr, GF_FIRE, dam, RANDOMISE,
+					check_for_resist(p_ptr, GF_FIRE, p_ptr->state.flags, TRUE));
+			if (dam) {
+				take_hit(p_ptr, dam, "a fire trap");
+				inven_damage(p_ptr, GF_FIRE, MIN(dam * 5, 300));
+			}
+			return TRUE;
+		}
+
+		case EF_TRAP_SPOT_FIRE3:
+		{
+			int dam;
+
+			msg("You are enveloped in flames!");
+			dam = damroll(12, 6);
+			dam = adjust_dam(p_ptr, GF_FIRE, dam, RANDOMISE,
+					check_for_resist(p_ptr, GF_FIRE, p_ptr->state.flags, TRUE));
+			if (dam) {
+				take_hit(p_ptr, dam, "a fire trap");
+				inven_damage(p_ptr, GF_FIRE, MIN(dam * 5, 300));
+			}
+			return TRUE;
+		}
+
 		case EF_TRAP_SPOT_ACID:
 		{
 			int dam;
 
 			msg("You are splashed with acid!");
 			dam = damroll(4, 6);
+			dam = adjust_dam(p_ptr, GF_ACID, dam, RANDOMISE,
+					check_for_resist(p_ptr, GF_ACID, p_ptr->state.flags, TRUE));
+			if (dam) {
+				take_hit(p_ptr, dam, "an acid trap");
+				inven_damage(p_ptr, GF_ACID, MIN(dam * 5, 300));
+			}
+			return TRUE;
+		}
+
+		case EF_TRAP_SPOT_ACID2:
+		{
+			int dam;
+
+			msg("You are splashed with acid!");
+			dam = damroll(8, 6);
+			dam = adjust_dam(p_ptr, GF_ACID, dam, RANDOMISE,
+					check_for_resist(p_ptr, GF_ACID, p_ptr->state.flags, TRUE));
+			if (dam) {
+				take_hit(p_ptr, dam, "an acid trap");
+				inven_damage(p_ptr, GF_ACID, MIN(dam * 5, 300));
+			}
+			return TRUE;
+		}
+
+		case EF_TRAP_SPOT_ACID3:
+		{
+			int dam;
+
+			msg("You are splashed with acid!");
+			dam = damroll(12, 6);
 			dam = adjust_dam(p_ptr, GF_ACID, dam, RANDOMISE,
 					check_for_resist(p_ptr, GF_ACID, p_ptr->state.flags, TRUE));
 			if (dam) {

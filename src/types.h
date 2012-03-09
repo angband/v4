@@ -113,6 +113,9 @@ typedef struct trap_kind
 
 	int hidden;		/* How hidden is the trap? */
 
+	int min_level;
+	int max_level;
+	
 	u32b effect;   /**< Effect on entry to grid */
 
 	byte d_attr;   /**< Default feature attribute */

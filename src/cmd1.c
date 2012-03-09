@@ -77,13 +77,14 @@ bool search(bool verbose, int radius)
 			/* Check for traps */
 			if (cave_issecrettrap(cave, y, x)) {
 				if (skill >= cave_trap_at(cave, y, x)->hidden) {
+					const char* name = cave_trap_at(cave, y, x)->kind->name;
 					found = TRUE;
 
 					/* Pick a trap */
 					reveal_trap(cave, y, x);
 
 					/* Message */
-					msg("You have found a trap.");
+					msg("You have found a %s.", name);
 
 					/* Disturb */
 					disturb(p_ptr, 0, 0);

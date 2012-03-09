@@ -1305,16 +1305,6 @@ static enum parser_error parse_trap_n(struct parser *p) {
 	return PARSE_ERROR_NONE;
 }
 
-static enum parser_error parse_trap_i(struct parser *p) {
-	int hidden = parser_getuint(p, "hidden");
-	struct trap_kind *t = parser_priv(p);
-	
-	if (!t)
-		return PARSE_ERROR_MISSING_RECORD_HEADER;
-	t->hidden = hidden;
-	return PARSE_ERROR_NONE;
-}
-
 static enum parser_error parse_trap_g(struct parser *p) {
 	wchar_t glyph = parser_getchar(p, "glyph");
 	const char *color = parser_getsym(p, "color");
@@ -1331,6 +1321,28 @@ static enum parser_error parse_trap_g(struct parser *p) {
 	if (attr < 0)
 		return PARSE_ERROR_INVALID_COLOR;
 	t->d_attr = attr;
+	return PARSE_ERROR_NONE;
+}
+
+static enum parser_error parse_trap_a(struct parser *p) {
+	int min_level = parser_getuint(p, "min");
+	int max_level = parser_getuint(p, "max");
+	struct trap_kind *t = parser_priv(p);
+	
+	if (!t)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+	t->min_level = min_level;
+	t->max_level = max_level;
+	return PARSE_ERROR_NONE;
+}
+
+static enum parser_error parse_trap_i(struct parser *p) {
+	int hidden = parser_getuint(p, "hidden");
+	struct trap_kind *t = parser_priv(p);
+	
+	if (!t)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+	t->hidden = hidden;
 	return PARSE_ERROR_NONE;
 }
 
@@ -1351,6 +1363,7 @@ struct parser *init_parse_trap(void) {
 	parser_reg(p, "V sym version", ignored);
 	parser_reg(p, "N uint index str name", parse_trap_n);
 	parser_reg(p, "G char glyph sym color", parse_trap_g);
+	parser_reg(p, "A uint min uint max", parse_trap_a);
 	parser_reg(p, "I uint hidden", parse_trap_i);
 	parser_reg(p, "E str effect", parse_trap_e);
 	return p;
