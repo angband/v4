@@ -107,7 +107,7 @@ typedef struct feature
 typedef struct trap_kind
 {
 	char *name;
-	int idx;
+	s16b idx;
 
 	struct trap_kind *next;
 
@@ -132,7 +132,10 @@ typedef struct trap
 {
 	struct trap_kind *kind;
 	
-	int hidden;
+	u16b hidden;
+	
+	byte x;
+	byte y;
 
 } trap_type;
 

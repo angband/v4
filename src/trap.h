@@ -5,7 +5,8 @@
 
 bool trap_check_hit(int power);
 extern void hit_trap(int y, int x);
-extern void place_trap(struct cave *c, int y, int x);
+extern void place_trap(struct cave *c, struct trap *t_ptr);
+extern void pick_and_place_trap(struct cave *c, int y, int x);
 extern void remove_trap(struct cave *c, int y, int x);
 extern void reveal_trap(struct cave *c, int y, int x);
 

@@ -889,3 +889,24 @@ void wr_history(void)
 		wr_string(history_list[i].event);
 	}
 }
+
+void wr_traps(void)
+{
+	int i;
+
+	if (p_ptr->is_dead)
+		return;
+
+	/* Total traps */
+	wr_u16b(cave->trap_max);
+
+	/* Dump the traps */
+	for (i = 1; i < cave->trap_max; i++) {
+		const trap_type *t_ptr = cave_trap(cave, i);
+
+		wr_s16b(t_ptr->kind->idx);
+		wr_u16b(t_ptr->hidden);
+		wr_byte(t_ptr->x);
+		wr_byte(t_ptr->y);
+	}
+}

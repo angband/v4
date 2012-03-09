@@ -3336,3 +3336,52 @@ int rd_history(void)
 
 	return 0;
 }
+
+/**
+ * Read traps
+ */
+int rd_traps(void)
+{
+	int i;
+	size_t j;
+	u16b limit;
+
+	/* Only if the player's alive */
+	if (p_ptr->is_dead)
+		return 0;
+	
+	/* Read the trap count */
+	rd_u16b(&limit);
+
+	/* Hack -- verify */
+	if (limit > z_info->tr_max)
+	{
+		note(format("Too many (%d) trap entries!", limit));
+		return (-1);
+	}
+
+	/* Read the traps */
+	for (i = 1; i < limit; i++)
+	{
+		trap_type *t_ptr;
+		trap_type trap_type_body;
+		
+		s16b idx;
+
+		/* Get local trap */
+		t_ptr = &trap_type_body;
+		WIPE(t_ptr, trap_type);
+
+		rd_s16b(&idx);
+		t_ptr->kind = &trap_info[idx];
+
+		rd_u16b(&t_ptr->hidden);
+		rd_byte(&t_ptr->x);
+		rd_byte(&t_ptr->y);
+		
+		/* Place trap in dungeon */
+		place_trap(cave, t_ptr);
+	}
+
+	return 0;
+}

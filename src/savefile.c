@@ -96,6 +96,7 @@ static const struct {
 	{ "monsters", wr_monsters, 6 },
 	{ "ghost", wr_ghost, 1 },
 	{ "history", wr_history, 1 },
+	{ "traps", wr_traps, 1 },
 };
 
 /** Savefile loading functions */
@@ -151,6 +152,7 @@ static const struct {
 	{ "monsters", rd_monsters_6, 6 },
 	{ "ghost", rd_ghost, 1 },
 	{ "history", rd_history, 1 },
+	{ "traps", rd_traps, 1 },
 };
 
 

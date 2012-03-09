@@ -84,10 +84,39 @@ int get_trap_num(int level) {
 	return trap_idx;
 }
 
-void place_trap(struct cave *c, int y, int x) {
-	int trap_idx, idx, hidden;
-	struct trap *t_ptr;
+/**
+ * Place the given trap in the dungeon.
+ */
+void place_trap(struct cave *c, struct trap *t_ptr) {
+	int idx;
+	int y = t_ptr->y;
+	int x = t_ptr->x;
+	
 	struct trap *n_ptr;
+	
+	/* Get a new record */
+	idx = trap_pop();
+	if (!idx) return;
+
+	/* Notify cave of the new trap */
+	c->trap[y][x] = idx;
+
+	/* Copy the trap */
+	n_ptr = &c->traps[idx];
+	COPY(n_ptr, t_ptr, trap_type);
+	
+	if (character_dungeon) {
+		cave_note_spot(c, y, x);
+		cave_light_spot(c, y, x);
+	}	
+}
+
+/**
+ * Pick a level-appropriate trap and put it in the dungeon.
+ */
+void pick_and_place_trap(struct cave *c, int y, int x) {
+	int trap_idx, hidden;
+	struct trap *t_ptr;
 	struct trap trap_body;
 	
 	assert(cave_in_bounds(c, y, x));
@@ -110,6 +139,8 @@ void place_trap(struct cave *c, int y, int x) {
 	
 	/* Fill out defaults */
 	t_ptr->kind = &trap_info[trap_idx];
+	t_ptr->x = x;
+	t_ptr->y = y;
 	
 	/* Use trap kind's hidden value +/- 5 */
 	hidden = trap_info[trap_idx].hidden;
@@ -120,22 +151,7 @@ void place_trap(struct cave *c, int y, int x) {
 		t_ptr->hidden = hidden + randint1(11) - 6;
 	}
 
-	/* Get a new record */
-	idx = trap_pop();
-
-	if (!idx) return;
-
-	/* Notify cave of the new trap */
-	c->trap[y][x] = idx;
-
-	/* Copy the trap */
-	n_ptr = &c->traps[idx];
-	COPY(n_ptr, t_ptr, trap_type);
-	
-	if (character_dungeon) {
-		cave_note_spot(c, y, x);
-		cave_light_spot(c, y, x);
-	}	
+	place_trap(c, t_ptr);
 }
 
 void reveal_trap(struct cave *c, int y, int x) {

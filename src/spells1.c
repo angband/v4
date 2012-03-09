@@ -1352,7 +1352,7 @@ static bool project_f(int who, int r, int y, int x, int dam, int typ, bool obvio
 			if (!cave_isempty(cave, y, x)) break;
 
 			/* Create a trap */
-			place_trap(cave, y, x);
+			pick_and_place_trap(cave, y, x);
 
 			break;
 		}
