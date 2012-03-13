@@ -1516,6 +1516,9 @@ void become_aware(struct monster *m_ptr)
 			/* Delete the mimicked object */
 			delete_object_idx(m_ptr->mimicked_o_idx);
 			m_ptr->mimicked_o_idx = 0;
+		} else {
+			/* Deal with lurkers */
+			msg("You found a monster!");
 		}
 		
 		/* Update monster and item lists */
