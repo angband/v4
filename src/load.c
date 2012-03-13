@@ -2577,6 +2577,10 @@ int rd_dungeon(void)
 		/* Grab RLE info */
 		rd_byte(&count);
 		rd_byte(&tmp8u);
+		
+		/* If we hit an unknown feature, replace it with a floor */
+		if (!f_info[tmp8u].fidx)
+			tmp8u = FEAT_FLOOR;
 
 		/* Apply the RLE info */
 		for (i = count; i > 0; i--)
@@ -3343,7 +3347,6 @@ int rd_history(void)
 int rd_traps(void)
 {
 	int i;
-	size_t j;
 	u16b limit;
 
 	/* Only if the player's alive */

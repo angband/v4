@@ -34,7 +34,7 @@ bool trap_check_hit(int power)
 }
 
 /**
- * Returns the index of a "free" monster, or 0 if no slot is available.
+ * Returns the index of a "free" trap, or 0 if no slot is available.
  *
  * This routine should almost never fail, but it *can* happen.
  * The calling code must check for and handle a 0 return.

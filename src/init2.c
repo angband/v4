@@ -36,6 +36,7 @@
 #include "prefs.h"
 #include "randname.h"
 #include "squelch.h"
+#include "trap.h"
 
 static struct history_chart *histories;
 

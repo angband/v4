@@ -18,12 +18,14 @@
 
 #include "angband.h"
 #include "cave.h"
+#include "cmds.h"
 #include "game-event.h"
 #include "game-cmd.h"
 #include "monster/mon-util.h"
 #include "object/tvalsval.h"
 #include "squelch.h"
-#include "cmds.h"
+#include "trap.h"
+
 
 static int view_n;
 static u16b view_g[VIEW_MAX];
@@ -3129,22 +3131,6 @@ void cave_set_feat(struct cave *c, int y, int x, int feat)
 		c->info[y][x] |= CAVE_WALL;
 	else
 		c->info[y][x] &= ~CAVE_WALL;
-
-	if (character_dungeon) {
-		cave_note_spot(c, y, x);
-		cave_light_spot(c, y, x);
-	}
-}
-
-void cave_set_trap(struct cave *c, int y, int x, struct trap *t_ptr)
-{
-	assert(c);
-	assert(y >= 0 && y < DUNGEON_HGT);
-	assert(x >= 0 && x < DUNGEON_WID);
-	/* XXX: Check against c->height and c->width instead, once everywhere
-	 * honors those... */
-
-	// c->trap[y][x] = t_ptr;
 
 	if (character_dungeon) {
 		cave_note_spot(c, y, x);
