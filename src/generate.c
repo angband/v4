@@ -3657,12 +3657,14 @@ static void cave_clear(struct cave *c, struct player *p) {
 
 	wipe_o_list(c);
 	wipe_mon_list(c, p);
+	wipe_trap_list(c);
 
 	/* Clear flags and flow information. */
 	for (y = 0; y < DUNGEON_HGT; y++) {
 		for (x = 0; x < DUNGEON_WID; x++) {
-			/* Erase features */
+			/* Erase features and traps */
 			c->feat[y][x] = 0;
+			c->trap[y][x] = 0;
 
 			/* Erase flags */
 			c->info[y][x] = 0;

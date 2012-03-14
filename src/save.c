@@ -24,6 +24,7 @@
 #include "option.h"
 #include "savefile.h"
 #include "squelch.h"
+#include "trap.h"
 
 /*
  * Write an "item" record
@@ -791,6 +792,8 @@ void wr_dungeon(void)
 
 	/* Compact the monsters */
 	compact_monsters(0);
+	
+	compact_traps();
 }
 
 

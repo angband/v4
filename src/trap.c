@@ -123,6 +123,7 @@ void pick_and_place_trap(struct cave *c, int y, int x) {
 
 	/* Remove this when we can have trapped doors etc. */
 	assert(cave_isfloor(c, y, x));
+	assert(c->feat[y][x] == FEAT_FLOOR);
 	
 	/* There is already a trap here */
 	if (c->trap[y][x] > 0) return;
@@ -165,8 +166,76 @@ void reveal_trap(struct cave *c, int y, int x) {
 	cave_light_spot(c, y, x);
 }
 
+/**
+ * Move a trap from index i1 to index i2 in the trap list.
+ */
+static void compact_traps_aux(int i1, int i2)
+{
+	int y, x;
+
+	trap_type *t_ptr;
+
+	/* Do nothing */
+	if (i1 == i2) return;
+
+	/* Old trap */
+	t_ptr = cave_trap(cave, i1);
+	y = t_ptr->y;
+	x = t_ptr->x;
+
+	/* Update the cave */
+	cave->trap[y][x] = i2;
+	
+	/* Hack -- move monster */
+	COPY(cave_trap(cave, i2), cave_trap(cave, i1), struct trap);
+
+	/* Hack -- wipe hole */
+	(void)WIPE(cave_trap(cave, i1), trap_type);
+}
+
+/**
+ * Compacts and reorders the trap list.
+ */
+void compact_traps()
+{
+	int t_idx;
+
+	/* Excise disarmed traps (backwards!) */
+	for (t_idx = cave->trap_max - 1; t_idx >= 1; t_idx--) {
+		trap_type *t_ptr = cave_trap(cave, t_idx);
+
+		/* Skip real traps */
+		if (t_ptr->x && t_ptr->y) continue;
+
+		/* Move last trap into open hole */
+		compact_traps_aux(cave->trap_max - 1, t_idx);
+
+		/* Compress "cave->mon_max" */
+		cave->trap_max--;
+	}
+}
+
+void wipe_trap_list(struct cave *c) {
+	int t_idx;
+
+	for (t_idx = cave->trap_max - 1; t_idx >= 1; t_idx--) {
+		trap_type *t_ptr = cave_trap(cave, t_idx);
+
+		(void)WIPE(t_ptr, trap_type);
+	}
+
+	/* Reset "cave->trap_max" */
+	cave->trap_max = 1;
+}
+
+
 void remove_trap(struct cave *c, int y, int x) {
+	struct trap *t_ptr = cave_trap_at(c, y, x);
+
 	c->trap[y][x] = 0;
+
+	/* Wipe the Monster */
+	(void)WIPE(t_ptr, trap_type);
 
 	if (character_dungeon) {
 		cave_light_spot(c, y, x);

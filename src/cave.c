@@ -3943,17 +3943,17 @@ bool cave_isboring(struct cave *c, int y, int x) {
 }
 
 /**
- * Get a monster on the current level by its index.
+ * Get a trap on the current level by its index.
  */
 struct trap *cave_trap(struct cave *c, int idx) {
 	return &c->traps[idx];
 }
 
 /**
- * Get a monster on the current level by its position.
+ * Get a trap on the current level by its position.
  */
 struct trap *cave_trap_at(struct cave *c, int y, int x) {
-	return cave_trap(cave, cave->trap[y][x]);
+	return cave_trap(c, c->trap[y][x]);
 }
 
 /**
@@ -3967,7 +3967,7 @@ struct monster *cave_monster(struct cave *c, int idx) {
  * Get a monster on the current level by its position.
  */
 struct monster *cave_monster_at(struct cave *c, int y, int x) {
-	return cave_monster(cave, cave->m_idx[y][x]);
+	return cave_monster(c, c->m_idx[y][x]);
 }
 
 /**
