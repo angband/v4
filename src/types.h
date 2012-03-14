@@ -26,7 +26,6 @@ typedef byte byte_wid[DUNGEON_WID];
 typedef s16b s16b_wid[DUNGEON_WID];
 
 
-
 /** Function hook types **/
 
 /** Function prototype for the UI to provide to create native buttons */
@@ -55,6 +54,7 @@ typedef struct color_type color_type;
 typedef struct maxima
 {
 	u16b f_max;     /**< Maximum number of terrain features */
+	u16b trap_max;	/**< Maximum number of trap kinds */
 	u16b k_max;     /**< Maximum number of object base kinds */
 	u16b a_max;     /**< Maximum number of artifact kinds */
 	u16b e_max;     /**< Maximum number of ego-item affixes */
@@ -66,6 +66,7 @@ typedef struct maxima
 
 	u16b o_max;     /**< Maximum number of objects on a given level */
 	u16b m_max;     /**< Maximum number of monsters on a given level */
+	u16b tr_max;	/**< Maximum number of traps on a given level */
 } maxima;
 
 
@@ -91,7 +92,7 @@ typedef struct feature
 	byte dig;      /**< How hard is it to dig through? */
 
 	u32b effect;   /**< Effect on entry to grid */
-	u32b flags;    /**< Terrain flags */
+	bitflag flags[FF_SIZE];    /**< Terrain flags */
 
 	byte d_attr;   /**< Default feature attribute */
 	wchar_t d_char;   /**< Default feature character */
@@ -99,8 +100,6 @@ typedef struct feature
 	byte x_attr[3];   /**< Desired feature attribute (set by user/pref file) */
 	wchar_t x_char[3];   /**< Desired feature character (set by user/pref file) */
 } feature_type;
-
-
 
 /*
  * Information about "vault generation"
@@ -230,6 +229,7 @@ typedef struct
 {
 	u32b m_idx;		/* Monster index */
 	u32b f_idx;		/* Feature index */
+	u32b trap_idx;	/* Trap index */
 	struct object_kind *first_kind;	/* The "kind" of the first item on the grid */
 	bool multiple_objects;	/* Is there more than one item there? */
 	bool unseen_object;	/* Is there an unaware object there? */

@@ -490,6 +490,7 @@ maxima *z_info;
  * The vault generation arrays
  */
 feature_type *f_info;
+trap_kind *trap_info;
 
 object_kind *k_info;
 object_base *kb_info;

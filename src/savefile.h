@@ -90,6 +90,7 @@ int rd_monsters_5(void);
 int rd_monsters_6(void);
 int rd_ghost(void);
 int rd_history(void);
+int rd_traps(void);
 
 /* save.c */
 void wr_randomizer(void);
@@ -112,6 +113,6 @@ void wr_objects(void);
 void wr_monsters(void);
 void wr_ghost(void);
 void wr_history(void);
-
+void wr_traps(void);
 
 #endif /* INCLUDED_SAVEFILE_H */

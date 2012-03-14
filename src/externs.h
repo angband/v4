@@ -10,6 +10,7 @@
 #include "z-file.h"
 #include "z-msg.h"
 #include "spells.h"
+#include "trap.h"
 
 /* This file was automatically generated. It is now obsolete (it was never a
  * good idea to begin with; you should include only what you use instead of
@@ -84,6 +85,7 @@ extern byte tval_to_attr[128];
 extern player_other *op_ptr;
 extern player_type *p_ptr;
 extern feature_type *f_info;
+extern trap_kind *trap_info;
 extern object_base *kb_info;
 extern object_kind *k_info;
 extern artifact_type *a_info;
@@ -145,13 +147,13 @@ extern struct keypress *inkey_next;
 extern void player_birth(bool quickstart_allowed);
 
 /* cmd1.c */
-extern bool search(bool verbose);
+extern bool search(bool verbose, int radius);
 extern byte py_pickup(int pickup);
 extern void move_player(int dir, bool disarm);
 
 /* cmd2.c */
 int count_feats(int *y, int *x, bool (*test)(struct cave *cave, int y, int x), bool under);
-int count_chests(int *y, int *x, bool trapped);
+int count_chests(int *y, int *x);
 int coords_to_dir(int y, int x);
 
 /* death.c */

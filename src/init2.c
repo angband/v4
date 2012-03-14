@@ -36,6 +36,7 @@
 #include "prefs.h"
 #include "randname.h"
 #include "squelch.h"
+#include "trap.h"
 
 static struct history_chart *histories;
 
@@ -249,6 +250,8 @@ static enum parser_error parse_z(struct parser *p) {
 		z->m_max = value;
 	else if (streq(label, "I"))
 		z->pit_max = value;
+	else if (streq(label, "TR"))
+		z->tr_max = value;
 	else
 		return PARSE_ERROR_UNDEFINED_DIRECTIVE;
 
@@ -1158,6 +1161,7 @@ static enum parser_error parse_f_p(struct parser *p) {
 
 static const char *f_info_flags[] =
 {
+	"NONE",
 	"PWALK",
 	"PPASS",
 	"MWALK",
@@ -1175,23 +1179,6 @@ static const char *f_info_flags[] =
 	NULL
 };
 
-static errr grab_one_flag(u32b *flags, const char *names[], const char *what)
-{
-	int i;
-
-	/* Check flags */
-	for (i = 0; i < 32 && names[i]; i++)
-	{
-		if (streq(what, names[i]))
-		{
-			*flags |= (1L << i);
-			return (0);
-		}
-	}
-
-	return (-1);
-}
-
 static enum parser_error parse_f_f(struct parser *p) {
 	char *flags;
 	struct feature *f = parser_priv(p);
@@ -1206,8 +1193,9 @@ static enum parser_error parse_f_f(struct parser *p) {
 
 	s = strtok(flags, " |");
 	while (s) {
-		if (grab_one_flag(&f->flags, f_info_flags, s)) {
-			mem_free(s);
+		if (grab_flag(f->flags, FF_SIZE, f_info_flags, s)) {
+			mem_free(flags);
+			quit_fmt("bad f-flag: %s", s);
 			return PARSE_ERROR_INVALID_FLAG;
 		}
 		s = strtok(NULL, " |");
@@ -1301,6 +1289,134 @@ struct file_parser f_parser = {
 	run_parse_f,
 	finish_parse_f,
 	cleanup_f
+};
+
+/* Parsing functions for trap.txt */
+static enum parser_error parse_trap_n(struct parser *p) {
+	int idx = parser_getuint(p, "index");
+	const char *name = parser_getstr(p, "name");
+	struct trap_kind *h = parser_priv(p);
+
+	struct trap_kind *t = mem_zalloc(sizeof *t);
+	t->next = h;
+	t->idx = idx;
+	t->name = string_make(name);
+	t->hidden = 0;
+	parser_setpriv(p, t);
+	return PARSE_ERROR_NONE;
+}
+
+static enum parser_error parse_trap_g(struct parser *p) {
+	wchar_t glyph = parser_getchar(p, "glyph");
+	const char *color = parser_getsym(p, "color");
+	int attr = 0;
+	struct trap_kind *t = parser_priv(p);
+
+	if (!t)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+	t->d_char = glyph;
+	if (strlen(color) > 1)
+		attr = color_text_to_attr(color);
+	else
+		attr = color_char_to_attr(color[0]);
+	if (attr < 0)
+		return PARSE_ERROR_INVALID_COLOR;
+	t->d_attr = attr;
+	return PARSE_ERROR_NONE;
+}
+
+static enum parser_error parse_trap_a(struct parser *p) {
+	int min_level = parser_getuint(p, "min");
+	int max_level = parser_getuint(p, "max");
+	struct trap_kind *t = parser_priv(p);
+	
+	if (!t)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+	t->min_level = min_level;
+	t->max_level = max_level;
+	return PARSE_ERROR_NONE;
+}
+
+static enum parser_error parse_trap_i(struct parser *p) {
+	int hidden = parser_getuint(p, "hidden");
+	struct trap_kind *t = parser_priv(p);
+	
+	if (!t)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+	t->hidden = hidden;
+	return PARSE_ERROR_NONE;
+}
+
+static enum parser_error parse_trap_e(struct parser *p) {
+	struct trap_kind *t = parser_priv(p);
+
+	if (!t)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+	t->effect = grab_one_effect(parser_getstr(p, "effect"));
+	if (!t->effect)
+		return PARSE_ERROR_INVALID_EFFECT;
+	return PARSE_ERROR_NONE;
+}
+
+struct parser *init_parse_trap(void) {
+	struct parser *p = parser_new();
+	parser_setpriv(p, NULL);
+	parser_reg(p, "V sym version", ignored);
+	parser_reg(p, "N uint index str name", parse_trap_n);
+	parser_reg(p, "G char glyph sym color", parse_trap_g);
+	parser_reg(p, "A uint min uint max", parse_trap_a);
+	parser_reg(p, "I uint hidden", parse_trap_i);
+	parser_reg(p, "E str effect", parse_trap_e);
+	return p;
+}
+
+static errr run_parse_trap(struct parser *p) {
+	return parse_file(p, "trap");
+}
+
+static errr finish_parse_trap(struct parser *p) {
+	struct trap_kind *t, *n;
+
+	/* scan the list for the max id */
+	z_info->trap_max = 0;
+	t = parser_priv(p);
+	while (t) {
+		if (t->idx > z_info->trap_max)
+			z_info->trap_max = t->idx;
+		t = t->next;
+	}
+
+	/* allocate the direct access list and copy the data to it */
+	trap_info = mem_zalloc((z_info->trap_max+1) * sizeof(*t));
+	for (t = parser_priv(p); t; t = n) {
+		memcpy(&trap_info[t->idx], t, sizeof(*t));
+		n = t->next;
+		if (n)
+			trap_info[t->idx].next = &trap_info[n->idx];
+		else
+			trap_info[t->idx].next = NULL;
+		mem_free(t);
+	}
+	z_info->trap_max += 1;
+
+	parser_destroy(p);
+	return 0;
+}
+
+static void cleanup_trap(void) {
+	int idx;
+	for (idx = 0; idx < z_info->trap_max; idx++) {
+		string_free(trap_info[idx].name);
+	}
+	mem_free(trap_info);
+}
+
+struct file_parser trap_parser = {
+	"trap",
+	init_parse_trap,
+	run_parse_trap,
+	finish_parse_trap,
+	cleanup_trap
 };
 
 /* Parsing functions for ego-item.txt */
@@ -3357,6 +3473,10 @@ void init_arrays(void)
 	event_signal_string(EVENT_INITSTATUS, "Initializing arrays... (features)");
 	if (run_parser(&f_parser)) quit("Cannot initialize features");
 
+	/* Initialize trap info */
+	event_signal_string(EVENT_INITSTATUS, "Initializing arrays... (traps)");
+	if (run_parser(&trap_parser)) quit("Cannot initialize traps");
+
 	/* Initialize object base info */
 	event_signal_string(EVENT_INITSTATUS, "Initializing arrays... (object bases)");
 	if (run_parser(&kb_parser)) quit("Cannot initialize object bases");
@@ -3590,6 +3710,7 @@ void cleanup_angband(void)
 	cleanup_parser(&r_parser);
 	cleanup_parser(&rb_parser);
 	cleanup_parser(&f_parser);
+	cleanup_parser(&trap_parser);
 	cleanup_parser(&e_parser);
 	cleanup_parser(&t_parser);
 	cleanup_parser(&p_parser);

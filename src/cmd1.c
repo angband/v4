@@ -38,30 +38,27 @@
  * false when the player has a 0% chance of finding anything.  Prints messages
  * for negative confirmation when verbose mode is requested.
  */
-bool search(bool verbose)
+bool search(bool verbose, int radius)
 {
 	int py = p_ptr->py;
 	int px = p_ptr->px;
 
-	int y, x, chance;
+	int y, x, skill;
 
 	bool found = FALSE;
 
-	object_type *o_ptr;
-
+	monster_type *m_ptr;
 
 	/* Start with base search ability */
-	chance = p_ptr->state.skills[SKILL_SEARCH];
+	skill = p_ptr->state.skills[SKILL_SEARCH];
 
 	/* Penalize various conditions */
-	if (p_ptr->timed[TMD_BLIND] || no_light()) chance = chance / 10;
-	if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE]) chance = chance / 10;
+	if (p_ptr->timed[TMD_BLIND] || no_light()) skill = skill / 10;
+	if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE]) skill = skill / 10;
 
 	/* Prevent fruitless searches */
-	if (chance <= 0)
-	{
-		if (verbose)
-		{
+	if (skill <= 0) {
+		if (verbose) {
 			msg("You can't make out your surroundings well enough to search.");
 
 			/* Cancel repeat */
@@ -72,81 +69,61 @@ bool search(bool verbose)
 	}
 
 	/* Search the nearby grids, which are always in bounds */
-	for (y = (py - 1); y <= (py + 1); y++)
-	{
-		for (x = (px - 1); x <= (px + 1); x++)
-		{
-			/* Sometimes, notice things */
-			if (randint0(100) < chance)
-			{
-				/* Invisible trap */
-				if (cave->feat[y][x] == FEAT_INVIS)
-				{
+	for (y = (py - radius); y <= (py + radius); y++) {
+		for (x = (px - radius); x <= (px + radius); x++) {
+			/* Check for line-of-sight */
+			if (!los(py, px, y, x)) continue;
+		
+			/* Check for traps */
+			if (cave_issecrettrap(cave, y, x)) {
+				if (skill >= cave_trap_at(cave, y, x)->hidden) {
+					const char* name = cave_trap_at(cave, y, x)->kind->name;
 					found = TRUE;
 
 					/* Pick a trap */
-					pick_trap(y, x);
+					reveal_trap(cave, y, x);
 
 					/* Message */
-					msg("You have found a trap.");
+					msg("You have found a %s.", name);
 
 					/* Disturb */
 					disturb(p_ptr, 0, 0);
 				}
+			}
 
-				/* Secret door */
-				if (cave->feat[y][x] == FEAT_SECRET)
-				{
+			/* Secret door */
+			if (cave_issecretdoor(cave, y, x)) {
+				/* TODO: Make some secret doors better hidden */
+
+				found = TRUE;
+
+				/* Message */
+				msg("You have found a secret door.");
+
+				/* Pick a door */
+				place_closed_door(cave, y, x);
+
+				/* Disturb */
+				disturb(p_ptr, 0, 0);
+			}
+
+			/* Look for mimics */
+			m_ptr = cave_monster_at(cave, y, x);
+			if (m_ptr && m_ptr->unaware) {
+				if (skill >= 45 + r_info[m_ptr->r_idx].level / 2) {
 					found = TRUE;
-
-					/* Message */
-					msg("You have found a secret door.");
-
-					/* Pick a door */
-					place_closed_door(cave, y, x);
-
+				
+					become_aware(m_ptr);
+				
 					/* Disturb */
 					disturb(p_ptr, 0, 0);
-				}
-
-				/* Scan all objects in the grid */
-				for (o_ptr = get_first_object(y, x); o_ptr; o_ptr = get_next_object(o_ptr))
-				{
-					/* Skip non-chests */
-					if (o_ptr->tval != TV_CHEST) continue;
-
-					/* Skip disarmed chests */
-					if (o_ptr->extent <= 0) continue;
-
-					/* Skip non-trapped chests */
-					if (!chest_traps[o_ptr->extent]) continue;
-
-					/* Identify once */
-					if (!object_is_known(o_ptr))
-					{
-						found = TRUE;
-
-						/* Message */
-						msg("You have discovered a trap on the chest!");
-
-						/* Know the trap */
-						object_notice_everything(o_ptr);
-
-						/* Notice it */
-						disturb(p_ptr, 0, 0);
-					}
 				}
 			}
 		}
 	}
 
 	if (verbose && !found)
-	{
-		if (chance >= 100)
-			msg("There are no secrets here.");
-		else
-			msg("You found nothing.");
-	}
+		msg("You found nothing.");
 
 	return TRUE;
 }
@@ -570,6 +547,8 @@ void move_player(int dir, bool disarm)
 
 	int m_idx = cave->m_idx[y][x];
 	struct monster *m_ptr = cave_monster(cave, m_idx);
+	
+	int tripchance;
 
 	/* Attack monsters */
 	if (m_idx > 0) {
@@ -598,7 +577,7 @@ void move_player(int dir, bool disarm)
 	}
 
 	/* Cannot walk through walls */
-	else if (!cave_floor_bold(y, x))
+	else if (!cave_ispassable(cave, y, x))
 	{
 		/* Disturb the player */
 		disturb(p_ptr, 0, 0);
@@ -607,7 +586,7 @@ void move_player(int dir, bool disarm)
 		if (!(cave->info[y][x] & CAVE_MARK))
 		{
 			/* Rubble */
-			if (cave->feat[y][x] == FEAT_RUBBLE)
+			if (cave_isrubble(cave, y, x))
 			{
 				msgt(MSG_HITWALL, "You feel a pile of rubble blocking your way.");
 				cave->info[y][x] |= (CAVE_MARK);
@@ -615,7 +594,7 @@ void move_player(int dir, bool disarm)
 			}
 
 			/* Closed door */
-			else if (cave->feat[y][x] < FEAT_SECRET)
+			else if (cave_iscloseddoor(cave, y, x))
 			{
 				msgt(MSG_HITWALL, "You feel a door blocking your way.");
 				cave->info[y][x] |= (CAVE_MARK);
@@ -634,9 +613,9 @@ void move_player(int dir, bool disarm)
 		/* Mention known obstacles */
 		else
 		{
-			if (cave->feat[y][x] == FEAT_RUBBLE)
+			if (cave_isrubble(cave, y, x))
 				msgt(MSG_HITWALL, "There is a pile of rubble blocking your way.");
-			else if (cave->feat[y][x] < FEAT_SECRET)
+			else if (cave_iscloseddoor(cave, y, x))
 				msgt(MSG_HITWALL, "There is a door blocking your way.");
 			else
 				msgt(MSG_HITWALL, "There is a wall blocking your way.");
@@ -669,16 +648,14 @@ void move_player(int dir, bool disarm)
 		y = py = p_ptr->py;
 		x = px = p_ptr->px;
 
-		/* Searching */
-		if (p_ptr->searching ||
-				(p_ptr->state.skills[SKILL_SEARCH_FREQUENCY] >= 50) ||
-				one_in_(50 - p_ptr->state.skills[SKILL_SEARCH_FREQUENCY]))
-			search(FALSE);
+		/* Make a passive search */
+		if (p_ptr->searching)
+			search(FALSE, 2);
+		else
+			search(FALSE, 1);
 
 		/* Handle "store doors" */
-		if ((cave->feat[p_ptr->py][p_ptr->px] >= FEAT_SHOP_HEAD) &&
-			(cave->feat[p_ptr->py][p_ptr->px] <= FEAT_SHOP_TAIL))
-		{
+		if (cave_isshop(cave, p_ptr->py, p_ptr->px)) {
 			/* Disturb */
 			disturb(p_ptr, 0, 0);
 			cmd_insert(CMD_ENTER_STORE);
@@ -693,7 +670,7 @@ void move_player(int dir, bool disarm)
 
 
 		/* Discover invisible traps */
-		if (cave->feat[y][x] == FEAT_INVIS)
+		if (cave_issecrettrap(cave, y, x))
 		{
 			/* Disturb */
 			disturb(p_ptr, 0, 0);
@@ -701,21 +678,39 @@ void move_player(int dir, bool disarm)
 			/* Message */
 			msg("You found a trap!");
 
-			/* Pick a trap */
-			pick_trap(y, x);
+			/* Reveal the trap */
+			reveal_trap(cave, y, x);
 
-			/* Hit the trap */
-			hit_trap(y, x);
+			tripchance = 30 + 2 * p_ptr->state.stat_ind[A_DEX];
+			if (p_ptr->timed[TMD_BLIND] || no_light()) 
+				tripchance = tripchance / 5;
+			if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE])
+				tripchance = tripchance / 5;
+				
+			/* Hit or avoid the trap */
+			if (randint0(100) <= tripchance)
+				msg("You nimbly evaded a trap!");
+			else
+				hit_trap(y, x);
 		}
 
-		/* Set off an visible trap */
+		/* Set off a visible trap */
 		else if (cave_isknowntrap(cave, y, x))
 		{
 			/* Disturb */
 			disturb(p_ptr, 0, 0);
 
-			/* Hit the trap */
-			hit_trap(y, x);
+			tripchance = 30 + 3 * p_ptr->state.stat_ind[A_DEX];
+			if (p_ptr->timed[TMD_BLIND] || no_light()) 
+				tripchance = tripchance / 5;
+			if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE])
+				tripchance = tripchance / 5;
+				
+			/* Hit or avoid the trap */
+			if (randint0(100) <= tripchance)
+				msg("You nimbly evaded a trap!");
+			else
+				hit_trap(y, x);
 		}
 	}
 
