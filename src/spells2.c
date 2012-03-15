@@ -502,7 +502,7 @@ void map_area(void)
 				if (!in_bounds_fully(y, x)) continue;
 
 				/* Memorize normal features */
-				if (cave->feat[y][x] > FEAT_INVIS)
+				if (cave->feat[y][x] > FEAT_FLOOR)
 				{
 					/* Memorize the object */
 					cave->info[y][x] |= (CAVE_MARK);
@@ -540,8 +540,6 @@ bool detect_traps(bool aware)
 
 	bool detect = FALSE;
 
-	object_type *o_ptr;
-
 	(void)aware;
 
 	/* Pick an area to map */
@@ -562,11 +560,8 @@ bool detect_traps(bool aware)
 			if (!in_bounds_fully(y, x)) continue;
 
 			/* Detect invisible traps */
-			if (cave->feat[y][x] == FEAT_INVIS)
-			{
-				/* Pick a trap */
-				pick_trap(y, x);
-			}
+			if (cave_issecrettrap(cave, y, x))
+				reveal_trap(cave, y, x);
 
 			/* Detect traps */
 			if (cave_isknowntrap(cave, y, x))
@@ -576,32 +571,6 @@ bool detect_traps(bool aware)
 
 				/* We found something to detect */
 				detect = TRUE;
-			}
-
-			/* Scan all objects in the grid to look for traps on chests */
-			for (o_ptr = get_first_object(y, x); o_ptr; o_ptr = get_next_object(o_ptr))
-			{
-				/* Skip non-chests */
-				if (o_ptr->tval != TV_CHEST) continue;
-
-				/* Skip disarmed chests */
-				if (o_ptr->pval[DEFAULT_PVAL] <= 0) continue;
-
-				/* Skip non-trapped chests */
-				if (!chest_traps[o_ptr->pval[DEFAULT_PVAL]]) continue;
-
-				/* Identify once */
-				if (!object_is_known(o_ptr))
-				{
-					/* Know the trap */
-					object_notice_everything(o_ptr);
-
-					/* Notice it */
-					disturb(p_ptr, 0, 0);
-
-					/* We found something to detect */
-					detect = TRUE;
-				}
 			}
 
 			/* Mark as trap-detected */
@@ -2209,7 +2178,7 @@ void earthquake(int cy, int cx, int r)
 			x = px + ddx_ddd[i];
 
 			/* Skip non-empty grids */
-			if (!cave_empty_bold(y, x)) continue;
+			if (!cave_isempty(cave, y, x)) continue;
 
 			/* Important -- Skip "quake" grids */
 			if (map[16+y-cy][16+x-cx]) continue;
@@ -2324,7 +2293,7 @@ void earthquake(int cy, int cx, int r)
 							x = xx + ddx_ddd[i];
 
 							/* Skip non-empty grids */
-							if (!cave_empty_bold(y, x)) continue;
+							if (!cave_isempty(cave, y, x)) continue;
 
 							/* Hack -- no safety on glyph of warding */
 							if (cave->feat[y][x] == FEAT_GLYPH) continue;
@@ -2416,7 +2385,7 @@ void earthquake(int cy, int cx, int r)
 			{
 				int feat = FEAT_FLOOR;
 
-				bool floor = cave_floor_bold(yy, xx);
+				bool floor = cave_ispassable(cave, yy, xx);
 
 				/* Delete objects */
 				delete_object(yy, xx);
@@ -2562,7 +2531,7 @@ static void cave_unlight(struct point_set *ps)
 		cave->info[y][x] &= ~(CAVE_GLOW);
 
 		/* Hack -- Forget "boring" grids */
-		if (cave->feat[y][x] <= FEAT_INVIS)
+		if (cave->feat[y][x] <= FEAT_FLOOR)
 		{
 			/* Forget the grid */
 			cave->info[y][x] &= ~(CAVE_MARK);
@@ -2624,7 +2593,7 @@ static void light_room(int y1, int x1, bool light)
 		x = ps->pts[i].x, y = ps->pts[i].y;
 
 		/* Walls get lit, but stop light */
-		if (!cave_floor_bold(y, x)) continue;
+		if (!cave_ispassable(cave, y, x)) continue;
 
 		/* Spread adjacent */
 		cave_room_aux(ps, y + 1, x);

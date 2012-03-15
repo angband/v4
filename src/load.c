@@ -2577,6 +2577,10 @@ int rd_dungeon(void)
 		/* Grab RLE info */
 		rd_byte(&count);
 		rd_byte(&tmp8u);
+		
+		/* If we hit an unknown feature, replace it with a floor */
+		if (!f_info[tmp8u].fidx)
+			tmp8u = FEAT_FLOOR;
 
 		/* Apply the RLE info */
 		for (i = count; i > 0; i--)
@@ -3332,6 +3336,54 @@ int rd_history(void)
 		rd_string(text, sizeof(text));
 		
 		history_add_full(type, &a_info[art_name], dlev, clev, turn, text);
+	}
+
+	return 0;
+}
+
+/**
+ * Read traps
+ */
+int rd_traps(void)
+{
+	int i;
+	u16b limit;
+
+	/* Only if the player's alive */
+	if (p_ptr->is_dead)
+		return 0;
+	
+	/* Read the trap count */
+	rd_u16b(&limit);
+
+	/* Hack -- verify */
+	if (limit > z_info->tr_max)
+	{
+		note(format("Too many (%d) trap entries!", limit));
+		return (-1);
+	}
+
+	/* Read the traps */
+	for (i = 1; i < limit; i++)
+	{
+		trap_type *t_ptr;
+		trap_type trap_type_body;
+		
+		s16b idx;
+
+		/* Get local trap */
+		t_ptr = &trap_type_body;
+		WIPE(t_ptr, trap_type);
+
+		rd_s16b(&idx);
+		t_ptr->kind = &trap_info[idx];
+
+		rd_u16b(&t_ptr->hidden);
+		rd_byte(&t_ptr->x);
+		rd_byte(&t_ptr->y);
+		
+		/* Place trap in dungeon */
+		place_trap(cave, t_ptr);
 	}
 
 	return 0;

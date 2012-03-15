@@ -357,36 +357,8 @@ static bool target_set_interactive_accept(int y, int x)
 	}
 
 	/* Interesting memorized features */
-	if (cave->info[y][x] & (CAVE_MARK))
-	{
-		/* Notice glyphs */
-		if (cave->feat[y][x] == FEAT_GLYPH) return (TRUE);
-
-		/* Notice doors */
-		if (cave->feat[y][x] == FEAT_OPEN) return (TRUE);
-		if (cave->feat[y][x] == FEAT_BROKEN) return (TRUE);
-
-		/* Notice stairs */
-		if (cave->feat[y][x] == FEAT_LESS) return (TRUE);
-		if (cave->feat[y][x] == FEAT_MORE) return (TRUE);
-
-		/* Notice shops */
-		if ((cave->feat[y][x] >= FEAT_SHOP_HEAD) &&
-		    (cave->feat[y][x] <= FEAT_SHOP_TAIL)) return (TRUE);
-
-		/* Notice traps */
-		if (cave_isknowntrap(cave, y, x)) return TRUE;
-
-		/* Notice doors */
-		if (cave_iscloseddoor(cave, y, x)) return TRUE;
-
-		/* Notice rubble */
-		if (cave->feat[y][x] == FEAT_RUBBLE) return (TRUE);
-
-		/* Notice veins with treasure */
-		if (cave->feat[y][x] == FEAT_MAGMA_K) return (TRUE);
-		if (cave->feat[y][x] == FEAT_QUARTZ_K) return (TRUE);
-	}
+	if (cave->info[y][x] & (CAVE_MARK) && !cave_isboring(cave, y, x))
+		return (TRUE);
 
 	/* Nope */
 	return (FALSE);
@@ -971,35 +943,46 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 		}
 
 		/* Terrain feature if needed */
-		if (boring || (feat > FEAT_INVIS))
+		if (boring || (feat > FEAT_FLOOR))
 		{
-			const char *name = f_info[feat].name;
+			/* Handle traps */
+			if (cave_isknowntrap(cave, y, x)) {
+				const char *name = cave_trap_at(cave, y, x)->kind->name;
+				
+				/* Pick proper indefinite article */
+				s3 = (is_a_vowel(name[0])) ? "an " : "a ";
 
-			/* Hack -- handle unknown grids */
-			if (feat == FEAT_NONE) name = "unknown grid";
-
-			/* Pick a prefix */
-			if (*s2 && (feat >= FEAT_DOOR_HEAD)) s2 = "in ";
-
-			/* Pick proper indefinite article */
-			s3 = (is_a_vowel(name[0])) ? "an " : "a ";
-
-			/* Hack -- special introduction for store doors */
-			if ((feat >= FEAT_SHOP_HEAD) && (feat <= FEAT_SHOP_TAIL))
-			{
-				s3 = "the entrance to the ";
-			}
-
-			/* Display a message */
-			if (p_ptr->wizard)
-			{
-				strnfmt(out_val, sizeof(out_val),
-						"%s%s%s%s, %s (%d:%d).", s1, s2, s3, name, coords, y, x);
-			}
-			else
-			{
 				strnfmt(out_val, sizeof(out_val),
 						"%s%s%s%s, %s.", s1, s2, s3, name, coords);
+			} else {
+				const char *name = f_info[feat].name;
+
+				/* Hack -- handle unknown grids */
+				if (feat == FEAT_NONE) name = "unknown grid";
+
+				/* Pick a prefix */
+				if (*s2 && (feat >= FEAT_DOOR_HEAD)) s2 = "in ";
+
+				/* Pick proper indefinite article */
+				s3 = (is_a_vowel(name[0])) ? "an " : "a ";
+
+				/* Hack -- special introduction for store doors */
+				if (feature_isshop(feat))
+				{
+					s3 = "the entrance to the ";
+				}
+
+				/* Display a message */
+				if (p_ptr->wizard)
+				{
+					strnfmt(out_val, sizeof(out_val),
+							"%s%s%s%s, %s (%d:%d).", s1, s2, s3, name, coords, y, x);
+				}
+				else
+				{
+					strnfmt(out_val, sizeof(out_val),
+							"%s%s%s%s, %s.", s1, s2, s3, name, coords);
+				}
 			}
 
 			prt(out_val, 0, 0);
@@ -1163,7 +1146,7 @@ static int draw_path(u16b path_n, u16b *path_g, wchar_t *c, byte *a, int y1, int
 			/* Known objects are yellow. */
 			colour = TERM_YELLOW;
 
-		else if (!cave_floor_bold(y,x) &&
+		else if (!cave_ispassable(cave, y,x) &&
 				 ((cave->info[y][x] & (CAVE_MARK)) || player_can_see_bold(y,x)))
 			/* Known walls are blue. */
 			colour = TERM_BLUE;

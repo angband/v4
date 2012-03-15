@@ -18,12 +18,14 @@
 
 #include "angband.h"
 #include "cave.h"
+#include "cmds.h"
 #include "game-event.h"
 #include "game-cmd.h"
 #include "monster/mon-util.h"
 #include "object/tvalsval.h"
 #include "squelch.h"
-#include "cmds.h"
+#include "trap.h"
+
 
 static int view_n;
 static u16b view_g[VIEW_MAX];
@@ -129,7 +131,7 @@ bool los(int y1, int x1, int y2, int x2)
 		{
 			for (ty = y1 + 1; ty < y2; ty++)
 			{
-				if (!cave_floor_bold(ty, x1)) return (FALSE);
+				if (!cave_ispassable(cave, ty, x1)) return (FALSE);
 			}
 		}
 
@@ -138,7 +140,7 @@ bool los(int y1, int x1, int y2, int x2)
 		{
 			for (ty = y1 - 1; ty > y2; ty--)
 			{
-				if (!cave_floor_bold(ty, x1)) return (FALSE);
+				if (!cave_ispassable(cave, ty, x1)) return (FALSE);
 			}
 		}
 
@@ -154,7 +156,7 @@ bool los(int y1, int x1, int y2, int x2)
 		{
 			for (tx = x1 + 1; tx < x2; tx++)
 			{
-				if (!cave_floor_bold(y1, tx)) return (FALSE);
+				if (!cave_ispassable(cave, y1, tx)) return (FALSE);
 			}
 		}
 
@@ -163,7 +165,7 @@ bool los(int y1, int x1, int y2, int x2)
 		{
 			for (tx = x1 - 1; tx > x2; tx--)
 			{
-				if (!cave_floor_bold(y1, tx)) return (FALSE);
+				if (!cave_ispassable(cave, y1, tx)) return (FALSE);
 			}
 		}
 
@@ -182,7 +184,7 @@ bool los(int y1, int x1, int y2, int x2)
 	{
 		if (ay == 2)
 		{
-			if (cave_floor_bold(y1 + sy, x1)) return (TRUE);
+			if (cave_ispassable(cave, y1 + sy, x1)) return (TRUE);
 		}
 	}
 
@@ -191,7 +193,7 @@ bool los(int y1, int x1, int y2, int x2)
 	{
 		if (ax == 2)
 		{
-			if (cave_floor_bold(y1, x1 + sx)) return (TRUE);
+			if (cave_ispassable(cave, y1, x1 + sx)) return (TRUE);
 		}
 	}
 
@@ -227,7 +229,7 @@ bool los(int y1, int x1, int y2, int x2)
 		/* the LOS exactly meets the corner of a tile. */
 		while (x2 - tx)
 		{
-			if (!cave_floor_bold(ty, tx)) return (FALSE);
+			if (!cave_ispassable(cave, ty, tx)) return (FALSE);
 
 			qy += m;
 
@@ -238,7 +240,7 @@ bool los(int y1, int x1, int y2, int x2)
 			else if (qy > f2)
 			{
 				ty += sy;
-				if (!cave_floor_bold(ty, tx)) return (FALSE);
+				if (!cave_ispassable(cave, ty, tx)) return (FALSE);
 				qy -= f1;
 				tx += sx;
 			}
@@ -274,7 +276,7 @@ bool los(int y1, int x1, int y2, int x2)
 		/* the LOS exactly meets the corner of a tile. */
 		while (y2 - ty)
 		{
-			if (!cave_floor_bold(ty, tx)) return (FALSE);
+			if (!cave_ispassable(cave, ty, tx)) return (FALSE);
 
 			qx += m;
 
@@ -285,7 +287,7 @@ bool los(int y1, int x1, int y2, int x2)
 			else if (qx > f2)
 			{
 				tx += sx;
-				if (!cave_floor_bold(ty, tx)) return (FALSE);
+				if (!cave_ispassable(cave, ty, tx)) return (FALSE);
 				qx -= f1;
 				ty += sy;
 			}
@@ -326,7 +328,8 @@ bool cave_valid_bold(int y, int x)
 	object_type *o_ptr;
 
 	/* Forbid perma-grids */
-	if (cave_perma_bold(y, x)) return (FALSE);
+	if (cave_isperm(cave, y, x) || cave_isshop(cave, y, x) || 
+		cave_isstairs(cave, y, x)) return (FALSE);
 
 	/* Check objects */
 	for (o_ptr = get_first_object(y, x); o_ptr; o_ptr = get_next_object(o_ptr))
@@ -439,22 +442,13 @@ bool dtrap_edge(int y, int x)
 }
 
 
-static bool feat_is_known_trap(int feat) {
-	return feat >= FEAT_TRAP_HEAD && feat <= FEAT_TRAP_TAIL;
-}
-
-static bool feat_is_treasure(int feat) {
-	return feat == FEAT_MAGMA_K || feat == FEAT_QUARTZ_K;
-}
-
-
 /**
  * Apply text lighting effects
  */
 static void grid_get_attr(grid_data *g, byte *a)
 {
 	/* Trap detect edge, but don't colour traps themselves, or treasure */
-	if (g->trapborder && !feat_is_known_trap(g->f_idx) &&
+	if (g->trapborder && !g->trap_idx &&
 			!feat_is_treasure(g->f_idx))
 	{
 		if (g->in_view)
@@ -472,7 +466,7 @@ static void grid_get_attr(grid_data *g, byte *a)
 				*a = TERM_L_DARK;
 		}
 	}
-	else if (g->f_idx > FEAT_INVIS)
+	else if (g->f_idx > FEAT_FLOOR)
 	{
 		if (g->lighting == FEAT_LIGHTING_DARK) {
 			if (*a == TERM_WHITE)
@@ -559,6 +553,12 @@ void grid_data_as_text(grid_data *g, byte *ap, wchar_t *cp, byte *tap, wchar_t *
 		}
 	}
 
+	/* Deal with traps */
+	if (g->trap_idx > 0) {
+		a = cave->traps[g->trap_idx].kind->d_attr;
+		c = cave->traps[g->trap_idx].kind->d_char;
+	}
+	
 	/* If there's a monster */
 	if (g->m_idx > 0) {
 		if (g->hallucinate) {
@@ -777,6 +777,7 @@ void map_info(unsigned y, unsigned x, grid_data *g)
 	g->multiple_objects = FALSE;
 	g->lighting = FEAT_LIGHTING_DARK;
 	g->unseen_object = FALSE;
+	g->trap_idx = 0;
 
 	g->f_idx = cave->feat[y][x];
 	if (f_info[g->f_idx].mimic)
@@ -790,6 +791,9 @@ void map_info(unsigned y, unsigned x, grid_data *g)
 
 	if (g->in_view)
 	{
+		if (cave_isknowntrap(cave, y, x))
+			g->trap_idx = cave->trap[y][x];
+
 		g->lighting = FEAT_LIGHTING_LIT;
 
 		if (!(info & CAVE_GLOW) && OPT(view_yellow_light))
@@ -2462,7 +2466,7 @@ void update_view(void)
 				int sx = fx + j;
 				
 				/* If the monster isn't visible we can only light open tiles */
-				if (!in_los && !cave_floor_bold(sy, sx))
+				if (!in_los && !cave_ispassable(cave, sy, sx))
 					continue;
 
 				/* If the tile is too far away we won't light it */
@@ -2979,7 +2983,7 @@ void wiz_light(void)
 					cave->info[yy][xx] |= (CAVE_GLOW);
 
 					/* Memorize normal features */
-					if (cave->feat[yy][xx] > FEAT_INVIS)
+					if (cave->feat[yy][xx] > FEAT_FLOOR)
 						cave->info[yy][xx] |= (CAVE_MARK);
 				}
 			}
@@ -3051,7 +3055,7 @@ void cave_illuminate(struct cave *c, bool daytime)
 		for (x = 0; x < c->width; x++)
 		{
 			/* Interesting grids */
-			if (c->feat[y][x] > FEAT_INVIS)
+			if (c->feat[y][x] > FEAT_FLOOR)
 			{
 				/* Illuminate the grid */
 				c->info[y][x] |= (CAVE_GLOW);
@@ -3089,9 +3093,7 @@ void cave_illuminate(struct cave *c, bool daytime)
 		for (x = 0; x < c->width; x++)
 		{
 			/* Track shop doorways */
-			if ((c->feat[y][x] >= FEAT_SHOP_HEAD) &&
-			    (c->feat[y][x] <= FEAT_SHOP_TAIL))
-			{
+			if (cave_isshop(c, y, x)) {
 				for (i = 0; i < 8; i++)
 				{
 					int yy = y + ddy_ddd[i];
@@ -3274,7 +3276,7 @@ int project_path(u16b *gp, int range, int y1, int x1, int y2, int x2, int flg)
 			}
 
 			/* Always stop at non-initial wall grids */
-			if ((n > 0) && !cave_floor_bold(y, x)) break;
+			if ((n > 0) && !cave_ispassable(cave, y, x)) break;
 
 			/* Sometimes stop at non-initial monsters/players */
 			if (flg & (PROJECT_STOP))
@@ -3336,7 +3338,7 @@ int project_path(u16b *gp, int range, int y1, int x1, int y2, int x2, int flg)
 			}
 
 			/* Always stop at non-initial wall grids */
-			if ((n > 0) && !cave_floor_bold(y, x)) break;
+			if ((n > 0) && !cave_ispassable(cave, y, x)) break;
 
 			/* Sometimes stop at non-initial monsters/players */
 			if (flg & (PROJECT_STOP))
@@ -3392,7 +3394,7 @@ int project_path(u16b *gp, int range, int y1, int x1, int y2, int x2, int flg)
 			}
 
 			/* Always stop at non-initial wall grids */
-			if ((n > 0) && !cave_floor_bold(y, x)) break;
+			if ((n > 0) && !cave_ispassable(cave, y, x)) break;
 
 			/* Sometimes stop at non-initial monsters/players */
 			if (flg & (PROJECT_STOP))
@@ -3442,7 +3444,7 @@ bool projectable(int y1, int x1, int y2, int x2, int flg)
 	x = GRID_X(grid_g[grid_n-1]);
 
 	/* May not end in a wall grid */
-	if (!cave_floor_bold(y, x)) return (FALSE);
+	if (!cave_ispassable(cave, y, x)) return (FALSE);
 
 	/* May not end in an unrequested grid */
 	if ((y != y2) || (x != x2)) return (FALSE);
@@ -3602,6 +3604,7 @@ struct cave *cave_new(void) {
 	c->info = C_ZNEW(DUNGEON_HGT, byte_256);
 	c->info2 = C_ZNEW(DUNGEON_HGT, byte_256);
 	c->feat = C_ZNEW(DUNGEON_HGT, byte_wid);
+	c->trap = C_ZNEW(DUNGEON_HGT, byte_wid);
 	c->cost = C_ZNEW(DUNGEON_HGT, byte_wid);
 	c->when = C_ZNEW(DUNGEON_HGT, byte_wid);
 	c->m_idx = C_ZNEW(DUNGEON_HGT, s16b_wid);
@@ -3609,6 +3612,8 @@ struct cave *cave_new(void) {
 
 	c->monsters = C_ZNEW(z_info->m_max, struct monster);
 	c->mon_max = 1;
+	c->traps = C_ZNEW(z_info->trap_max, struct trap);
+	c->trap_max = 1;
 
 	c->created_at = 1;
 	return c;
@@ -3618,11 +3623,13 @@ void cave_free(struct cave *c) {
 	mem_free(c->info);
 	mem_free(c->info2);
 	mem_free(c->feat);
+	mem_free(c->trap);
 	mem_free(c->cost);
 	mem_free(c->when);
 	mem_free(c->m_idx);
 	mem_free(c->o_idx);
 	mem_free(c->monsters);
+	mem_free(c->traps);
 	mem_free(c);
 }
 
@@ -3712,6 +3719,13 @@ bool cave_ismineral(struct cave *c, int y, int x) {
 }
 
 /**
+ * True if the square is a mineral wall with treasure (magma/quartz).
+ */
+bool feat_is_treasure(int feat) {
+	return feat == FEAT_MAGMA_K || feat == FEAT_QUARTZ_K;
+}
+
+/**
  * True if the square is rubble.
  */
 bool cave_isrubble(struct cave *c, int y, int x) {
@@ -3774,15 +3788,16 @@ bool cave_isdoor(struct cave *c, int y, int x) {
  * True if the square is an unknown trap (it will appear as a floor tile).
  */
 bool cave_issecrettrap(struct cave *c, int y, int x) {
-    return c->feat[y][x] == FEAT_INVIS;
+	int trap_idx = c->trap[y][x];
+	return (trap_idx > 0 && c->traps[trap_idx].hidden > 0);
 }
 
 /**
  * True if the square is a known trap.
  */
 bool cave_isknowntrap(struct cave *c, int y, int x) {
-	int feat = c->feat[y][x];
-	return feat >= FEAT_TRAP_HEAD && feat <= FEAT_TRAP_TAIL;
+	int trap_idx = c->trap[y][x];
+	return (trap_idx > 0 && c->traps[trap_idx].hidden == 0);
 }
 
 /**
@@ -3792,7 +3807,27 @@ bool cave_istrap(struct cave *c, int y, int x) {
 	return cave_issecrettrap(cave, y, x) || cave_isknowntrap(cave, y, x);
 }
 
+/**
+ * True if the feature is a shop entrance.
+ */
+bool feature_isshop(int feat) {
+	return (feat >= FEAT_SHOP_HEAD && feat <= FEAT_SHOP_TAIL);
+}
 
+/**
+ * True if the square is a shop entrance.
+ */
+bool cave_isshop(struct cave *c, int y, int x) {
+	return feature_isshop(c->feat[y][x]);
+}
+
+/**
+ * True if the square is a set of stairs.
+ */
+bool cave_isstairs(struct cave *c, int y, int x) {
+	int feat = c->feat[y][x];
+	return feat == FEAT_LESS || feat == FEAT_MORE;
+}
 
 /**
  * SQUARE BEHAVIOR PREDICATES
@@ -3835,12 +3870,19 @@ bool cave_isdiggable(struct cave *c, int y, int x) {
 }
 
 /**
+ * True if the feature is passable by the player.
+ */
+bool feat_ispassable(feature_type *f_ptr) {
+	return ff_has(f_ptr->flags, FF_PWALK);
+}
+
+/**
  * True if the square is passable by the player.
  *
  * This function is the logical negation of cave_iswall().
  */
 bool cave_ispassable(struct cave *c, int y, int x) {
-	return !(c->info[y][x] & CAVE_WALL);
+	return feat_ispassable(&f_info[c->feat[y][x]]);
 }
 
 /**
@@ -3882,8 +3924,36 @@ bool cave_isroom(struct cave *c, int y, int x) {
 /**
  * True if cave square is a feeling trigger square 
  */
-bool cave_isfeel(struct cave *c, int y, int x){
+bool cave_isfeel(struct cave *c, int y, int x) {
 	return c->info2[y][x] & CAVE2_FEEL;
+}
+
+/**
+ * True if the feature is "boring".
+ */
+bool feat_isboring(feature_type *f_ptr) {
+	return ff_has(f_ptr->flags, FF_BORING);
+}
+
+/**
+ * True if the cave square is "boring".
+ */
+bool cave_isboring(struct cave *c, int y, int x) {
+	return (feat_isboring(&f_info[c->feat[y][x]]) && !cave_isknowntrap(c, y, x));
+}
+
+/**
+ * Get a trap on the current level by its index.
+ */
+struct trap *cave_trap(struct cave *c, int idx) {
+	return &c->traps[idx];
+}
+
+/**
+ * Get a trap on the current level by its position.
+ */
+struct trap *cave_trap_at(struct cave *c, int y, int x) {
+	return cave_trap(c, c->trap[y][x]);
 }
 
 /**
@@ -3897,7 +3967,7 @@ struct monster *cave_monster(struct cave *c, int idx) {
  * Get a monster on the current level by its position.
  */
 struct monster *cave_monster_at(struct cave *c, int y, int x) {
-	return cave_monster(cave, cave->m_idx[y][x]);
+	return cave_monster(c, c->m_idx[y][x]);
 }
 
 /**

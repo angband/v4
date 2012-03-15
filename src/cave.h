@@ -56,6 +56,7 @@ struct cave {
 	byte (*info)[256];
 	byte (*info2)[256];
 	byte (*feat)[DUNGEON_WID];
+	byte (*trap)[DUNGEON_WID];
 	byte (*cost)[DUNGEON_WID];
 	byte (*when)[DUNGEON_WID];
 	s16b (*m_idx)[DUNGEON_WID];
@@ -64,6 +65,8 @@ struct cave {
 	struct monster *monsters;
 	int mon_max;
 	int mon_cnt;
+	struct trap *traps;
+	int trap_max;
 };
 
 /* XXX: temporary while I refactor */
@@ -92,6 +95,7 @@ extern bool cave_isperm(struct cave *c, int y, int x);
 extern bool cave_ismagma(struct cave *c, int y, int x);
 extern bool cave_isquartz(struct cave *c, int y, int x);
 extern bool cave_ismineral(struct cave *c, int y, int x);
+extern bool feat_is_treasure(int feat);
 extern bool cave_issecretdoor(struct cave *c, int y, int x);
 extern bool cave_isopendoor(struct cave *c, int y, int x);
 extern bool cave_iscloseddoor(struct cave *c, int y, int x);
@@ -101,6 +105,10 @@ extern bool cave_isdoor(struct cave *c, int y, int x);
 extern bool cave_issecrettrap(struct cave *c, int y, int x);
 extern bool cave_isknowntrap(struct cave *c, int y, int x);
 extern bool cave_istrap(struct cave *c, int y, int x);
+extern bool feature_isshop(int feat);
+extern bool cave_isshop(struct cave *c, int y, int x);
+extern bool cave_isstairs(struct cave *c, int y, int x);
+
 
 /* BEHAVIOR PREDICATES */
 extern bool cave_isopen(struct cave *c, int y, int x);
@@ -114,12 +122,16 @@ extern bool cave_isvault(struct cave *c, int y, int x);
 extern bool cave_isroom(struct cave *c, int y, int x);
 extern bool cave_isrubble(struct cave *c, int y, int x);
 extern bool cave_isfeel(struct cave *c, int y, int x);
+extern bool feat_isboring(feature_type *f_ptr);
+extern bool cave_isboring(struct cave *c, int y, int x);
 
 extern void cave_generate(struct cave *c, struct player *p);
 
 extern bool cave_in_bounds(struct cave *c, int y, int x);
 extern bool cave_in_bounds_fully(struct cave *c, int y, int x);
 
+extern struct trap *cave_trap(struct cave *c, int idx);
+extern struct trap *cave_trap_at(struct cave *c, int y, int x);
 extern struct monster *cave_monster(struct cave *c, int idx);
 extern struct monster *cave_monster_at(struct cave *c, int y, int x);
 extern int cave_monster_max(struct cave *c);

@@ -1369,7 +1369,7 @@ int summon_specific(int y1, int x1, int lev, int type, int delay)
 		scatter(&y, &x, y1, x1, d, 0);
 
 		/* Require "empty" floor grid */
-		if (!cave_empty_bold(y, x)) continue;
+		if (!cave_isempty(cave, y, x)) continue;
 
 		/* Hack -- no summon on glyph of warding */
 		if (cave->feat[y][x] == FEAT_GLYPH) continue;
@@ -1453,7 +1453,7 @@ bool multiply_monster(int m_idx)
 		scatter(&y, &x, m_ptr->fy, m_ptr->fx, d, 0);
 
 		/* Require an "empty" floor grid */
-		if (!cave_empty_bold(y, x)) continue;
+		if (!cave_isempty(cave, y, x)) continue;
 
 		/* Create a new monster (awake, no groups) */
 		result = place_new_monster(cave, y, x, m_ptr->r_idx, FALSE, FALSE,
@@ -1516,6 +1516,9 @@ void become_aware(struct monster *m_ptr)
 			/* Delete the mimicked object */
 			delete_object_idx(m_ptr->mimicked_o_idx);
 			m_ptr->mimicked_o_idx = 0;
+		} else {
+			/* Deal with lurkers */
+			msg("You found a monster!");
 		}
 		
 		/* Update monster and item lists */

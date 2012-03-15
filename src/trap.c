@@ -33,83 +33,213 @@ bool trap_check_hit(int power)
 	return mon_test_hit(power, p_ptr->state.ac + p_ptr->state.to_a);
 }
 
-
-/*
- * Hack -- instantiate a trap
+/**
+ * Returns the index of a "free" trap, or 0 if no slot is available.
  *
- * XXX XXX XXX This routine should be redone to reflect trap "level".
- * That is, it does not make sense to have spiked pits at 50 feet.
- * Actually, it is not this routine, but the "trap instantiation"
- * code, which should also check for "trap doors" on quest levels.
+ * This routine should almost never fail, but it *can* happen.
+ * The calling code must check for and handle a 0 return.
  */
-void pick_trap(int y, int x)
+static s16b trap_pop(void)
 {
-	int feat;
+	int idx;
 
-	static const int min_level[] =
-	{
-		2,		/* Trap door */
-		2,		/* Open pit */
-		2,		/* Spiked pit */
-		2,		/* Poison pit */
-		3,		/* Summoning rune */
-		1,		/* Teleport rune */
-		2,		/* Fire rune */
-		2,		/* Acid rune */
-		2,		/* Slow rune */
-		6,		/* Strength dart */
-		6,		/* Dexterity dart */
-		6,		/* Constitution dart */
-		2,		/* Gas blind */
-		1,		/* Gas confuse */
-		2,		/* Gas poison */
-		2,		/* Gas sleep */
-	};
+	/* Normal allocation */
+	if (cave->trap_max < z_info->tr_max) {
+		/* Get the next hole */
+		idx = cave->trap_max;
 
-	/* Paranoia */
-	if (cave->feat[y][x] != FEAT_INVIS) return;
+		/* Expand the array */
+		cave->trap_max++;
 
-	/* Pick a trap */
-	while (1)
-	{
-		/* Hack -- pick a trap */
-		feat = FEAT_TRAP_HEAD + randint0(16);
-
-		/* Check against minimum depth */
-		if (min_level[feat - FEAT_TRAP_HEAD] > p_ptr->depth) continue;
-
-		/* Hack -- no trap doors on quest levels */
-		if ((feat == FEAT_TRAP_HEAD + 0x00) && is_quest(p_ptr->depth)) continue;
-
-		/* Hack -- no trap doors on the deepest level */
-		if ((feat == FEAT_TRAP_HEAD + 0x00) && (p_ptr->depth >= MAX_DEPTH-1)) continue;
-
-		/* Done */
-		break;
+		return idx;
 	}
 
-	/* Activate the trap */
-	cave_set_feat(cave, y, x, feat);
+	/* Warn the player if no index is available 
+	 * (except during dungeon creation)
+	 */
+	if (character_dungeon)
+		msg("Too many traps!");
+
+	/* Try not to crash */
+	return 0;
 }
 
-/* Places a trap. All traps are untyped until discovered. */
-void place_trap(struct cave *c, int y, int x)
-{
-	assert(cave_in_bounds(c, y, x));
-	assert(cave_isempty(c, y, x));
-
-	/* Place an invisible trap */
-	cave_set_feat(c, y, x, FEAT_INVIS);
+/** 
+ * Pick a level-appropriate trap.
+ */
+int get_trap_num(int level) {
+	int trap_count, trap_idx, i;
+	
+	trap_count = 0;
+	trap_idx = 0;
+	
+	for (i = 1; i <= z_info->trap_max; i++) {
+		if (trap_info[i].min_level <= level && trap_info[i].max_level >= level) {
+			trap_count++;
+			if (one_in_(trap_count))
+				trap_idx = i;
+		}
+	}
+	
+	return trap_idx;
 }
 
-/* Create a trap during play. All traps are untyped until discovered. */
-void create_trap(struct cave *c, int y, int x)
-{
-	assert(cave_in_bounds(c, y, x));
-	assert(cave_empty_bold(y, x));
+/**
+ * Place the given trap in the dungeon.
+ */
+void place_trap(struct cave *c, struct trap *t_ptr) {
+	int idx;
+	int y = t_ptr->y;
+	int x = t_ptr->x;
+	
+	struct trap *n_ptr;
+	
+	/* Get a new record */
+	idx = trap_pop();
+	if (!idx) return;
 
-	/* Place an invisible trap */
-	cave_set_feat(c, y, x, FEAT_INVIS);
+	/* Notify cave of the new trap */
+	c->trap[y][x] = idx;
+
+	/* Copy the trap */
+	n_ptr = &c->traps[idx];
+	COPY(n_ptr, t_ptr, trap_type);
+	
+	if (character_dungeon) {
+		cave_note_spot(c, y, x);
+		cave_light_spot(c, y, x);
+	}	
+}
+
+/**
+ * Pick a level-appropriate trap and put it in the dungeon.
+ */
+void pick_and_place_trap(struct cave *c, int y, int x) {
+	int trap_idx, hidden;
+	struct trap *t_ptr;
+	struct trap trap_body;
+	
+	assert(cave_in_bounds(c, y, x));
+
+	/* Remove this when we can have trapped doors etc. */
+	assert(cave_isfloor(c, y, x));
+	assert(c->feat[y][x] == FEAT_FLOOR);
+	
+	/* There is already a trap here */
+	if (c->trap[y][x] > 0) return;
+
+	/* Pick a trap */
+	trap_idx = get_trap_num(p_ptr->depth);
+	
+	/* No valid traps */
+	if (!trap_idx) return;
+
+	/* Create a trap of the given type */
+	t_ptr = &trap_body;
+	(void)WIPE(t_ptr, trap_type);
+	
+	/* Fill out defaults */
+	t_ptr->kind = &trap_info[trap_idx];
+	t_ptr->x = x;
+	t_ptr->y = y;
+	
+	/* Use trap kind's hidden value +/- 5 */
+	hidden = trap_info[trap_idx].hidden;
+	if (hidden == 0) {
+		/* Special case -- hidden = 0 means never hidden */
+		t_ptr->hidden = 0;
+	} else {
+		t_ptr->hidden = hidden + randint1(11) - 6;
+	}
+
+	place_trap(c, t_ptr);
+}
+
+void reveal_trap(struct cave *c, int y, int x) {
+	struct trap *t_ptr;
+
+	assert(c->trap[y][x] > 0);
+	
+	t_ptr = cave_trap_at(c, y, x);
+	t_ptr->hidden = 0;
+	
+	cave_light_spot(c, y, x);
+}
+
+/**
+ * Move a trap from index i1 to index i2 in the trap list.
+ */
+static void compact_traps_aux(int i1, int i2)
+{
+	int y, x;
+
+	trap_type *t_ptr;
+
+	/* Do nothing */
+	if (i1 == i2) return;
+
+	/* Old trap */
+	t_ptr = cave_trap(cave, i1);
+	y = t_ptr->y;
+	x = t_ptr->x;
+
+	/* Update the cave */
+	cave->trap[y][x] = i2;
+	
+	/* Hack -- move monster */
+	COPY(cave_trap(cave, i2), cave_trap(cave, i1), struct trap);
+
+	/* Hack -- wipe hole */
+	(void)WIPE(cave_trap(cave, i1), trap_type);
+}
+
+/**
+ * Compacts and reorders the trap list.
+ */
+void compact_traps()
+{
+	int t_idx;
+
+	/* Excise disarmed traps (backwards!) */
+	for (t_idx = cave->trap_max - 1; t_idx >= 1; t_idx--) {
+		trap_type *t_ptr = cave_trap(cave, t_idx);
+
+		/* Skip real traps */
+		if (t_ptr->x && t_ptr->y) continue;
+
+		/* Move last trap into open hole */
+		compact_traps_aux(cave->trap_max - 1, t_idx);
+
+		/* Compress "cave->mon_max" */
+		cave->trap_max--;
+	}
+}
+
+void wipe_trap_list(struct cave *c) {
+	int t_idx;
+
+	for (t_idx = cave->trap_max - 1; t_idx >= 1; t_idx--) {
+		trap_type *t_ptr = cave_trap(cave, t_idx);
+
+		(void)WIPE(t_ptr, trap_type);
+	}
+
+	/* Reset "cave->trap_max" */
+	cave->trap_max = 1;
+}
+
+
+void remove_trap(struct cave *c, int y, int x) {
+	struct trap *t_ptr = cave_trap_at(c, y, x);
+
+	c->trap[y][x] = 0;
+
+	/* Wipe the Monster */
+	(void)WIPE(t_ptr, trap_type);
+
+	if (character_dungeon) {
+		cave_light_spot(c, y, x);
+	}
 }
 
 /*
@@ -118,11 +248,12 @@ void create_trap(struct cave *c, int y, int x)
 void hit_trap(int y, int x)
 {
 	bool ident;
-	struct feature *trap = &f_info[cave->feat[y][x]];
+	struct trap *t_ptr = cave_trap_at(cave, y, x);
 
 	/* Disturb the player */
 	disturb(p_ptr, 0, 0);
 
 	/* Run the effect */
-	effect_do(trap->effect, &ident, FALSE, 0, 0, 0);
+	effect_do(t_ptr->kind->effect, &ident, FALSE, 0, 0, 0);
 }
+

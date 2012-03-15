@@ -812,7 +812,7 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 				skills[i].skill == SKILL_SEARCH)
 		{
 			if (skill < 0) skill = 0;
-			if (skill > 100) skill = 100;
+			// if (skill > 100) skill = 100;
 			panel[i].fmt = "%y%%";
 			panel[i].value[0] = i2u(skill);
 			panel[i].color = colour_table[skill / 10];

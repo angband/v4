@@ -497,7 +497,7 @@ void process_command(cmd_context ctx, bool no_request)
 					int n_closed_doors, n_locked_chests;
 			
 					n_closed_doors = count_feats(&y, &x, cave_iscloseddoor, FALSE);
-					n_locked_chests = count_chests(&y, &x, FALSE);
+					n_locked_chests = count_chests(&y, &x);
 			
 					if (n_closed_doors + n_locked_chests == 1)
 						cmd_set_arg_direction(cmd, 0, coords_to_dir(y, x));
@@ -527,12 +527,11 @@ void process_command(cmd_context ctx, bool no_request)
 						cmd->arg[0].direction == DIR_UNKNOWN))
 				{
 					int y, x;
-					int n_visible_traps, n_trapped_chests;
+					int n_visible_traps;
 			
 					n_visible_traps = count_feats(&y, &x, cave_isknowntrap, TRUE);
-					n_trapped_chests = count_chests(&y, &x, TRUE);
 
-					if (n_visible_traps + n_trapped_chests == 1)
+					if (n_visible_traps == 1)
 						cmd_set_arg_direction(cmd, 0, coords_to_dir(y, x));
 				}
 
