@@ -12,7 +12,7 @@
 # T: template name
 # G: symbol 
 # C: color
-# I: speed : hit points : vision : armor class : alertness
+# I: speed : hit points : vision : evasion : absorption : alertness
 # W: depth : rarity : unused (always 0) : experience for kill
 # B: attack method : attack effect : damage
 # S: spell frequency
@@ -168,7 +168,7 @@ C:w
 N:1:Filthy street urchin
 T:townsfolk
 C:D
-I:110:3:4:5:1:40
+I:110:3:4:5:0:40
 W:0:2:0:0
 B:BEG
 B:TOUCH:EAT_GOLD
@@ -179,7 +179,7 @@ D:He looks squalid and thoroughly revolting.
 N:2:Scrawny cat
 T:feline
 C:U
-I:110:2:30:0:1:10
+I:110:2:30:0:0:10
 W:0:3:0:0
 B:CLAW:HURT:1d1
 F:RAND_25
@@ -188,7 +188,7 @@ D:A skinny little furball with sharp claws and a menacing look.
 N:3:Scruffy little dog
 T:canine
 C:U
-I:110:2:20:0:1:5
+I:110:2:20:0:0:5
 W:0:3:0:0
 B:BITE:HURT:1d1
 F:RAND_25
@@ -197,7 +197,7 @@ D:A thin flea-ridden mutt, growling as you get close.
 N:4:Farmer Maggot
 T:humanoid
 C:w
-I:110:350:40:0:1:3
+I:110:350:40:0:0:3
 W:0:4:0:0
 B:MOAN
 B:MOAN
@@ -209,7 +209,7 @@ D:He's lost his dogs.  He's had his mushrooms stolen.  He's not a happy hobbit!
 N:5:Blubbering idiot
 T:townsfolk
 C:W
-I:110:2:6:0:1:50
+I:110:2:6:0:0:50
 W:0:1:0:0
 B:DROOL
 F:MALE
@@ -219,7 +219,7 @@ D:He tends to blubber a lot.
 N:6:Boil-covered wretch
 T:townsfolk
 C:g
-I:110:2:6:0:1:50
+I:110:2:6:0:0:50
 W:0:1:0:0
 B:DROOL
 F:MALE
@@ -229,7 +229,7 @@ D:Ugly doesn't begin to describe him.
 N:7:Village idiot
 T:townsfolk
 C:G
-I:120:10:6:0:1:50
+I:120:10:6:0:0:50
 W:0:1:0:0
 B:DROOL
 F:MALE
@@ -239,7 +239,7 @@ D:Drooling and comical, but then, what do you expect?
 N:8:Pitiful-looking beggar
 T:townsfolk
 C:U
-I:110:3:10:0:1:40
+I:110:3:10:0:0:40
 W:0:1:0:0
 B:BEG
 F:MALE
@@ -249,7 +249,7 @@ D:You just can't help feeling sorry for him.
 N:9:Mangy-looking leper
 T:townsfolk
 C:u
-I:110:1:10:0:1:50
+I:110:1:10:0:0:50
 W:0:1:0:0
 B:BEG
 F:MALE
@@ -259,7 +259,7 @@ D:You feel it isn't safe to touch him.
 N:10:Squint-eyed rogue
 T:townsfolk
 C:b
-I:110:9:10:0:1:99
+I:110:9:10:0:0:99
 W:0:1:0:0
 B:HIT:HURT:1d6
 B:TOUCH:EAT_ITEM
@@ -271,7 +271,7 @@ D:A hardy, street-wise crook that knows an easy catch when it sees one.
 N:11:Singing, happy drunk
 T:townsfolk
 C:y
-I:110:4:10:0:1:0
+I:110:4:10:0:0:0
 W:0:1:0:0
 B:BEG
 F:MALE | HAS_LIGHT
@@ -282,7 +282,7 @@ D:He makes you glad to be sober.
 N:12:Aimless-looking merchant
 T:townsfolk
 C:o
-I:110:6:10:0:1:255
+I:110:6:10:0:0:255
 W:0:1:0:0
 B:HIT:HURT:1d3
 F:MALE | HAS_LIGHT
@@ -294,7 +294,7 @@ D: amulets of adornment to buy.
 N:13:Mean-looking mercenary
 T:townsfolk
 C:r
-I:110:23:10:0:3:250
+I:110:23:10:0:2:250
 W:0:1:0:0
 B:HIT:HURT:1d10
 F:MALE | EVIL | HAS_LIGHT
@@ -305,7 +305,7 @@ D:No job is too low for him.
 N:14:Battle-scarred veteran
 T:townsfolk
 C:B
-I:110:32:10:0:4:250
+I:110:32:10:0:3:250
 W:0:1:0:0
 B:HIT:HURT:2d6
 F:MALE | HAS_LIGHT
@@ -318,7 +318,7 @@ D:He doesn't take to strangers kindly.
 N:15:Grey mold
 T:mold
 C:s
-I:110:2:2:-25:1:0
+I:110:2:2:-25:0:0
 W:1:1:0:3
 B:SPORE:HURT:1d4
 B:SPORE:HURT:1d4
@@ -328,7 +328,7 @@ D:A small strange grey growth.
 N:16:Grey mushroom patch
 T:mushroom
 C:s
-I:110:2:2:-25:1:0
+I:110:2:2:-25:0:0
 W:1:1:0:1
 B:SPORE:CONFUSE:1d4
 F:IM_POIS | NEVER_MOVE
@@ -337,7 +337,7 @@ D:Yum!  It looks quite tasty.
 N:17:Giant yellow centipede
 T:centipede
 C:y
-I:110:7:8:0:2:30
+I:110:7:8:0:1:30
 W:1:1:0:2
 B:BITE:HURT:1d3
 B:STING:HURT:1d3
@@ -346,7 +346,7 @@ D:It is about four feet long and carnivorous.
 N:18:Giant white centipede
 T:centipede
 C:w
-I:110:9:7:0:2:40
+I:110:9:7:0:1:40
 W:1:1:0:2
 B:BITE:HURT:1d2
 B:STING:HURT:1d2
@@ -356,7 +356,7 @@ D:It is about four feet long and carnivorous.
 N:19:White icky thing
 T:icky thing
 C:w
-I:110:6:12:0:2:10
+I:110:6:12:0:1:10
 W:1:1:0:1
 B:TOUCH:HURT:1d2
 F:EMPTY_MIND
@@ -366,7 +366,7 @@ D:It is a smallish, slimy, icky creature.
 N:20:Clear icky thing
 T:icky thing
 C:w
-I:110:6:12:0:1:10
+I:110:6:12:0:0:10
 W:1:1:0:2
 B:TOUCH:HURT:1d2
 F:INVISIBLE | EMPTY_MIND
@@ -377,7 +377,7 @@ D:It is a smallish, slimy, icky, blobby creature.
 N:21:Giant white mouse
 T:rodent
 C:w
-I:110:2:8:0:1:20
+I:110:2:8:0:0:20
 W:1:1:0:1
 B:BITE:HURT:1d2
 F:MULTIPLY
@@ -387,7 +387,7 @@ D:It is about three feet long with large teeth.
 N:22:Large brown snake
 T:snake
 C:u
-I:100:14:4:-10:3:99
+I:100:14:4:-10:2:99
 W:1:1:0:3
 B:BITE:HURT:1d3
 B:CRUSH:HURT:1d4
@@ -397,7 +397,7 @@ D:It is about eight feet long.
 N:23:Large white snake
 T:snake
 C:w
-I:100:11:4:-10:3:99
+I:100:11:4:-10:2:99
 W:1:1:0:2
 B:BITE:HURT:1d1
 B:CRUSH:HURT:1d1
@@ -407,7 +407,7 @@ D:It is about eight feet long.
 N:24:Small kobold
 T:kobold
 C:y
-I:110:8:20:0:1:70
+I:110:8:20:0:0:70
 W:1:1:0:5
 B:HIT:HURT:1d5
 F:DROP_60
@@ -416,7 +416,7 @@ D:It is a squat and ugly humanoid figure with a canine face.
 N:26:White worm mass
 T:worm
 C:w
-I:100:10:7:-10:1:14
+I:100:10:7:-10:0:14
 W:1:1:0:2
 B:CRAWL:POISON:1d2
 F:WEIRD_MIND | MULTIPLY | STUPID
@@ -427,7 +427,7 @@ D:It is a large slimy mass of worms.
 N:27:Floating eye
 T:eye
 C:o
-I:110:11:2:-25:1:10
+I:110:11:2:-25:0:10
 W:1:1:0:1
 B:GAZE:PARALYZE
 F:NEVER_MOVE
@@ -437,7 +437,7 @@ D:A disembodied eye, floating a few feet above the ground.
 N:28:Rock lizard
 T:reptile
 C:U
-I:110:8:20:0:1:15
+I:110:8:20:0:0:15
 W:1:1:0:2
 B:BITE:HURT:1d1
 D:It is a small lizard with a hardened hide.
@@ -445,7 +445,7 @@ D:It is a small lizard with a hardened hide.
 N:29:Jackal
 T:canine
 C:U
-I:110:3:10:0:1:10
+I:110:3:10:0:0:10
 W:1:1:0:1
 B:BITE:HURT:1d1
 F:FRIENDS
@@ -454,7 +454,7 @@ D:It is a yapping snarling dog, dangerous when in a pack.
 N:30:Soldier ant
 T:ant
 C:W
-I:110:6:10:0:2:40
+I:110:6:10:0:1:40
 W:1:1:0:3
 B:BITE:HURT:1d2
 D:A large ant with powerful mandibles.
@@ -462,7 +462,7 @@ D:A large ant with powerful mandibles.
 N:31:Fruit bat
 T:bat
 C:o
-I:120:4:20:-5:1:10
+I:120:4:20:-5:0:10
 W:1:1:0:1
 B:BITE:HURT:1d1
 D:A fast-moving pest.
@@ -472,7 +472,7 @@ D:A fast-moving pest.
 N:25:Kobold
 T:kobold
 C:G
-I:110:12:20:0:2:70
+I:110:12:20:0:1:70
 W:2:1:0:5
 B:HIT:HURT:1d8
 F:DROP_60
@@ -481,7 +481,7 @@ D:It is a small, dog-headed humanoid.
 N:32:Shrieker mushroom patch
 T:mushroom
 C:R
-I:110:1:4:-25:1:0
+I:110:1:4:-25:0:0
 W:2:1:0:1
 F:NEVER_BLOW | NEVER_MOVE
 F:IM_POIS
@@ -493,7 +493,7 @@ D:Yum!  It looks quite tasty.  It doesn't sound so nice, though...
 N:33:Blubbering icky thing
 T:icky thing
 C:W
-I:110:18:14:0:2:10
+I:110:18:14:0:1:10
 W:2:1:0:8
 B:CRAWL:POISON:1d4
 B:CRAWL:EAT_FOOD
@@ -505,7 +505,7 @@ D:It is a smallish, slimy, icky, hungry creature.
 N:34:Metallic green centipede
 T:centipede
 C:g
-I:120:10:5:0:2:10
+I:120:10:5:0:1:10
 W:2:1:0:3
 B:CRAWL:HURT:1d1
 F:RAND_50 | BASH_DOOR
@@ -514,7 +514,7 @@ D:It is about four feet long and carnivorous.
 N:36:Cutpurse
 T:person
 C:b
-I:110:20:20:5:1:10
+I:110:20:20:5:0:10
 W:2:1:0:6
 B:HIT:HURT:1d6
 B:TOUCH:EAT_GOLD
@@ -526,7 +526,7 @@ D:A rather shifty individual.
 N:38:Apprentice
 T:person
 C:r
-I:110:15:20:0:2:15
+I:110:15:20:0:1:15
 W:2:1:0:6
 B:HIT:HURT:1d4
 F:MALE | HAS_LIGHT | FRIEND
@@ -540,7 +540,7 @@ D:He is leaving behind a trail of dropped spell components.
 N:39:Yellow mushroom patch
 T:mushroom
 C:y
-I:110:1:2:-25:1:0
+I:110:1:2:-25:0:0
 W:2:1:0:2
 B:SPORE:TERRIFY:1d6
 F:NEVER_MOVE
@@ -550,7 +550,7 @@ D:Yum!  It looks quite tasty.
 N:40:White jelly
 T:jelly
 C:w
-I:120:36:2:-25:2:99
+I:120:36:2:-25:1:99
 W:2:1:0:10
 B:TOUCH:POISON:1d2
 F:NEVER_MOVE
@@ -560,7 +560,7 @@ D:It's a large pile of white flesh.
 N:41:Giant green frog
 T:reptile
 C:g
-I:110:9:12:0:1:30
+I:110:9:12:0:0:30
 W:2:1:0:6
 B:BITE:HURT:1d3
 F:RAND_25 | BASH_DOOR
@@ -569,7 +569,7 @@ D:It is as big as a wolf.
 N:42:Giant black ant
 T:ant
 C:D
-I:110:11:8:0:3:80
+I:110:11:8:0:2:80
 W:2:1:0:8
 B:BITE:HURT:1d4
 F:RAND_25
@@ -2212,6 +2212,57 @@ S:1_IN_12
 S:BR_ACID | BR_COLD | BR_ELEC | BR_FIRE | BR_POIS
 D:This hatchling dragon is still soft, its eyes unaccustomed to light and its
 D: scales shimmering with hints of many different colours.
+
+N:617:Baby law drake
+T:dragon
+C:B
+I:110:114:20:0:1:70
+W:13:2:0:55
+B:CLAW:HURT:1d4
+B:CLAW:HURT:1d4
+B:BITE:HURT:1d6
+F:DROP_40 | DROP_1 | ONLY_GOLD
+F:OPEN_DOOR | BASH_DOOR
+F:NO_CONF | NO_SLEEP
+F:ATTR_FLICKER
+S:1_IN_12
+S:BR_SOUN | BR_SHAR
+D:This youthful drake is still coming into its power. Its eyes are filled with
+D: cunning and its scales shimmer in colors of silver.
+
+N:618:Baby chaos drake
+T:dragon
+C:v
+I:110:114:20:0:1:70
+W:13:2:0:55
+B:CLAW:HURT:1d4
+B:CLAW:HURT:1d4
+B:BITE:HURT:1d6
+F:DROP_40 | DROP_1 | ONLY_GOLD
+F:OPEN_DOOR | BASH_DOOR
+F:RES_DISE | NO_CONF | NO_SLEEP
+F:ATTR_MULTI
+S:1_IN_12
+S:BR_CHAO | BR_DISE
+D:This small dragon can't seem to decide what form it should take, continually 
+D:shifting between a series of varicolored lizardlike shapes. 
+
+N:619:Baby balance drake
+T:dragon
+C:v
+I:110:114:20:0:1:70
+W:13:2:0:65
+B:CLAW:HURT:1d6
+B:CLAW:HURT:1d6
+B:BITE:HURT:1d8
+F:DROP_40 | DROP_1 | ONLY_GOLD
+F:OPEN_DOOR | BASH_DOOR
+F:RES_DISE | NO_CONF | NO_SLEEP
+S:1_IN_12
+S:BR_CHAO | BR_DISE | BR_SHAR | BR_SOUN
+D:Small, but showing the promise of power to come, this small dragon is 
+D:driven to maintain the balance between good and evil which you are 
+D:seeking to disrupt. 
 
 N:171:Drider
 T:spider
@@ -9576,5 +9627,4 @@ D: defiance as he strides towards you to crush you to a pulp!
 drop-artifact:'Grond'
 drop-artifact:of Morgoth
 
-
-# Max is currently N:616
+# Max is currently N:619
