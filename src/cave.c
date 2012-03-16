@@ -3857,7 +3857,8 @@ bool cave_isempty(struct cave *c, int y, int x) {
  * True if the square is a floor square without items.
  */
 bool cave_canputitem(struct cave *c, int y, int x) {
-	return cave_isfloor(c, y, x) && !c->o_idx[y][x];
+	return cave_isfloor(c, y, x) && !cave_isknowntrap(c, y, x) && 
+		!c->o_idx[y][x];
 }
 
 /**
