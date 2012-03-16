@@ -956,15 +956,15 @@ int critical_norm(player_state state, const object_type *o_ptr, int dam,
 	/* Calculate the chance of a critical hit */
 	switch (dam_aspect) {
 		case MAXIMISE: case EXTREMIFY:
-			chance = 100;
+			chance = 50;
 			break;
 		case AVERAGE: case RANDOMISE:
 	    /* Scale the chance by an arbitrary value to get it to somewhere in the
     	 * 1-100 range. Check to avoid div/0 */
 		    chance = mod_finesse * mod_finesse + mod_prowess * mod_prowess;
     		chance = chance / 5000 + 1;
-			if (chance > 99)
-				chance = 99;
+			if (chance > 50)
+				chance = 50;
 			if (dam_aspect == AVERAGE)
 				return dam + (o_ptr->ds + 1) * chance / (2 * (100 - chance));
 			break;
@@ -980,7 +980,6 @@ int critical_norm(player_state state, const object_type *o_ptr, int dam,
     while (randint0(100) <= chance) {
         power++;
 		dam += damcalc(1, o_ptr->ds, dam_aspect);
-		chance = (19 * chance) / 20;
 	}
 
 	if (power > 5)
