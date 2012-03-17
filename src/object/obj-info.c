@@ -541,10 +541,10 @@ static bool describe_damage(textblock *tb, const object_type *o_ptr,
 		if (total_dam <= 0)
 			textblock_append_c(tb, TERM_L_RED, "%d", 0);
 		else if (total_dam % 10)
-			textblock_append_c(tb, TERM_L_GREEN, "%d.%d", total_dam / 10,
-				total_dam % 10);
+			textblock_append_c(tb, TERM_L_GREEN, "%d.%d (%d.%d)" , total_dam / 10,
+				total_dam % 10, dam / 10, dam % 10);
 		else
-			textblock_append_c(tb, TERM_L_GREEN, "%d", total_dam / 10);
+			textblock_append_c(tb, TERM_L_GREEN, "%d (%d)", total_dam / 10, dam / 10);
 
 		textblock_append(tb, " vs. %s", s_ptr->desc);
 		cnt++;

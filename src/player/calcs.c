@@ -1978,7 +1978,7 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Affect Skill -- searching (WIS and INT) */
 	state->skills[SKILL_SEARCH] += state->stat_ind[A_WIS] / 2 + 
 		state->stat_ind[A_INT] / 2;
-	if (p_ptr->searching) state->skills[SKILL_SEARCH] += 20;
+	if (p_ptr->searching) state->skills[SKILL_SEARCH] += 10;
 
 	/* Apply Skill -- Extract noise from stealth */
 	state->noise = (1L << (30 - state->skills[SKILL_STEALTH]));
