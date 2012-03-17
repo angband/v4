@@ -1293,7 +1293,7 @@ static bool do_cmd_bash_test(int y, int x)
  */
 static bool do_cmd_bash_aux(int y, int x)
 {
-	int bash, temp;
+	int bash, door_power, chance;
 
 	bool more = FALSE;
 
@@ -1310,16 +1310,16 @@ static bool do_cmd_bash_aux(int y, int x)
 	bash = adj_str_blow[p_ptr->state.stat_ind[A_STR]];
 
 	/* Extract door power */
-	temp = ((cave->feat[y][x] - FEAT_DOOR_HEAD) & 0x07);
+	door_power = ((cave->feat[y][x] - FEAT_DOOR_HEAD) & 0x07);
 
 	/* Compare bash power to door power */
-	temp = (bash - (temp * 10));
+	chance = (bash - (door_power * 10));
 
 	/* Hack -- always have a chance */
-	if (temp < 1) temp = 1;
+	if (chance < 1) chance = 1;
 
 	/* Hack -- attempt to bash down the door */
-	if (randint0(100) < temp)
+	if (randint0(100) < chance)
 	{
 		/* Break down the door */
 		if (randint0(100) < 50)
@@ -1339,23 +1339,32 @@ static bool do_cmd_bash_aux(int y, int x)
 		p_ptr->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 	}
 
-	/* Saving throw against stun */
-	else if (randint0(100) < adj_dex_safe[p_ptr->state.stat_ind[A_DEX]] +
-	         p_ptr->lev) {
-		msg("The door holds firm.");
-
-		/* Allow repeated bashing */
-		more = TRUE;
-	}
-
-	/* Low dexterity has bad consequences */
 	else {
-		msg("You are off-balance.");
+        /* Hack: Have a chance of reducing the door strength to make 
+         * future attempts more likely to succeed. Only if the door is 
+         * not already at minimum strength. */
+        if (door_power > 1 && randint0(20) < bash) {
+            /* Reduce the power of the door */
+            cave_set_feat(cave, y, x, cave->feat[y][x] - 1);
+            msg("The door creaks.");
+        }
+        
+        /* Saving throw against stun */
+        if (randint0(100) < adj_dex_safe[p_ptr->state.stat_ind[A_DEX]] +
+                 p_ptr->lev) {
+            /* Allow repeated bashing */
+            more = TRUE;
+        }
 
-		/* Lose balance ala stun */
-		(void)player_inc_timed(p_ptr, TMD_STUN, 2 + randint0(2), TRUE, FALSE);
-	}
+        /* Low dexterity has bad consequences */
+        else {
+            msg("You are off-balance.");
 
+            /* Lose balance ala stun */
+            (void)player_inc_timed(p_ptr, TMD_STUN, 2 + randint0(2), TRUE, FALSE);
+        }
+    }
+    
 	/* Result */
 	return more;
 }
