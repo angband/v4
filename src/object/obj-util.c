@@ -2037,7 +2037,7 @@ void drop_near(struct cave *c, object_type *j_ptr, int chance, int y, int x, boo
 			if (!los(y, x, ty, tx)) continue;
 
 			/* Require floor space */
-			if (!cave_isfloor(c, ty, tx) || cave_isknowntrap(c, ty, tx)) continue;
+			if (!cave_isfloor(c, ty, tx)) continue;
 
 			/* No objects */
 			k = 0;

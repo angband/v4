@@ -943,7 +943,7 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 		}
 
 		/* Terrain feature if needed */
-		if (boring || (feat > FEAT_FLOOR))
+		if (boring || (feat > FEAT_FLOOR) || cave_isknowntrap(cave, y, x))
 		{
 			/* Handle traps */
 			if (cave_isknowntrap(cave, y, x)) {
