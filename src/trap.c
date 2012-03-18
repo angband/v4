@@ -112,10 +112,29 @@ void place_trap(struct cave *c, struct trap *t_ptr) {
 }
 
 /**
+ * Returns a depth-appropriate modifer to the base hiddenness rating of a trap
+ */
+int trap_hide_modifier(int level) {
+
+	if (level < 36) {
+		/* Pre statgain */
+		return level / 2;
+	} else if (level < 72) {
+		/* During statgain -- we assume +1 INT or WIS every level. */
+		return (level / 2) + (level - 36) / 2;
+	} else {
+		/* Post statgain */
+		return (level / 2) + 18;
+	}
+	
+}
+
+/**
  * Pick a level-appropriate trap and put it in the dungeon.
  */
 void pick_and_place_trap(struct cave *c, int y, int x) {
 	int trap_idx, hidden;
+	int level = p_ptr->depth;
 	struct trap *t_ptr;
 	struct trap trap_body;
 	
@@ -123,13 +142,12 @@ void pick_and_place_trap(struct cave *c, int y, int x) {
 
 	/* Remove this when we can have trapped doors etc. */
 	assert(cave_isfloor(c, y, x));
-	assert(c->feat[y][x] == FEAT_FLOOR);
 	
 	/* There is already a trap here */
 	if (c->trap[y][x] > 0) return;
 
 	/* Pick a trap */
-	trap_idx = get_trap_num(p_ptr->depth);
+	trap_idx = get_trap_num(level);
 	
 	/* No valid traps */
 	if (!trap_idx) return;
@@ -143,13 +161,12 @@ void pick_and_place_trap(struct cave *c, int y, int x) {
 	t_ptr->x = x;
 	t_ptr->y = y;
 	
-	/* Use trap kind's hidden value +/- 5 */
 	hidden = trap_info[trap_idx].hidden;
 	if (hidden == 0) {
 		/* Special case -- hidden = 0 means never hidden */
 		t_ptr->hidden = 0;
 	} else {
-		t_ptr->hidden = hidden + randint1(11) - 6;
+		t_ptr->hidden = trap_hide_modifier(level) + Rand_normal(hidden, 3);
 	}
 
 	place_trap(c, t_ptr);

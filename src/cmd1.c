@@ -52,6 +52,10 @@ bool search(bool verbose, int radius)
 	/* Start with base search ability */
 	skill = p_ptr->state.skills[SKILL_SEARCH];
 
+	/* Boost skill if player used (s)earch and isn't in (S)earching mode */
+	if (verbose && !p_ptr->searching)
+		skill += 10;
+	
 	/* Penalize various conditions */
 	if (p_ptr->timed[TMD_BLIND] || no_light()) skill = skill / 10;
 	if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE]) skill = skill / 10;

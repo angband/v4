@@ -20,17 +20,24 @@
 # 'G' is for graphics - symbol, color, and display priority.
 # There are 16 colors, as follows:
 
+# D - Dark Gray    w - White          s - Gray          o - Orange
+# r - Red          g - Green          b - Blue          u - Brown
+# d - Black        W - Light Gray     v - Violet        y - Yellow
+# R - Light Red    G - Light Green    B - Light Blue    U - Light Brown
+
+# s: pits
+# B: summoning
+# o: teleport
+# u: acid/flame jet
+# r: dart
+# g: gas
+
 # 'A' is for allocation. This trap can only be generated between min level
 # and max level.
 
 # 'I' is for information. 'hidden' is how hidden the trap is. A value of 0
 # indicates that the trap is not hidden at all. Otherwise the trap starts
 # out hidden.
-
-# D - Dark Gray    w - White          s - Gray          o - Orange
-# r - Red          g - Green          b - Blue          u - Brown
-# d - Black        W - Light Gray     v - Violet        y - Yellow
-# R - Light Red    G - Light Green    B - Light Blue    U - Light Brown
 
 # 'E' is for entry effects.  See list-effects.h.
 
@@ -45,138 +52,155 @@ N:0:(nothing)
 N:1:pit
 G:^:s
 A:1:10
-I:35:0
+I:30
 E:TRAP_PIT
 
 N:2:pit
 G:^:s
 A:6:15
-I:38:0
+I:30
 E:TRAP_PIT_SPIKES
 
 N:3:pit
 G:^:s
 A:11:20
-I:40:0
+I:30
 E:TRAP_PIT_POISON
 
 N:4:rune of summoning
 G:^:B
 A:6:25
-I:0:1
+I:0
 E:TRAP_RUNE_SUMMON
 
 N:5:rune of summoning
 G:^:B
 A:26:50
-I:0:1
+I:0
 E:TRAP_RUNE_SUMMON2
 
 N:6:rune of summoning
 G:^:B
 A:51:128
-I:0:1
+I:0
 E:TRAP_RUNE_SUMMON3
 
 N:7:rune of teleportation
 G:^:o
 A:1:10
-I:0:1
+I:0
 E:TRAP_RUNE_PHASE
 
 N:8:rune of teleportation
 G:^:o
 A:11:25
-I:0:1
+I:0
 E:TRAP_RUNE_TELEPORT
 
 N:9:rune of teleportation
 G:^:o
 A:26:128
-I:0:1
+I:0
 E:TRAP_RUNE_TELEPORT2
 
 N:10:flame jet
 G:^:u
 A:6:20
-I:38
+I:30
 E:TRAP_SPOT_FIRE
 
 N:11:flame jet
 G:^:u
 A:21:40
-I:45
+I:30
 E:TRAP_SPOT_FIRE2
 
 N:12:flame jet
 G:^:u
 A:41:60
-I:55
+I:30
 E:TRAP_SPOT_FIRE3
 
 N:13:acid jet
 G:^:u
 A:6:20
-I:38
+I:30
 E:TRAP_SPOT_ACID
 
 N:14:acid jet
 G:^:u
 A:21:40
-I:45
+I:30
 E:TRAP_SPOT_ACID2
 
 N:15:acid jet
 G:^:u
 A:41:60
-I:55
+I:30
 E:TRAP_SPOT_ACID3
 
 N:16:dart trap
 G:^:r
 A:50:128
-I:50
+I:20
 E:TRAP_DART_SLOW
 
 N:17:dart trap
 G:^:r
 A:10:35
-I:50
+I:40
 E:TRAP_DART_LOSE_STR
 
 N:18:dart trap
 G:^:r
 A:10:35
-I:50
+I:40
 E:TRAP_DART_LOSE_DEX
 
 N:19:dart trap
 G:^:r
 A:10:35
-I:50
+I:40
 E:TRAP_DART_LOSE_CON
 
 N:20:gas trap
 G:^:g
-A:6:25
-I:28
+A:0:25
+I:20
 E:TRAP_GAS_BLIND
 
 N:21:gas trap
 G:^:g
 A:16:35
-I:33
+I:20
 E:TRAP_GAS_CONFUSE
 
 N:22:gas trap
 G:^:g
 A:6:25
-I:48
+I:40
 E:TRAP_GAS_POISON
 
 N:23:gas trap
 G:^:g
 A:26:45
-I:38
+I:20
 E:TRAP_GAS_SLEEP
 
+N:24:alarm
+G:^:y
+A:1:127
+I:40
+E:ANNOY_MON
+
+N:25:trap spawner
+G:^:y
+A:1:127
+I:40
+E:CREATE_TRAP
+
+N:26:earthquake trap
+G:^:U
+A:61:127
+I:30
+E:TRAP_EARTHQUAKE

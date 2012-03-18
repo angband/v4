@@ -808,12 +808,17 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 		s16b skill = p_ptr->state.skills[skills[i].skill];
 		panel[i].color = TERM_L_BLUE;
 		panel[i].label = skills[i].name;
-		if (skills[i].skill == SKILL_SAVE ||
-				skills[i].skill == SKILL_SEARCH)
+		if (skills[i].skill == SKILL_SAVE)
 		{
 			if (skill < 0) skill = 0;
 			// if (skill > 100) skill = 100;
 			panel[i].fmt = "%y%%";
+			panel[i].value[0] = i2u(skill);
+			panel[i].color = colour_table[skill / 10];
+		}
+		else if (skills[i].skill == SKILL_SEARCH) {
+			if (skill < 0) skill = 0;
+			panel[i].fmt = "%y";
 			panel[i].value[0] = i2u(skill);
 			panel[i].color = colour_table[skill / 10];
 		}
