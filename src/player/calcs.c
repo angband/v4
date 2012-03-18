@@ -963,8 +963,8 @@ int critical_norm(player_state state, const object_type *o_ptr, int dam,
     	 * 1-100 range. Check to avoid div/0 */
 		    chance = mod_finesse * mod_finesse + mod_prowess * mod_prowess;
     		chance = chance / 5000 + 1;
-			if (chance > 99)
-				chance = 99;
+			if (chance > 50)
+				chance = 50;
 			if (dam_aspect == AVERAGE)
 				return dam + (o_ptr->ds + 1) * chance / (2 * (100 - chance));
 			break;
@@ -980,7 +980,6 @@ int critical_norm(player_state state, const object_type *o_ptr, int dam,
     while (randint0(100) <= chance) {
         power++;
 		dam += damcalc(1, o_ptr->ds, dam_aspect);
-		chance = (19 * chance) / 20;
 	}
 
 	if (power > 5)
@@ -1508,7 +1507,6 @@ int calc_multiplier(const object_type *o_ptr, player_state *state)
  *    have consistent logic for all attacks)
  * \param msg_type is the message to use (CC: this should go in the master
  *    message refactor - see #1502)
- * \param info is whether this is an actual attack or an info call
  * \param aspect is whether we want average, random, maximum etc.
  */
 int calc_damage(const object_type *o_ptr, player_state state, int slay_index,
@@ -1520,15 +1518,15 @@ int calc_damage(const object_type *o_ptr, player_state state, int slay_index,
 	int base_dam = damcalc(o_ptr->dd, o_ptr->ds, dam_aspect);
 
 	/* Check for critical hits */
-	dam = critical_norm(state, o_ptr, base_dam, attack_type, msg_type,
+	base_dam = critical_norm(state, o_ptr, base_dam, attack_type, msg_type,
 		dam_aspect);
 
 	/* Adjust for prowess and heft, and multiply by 10 */
-	dam = (dam * state.dam_multiplier) / 10;
+	dam = (base_dam * state.dam_multiplier) / 10;
 
 	/* Adjust for the best applicable slay (also x10) */
 	if (slay_index)
-		dam += base_dam * (100 + state.slay_mult[slay_index]) / 10;
+		dam += base_dam * state.slay_mult[slay_index] / 10;
 
 	return dam;
 }
