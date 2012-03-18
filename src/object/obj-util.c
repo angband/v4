@@ -4013,7 +4013,7 @@ void display_itemlist(void)
 		if (!seen[i])
 			/* unknown object */
 			attr = TERM_RED;
-		else if (o_ptr->artifact && object_is_known(o_ptr))
+		else if (object_is_known_artifact(o_ptr))
 			/* known artifact */
 			attr = TERM_VIOLET;
 		else if (!object_flavor_is_aware(o_ptr))

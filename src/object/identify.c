@@ -50,7 +50,7 @@ bool easy_know(const object_type *o_ptr)
 bool object_is_known(const object_type *o_ptr)
 {
 	return (o_ptr->ident & IDENT_KNOWN) || easy_know(o_ptr) ||
-			(o_ptr->ident & IDENT_STORE);
+		(o_ptr->ident & IDENT_STORE);
 }
 
 /**
@@ -59,7 +59,9 @@ bool object_is_known(const object_type *o_ptr)
 bool object_is_known_artifact(const object_type *o_ptr)
 {
 	return (o_ptr->ident & IDENT_INDESTRUCT) ||
-			(o_ptr->artifact && object_was_sensed(o_ptr));
+		(o_ptr->artifact && object_was_sensed(o_ptr)) ||
+		((o_ptr->tval == TV_MAGIC_BOOK) && of_has(o_ptr->flags, OF_INSTA_ART)) ||
+		((o_ptr->tval == TV_PRAYER_BOOK) && of_has(o_ptr->flags, OF_INSTA_ART));
 }
 
 /**
