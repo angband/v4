@@ -956,7 +956,7 @@ int critical_norm(player_state state, const object_type *o_ptr, int dam,
 	/* Calculate the chance of a critical hit */
 	switch (dam_aspect) {
 		case MAXIMISE: case EXTREMIFY:
-			chance = 100;
+			chance = 50;
 			break;
 		case AVERAGE: case RANDOMISE:
 	    /* Scale the chance by an arbitrary value to get it to somewhere in the
@@ -1977,7 +1977,7 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Affect Skill -- searching (WIS and INT) */
 	state->skills[SKILL_SEARCH] += state->stat_ind[A_WIS] / 2 + 
 		state->stat_ind[A_INT] / 2;
-	if (p_ptr->searching) state->skills[SKILL_SEARCH] += 20;
+	if (p_ptr->searching) state->skills[SKILL_SEARCH] += 10;
 
 	/* Apply Skill -- Extract noise from stealth */
 	state->noise = (1L << (30 - state->skills[SKILL_STEALTH]));

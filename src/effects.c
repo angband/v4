@@ -2236,6 +2236,13 @@ bool effect_do(effect_type effect, bool *ident, bool aware, int dir, int beam,
 			return TRUE;
 		}
 
+		case EF_TRAP_EARTHQUAKE:
+		{
+			msg("You hear a deep rumbling.");
+			earthquake(py, px, 5);
+			*ident = TRUE;
+			return TRUE;
+		}
 
 		case EF_XXX:
 		case EF_MAX:

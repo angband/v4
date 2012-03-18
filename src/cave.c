@@ -555,8 +555,15 @@ void grid_data_as_text(grid_data *g, byte *ap, wchar_t *cp, byte *tap, wchar_t *
 
 	/* Deal with traps */
 	if (g->trap_idx > 0) {
-		a = cave->traps[g->trap_idx].kind->d_attr;
-		c = cave->traps[g->trap_idx].kind->d_char;
+		/* Deal with items on top of traps */
+		if (g->first_kind) {
+			/* Use the "pile" feature and color it red */
+			a = TERM_RED;
+			c = object_kind_char(&k_info[0]);
+		} else {
+			a = cave->traps[g->trap_idx].kind->d_attr;
+			c = cave->traps[g->trap_idx].kind->d_char;
+		}
 	}
 	
 	/* If there's a monster */
@@ -803,7 +810,10 @@ void map_info(unsigned y, unsigned x, grid_data *g)
 	{
 		g->f_idx = FEAT_NONE;
 	}
-
+	else if (cave_isknowntrap(cave, y, x))
+	{
+		g->trap_idx = cave->trap[y][x];
+	}
 
 	/* Objects */
 	for (o_ptr = get_first_object(y, x); o_ptr; o_ptr = get_next_object(o_ptr))

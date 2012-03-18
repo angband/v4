@@ -593,6 +593,10 @@ static bool run_test(void)
 			/* Visible object */
 			if (o_ptr->marked && !squelch_item_ok(o_ptr)) return (TRUE);
 		}
+		
+		/* Visible traps abort running */
+		if (cave_isknowntrap(cave, row, col))
+			return (TRUE);
 
 
 		/* Assume unknown */
