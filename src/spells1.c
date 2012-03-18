@@ -1002,64 +1002,63 @@ bool apply_disenchant(int mode)
 	o_ptr = &p_ptr->inventory[t];
 
 	/* No item, nothing happens */
-	if (!o_ptr->kind) return (FALSE);
+	if (!o_ptr->kind)
+		return FALSE;
 
 
 	/* Nothing to disenchant */
-	if ((o_ptr->to_finesse <= 0) && (o_ptr->to_prowess <= 0) && (o_ptr->to_a <= 0))
-	{
+	if ((o_ptr->to_finesse <= 0) && (o_ptr->to_prowess <= 0) &&
+			(o_ptr->to_a <= 0))	{
 		/* Nothing to notice */
-		return (FALSE);
+		return FALSE;
 	}
-
 
 	/* Describe the object */
 	object_desc(o_name, sizeof(o_name), o_ptr, ODESC_BASE);
 
-
 	/* Artifacts have 60% chance to resist */
-	if (o_ptr->artifact && (randint0(100) < 60))
-	{
+	if (o_ptr->artifact && (randint0(100) < 60)) {
 		/* Message */
-		msg("Your %s (%c) resist%s disenchantment!",
-		           o_name, index_to_label(t),
-		           ((o_ptr->number != 1) ? "" : "s"));
+		msg("Your %s (%c) resist%s disenchantment!", o_name, index_to_label(t),
+			((o_ptr->number != 1) ? "" : "s"));
 
 		/* Notice */
-		return (TRUE);
+		return TRUE;
 	}
 
 	/* Apply disenchantment, depending on which kind of equipment */
-	if (t == INVEN_WIELD || t == INVEN_BOW)
-	{
+	if (t == INVEN_WIELD || t == INVEN_BOW)	{
 		/* Disenchant to-hit */
-		if (o_ptr->to_finesse > 0) o_ptr->to_finesse--;
-		if ((o_ptr->to_finesse > 5) && (randint0(100) < 20)) o_ptr->to_finesse--;
+		if (o_ptr->to_finesse > 0)
+			o_ptr->to_finesse -= randint1(10);
+		if ((o_ptr->to_finesse > 50) && (randint0(100) < 20))
+			o_ptr->to_finesse -= randint1(10);
 
 		/* Disenchant to-dam */
-		if (o_ptr->to_prowess > 0) o_ptr->to_prowess--;
-		if ((o_ptr->to_prowess > 5) && (randint0(100) < 20)) o_ptr->to_prowess--;
-	}
-	else
-	{
+		if (o_ptr->to_prowess > 0)
+			o_ptr->to_prowess -= randint1(10);
+		if ((o_ptr->to_prowess > 50) && (randint0(100) < 20))
+			o_ptr->to_prowess -= randint1(10);
+	} else {
 		/* Disenchant to-ac */
-		if (o_ptr->to_a > 0) o_ptr->to_a--;
-		if ((o_ptr->to_a > 5) && (randint0(100) < 20)) o_ptr->to_a--;
+		if (o_ptr->to_a > 0)
+			o_ptr->to_a--;
+		if ((o_ptr->to_a > 5) && (randint0(100) < 20))
+			o_ptr->to_a--;
 	}
 
 	/* Message */
-	msg("Your %s (%c) %s disenchanted!",
-	           o_name, index_to_label(t),
-	           ((o_ptr->number != 1) ? "were" : "was"));
+	msg("Your %s (%c) %s disenchanted!", o_name, index_to_label(t),
+		((o_ptr->number != 1) ? "were" : "was"));
 
 	/* Recalculate bonuses */
-	p_ptr->update |= (PU_BONUS);
+	p_ptr->update |= PU_BONUS;
 
 	/* Window stuff */
-	p_ptr->redraw |= (PR_EQUIP);
+	p_ptr->redraw |= PR_EQUIP;
 
 	/* Notice */
-	return (TRUE);
+	return TRUE;
 }
 
 
