@@ -94,6 +94,9 @@ void place_trap(struct cave *c, struct trap *t_ptr) {
 	
 	struct trap *n_ptr;
 	
+	/* Make sure there's not already a trap here */
+	assert(c->trap[y][x] == 0);
+	
 	/* Get a new record */
 	idx = trap_pop();
 	if (!idx) return;
@@ -143,8 +146,8 @@ void pick_and_place_trap(struct cave *c, int y, int x) {
 	/* Remove this when we can have trapped doors etc. */
 	assert(cave_isfloor(c, y, x));
 	
-	/* There is already a trap here */
-	if (c->trap[y][x] > 0) return;
+	/* Make sure there's not already a trap here */
+	assert(c->trap[y][x] == 0);
 
 	/* Pick a trap */
 	trap_idx = get_trap_num(level);
