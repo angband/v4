@@ -2267,6 +2267,11 @@ void earthquake(int cy, int cx, int r)
 
 			/* Skip unaffected grids */
 			if (!map[16+yy-cy][16+xx-cx]) continue;
+			
+			/* Remove traps */
+			if (cave_istrap(cave, yy, xx)) {
+				remove_trap(cave, yy, xx);
+			}
 
 			/* Process monsters */
 			if (cave->m_idx[yy][xx] > 0)

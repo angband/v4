@@ -254,7 +254,7 @@ void remove_trap(struct cave *c, int y, int x) {
 
 	c->trap[y][x] = 0;
 
-	/* Wipe the Monster */
+	/* Wipe the trap */
 	(void)WIPE(t_ptr, trap_type);
 
 	if (character_dungeon) {
