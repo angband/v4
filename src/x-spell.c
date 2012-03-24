@@ -523,7 +523,6 @@ static bool cast_mage_spell(int spell, int dir)
 
 		case SPELL_FIND_TRAPS_DOORS:
 		{
-			(void)detect_traps(TRUE);
 			(void)detect_doorstairs(TRUE);
 			break;
 		}
@@ -934,7 +933,6 @@ static bool cast_priest_spell(int spell, int dir)
 
 		case PRAYER_FIND_TRAPS_DOORS:
 		{
-			(void)detect_traps(TRUE);
 			(void)detect_doorstairs(TRUE);
 			break;
 		}
