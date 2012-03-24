@@ -84,11 +84,12 @@ bool search(bool verbose, int radius)
 					const char* name = cave_trap_at(cave, y, x)->kind->name;
 					found = TRUE;
 
-					/* Pick a trap */
 					reveal_trap(cave, y, x);
 
-					/* Message */
-					msg("You have found a %s.", name);
+					if (is_a_vowel(name[0]))
+						msg("You have found an %s.", name);
+					else
+						msg("You have found a %s.", name);
 
 					/* Disturb */
 					disturb(p_ptr, 0, 0);
