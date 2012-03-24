@@ -114,7 +114,7 @@ bool search(bool verbose, int radius)
 			/* Look for mimics */
 			m_ptr = cave_monster_at(cave, y, x);
 			if (m_ptr && m_ptr->unaware) {
-				if (skill >= 45 + r_info[m_ptr->r_idx].level / 2) {
+				if (skill >= 40 + trap_hide_modifier(r_info[m_ptr->r_idx].level)) {
 					found = TRUE;
 				
 					become_aware(m_ptr);
