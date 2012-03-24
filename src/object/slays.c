@@ -33,7 +33,7 @@ const struct slay slay_table[] =
 /**
  * Cache of slay values (for object_power)
  */
-#define SLAY_CACHE_SIZE	257
+#define SLAY_CACHE_SIZE	513
 static struct flag_cache **slay_cache;
 
 
