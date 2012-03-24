@@ -553,17 +553,18 @@ bool detect_traps(bool aware)
 
 
 	/* Scan the dungeon */
-	for (y = y1; y < y2; y++)
+	for (y = 1; y < cave->height; y++)
 	{
-		for (x = x1; x < x2; x++)
+		for (x = 1; x < cave->width; x++)
 		{
-			if (!in_bounds_fully(y, x)) continue;
+			/* Paranoia */
+			if (!cave_in_bounds_fully(cave, y, x)) continue;
 
-			/* Detect invisible traps */
+			/* Reveal invisible traps */
 			if (cave_issecrettrap(cave, y, x))
 				reveal_trap(cave, y, x);
 
-			/* Detect traps */
+			/* Show traps */
 			if (cave_isknowntrap(cave, y, x))
 			{
 				/* Hack -- Memorize */
@@ -1120,7 +1121,6 @@ bool detect_all(bool aware)
 	bool detect = FALSE;
 
 	/* Detect everything */
-	if (detect_traps(aware)) detect = TRUE;
 	if (detect_doorstairs(aware)) detect = TRUE;
 	if (detect_treasure(aware, FALSE)) detect = TRUE;
 	if (detect_monsters_invis(aware)) detect = TRUE;
@@ -2267,6 +2267,11 @@ void earthquake(int cy, int cx, int r)
 
 			/* Skip unaffected grids */
 			if (!map[16+yy-cy][16+xx-cx]) continue;
+			
+			/* Remove traps */
+			if (cave_istrap(cave, yy, xx)) {
+				remove_trap(cave, yy, xx);
+			}
 
 			/* Process monsters */
 			if (cave->m_idx[yy][xx] > 0)

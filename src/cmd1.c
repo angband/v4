@@ -84,11 +84,12 @@ bool search(bool verbose, int radius)
 					const char* name = cave_trap_at(cave, y, x)->kind->name;
 					found = TRUE;
 
-					/* Pick a trap */
 					reveal_trap(cave, y, x);
 
-					/* Message */
-					msg("You have found a %s.", name);
+					if (is_a_vowel(name[0]))
+						msg("You have found an %s.", name);
+					else
+						msg("You have found a %s.", name);
 
 					/* Disturb */
 					disturb(p_ptr, 0, 0);
@@ -112,15 +113,16 @@ bool search(bool verbose, int radius)
 			}
 
 			/* Look for mimics */
-			m_ptr = cave_monster_at(cave, y, x);
-			if (m_ptr && m_ptr->unaware) {
-				if (skill >= 45 + r_info[m_ptr->r_idx].level / 2) {
-					found = TRUE;
-				
-					become_aware(m_ptr);
-				
-					/* Disturb */
-					disturb(p_ptr, 0, 0);
+			if (cave->m_idx[y][x] > 0) {
+				m_ptr = cave_monster_at(cave, y, x);
+				if (m_ptr && m_ptr->unaware) {
+					if (skill >= 40 + trap_hide_modifier(r_info[m_ptr->r_idx].level)) {
+						found = TRUE;
+					
+						become_aware(m_ptr);
+					
+						disturb(p_ptr, 0, 0);
+					}
 				}
 			}
 		}
@@ -552,7 +554,7 @@ void move_player(int dir, bool disarm)
 	int m_idx = cave->m_idx[y][x];
 	struct monster *m_ptr = cave_monster(cave, m_idx);
 	
-	int tripchance;
+	int evade_chance;
 
 	/* Attack monsters */
 	if (m_idx > 0) {
@@ -673,45 +675,28 @@ void move_player(int dir, bool disarm)
 		}
 
 
-		/* Discover invisible traps */
-		if (cave_issecrettrap(cave, y, x))
-		{
-			/* Disturb */
+		/* Hit traps (known or unknown */
+		if (cave_istrap(cave, y, x)) {
 			disturb(p_ptr, 0, 0);
-
-			/* Message */
-			msg("You found a trap!");
-
-			/* Reveal the trap */
-			reveal_trap(cave, y, x);
-
-			tripchance = 30 + 2 * p_ptr->state.stat_ind[A_DEX];
-			if (p_ptr->timed[TMD_BLIND] || no_light()) 
-				tripchance = tripchance / 5;
-			if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE])
-				tripchance = tripchance / 5;
+			
+			if (cave_issecrettrap(cave, y, x)) {
+				msg("You found a trap!");
+				reveal_trap(cave, y, x);
 				
-			/* Hit or avoid the trap */
-			if (randint0(100) <= tripchance)
-				msg("You nimbly evaded a trap!");
-			else
-				hit_trap(y, x);
-		}
-
-		/* Set off a visible trap */
-		else if (cave_isknowntrap(cave, y, x))
-		{
-			/* Disturb */
-			disturb(p_ptr, 0, 0);
-
-			tripchance = 30 + 3 * p_ptr->state.stat_ind[A_DEX];
+				evade_chance = 2 * p_ptr->state.stat_ind[A_DEX];
+			} else {
+				/* Visible traps are easier to evade */
+				evade_chance = 3 * p_ptr->state.stat_ind[A_DEX];
+			}
+			
+			/* Penalize certain conditions */
 			if (p_ptr->timed[TMD_BLIND] || no_light()) 
-				tripchance = tripchance / 5;
+				evade_chance = evade_chance / 5;
 			if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE])
-				tripchance = tripchance / 5;
-				
+				evade_chance = evade_chance / 5;
+
 			/* Hit or avoid the trap */
-			if (randint0(100) <= tripchance)
+			if (randint0(100) <= evade_chance)
 				msg("You nimbly evaded a trap!");
 			else
 				hit_trap(y, x);
