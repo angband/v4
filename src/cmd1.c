@@ -113,15 +113,16 @@ bool search(bool verbose, int radius)
 			}
 
 			/* Look for mimics */
-			m_ptr = cave_monster_at(cave, y, x);
-			if (m_ptr && m_ptr->unaware) {
-				if (skill >= 40 + trap_hide_modifier(r_info[m_ptr->r_idx].level)) {
-					found = TRUE;
-				
-					become_aware(m_ptr);
-				
-					/* Disturb */
-					disturb(p_ptr, 0, 0);
+			if (cave->m_idx[y][x] > 0) {
+				m_ptr = cave_monster_at(cave, y, x);
+				if (m_ptr && m_ptr->unaware) {
+					if (skill >= 40 + trap_hide_modifier(r_info[m_ptr->r_idx].level)) {
+						found = TRUE;
+					
+						become_aware(m_ptr);
+					
+						disturb(p_ptr, 0, 0);
+					}
 				}
 			}
 		}
