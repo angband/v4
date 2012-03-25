@@ -50,7 +50,7 @@ I:1:polearm:Broad Axe
 I:1:polearm:Battle Axe
 I:1:polearm:Lance
 I:1:polearm:Lucerne Hammer
-I:1:hafted:Whip
+I:1:hafted:Club
 I:1:bow:Sling
 I:1:bow:Short Bow
 I:1:bow:Long Bow
@@ -63,12 +63,12 @@ I:2:bolt:Bolt
 S:4:24
 I:1:hafted:Whip
 I:1:hafted:Quarterstaff
-I:2:hafted:Mace
+I:1:hafted:Mace
 I:1:hafted:Ball-and-Chain
 I:1:hafted:War Hammer
 I:1:hafted:Morning Star
 I:2:hafted:Flail
-I:1:hafted:Lead-Filled Mace
+I:2:hafted:Club
 I:1:scroll:Remove Curse
 I:1:scroll:Blessing
 I:1:scroll:Holy Chant
