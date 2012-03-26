@@ -135,9 +135,8 @@ int trap_hide_modifier(int level) {
 /**
  * Pick a level-appropriate trap and put it in the dungeon.
  */
-void pick_and_place_trap(struct cave *c, int y, int x) {
+void pick_and_place_trap(struct cave *c, int y, int x, int level) {
 	int trap_idx, hidden;
-	int level = p_ptr->depth;
 	struct trap *t_ptr;
 	struct trap trap_body;
 	

@@ -2004,7 +2004,7 @@ void do_cmd_debug(void)
 			else if (p_ptr->depth == 0)
 				msg("You can't place a trap in the town!");
 			else
-				pick_and_place_trap(cave, p_ptr->py, p_ptr->px);
+				pick_and_place_trap(cave, p_ptr->py, p_ptr->px, cave->depth);
 			break;
 		}
 
