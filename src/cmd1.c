@@ -677,10 +677,16 @@ void move_player(int dir, bool disarm)
 
 		/* Hit traps (known or unknown */
 		if (cave_istrap(cave, y, x)) {
+			const char* name = cave_trap_at(cave, y, x)->kind->name;
+
 			disturb(p_ptr, 0, 0);
 			
 			if (cave_issecrettrap(cave, y, x)) {
-				msg("You found a trap!");
+				if (is_a_vowel(name[0]))
+					msg("You have found an %s.", name);
+				else
+					msg("You have found a %s.", name);
+
 				reveal_trap(cave, y, x);
 				
 				evade_chance = 2 * p_ptr->state.stat_ind[A_DEX];
@@ -697,7 +703,7 @@ void move_player(int dir, bool disarm)
 
 			/* Hit or avoid the trap */
 			if (randint0(100) <= evade_chance)
-				msg("You nimbly evaded a trap!");
+				msg("You avoided triggering the %s!", name);
 			else
 				hit_trap(y, x);
 		}

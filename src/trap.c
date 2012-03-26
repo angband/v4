@@ -44,7 +44,7 @@ static s16b trap_pop(void)
 	int idx;
 
 	/* Normal allocation */
-	if (cave->trap_max < z_info->tr_max) {
+	if (cave->trap_max < z_info->trap_max) {
 		/* Get the next hole */
 		idx = cave->trap_max;
 
@@ -73,14 +73,14 @@ int get_trap_num(int level) {
 	trap_count = 0;
 	trap_idx = 0;
 	
-	for (i = 1; i <= z_info->trap_max; i++) {
+	for (i = 1; i < z_info->trap_kind_max; i++) {
 		if (trap_info[i].min_level <= level && trap_info[i].max_level >= level) {
 			trap_count++;
 			if (one_in_(trap_count))
 				trap_idx = i;
 		}
 	}
-	
+
 	return trap_idx;
 }
 
@@ -135,9 +135,8 @@ int trap_hide_modifier(int level) {
 /**
  * Pick a level-appropriate trap and put it in the dungeon.
  */
-void pick_and_place_trap(struct cave *c, int y, int x) {
+void pick_and_place_trap(struct cave *c, int y, int x, int level) {
 	int trap_idx, hidden;
-	int level = p_ptr->depth;
 	struct trap *t_ptr;
 	struct trap trap_body;
 	

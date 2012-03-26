@@ -3357,7 +3357,7 @@ int rd_traps(void)
 	rd_u16b(&limit);
 
 	/* Hack -- verify */
-	if (limit > z_info->tr_max)
+	if (limit > z_info->trap_max)
 	{
 		note(format("Too many (%d) trap entries!", limit));
 		return (-1);
