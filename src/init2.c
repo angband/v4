@@ -251,7 +251,7 @@ static enum parser_error parse_z(struct parser *p) {
 	else if (streq(label, "I"))
 		z->pit_max = value;
 	else if (streq(label, "TR"))
-		z->tr_max = value;
+		z->trap_max = value;
 	else
 		return PARSE_ERROR_UNDEFINED_DIRECTIVE;
 
@@ -1378,16 +1378,16 @@ static errr finish_parse_trap(struct parser *p) {
 	struct trap_kind *t, *n;
 
 	/* scan the list for the max id */
-	z_info->trap_max = 0;
+	z_info->trap_kind_max = 0;
 	t = parser_priv(p);
 	while (t) {
-		if (t->idx > z_info->trap_max)
-			z_info->trap_max = t->idx;
+		if (t->idx > z_info->trap_kind_max)
+			z_info->trap_kind_max = t->idx;
 		t = t->next;
 	}
 
 	/* allocate the direct access list and copy the data to it */
-	trap_info = mem_zalloc((z_info->trap_max+1) * sizeof(*t));
+	trap_info = mem_zalloc((z_info->trap_kind_max+1) * sizeof(*t));
 	for (t = parser_priv(p); t; t = n) {
 		memcpy(&trap_info[t->idx], t, sizeof(*t));
 		n = t->next;
@@ -1397,7 +1397,7 @@ static errr finish_parse_trap(struct parser *p) {
 			trap_info[t->idx].next = NULL;
 		mem_free(t);
 	}
-	z_info->trap_max += 1;
+	z_info->trap_kind_max += 1;
 
 	parser_destroy(p);
 	return 0;
@@ -1405,7 +1405,7 @@ static errr finish_parse_trap(struct parser *p) {
 
 static void cleanup_trap(void) {
 	int idx;
-	for (idx = 0; idx < z_info->trap_max; idx++) {
+	for (idx = 0; idx < z_info->trap_kind_max; idx++) {
 		string_free(trap_info[idx].name);
 	}
 	mem_free(trap_info);

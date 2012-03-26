@@ -54,7 +54,7 @@ typedef struct color_type color_type;
 typedef struct maxima
 {
 	u16b f_max;     /**< Maximum number of terrain features */
-	u16b trap_max;	/**< Maximum number of trap kinds */
+	u16b trap_kind_max;	/**< Maximum number of trap kinds */
 	u16b k_max;     /**< Maximum number of object base kinds */
 	u16b a_max;     /**< Maximum number of artifact kinds */
 	u16b e_max;     /**< Maximum number of ego-item affixes */
@@ -66,7 +66,7 @@ typedef struct maxima
 
 	u16b o_max;     /**< Maximum number of objects on a given level */
 	u16b m_max;     /**< Maximum number of monsters on a given level */
-	u16b tr_max;	/**< Maximum number of traps on a given level */
+	u16b trap_max;	/**< Maximum number of traps on a given level */
 } maxima;
 
 
