@@ -73,14 +73,14 @@ int get_trap_num(int level) {
 	trap_count = 0;
 	trap_idx = 0;
 	
-	for (i = 1; i <= z_info->trap_kind_max; i++) {
+	for (i = 1; i < z_info->trap_kind_max; i++) {
 		if (trap_info[i].min_level <= level && trap_info[i].max_level >= level) {
 			trap_count++;
 			if (one_in_(trap_count))
 				trap_idx = i;
 		}
 	}
-	
+
 	return trap_idx;
 }
 

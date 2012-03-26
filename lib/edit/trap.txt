@@ -165,7 +165,7 @@ E:TRAP_DART_LOSE_CON
 
 N:20:gas trap
 G:^:g
-A:0:25
+A:1:25
 I:20
 E:TRAP_GAS_BLIND
 
