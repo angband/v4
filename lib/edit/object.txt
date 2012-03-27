@@ -2269,13 +2269,13 @@ F:EASY_KNOW
 E:RESTORE_EXP
 
 
-### Gain one/lose one potions ###
+### Temp stat boost potions ###
 
 N:333:Brawn
 G:!:d
 I:75:24
-W:3:0:4:1000
-A:30:20 to 40
+W:3:0:4:100
+A:30:15 to 50
 M:10:2
 F:EASY_KNOW
 E:BRAWN
@@ -2283,8 +2283,8 @@ E:BRAWN
 N:334:Intellect
 G:!:d
 I:75:25
-W:20:0:4:1000
-A:30:20 to 40
+W:20:0:4:100
+A:30:15 to 50
 M:10:2
 F:EASY_KNOW
 E:INTELLECT
@@ -2292,8 +2292,8 @@ E:INTELLECT
 N:335:Contemplation
 G:!:d
 I:75:26
-W:20:0:4:1000
-A:30:20 to 40
+W:20:0:4:100
+A:30:15 to 50
 M:10:2
 F:EASY_KNOW
 E:CONTEMPLATION
@@ -2301,8 +2301,8 @@ E:CONTEMPLATION
 N:336:Nimbleness
 G:!:d
 I:75:27
-W:5:0:4:1000
-A:30:20 to 40
+W:5:0:4:100
+A:30:15 to 50
 M:10:2
 F:EASY_KNOW
 E:NIMBLENESS
@@ -2310,8 +2310,8 @@ E:NIMBLENESS
 N:337:Toughness
 G:!:d
 I:75:28
-W:10:0:4:1000
-A:30:20 to 40
+W:10:0:4:100
+A:30:15 to 50
 M:10:2
 F:EASY_KNOW
 E:TOUGHNESS

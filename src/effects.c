@@ -424,90 +424,15 @@ bool effect_do(effect_type effect, bool *ident, bool aware, int dir, int beam,
 		}
 
 		case EF_BRAWN:
-		{
-			/* Pick a random stat to decrease other than strength */
-			int stat = randint0(A_MAX-1) + 1;
-
-			if (do_dec_stat(stat, TRUE))
-			{
-				do_inc_stat(A_STR);
-				*ident = TRUE;
-			}
-
-			return TRUE;
-		}
-
 		case EF_INTELLECT:
-		{
-			/* Pick a random stat to decrease other than intelligence */
-			int stat = randint0(A_MAX-1);
-			if (stat >= A_INT) stat++;
-
-			if (do_dec_stat(stat, TRUE))
-			{
-				do_inc_stat(A_INT);
-				*ident = TRUE;
-			}
-
-			return TRUE;
-		}
-
 		case EF_CONTEMPLATION:
-		{
-			/* Pick a random stat to decrease other than wisdom */
-			int stat = randint0(A_MAX-1);
-			if (stat >= A_WIS) stat++;
-
-			if (do_dec_stat(stat, TRUE))
-			{
-				do_inc_stat(A_WIS);
-				*ident = TRUE;
-			}
-
-			return TRUE;
-		}
-
-		case EF_TOUGHNESS:
-		{
-			/* Pick a random stat to decrease other than constitution */
-			int stat = randint0(A_MAX-1);
-			if (stat >= A_CON) stat++;
-
-			if (do_dec_stat(stat, TRUE))
-			{
-				do_inc_stat(A_CON);
-				*ident = TRUE;
-			}
-
-			return TRUE;
-		}
-
 		case EF_NIMBLENESS:
-		{
-			/* Pick a random stat to decrease other than dexterity */
-			int stat = randint0(A_MAX-1);
-			if (stat >= A_DEX) stat++;
-
-			if (do_dec_stat(stat, TRUE))
-			{
-				do_inc_stat(A_DEX);
-				*ident = TRUE;
-			}
-
-			return TRUE;
-		}
-
+		case EF_TOUGHNESS:
 		case EF_PLEASING:
 		{
-			/* Pick a random stat to decrease other than charisma */
-			int stat = randint0(A_MAX-1);
-
-			if (do_dec_stat(stat, TRUE))
-			{
-				do_inc_stat(A_CHR);
-				*ident = TRUE;
-			}
-
+			int stat = effect - EF_BRAWN;
+			dur = randint1(25) + 25;
+			if (player_inc_timed(p_ptr, TMD_BRAWN + stat, dur, TRUE, TRUE)) *ident = TRUE;
 			return TRUE;
 		}
 
