@@ -2492,6 +2492,7 @@ static enum parser_error parse_room_x(struct parser *p) {
 	t->hgt = parser_getuint(p, "height");
 	t->wid = parser_getuint(p, "width");
 	t->dor = parser_getuint(p, "doors");
+	t->tval = parser_getuint(p, "tval");
 
 	return PARSE_ERROR_NONE;
 }
@@ -2510,7 +2511,7 @@ struct parser *init_parse_room(void) {
 	parser_setpriv(p, NULL);
 	parser_reg(p, "V sym version", ignored);
 	parser_reg(p, "N uint index str name", parse_room_n);
-	parser_reg(p, "X uint type int rating uint height uint width uint doors", parse_room_x);
+	parser_reg(p, "X uint type int rating uint height uint width uint doors uint tval", parse_room_x);
 	parser_reg(p, "D str text", parse_room_d);
 	return p;
 }
