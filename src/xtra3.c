@@ -114,28 +114,33 @@ static void prt_field(const char *info, int row, int col)
 static void prt_stat(int stat, int row, int col)
 {
 	char tmp[32];
+	byte attr = 0;
 
+	/* Display "boosted" stat */
+	if (p_ptr->timed[TMD_BRAWN + stat])
+		attr = TERM_L_BLUE;
+	
 	/* Display "injured" stat */
-	if (p_ptr->stat_cur[stat] < p_ptr->stat_max[stat])
-	{
+	if (p_ptr->stat_cur[stat] < p_ptr->stat_max[stat]) {
 		put_str(stat_names_reduced[stat], row, col);
 		cnv_stat(p_ptr->state.stat_use[stat], tmp, sizeof(tmp));
-		c_put_str(TERM_YELLOW, tmp, row, col + 6);
+		if (!attr)
+			attr = TERM_YELLOW;
 	}
 
 	/* Display "healthy" stat */
-	else
-	{
+	else {
 		put_str(stat_names[stat], row, col);
 		cnv_stat(p_ptr->state.stat_use[stat], tmp, sizeof(tmp));
-		c_put_str(TERM_L_GREEN, tmp, row, col + 6);
+		if (!attr)
+			attr = TERM_L_GREEN;
 	}
 
+	c_put_str(attr, tmp, row, col + 6);
+	
 	/* Indicate natural maximum */
 	if (p_ptr->stat_max[stat] == 18+100)
-	{
 		put_str("!", row, col + 3);
-	}
 }
 
 

@@ -357,13 +357,19 @@ void display_player_stat_info(void)
 		strnfmt(buf, sizeof(buf), "%+3d", p_ptr->state.stat_add[i]);
 		c_put_str(TERM_L_BLUE, buf, row+i, col+20);
 
-		/* Resulting "modified" maximum value */
-		cnv_stat(p_ptr->state.stat_top[i], buf, sizeof(buf));
+		/* Resulting "modified" maximum value, not including temp boosts */
+		if (p_ptr->timed[TMD_BRAWN + i])
+			cnv_stat(modify_stat_value(p_ptr->state.stat_top[i], -5), buf, sizeof(buf));
+		else
+			cnv_stat(p_ptr->state.stat_top[i], buf, sizeof(buf));
+
 		c_put_str(TERM_L_GREEN, buf, row+i, col+24);
 
-		/* Only display stat_use if there has been draining */
-		if (p_ptr->stat_cur[i] < p_ptr->stat_max[i])
-		{
+		/* Only display stat_use if there has been draining or temp boosts*/
+		if (p_ptr->timed[TMD_BRAWN + i]) {
+			cnv_stat(p_ptr->state.stat_use[i], buf, sizeof(buf));
+			c_put_str(TERM_L_BLUE, buf, row+i, col+31);
+		} else if (p_ptr->stat_cur[i] < p_ptr->stat_max[i]) {
 			cnv_stat(p_ptr->state.stat_use[i], buf, sizeof(buf));
 			c_put_str(TERM_YELLOW, buf, row+i, col+31);
 		}
