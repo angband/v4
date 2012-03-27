@@ -1363,7 +1363,7 @@ static bool store_create_random(struct store *store)
 
 		/* Black Markets have a random object, of a given level */
 		if (store->sidx == STORE_B_MARKET)
-			kind = get_obj_num(level, FALSE);
+			kind = get_obj_num(level, FALSE, 0);
 		else
 			kind = store_get_choice(store);
 

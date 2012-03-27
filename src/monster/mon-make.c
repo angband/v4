@@ -628,7 +628,7 @@ static bool mon_create_drop(int m_idx, byte origin)
 
 		if (gold_ok && (!item_ok || (randint0(100) < 50)))
 			make_gold(i_ptr, level, SV_GOLD_ANY);
-		else if (!make_object(cave, i_ptr, level, good, great, NULL))
+		else if (!make_object(cave, i_ptr, level, good, great, NULL, 0))
 			continue;
 
 		i_ptr->origin = origin;

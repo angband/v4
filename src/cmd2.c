@@ -224,7 +224,7 @@ static void chest_death(int y, int x, s16b o_idx)
 
 		/* Otherwise drop an item, as long as it isn't a chest */
 		else {
-			if (!make_object(cave, i_ptr, value, FALSE, FALSE, NULL)) continue;
+			if (!make_object(cave, i_ptr, value, FALSE, FALSE, NULL, 0)) continue;
 			if (i_ptr->tval == TV_CHEST) continue;
 		}
 
@@ -928,7 +928,7 @@ static bool do_cmd_tunnel_aux(int y, int x)
 			if (randint0(100) < 10)	{
 				/* Create a simple object */
 				place_object(cave, y, x, p_ptr->depth, FALSE, FALSE,
-					ORIGIN_RUBBLE);
+					ORIGIN_RUBBLE, 0);
 
 				/* Observe the new object */
 				if (!squelch_item_ok(object_byid(cave->o_idx[y][x])) &&
