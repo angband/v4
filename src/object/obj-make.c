@@ -926,6 +926,9 @@ static object_kind *get_obj_num_by_kind(int level, bool good, int tval)
 		}
 	}
 
+	/* No appropriate items of that tval */
+	if (!total) return NULL;
+	
 	value = randint0(total);
 	
 	if (!good) {
