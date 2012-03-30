@@ -100,7 +100,7 @@ void do_cmd_go_down(cmd_code code, cmd_arg args[])
 void do_cmd_search(cmd_code code, cmd_arg args[])
 {
 	/* Only take a turn if attempted */
-	if (search(TRUE, 2))
+	if (search(TRUE))
 		p_ptr->energy_use = 100;
 }
 
@@ -1807,7 +1807,7 @@ void do_cmd_hold(cmd_code code, cmd_arg args[])
 	p_ptr->energy_use = 100;
 
 	/* Spontaneous Searching */
-	search(FALSE, 1);
+	search(FALSE);
 
 	/* Pick things up, not using extra energy */
 	do_autopickup();

@@ -213,7 +213,7 @@ static void skill_help(s16b skills[], int mhp, int exp, int infra)
 	if (infra >= 0)
 		text_out_e("Infravision:  %d ft\n", infra * 10);
 	text_out_e("Digging:      %+d\n", skills[SKILL_DIGGING]);
-	text_out_e("Search:       %+d/%d", skills[SKILL_SEARCH], skills[SKILL_SEARCH_FREQUENCY]);
+	text_out_e("Search:       %+d/%d", skills[SKILL_SEARCH], skills[SKILL_SEARCH_RADIUS]);
 	if (infra < 0)
 		text_out_e("\n");
 }

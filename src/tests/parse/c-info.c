@@ -56,7 +56,7 @@ int test_c0(void *state) {
 	eq(c->c_skills[SKILL_SAVE], 28);
 	eq(c->c_skills[SKILL_STEALTH], 3);
 	eq(c->c_skills[SKILL_SEARCH], 24);
-	eq(c->c_skills[SKILL_SEARCH_FREQUENCY], 16);
+	eq(c->c_skills[SKILL_SEARCH_RADIUS], 16);
 	eq(c->c_skills[SKILL_FINESSE_MELEE], 56);
 	eq(c->c_skills[SKILL_PROWESS_MELEE], 30);
 	eq(c->c_skills[SKILL_TO_HIT_BOW], 72);
@@ -77,7 +77,7 @@ int test_x0(void *state) {
 	eq(c->x_skills[SKILL_SAVE], 10);
 	eq(c->x_skills[SKILL_STEALTH], 0);
 	eq(c->x_skills[SKILL_SEARCH], 0);
-	eq(c->x_skills[SKILL_SEARCH_FREQUENCY], 0);
+	eq(c->x_skills[SKILL_SEARCH_RADIUS], 0);
 	eq(c->x_skills[SKILL_FINESSE_MELEE], 30);
 	eq(c->x_skills[SKILL_PROWESS_MELEE], 20);
 	eq(c->x_skills[SKILL_TO_HIT_BOW], 45);

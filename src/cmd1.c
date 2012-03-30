@@ -38,12 +38,12 @@
  * false when the player has a 0% chance of finding anything.  Prints messages
  * for negative confirmation when verbose mode is requested.
  */
-bool search(bool verbose, int radius)
+bool search(bool verbose)
 {
 	int py = p_ptr->py;
 	int px = p_ptr->px;
 
-	int y, x, skill;
+	int y, x, skill, radius;
 
 	bool found = FALSE;
 
@@ -51,17 +51,29 @@ bool search(bool verbose, int radius)
 
 	/* Start with base search ability */
 	skill = p_ptr->state.skills[SKILL_SEARCH];
+	radius = p_ptr->state.skills[SKILL_SEARCH_RADIUS];
 
-	/* Boost skill if player used (s)earch and isn't in (S)earching mode */
-	if (verbose && !p_ptr->searching)
+	/* Boost skill if player used (s)earch and isn't in (S)earching mode
+	 * (Searching mode already passively boosts skill and radius.)
+	 */
+	if (verbose && !p_ptr->searching) {
 		skill += 10;
+		radius += 2;
+	}
 	
 	/* Penalize various conditions */
-	if (p_ptr->timed[TMD_BLIND] || no_light()) skill = skill / 10;
-	if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE]) skill = skill / 10;
+	if (p_ptr->timed[TMD_BLIND] || no_light()) {
+		skill = skill / 10;
+		radius = 1;
+	}
+	
+	if (p_ptr->timed[TMD_CONFUSED] || p_ptr->timed[TMD_IMAGE]) {
+		skill = skill / 10;
+		radius = radius / 2;
+	}
 
 	/* Prevent fruitless searches */
-	if (skill <= 0) {
+	if (skill <= 0 || radius <= 0) {
 		if (verbose) {
 			msg("You can't make out your surroundings well enough to search.");
 
@@ -75,6 +87,8 @@ bool search(bool verbose, int radius)
 	/* Search the nearby grids, which are always in bounds */
 	for (y = (py - radius); y <= (py + radius); y++) {
 		for (x = (px - radius); x <= (px + radius); x++) {
+			if (!cave_in_bounds(cave, y, x)) continue;
+
 			/* Check for line-of-sight */
 			if (!los(py, px, y, x)) continue;
 		
@@ -655,10 +669,7 @@ void move_player(int dir, bool disarm)
 		x = px = p_ptr->px;
 
 		/* Make a passive search */
-		if (p_ptr->searching)
-			search(FALSE, 2);
-		else
-			search(FALSE, 1);
+		search(FALSE);
 
 		/* Handle "store doors" */
 		if (cave_isshop(cave, p_ptr->py, p_ptr->px)) {

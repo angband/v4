@@ -1657,8 +1657,8 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 			(o_ptr->pval[which_pval(o_ptr, OF_SEARCH)] * 5);
 
 		/* Affect searching frequency (factor of five) */
-		if (of_has(f, OF_SEARCH)) state->skills[SKILL_SEARCH_FREQUENCY]
-			+= (o_ptr->pval[which_pval(o_ptr, OF_SEARCH)] * 5);
+		if (of_has(f, OF_SEARCH)) state->skills[SKILL_SEARCH_RADIUS]
+			+= (o_ptr->pval[which_pval(o_ptr, OF_SEARCH)]);
 
 		/* Affect infravision */
 		if (of_has(f, OF_INFRA)) state->see_infra +=
@@ -1981,7 +1981,11 @@ void calc_bonuses(object_type inventory[], player_state *state, bool id_only)
 	/* Affect Skill -- searching (WIS and INT) */
 	state->skills[SKILL_SEARCH] += state->stat_ind[A_WIS] / 2 + 
 		state->stat_ind[A_INT] / 2;
-	if (p_ptr->searching) state->skills[SKILL_SEARCH] += 10;
+
+	if (p_ptr->searching) {
+		state->skills[SKILL_SEARCH] += 10;
+		state->skills[SKILL_SEARCH_RADIUS] += 2;
+	}
 
 	/* Apply Skill -- Extract noise from stealth */
 	state->noise = (1L << (30 - state->skills[SKILL_STEALTH]));

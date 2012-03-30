@@ -116,7 +116,7 @@ static void borg_notice_aux1(void)
     borg_skill[BI_SRCH] = rb_ptr->r_skills[SKILL_SEARCH] + cb_ptr->c_skills[SKILL_SEARCH];
 
     /* Base skill -- searching frequency */
-    borg_skill[BI_SRCHFREQ] = rb_ptr->r_skills[SKILL_SEARCH_FREQUENCY] + cb_ptr->c_skills[SKILL_SEARCH_FREQUENCY];
+    borg_skill[BI_SRCHFREQ] = rb_ptr->r_skills[SKILL_SEARCH_RADIUS] + cb_ptr->c_skills[SKILL_SEARCH_RADIUS];
 
     /* Base skill -- combat (normal) */
     borg_skill[BI_THN] = rb_ptr->r_skills[SKILL_FINESSE_MELEE] + cb_ptr->c_skills[SKILL_FINESSE_MELEE];
@@ -659,7 +659,7 @@ static void borg_notice_aux1(void)
     borg_skill[BI_SRCH] += (cb_ptr->x_skills[SKILL_SEARCH] * borg_skill[BI_MAXCLEVEL] / 10);
 
     /* Affect Skill -- search frequency (Level, by Class) */
-    borg_skill[BI_SRCHFREQ] += (cb_ptr->x_skills[SKILL_SEARCH_FREQUENCY] * borg_skill[BI_MAXCLEVEL] / 10);
+    borg_skill[BI_SRCHFREQ] += (cb_ptr->x_skills[SKILL_SEARCH_RADIUS] * borg_skill[BI_MAXCLEVEL] / 10);
 
     /* Affect Skill -- combat (normal) (Level, by Class) */
     borg_skill[BI_THN] += (cb_ptr->x_skills[SKILL_FINESSE_MELEE] * borg_skill[BI_MAXCLEVEL] / 10);
