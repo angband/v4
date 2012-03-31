@@ -674,19 +674,16 @@ static void textui_process_click(ui_event e)
         		textui_obj_cast();
       		else if (e.mouse.button == 2)
         		Term_keypress('i',0);
-				/* cmd_insert(CMD_USE_AIMED); */
     	} else if (e.mouse.mods & KC_MOD_CONTROL) {
       		/* ctrl-click - use feature / use inventory item */
       		/* switch with default */
       		if (e.mouse.button == 1) {
-			  	/* cmd_insert(CMD_ACTIVATE); */
         		if (cave->feat[p_ptr->py][p_ptr->px] == FEAT_LESS)
   			  		cmd_insert(CMD_GO_UP);
         		else if (cave->feat[p_ptr->py][p_ptr->px] == FEAT_MORE)
   			  		cmd_insert(CMD_GO_DOWN);
       		} else if (e.mouse.button == 2)
 			  	cmd_insert(CMD_USE_UNAIMED);
-			  /* cmd_insert(CMD_USE_ANY); */
     	} else if (e.mouse.mods & KC_MOD_ALT) {
       		/* alt-click - Search  or show char screen */
       		/* XXX call a platform specific hook */
@@ -694,7 +691,6 @@ static void textui_process_click(ui_event e)
 	 			cmd_insert(CMD_SEARCH);
       		else if (e.mouse.button == 2)
 	        	Term_keypress('C',0);
-			  	/* cmd_insert(CMD_CHAR_SCREEN); */
     	} else {
       		if (e.mouse.button == 1) {
         		if (cave->o_idx[y][x])
@@ -704,12 +700,8 @@ static void textui_process_click(ui_event e)
         	} else if (e.mouse.button == 2)
         		/* show a context menu */
 				context_menu_player(e.mouse.x, e.mouse.y);
-        		/* Term_keypress('~',0);
-			  	   cmd_insert(CMD_OPTIONS); */
     	}
-  	}
-
-	else if (e.mouse.button == 1) {
+  	} else if (e.mouse.button == 1) {
 		if (p_ptr->timed[TMD_CONFUSED])
 			cmd_insert(CMD_WALK);
 		else {
