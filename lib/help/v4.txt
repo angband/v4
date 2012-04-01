@@ -1,0 +1,71 @@
+=====================
+README for Angband-v4
+=====================
+
+WARNING: the other in-game help files have not been updated since v4 forked
+from Vanilla. This means that they'll still be a useful rough guide to the
+game for new players, and on stuff like commands and the user interface, but
+will be completely incorrect where things have changed in v4. Broadly, these
+changes are as follows:
+
+ * Base objects. Base weapon and armour objects have been renamed to 
+avoid most adjectives and the word "of". In particular, adjectives 
+specifying materials have been removed (Mithril, Adamantite, Wicker, 
+Lead-Filled, Fur, Leather, Metal, Dragon Scale). Also removed: Elven 
+Cloaks, Blades of Chaos, Scythes of Slicing, Maces of Disruption. These 
+are all still in the game, but no longer as headache-inducing base 
+objects. They are generated using affixes.
+
+ * Ego items. The concept of an "ego item" has been split into two 
+concepts: affixes and themes. For a detailed explanation, go to
+http://trac.rephial.org/wiki/NewEgos.
+
+ * Affixes. All generation of magical items is now done using affixes, 
+which are contained in lib/edit/ego_item.txt. Affixes can affect any 
+properties of an item: dice, sides, base ac, weight, plusses, pvals, 
+flags, but generally only change one or two things. (TODO: extent, 
+number.) Affixes come in four types (make, material and quality are all 
+prefixes; suffices are all magical mods) and six levels (bad, average, 
+good, great, uber, artifact-only). An object can have up to MAX_AFFIXES 
+(currently 8). Some affixes replicate the old "low-end" one-trick ego 
+types (of Resist Acid, of Slay Dragon, etc.), but there are many more. 
+Known affixes are browseable in the ego knowledge menu.
+
+ * Themes. Themes are collections of affixes, which are acquired 
+randomly during item generation. Themes are detailed in 
+lib/edit/ego_themes.txt. Once an object has a theme, it may not acquire 
+any further affixes. Themes are what used to be known as the "high-end" 
+ego types (Elvenkind, Westernesse, Gondolin, etc.). They also show up in 
+the ego knowledge menu.
+
+ * Artifacts. Artifacts look much the same as before (though some base 
+items have been renamed, as noted above). But they are now generated 
+using a unified system, so there is no distinction between an artifact 
+ring, amulet or light source and an artifact weapon or armour piece. 
+Artifact rings, amulets and light sources no longer need "dummy" 
+INSTA_ART entries in object.txt. N.B. The "dungeon" spellbooks are now
+artifacts. 
+
+ * ID. We have moved to "rune-based" ID. This means that any given item 
+property is discernible on any item which has it. Once you've learned 
+that your shield has RES_FIRE, you'll instantly know RES_FIRE when you 
+see it on any other item, because you've learned the rune for it. Runes 
+have random names, visible in the new rune knowledge menu. Once you 
+learn them, they go by the names you would expect (like "Resist Fire"). 
+Inspecting items will show their known and unknown runes - but items 
+sold in stores have their runes scratched off.
+
+ * Combat. We have moved to "finesse" and "prowess" as replacements for 
+to-hit and to-dam. These are not simple replacements: both are skills 
+which vary by race/class and increase with character level. Finesse 
+determines both how fast you attack (how many blows) and how accurate 
+you are (to-hit). Prowess determines how much damage you do. Weapons 
+have ratings for "balance" and "heft", which is how much they prefer 
+finesse and prowess, respectively. So combat is now a lot more subtle 
+than simply maximising blows and loading up on to-dam.
+
+ * Monsters now have an 'evasion' rating which determines how hard they 
+are to hit. Their armour rating no longer affects this, and instead 
+indicates how much damage they will absorb from a hit. Some heavily 
+armoured monsters may not be affected by low-damage weapons (but you can 
+still kill them with spells or devices).

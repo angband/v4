@@ -1,5 +1,5 @@
 Please choose one of the following online help files:
-    (l) README for Angband 3.3     (330.txt)
+    (l) README for Angband v4      (v4.txt)
 
     (a) General information        (general.txt)
     (b) Creating a character       (birth.txt)
@@ -41,5 +41,5 @@ Browser/help commands:
 
 .. menu:: [k] user.hlp
 
-.. menu:: [l] 330.txt
+.. menu:: [l] v4.txt
 
