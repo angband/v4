@@ -499,7 +499,7 @@ typedef struct object {
 	byte number;		/* Number of items */
 	s32b extent;		/* Charges/food|fuel value/gold amount/chest status */
 	byte marked;		/* Object is marked */
-	bool ignore;		/* Object is ignored */
+	byte ignore;		/* Object is ignored */
 
 	s16b next_o_idx;	/* Next object in stack (if any) */
 	s16b held_m_idx;	/* Monster holding us (if any) */
