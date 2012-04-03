@@ -52,6 +52,137 @@ static struct theme *lookup_theme(int idx)
 
 
 /*
+ * Read an object, version 6 (added ignore status).
+ */
+static int rd_item_7(object_type *o_ptr)
+{
+	byte tmp8u;
+	u16b tmp16u;
+
+	u16b affix_idx, theme_idx, prefix_idx, suffix_idx;
+	byte art_idx;
+
+	size_t i, j;
+
+	char buf[128];
+
+	byte ver = 1;
+	byte max_pvals = 0, of_size = 0, of_bytes = 0, max_affixes = 0;
+
+	rd_u16b(&tmp16u);
+	rd_byte(&ver);
+	assert(tmp16u == 0xffff);
+
+	strip_bytes(2);
+
+	/* read the constants */
+	rd_byte(&max_pvals);
+	if (max_pvals > MAX_PVALS) return -1;
+	rd_byte(&of_size);
+	if (of_size > OF_SIZE) return -1;
+	rd_byte(&of_bytes);
+	if (of_bytes > OF_BYTES) return -1;
+	rd_byte(&max_affixes);
+	if (max_affixes > MAX_AFFIXES) return -1;
+
+	/* Location */
+	rd_byte(&o_ptr->iy);
+	rd_byte(&o_ptr->ix);
+
+	/* Type/Subtype */
+	rd_byte(&o_ptr->tval);
+	rd_byte(&o_ptr->sval);
+
+	/* Pval info */
+	for (i = 0; i < max_pvals; i++)
+		rd_s16b(&o_ptr->pval[i]);
+	rd_byte(&o_ptr->num_pvals);
+
+	/* Pseudo-ID bit */
+	rd_byte(&tmp8u);
+
+	rd_byte(&o_ptr->number);
+	rd_s16b(&o_ptr->weight);
+
+	/* Artifact / theme / affix info */
+	rd_byte(&art_idx);
+	rd_u16b(&theme_idx);
+
+	for (i = 0; i < max_affixes; i++) {
+		rd_u16b(&affix_idx);
+		o_ptr->affix[i] = lookup_affix(affix_idx);
+	}
+	rd_u16b(&prefix_idx);
+	rd_u16b(&suffix_idx);
+
+	/* Basic object data */
+	rd_s16b(&o_ptr->timeout);
+	rd_s32b(&o_ptr->extent);
+
+	rd_s16b(&o_ptr->to_finesse);
+	rd_s16b(&o_ptr->to_prowess);
+	rd_s16b(&o_ptr->to_a);
+	rd_s16b(&o_ptr->balance);
+	rd_s16b(&o_ptr->heft);
+	rd_s16b(&o_ptr->ac);
+	rd_byte(&o_ptr->dd);
+	rd_byte(&o_ptr->ds);
+
+	/* Object metadata */
+	rd_u16b(&o_ptr->ident);
+	rd_byte(&o_ptr->marked);
+	rd_byte(&o_ptr->origin);
+	rd_byte(&o_ptr->origin_depth);
+	rd_u16b(&o_ptr->origin_xtra);
+	rd_byte(&o_ptr->ignore);
+
+	/* Flag and known flag data */
+	for (i = 0; i < of_bytes && i < of_size; i++)
+		rd_byte(&o_ptr->flags[i]);
+	if (i < of_bytes) strip_bytes(of_bytes - i);
+
+	of_wipe(o_ptr->known_flags);
+
+	for (i = 0; i < of_bytes && i < of_size; i++)
+		rd_byte(&o_ptr->known_flags[i]);
+	if (i < of_bytes) strip_bytes(of_bytes - i);
+
+	for (j = 0; j < max_pvals; j++) {
+		for (i = 0; i < of_bytes && i < of_size; i++)
+			rd_byte(&o_ptr->pval_flags[j][i]);
+		if (i < of_bytes) strip_bytes(of_bytes - i);
+	}
+
+	/* Monster holding object */
+	rd_s16b(&o_ptr->held_m_idx);
+
+	rd_s16b(&o_ptr->mimicking_m_idx);
+
+	/* Save the inscription */
+	rd_string(buf, sizeof(buf));
+	if (buf[0]) o_ptr->note = quark_add(buf);
+
+
+	/* Lookup item kind */
+	o_ptr->kind = lookup_kind(o_ptr->tval, o_ptr->sval);
+	if (!o_ptr->kind)
+		return 0;
+
+	o_ptr->theme = lookup_theme(theme_idx);
+	o_ptr->prefix = lookup_affix(prefix_idx);
+	o_ptr->suffix = lookup_affix(suffix_idx);
+
+	if (art_idx >= z_info->a_max)
+		return -1;
+	if (art_idx > 0)
+		o_ptr->artifact = &a_info[art_idx];
+
+	/* Success */
+	return (0);
+}
+
+
+/*
  * Read an object, version 6 (added balance and heft).
  */
 static int rd_item_6(object_type *o_ptr)
@@ -2367,6 +2498,7 @@ static int rd_inventory(rd_item_t rd_item_version)
 /*
  * Read the player inventory - wrapper functions
  */
+int rd_inventory_7(void) { return rd_inventory(rd_item_7); }
 int rd_inventory_6(void) { return rd_inventory(rd_item_6); }
 int rd_inventory_5(void) { return rd_inventory(rd_item_5); }
 int rd_inventory_4(void) { return rd_inventory(rd_item_4); }
@@ -2442,6 +2574,7 @@ static int rd_stores(rd_item_t rd_item_version)
 /*
  * Read the stores - wrapper functions
  */
+int rd_stores_7(void) { return rd_stores(rd_item_7); }
 int rd_stores_6(void) { return rd_stores(rd_item_6); }
 int rd_stores_5(void) { return rd_stores(rd_item_5); }
 int rd_stores_4(void) { return rd_stores(rd_item_4); }
@@ -2705,6 +2838,7 @@ static int rd_objects(rd_item_t rd_item_version)
 /*
  * Read the object list - wrapper functions
  */
+int rd_objects_7(void) { return rd_objects(rd_item_7); }
 int rd_objects_6(void) { return rd_objects(rd_item_6); }
 int rd_objects_5(void) { return rd_objects(rd_item_5); }
 int rd_objects_4(void) { return rd_objects(rd_item_4); }
