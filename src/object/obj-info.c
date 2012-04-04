@@ -1043,6 +1043,7 @@ static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
 	int i, count = 0;
 	bool ego = mode & OINFO_EGO;
 	bool subj = mode & OINFO_SUBJ;
+	bool debug = mode & OINFO_DEBUG;
 
 	/* Display the known artifact description */
 	if (!OPT(birth_randarts) && o_ptr->artifact &&
@@ -1077,17 +1078,19 @@ static void describe_flavor_text(textblock *tb, const object_type *o_ptr,
 	}
 
 	/* List the affixes on the item */
-	for (i = 0; i < MAX_AFFIXES && o_ptr->affix[i]; i++)
-		if (object_affix_is_known(o_ptr, o_ptr->affix[i]->eidx)) {
-			if (count == 0)
-				textblock_append(tb, "This item's known properties are: ");
-			else
-				textblock_append(tb, ", ");
-			textblock_append(tb, "%s", o_ptr->affix[i]->name);
-			count++;
-		}
-	if (count)
-		textblock_append(tb, ".\n\n");
+	if (debug) {
+		for (i = 0; i < MAX_AFFIXES && o_ptr->affix[i]; i++)
+			if (object_affix_is_known(o_ptr, o_ptr->affix[i]->eidx)) {
+				if (count == 0)
+					textblock_append(tb, "This item's known properties are: ");
+				else
+					textblock_append(tb, ", ");
+				textblock_append(tb, "%s", o_ptr->affix[i]->name);
+				count++;
+			}
+		if (count)
+			textblock_append(tb, ".\n\n");
+	}
 
 	if (!ego && subj && o_ptr->origin != ORIGIN_STORE) {
 		/* List the item's known runes */
@@ -1171,6 +1174,7 @@ static textblock *object_info_out(const object_type *o_ptr, oinfo_detail_t mode)
 	bool terse = mode & OINFO_TERSE;
 	bool subjective = mode & OINFO_SUBJ;
 	bool ego = mode & OINFO_EGO;
+	bool debug = mode & OINFO_DEBUG;
 
 	textblock *tb = textblock_new();
 
