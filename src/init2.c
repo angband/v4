@@ -1979,7 +1979,7 @@ static enum parser_error parse_p_r(struct parser *p) {
 	r->r_skills[SKILL_SAVE] = parser_getint(p, "sav");
 	r->r_skills[SKILL_STEALTH] = parser_getint(p, "stl");
 	r->r_skills[SKILL_SEARCH] = parser_getint(p, "srh");
-	r->r_skills[SKILL_SEARCH_FREQUENCY] = parser_getint(p, "fos");
+	r->r_skills[SKILL_SEARCH_RADIUS] = parser_getint(p, "fos");
 	r->r_skills[SKILL_FINESSE_MELEE] = parser_getint(p, "fin");
     r->r_skills[SKILL_PROWESS_MELEE] = parser_getint(p, "pro");
 	r->r_skills[SKILL_TO_HIT_BOW] = parser_getint(p, "thb");
@@ -2181,7 +2181,7 @@ static enum parser_error parse_c_c(struct parser *p) {
 	c->c_skills[SKILL_SAVE] = parser_getint(p, "sav");
 	c->c_skills[SKILL_STEALTH] = parser_getint(p, "stl");
 	c->c_skills[SKILL_SEARCH] = parser_getint(p, "srh");
-	c->c_skills[SKILL_SEARCH_FREQUENCY] = parser_getint(p, "fos");
+	c->c_skills[SKILL_SEARCH_RADIUS] = parser_getint(p, "fos");
 	c->c_skills[SKILL_FINESSE_MELEE] = parser_getint(p, "fin");
 	c->c_skills[SKILL_PROWESS_MELEE] = parser_getint(p, "pro");
 	c->c_skills[SKILL_TO_HIT_BOW] = parser_getint(p, "thb");
@@ -2200,7 +2200,7 @@ static enum parser_error parse_c_x(struct parser *p) {
 	c->x_skills[SKILL_SAVE] = parser_getint(p, "sav");
 	c->x_skills[SKILL_STEALTH] = parser_getint(p, "stl");
 	c->x_skills[SKILL_SEARCH] = parser_getint(p, "srh");
-	c->x_skills[SKILL_SEARCH_FREQUENCY] = parser_getint(p, "fos");
+	c->x_skills[SKILL_SEARCH_RADIUS] = parser_getint(p, "fos");
 	c->x_skills[SKILL_FINESSE_MELEE] = parser_getint(p, "fin");
     c->x_skills[SKILL_PROWESS_MELEE] = parser_getint(p, "pro");
 	c->x_skills[SKILL_TO_HIT_BOW] = parser_getint(p, "thb");

@@ -802,7 +802,7 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 		{ "Shooting", SKILL_TO_HIT_BOW, 12 },
 		{ "Disarming", SKILL_DISARM, 8 },
 		{ "Magic Device", SKILL_DEVICE, 13 },
-		{ "Perception", SKILL_SEARCH_FREQUENCY, 6 },
+		{ "Search Radius", SKILL_SEARCH_RADIUS, 6 },
 		{ "Searching", SKILL_SEARCH, 6 }
 	};
 	int i;
@@ -820,13 +820,15 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 			// if (skill > 100) skill = 100;
 			panel[i].fmt = "%y%%";
 			panel[i].value[0] = i2u(skill);
-			panel[i].color = colour_table[skill / 10];
+			if (skill / 10 <= 10)
+				panel[i].color = colour_table[skill / 10];
 		}
 		else if (skills[i].skill == SKILL_SEARCH) {
 			if (skill < 0) skill = 0;
 			panel[i].fmt = "%y";
 			panel[i].value[0] = i2u(skill);
-			panel[i].color = colour_table[skill / 10];
+			if (skill / 10 <= 10)
+				panel[i].color = colour_table[skill / 10];
 		}
 		else if (skills[i].skill == SKILL_DEVICE || 
                 skills[i].skill == SKILL_FINESSE_MELEE ||
@@ -834,25 +836,16 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 		{
 			panel[i].fmt = "%y";
 			panel[i].value[0] = i2u(skill);
-            panel[i].color = colour_table[skill / skills[i].div];
+			if (skill / skills[i].div <= 10)
+				panel[i].color = colour_table[skill / skills[i].div];
 		}
-		else if (skills[i].skill == SKILL_SEARCH_FREQUENCY)
+		else if (skills[i].skill == SKILL_SEARCH_RADIUS)
 		{
 			if (skill <= 0) skill = 1;
-			if (skill >= 50)
-			{
-				panel[i].fmt = "1 in 1";
-				panel[i].color = colour_table[10];
-			}
-			else
-			{
-				/* convert to % chance of searching */
-				skill = 50 - skill;
-				panel[i].fmt = "1 in %y";
-				panel[i].value[0] = i2u(skill);
-				panel[i].color =
-					colour_table[(100 - skill*2) / 10];
-			}
+			panel[i].fmt = "%y";
+			panel[i].value[0] = i2u(skill);
+			if (skill <= 10)
+				panel[i].color = colour_table[skill];
 		}
 		else if (skills[i].skill == SKILL_DISARM)
 		{
@@ -862,7 +855,8 @@ static int get_panel(int oid, data_panel *panel, size_t size)
 			if (skill < 2) skill = 2;
 			panel[i].fmt = "%y%%";
 			panel[i].value[0] = i2u(skill);
-			panel[i].color = colour_table[skill / 10];
+			if (skill / 10 <= 10)
+				panel[i].color = colour_table[skill / 10];
 		}
 		else
 		{

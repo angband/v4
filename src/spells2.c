@@ -2984,11 +2984,11 @@ bool curse_armor(void)
 		/* Oops */
 		msg("A terrible black aura blasts your %s!", o_name);
 
-		/* Take down bonus a wee bit */
-		o_ptr->to_a -= randint1(3);
-
-		/* Curse it */
-		flags_set(o_ptr->flags, OF_SIZE, OF_LIGHT_CURSE, OF_HEAVY_CURSE, FLAG_END);
+		/* Reduce bonus or make it "sticky" */
+		if (randint0(100) < 50)
+			o_ptr->to_a -= randint1(3);
+		else
+			flags_set(o_ptr->flags, OF_SIZE, OF_LIGHT_CURSE, OF_HEAVY_CURSE, FLAG_END);
 
 		/* Recalculate bonuses */
 		p_ptr->update |= (PU_BONUS);
@@ -3038,13 +3038,14 @@ bool curse_weapon(void)
 		/* Oops */
 		msg("A terrible black aura blasts your %s!", o_name);
 
-		/* Hurt it a bit */
-		o_ptr->to_finesse = 0 - randint1(3);
-		o_ptr->to_prowess = 0 - randint1(3);
-
-		/* Curse it */
-		flags_set(o_ptr->flags, OF_SIZE, OF_LIGHT_CURSE, OF_HEAVY_CURSE, FLAG_END);
-
+		/* Reduce bonuses or make it "sticky" */
+		if (randint0(100) < 50) {
+			o_ptr->to_finesse = 0 - randint1(3);
+			o_ptr->to_prowess = 0 - randint1(3);
+		} else {
+			flags_set(o_ptr->flags, OF_SIZE, OF_LIGHT_CURSE, OF_HEAVY_CURSE, FLAG_END);
+		}
+			
 		/* Recalculate bonuses */
 		p_ptr->update |= (PU_BONUS);
 
