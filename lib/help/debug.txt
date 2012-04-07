@@ -26,6 +26,10 @@ Play with an object (``o``)
   Lets you modify an object by randomly rerolling it as a normal, good, or
   excellent object, or lets you modify it directly, tweaking the pval and
   combat values.
+
+Inspect an object (``I``)
+  Gives the same info as the normal in-game 'I'nspect command, plus some
+  more debug info (such as which affixes are on the item).
 		
 Test kind (``V``)
   Requires a command-count. For the tval given by command-count, creates
