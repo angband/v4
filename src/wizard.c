@@ -1635,6 +1635,38 @@ static void do_cmd_wiz_advance(void)
 
 }
 
+/**
+ * Examine an item, including debug info.
+ * Largely copied from textui_obj_examine.
+ */
+void do_cmd_wiz_examine(void)
+{
+	char header[120];
+
+	textblock *tb;
+	region area = { 0, 0, 0, 0 };
+
+	object_type *o_ptr;
+	int item;
+
+	/* Select item */
+	if (!get_item(&item, "Examine which item?", "You have nothing to examine.",
+			CMD_NULL, (USE_EQUIP | USE_INVEN | USE_FLOOR | IS_HARMLESS)))
+		return;
+
+	/* Track object for object recall */
+	track_object(item);
+
+	/* Display info */
+	o_ptr = object_from_item_idx(item);
+	tb = object_info(o_ptr, OINFO_DEBUG);
+	object_desc(header, sizeof(header), o_ptr,
+			ODESC_ARTICLE | ODESC_FULL | ODESC_CAPITAL);
+
+	textui_textblock_show(tb, area, header);
+	textblock_free(tb);
+}
+
 /*
  * Ask for and parse a "debug command"
  *
@@ -1806,6 +1838,13 @@ void do_cmd_debug(void)
 		case 'i':
 		{
 			(void)ident_spell();
+			break;
+		}
+
+		/* Examine */
+		case 'I':
+		{
+			do_cmd_wiz_examine();
 			break;
 		}
 

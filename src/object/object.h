@@ -133,7 +133,8 @@ typedef enum {
 	OINFO_SUBJ   = 0x02, 	/* Describe object from the character's POV */
 	OINFO_FULL   = 0x04, 	/* Treat object as if fully IDd */
 	OINFO_DUMMY  = 0x08, 	/* Object does not exist (e.g. knowledge menu) */
-	OINFO_EGO    = 0x10  	/* Describe ego random powers */
+	OINFO_EGO    = 0x10,  	/* Describe ego random powers */
+	OINFO_DEBUG  = 0x20		/* Describe various debug information */
 } oinfo_detail_t;
 
 /* Modes for stacking by object_similar() */
