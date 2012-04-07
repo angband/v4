@@ -1174,7 +1174,6 @@ static textblock *object_info_out(const object_type *o_ptr, oinfo_detail_t mode)
 	bool terse = mode & OINFO_TERSE;
 	bool subjective = mode & OINFO_SUBJ;
 	bool ego = mode & OINFO_EGO;
-	bool debug = mode & OINFO_DEBUG;
 
 	textblock *tb = textblock_new();
 
@@ -1190,23 +1189,33 @@ static textblock *object_info_out(const object_type *o_ptr, oinfo_detail_t mode)
 	if (subjective) describe_origin(tb, o_ptr);
 	if (!terse) describe_flavor_text(tb, o_ptr, mode);
 
-	if (!full && !known)
-	{
+	if (!full && !known) {
 		textblock_append(tb, "You do not know the full extent of this item's powers.\n");
 		something = TRUE;
 	}
 
-	if (describe_curses(tb, o_ptr, flags)) something = TRUE;
-	if (describe_stats(tb, o_ptr, pval_flags, mode)) something = TRUE;
-	if (describe_slays(tb, flags, o_ptr)) something = TRUE;
-	if (describe_immune(tb, flags)) something = TRUE;
-	if (describe_ignores(tb, flags)) something = TRUE;
+	if (describe_curses(tb, o_ptr, flags))
+		something = TRUE;
+	if (describe_stats(tb, o_ptr, pval_flags, mode))
+		something = TRUE;
+	if (describe_slays(tb, flags, o_ptr))
+		something = TRUE;
+	if (describe_immune(tb, flags))
+		something = TRUE;
+	if (describe_ignores(tb, flags))
+		something = TRUE;
 	dedup_hates_flags(flags);
-	if (describe_hates(tb, flags)) something = TRUE;
-	if (describe_sustains(tb, flags)) something = TRUE;
-	if (describe_misc_magic(tb, flags)) something = TRUE;
-	if (ego && describe_ego(tb, o_ptr->ego)) something = TRUE;
-	if (something) textblock_append(tb, "\n");
+	if (describe_hates(tb, flags))
+		something = TRUE;
+	if (describe_sustains(tb, flags))
+		something = TRUE;
+	if (describe_misc_magic(tb, flags))
+		something = TRUE;
+	if (ego && describe_ego(tb, o_ptr->ego))
+		something = TRUE;
+
+	if (something)
+		textblock_append(tb, "\n");
 
 	if (!ego && describe_effect(tb, o_ptr, full, terse, subjective)) {
 		something = TRUE;
@@ -1218,9 +1227,12 @@ static textblock *object_info_out(const object_type *o_ptr, oinfo_detail_t mode)
 		textblock_append(tb, "\n");
 	}
 
-	if (!terse && describe_food(tb, o_ptr, subjective, full)) something = TRUE;
-	if (describe_light(tb, o_ptr, flags, mode)) something = TRUE;
-	if (!terse && subjective && describe_digger(tb, o_ptr, mode)) something = TRUE;
+	if (!terse && describe_food(tb, o_ptr, subjective, full))
+		something = TRUE;
+	if (describe_light(tb, o_ptr, flags, mode))
+		something = TRUE;
+	if (!terse && subjective && describe_digger(tb, o_ptr, mode))
+		something = TRUE;
 
 	if (!something)
 		textblock_append(tb, "\n\nThis item does not seem to possess any special abilities.");
