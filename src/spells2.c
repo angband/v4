@@ -1996,8 +1996,8 @@ void destroy_area(int y1, int x1, int r, bool full)
 			/* Lose room and vault */
 			cave->info[y][x] &= ~(CAVE_ROOM | CAVE_ICKY);
 
-			/* Lose light and knowledge */
-			cave->info[y][x] &= ~(CAVE_GLOW | CAVE_MARK);
+			/* Lose light */
+			cave->info[y][x] &= ~(CAVE_GLOW);
 			
 			cave_light_spot(cave, y, x);
 
@@ -2016,6 +2016,12 @@ void destroy_area(int y1, int x1, int r, bool full)
 
 			/* Delete the monster (if any) */
 			delete_monster(y, x);
+			
+			/* Don't remove stairs */
+			if (cave_isstairs(cave, y, x)) continue;	
+			
+			/* Lose knowledge (keeping knowledge of stairs) */
+			cave->info[y][x] &= ~(CAVE_MARK);
 
 			/* Destroy any grid that isn't a permament wall */
 			if (!cave_isperm(cave, y, x))
