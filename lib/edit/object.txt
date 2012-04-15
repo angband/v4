@@ -3843,7 +3843,7 @@ N:540:& Mighty Hammer~
 G:\:D
 I:21:50
 W:15:0:200:1000
-P:0:3d9:0:0:0
+P:0:3d9:0:0:0:0:100
 F:INSTA_ART
 
 N:542:& Massive Iron Crown~
