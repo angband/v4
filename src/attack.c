@@ -640,7 +640,7 @@ void do_cmd_fire(cmd_code code, cmd_arg args[])
 {
 	int item = args[0].item;
 	int dir = args[1].direction;
-	int range = 6 + 2 * p_ptr->state.ammo_mult;
+	int range = MIN(6 + 2 * p_ptr->state.ammo_mult, MAX_RANGE);
 	int shots = p_ptr->state.num_shots;
 
 	ranged_attack attack = make_ranged_shot;
