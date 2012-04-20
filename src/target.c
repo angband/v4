@@ -631,7 +631,7 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 			press.key = inkey();
 
 			/* Stop on everything but "return" */
-			if (press.key.code == '\n' || press.key.code == '\r')
+			if (press.key.code == KC_ENTER)
 				continue;
 
 			return press;
@@ -725,7 +725,7 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 					if (press.mouse.button && !(mode & (TARGET_LOOK))) break;
 				} else {
 					/* Stop on everything but "return"/"space" */
-					if (press.key.code != '\n' && press.key.code != '\r' && press.key.code != ' ')
+					if (press.key.code != KC_ENTER && press.key.code != ' ')
 						break;
 
 					/* Sometimes stop at "space" key */
@@ -784,7 +784,7 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 						if (press.mouse.button && !(mode & (TARGET_LOOK))) break;
 					} else {
 						/* Stop on everything but "return"/"space" */
-						if ((press.key.code != '\n') && (press.key.code != '\r') && (press.key.code != ' ')) break;
+						if ((press.key.code != KC_ENTER) && (press.key.code != ' ')) break;
 
 						/* Sometimes stop at "space" key */
 						if ((press.key.code == ' ') && !(mode & (TARGET_LOOK))) break;
@@ -911,7 +911,7 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 				press = inkey_m();
 
 				/* Stop on everything but "return"/"space" */
-				if ((press.key.code != '\n') && (press.key.code != '\r') && (press.key.code != ' ')) break;
+				if ((press.key.code != KC_ENTER) && (press.key.code != ' ')) break;
 
 				/* Sometimes stop at "space" key */
 				if ((press.key.code == ' ') && !(mode & (TARGET_LOOK))) break;
@@ -995,7 +995,7 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 					break;
 			} else {
 				/* Stop on everything but "return"/"space" */
-				if ((press.key.code != '\n') && (press.key.code != '\r') && (press.key.code != ' ')) break;
+				if ((press.key.code != KC_ENTER) && (press.key.code != ' ')) break;
 			}
 		}
 
@@ -1004,7 +1004,8 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 				/* Stop on right click */
 				if (press.mouse.button != 2)
 					break;
-		} else if ((press.key.code != '\n') && (press.key.code != '\r')) break;
+		} else if (press.key.code != KC_ENTER)
+			break;
 	}
 
 	/* Keep going */

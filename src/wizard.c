@@ -1691,8 +1691,7 @@ void do_cmd_debug(void)
 		/* Ignore */
 		case ESCAPE:
 		case ' ':
-		case '\n':
-		case '\r':
+		case KC_ENTER:
 		{
 			break;
 		}
