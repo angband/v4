@@ -1142,7 +1142,7 @@ static bool cast_priest_spell(int spell, int dir)
 
 		case PRAYER_CLAIRVOYANCE:
 		{
-			wiz_light();
+			wiz_light(FALSE);
 			break;
 		}
 
