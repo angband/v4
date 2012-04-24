@@ -50,7 +50,7 @@ bool borg_money_scum(void)
         borg_keypress('5');
         borg_keypress('0');
         borg_keypress('0');
-        borg_keypress('\n');
+        borg_keypress(KC_ENTER);
     }
     else if (borg_skill[BI_CLEVEL] >= 15)
     {
@@ -58,7 +58,7 @@ bool borg_money_scum(void)
         borg_keypress('R');
         borg_keypress('7');
         borg_keypress('5');
-        borg_keypress('\n');
+        borg_keypress(KC_ENTER);
     }
     else /* Low level, dont want to get mobbed */
     {
@@ -66,7 +66,7 @@ bool borg_money_scum(void)
         borg_keypress('R');
         borg_keypress('2');
         borg_keypress('5');
-        borg_keypress('\n');
+        borg_keypress(KC_ENTER);
     }
 
 	/* Don't rest too long at night.  We tend to crash the game if too many
@@ -2589,13 +2589,13 @@ static bool borg_think_shop_sell(void)
             if (qty == 4) borg_keypress('4');
             if (qty == 3) borg_keypress('3');
             if (qty == 2) borg_keypress('2');
-	        borg_keypress('\n');
+	        borg_keypress(KC_ENTER);
         }
 
         /* Mega-Hack -- Accept the price */
         if (goal_shop != 7)
 		{
-			borg_keypress('\n');
+			borg_keypress(KC_ENTER);
 			borg_keypress(ESCAPE);
 			borg_keypress(ESCAPE);
 			borg_keypress(ESCAPE);
@@ -2669,8 +2669,8 @@ static bool borg_think_shop_buy(void)
 
 
         /* Mega-Hack -- Accept the price */
-        borg_keypress('\n');
-        borg_keypress('\n');
+        borg_keypress(KC_ENTER);
+        borg_keypress(KC_ENTER);
         borg_keypress(' ');
         borg_keypress(' ');
         borg_keypress(ESCAPE);
@@ -2813,7 +2813,7 @@ bool borg_think_dungeon_light(void)
             /* just wait */
             borg_keypress('R');
             borg_keypress('9');
-            borg_keypress('\n');
+            borg_keypress(KC_ENTER);
             return (TRUE);
         }
 
@@ -2878,7 +2878,7 @@ bool borg_think_dungeon_light(void)
 				borg_note("# Resting on this Glowing Grid to gain mana.");
         		borg_keypress('R');
 	        	borg_keypress('*');
-	        	borg_keypress('\n');
+	        	borg_keypress(KC_ENTER);
 	        	return (TRUE);
 			}
         }
@@ -5216,7 +5216,7 @@ bool borg_think_dungeon(void)
         /* Rest until done */
         borg_keypress('R');
         borg_keypress('9');
-        borg_keypress('\n');
+        borg_keypress(KC_ENTER);
 
         /* Done */
         return (TRUE);
