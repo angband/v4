@@ -447,38 +447,45 @@ bool dtrap_edge(int y, int x)
 	return FALSE; 
 }
 
+/* Deleted by gabe but reinstated by CC to enable d_m's rewrite of
+ * get_grid_attr below */
+bool feat_is_known_trap(int feat) {
+   return feat >= FEAT_TRAP_HEAD && feat <= FEAT_TRAP_TAIL;
+}
 
 /**
  * Apply text lighting effects
  */
 static void grid_get_attr(grid_data *g, byte *a)
 {
-	/* Trap detect edge, but don't colour traps themselves, or treasure */
-	if (g->trapborder && !g->trap_idx &&
-			!feat_is_treasure(g->f_idx))
-	{
-		if (g->in_view)
-			*a = TERM_L_GREEN;
-		else
-			*a = TERM_GREEN;
+	/* Save the high-bit, since it's used for attr inversion. */
+	byte a0 = *a & 0x80;
+
+	/* We will never tint traps or treasure */
+	if (feat_is_known_trap(g->f_idx) || feat_is_treasure(g->f_idx)) return;
+
+	/* Tint the trap detection edge green. */
+	if (g->trapborder) {
+		*a = a0 | (g->in_view ? TERM_L_GREEN : TERM_GREEN);
+		return;
 	}
-	else if (g->f_idx == FEAT_FLOOR)
-	{
-		if (g->lighting == FEAT_LIGHTING_BRIGHT) {
-			if (*a == TERM_WHITE)
-				*a = TERM_YELLOW;
-		} else if (g->lighting == FEAT_LIGHTING_DARK) {
-			if (*a == TERM_WHITE)
-				*a = TERM_L_DARK;
+
+	/* If the square isn't white we won't apply any other lighting effects. */
+	if ((*a & 0x7F) != TERM_WHITE) return;
+
+	/* If it's a floor tile then we'll tint based on lighting. */
+	if (g->f_idx == FEAT_FLOOR) {
+		switch (g->lighting) {
+			case FEAT_LIGHTING_BRIGHT: *a = a0 | TERM_YELLOW; break;
+			case FEAT_LIGHTING_DARK: *a = a0 | TERM_L_DARK; break;
+			default: break;
 		}
+		return;
 	}
-	else if (g->f_idx > FEAT_FLOOR)
-	{
-		if (g->lighting == FEAT_LIGHTING_DARK) {
-			if (*a == TERM_WHITE)
-				*a = TERM_SLATE;
-		}
-	}
+
+	/* If it's another kind of tile, only tint when unlit. */
+	if (g->f_idx > FEAT_INVIS && g->lighting == FEAT_LIGHTING_DARK)
+		*a = a0 | TERM_SLATE;
 }
 
 
@@ -3869,11 +3876,24 @@ bool cave_isshop(struct cave *c, int y, int x) {
 }
 
 /**
+ * True if cave is an up stair.
+ */
+bool cave_isupstairs(struct cave*c, int y, int x) {
+    return c->feat[y][x] == FEAT_LESS;
+}
+
+/**
+ * True if cave is a down stair.
+ */
+bool cave_isdownstairs(struct cave*c, int y, int x) {
+    return c->feat[y][x] == FEAT_MORE;
+}
+
+/**
  * True if the square is a set of stairs.
  */
-bool cave_isstairs(struct cave *c, int y, int x) {
-	int feat = c->feat[y][x];
-	return feat == FEAT_LESS || feat == FEAT_MORE;
+bool cave_isstairs(struct cave*c, int y, int x) {
+    return cave_isupstairs(c, y, x) || cave_isdownstairs(c, y, x);
 }
 
 /**
