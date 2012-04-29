@@ -179,8 +179,9 @@ static bool py_attack_real(int y, int x, bool *fear)
 
 	/* Handle normal weapon */
 	if (o_ptr->kind) {
-		int mult = 100, slay_index = 0;
+		int slay_index = 0;
 		const struct slay *best_s_ptr = NULL;
+		bool state_hack = FALSE;
 
 		hit_verb = "hit";
 
@@ -196,19 +197,26 @@ static bool py_attack_real(int y, int x, bool *fear)
 			if (p_ptr->inventory[i].kind)
 				object_notice_slays(&p_ptr->inventory[i], learn_flags);
 
-		/* Set mult, verb and index for best applicable slay */
+		/* Set verb and index for best applicable slay */
 		if (best_s_ptr) {
 			hit_verb = best_s_ptr->melee_verb;
 			slay_index = best_s_ptr->index;
-			mult += p_ptr->state.slay_mult[best_s_ptr->index];
-			if (best_s_ptr->vuln_flag &&
-					rf_has(r_ptr->flags, best_s_ptr->vuln_flag))
-				mult += 100;
+			/* Increase mult for explicit vulnerabilities */
+			if (obj_flag_type(best_s_ptr->object_flag) != OFT_HURT &&
+					best_s_ptr->vuln_flag &&
+					rf_has(r_ptr->flags, best_s_ptr->vuln_flag)) {
+				p_ptr->state.slay_mult[slay_index] += 100;
+				state_hack = TRUE;
+			}
 		}
 
 		/* Calculate the damage (including criticals and slays) */
 		dmg = calc_damage(o_ptr, p_ptr->state, slay_index, ATTACK_MELEE,
 			&msg_type, RANDOMISE) / 10;
+
+		/* Restore state */
+		if (state_hack)
+			p_ptr->state.slay_mult[slay_index] -= 100;
 
 		/* Learn by use for the weapon */
 		object_notice_attack_plusses(o_ptr);

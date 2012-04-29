@@ -169,8 +169,10 @@ void improve_attack_modifier(s16b mult[], const monster_type *m_ptr,
 				bestmult = mult[i];
 		}
 
-		/* If the monster is explicitly vulnerable, mult will be 1x higher */
-		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag)) {
+		/* If the monster is explicitly vulnerable, mult will be 1x higher
+		  (but not for HURT flags, which have this built in to their mult) */
+		if (s_ptr->vuln_flag && rf_has(r_ptr->flags, s_ptr->vuln_flag) &&
+				obj_flag_type(s_ptr->object_flag) != OFT_HURT) {
 			if (real) {
 				of_on(learn_flags, s_ptr->object_flag);
 				if (m_ptr->ml)
@@ -409,14 +411,14 @@ bool object_slay_mults(const object_type *o_ptr, s16b mult[])
 		if (wield_slot(o_ptr) > INVEN_BOW && wield_slot(o_ptr) < INVEN_TOTAL
 				&& !s_ptr->nonweap) continue;
 
-		/* Use -1 for HURT flags, which don't use a pval for modifying damage */
-		if (obj_flag_type(s_ptr->object_flag) == OFT_HURT) {
-			mult[s_ptr->index] = -1;
-			continue;
-		}
+		/* The multiplier is contained in the pval */
+		newmult = o_ptr->pval[which_pval(o_ptr, i)];
+
+		/* ... except HURT flags, which don't use a pval for modifying damage */
+		if (obj_flag_type(s_ptr->object_flag) == OFT_HURT)
+			newmult = 100;
 
 		/* Use the multiplier if it's higher than the existing one */
-		newmult = o_ptr->pval[which_pval(o_ptr, i)];
 		if (newmult > mult[s_ptr->index]) {
 			mult[s_ptr->index] = newmult;
 			changed = TRUE;

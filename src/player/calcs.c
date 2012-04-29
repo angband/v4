@@ -1518,15 +1518,15 @@ int calc_damage(const object_type *o_ptr, player_state state, int slay_index,
 	int base_dam = damcalc(o_ptr->dd, o_ptr->ds, dam_aspect);
 
 	/* Check for critical hits */
-	base_dam = critical_norm(state, o_ptr, base_dam, attack_type, msg_type,
+	dam = critical_norm(state, o_ptr, base_dam, attack_type, msg_type,
 		dam_aspect);
 
-	/* Adjust for prowess and heft, and multiply by 10 */
-	dam = (base_dam * state.dam_multiplier) / 10;
+	/* Adjust for prowess and heft (leaving total 10x actual damage) */
+	dam *= state.dam_multiplier / 10;
 
-	/* Adjust for the best applicable slay (also x10) */
+	/* Adjust for the best applicable slay */
 	if (slay_index)
-		dam += base_dam * state.slay_mult[slay_index] / 10;
+		dam *= state.slay_mult[slay_index] / 100;
 
 	return dam;
 }
