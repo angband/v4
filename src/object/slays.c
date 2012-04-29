@@ -411,12 +411,11 @@ bool object_slay_mults(const object_type *o_ptr, s16b mult[])
 		if (wield_slot(o_ptr) > INVEN_BOW && wield_slot(o_ptr) < INVEN_TOTAL
 				&& !s_ptr->nonweap) continue;
 
-		/* The multiplier is contained in the pval */
-		newmult = o_ptr->pval[which_pval(o_ptr, i)];
-
-		/* ... except HURT flags, which don't use a pval for modifying damage */
+		/* HURT flags don't use a pval for modifying damage */
 		if (obj_flag_type(s_ptr->object_flag) == OFT_HURT)
 			newmult = 100;
+		/* ... otherwise the multiplier is contained in the pval */
+		else newmult = o_ptr->pval[which_pval(o_ptr, i)];
 
 		/* Use the multiplier if it's higher than the existing one */
 		if (newmult > mult[s_ptr->index]) {
