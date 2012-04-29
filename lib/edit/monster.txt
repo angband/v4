@@ -951,7 +951,7 @@ D:It is a large slimy mass of worms.
 N:75:Large grey snake
 T:snake
 C:s
-I:100:27:6:-10:10:100
+I:100:27:6:-10:4:100
 W:4:1:0:14
 B:BITE:HURT:1d5
 B:CRUSH:HURT:1d8
@@ -994,7 +994,7 @@ D:Larger than a crow, and pitch black.
 N:35:Soldier
 T:person
 C:u
-I:110:18:20:0:5:80
+I:110:18:20:0:4:80
 W:5:1:0:6
 B:HIT:HURT:1d7
 B:HIT:HURT:1d7
@@ -1254,7 +1254,7 @@ D:This vast gleaming bronze fly has wings which beat mesmerically fast.
 N:82:Large kobold
 T:kobold
 C:b
-I:110:50:20:0:5:70
+I:110:50:20:0:4:70
 W:7:1:0:20
 B:HIT:HURT:1d10
 F:DROP_60
@@ -1388,7 +1388,7 @@ D:It is a black lizard with overlapping scales and a powerful jaw.
 N:110:Mughash the Kobold Lord
 T:kobold
 C:v
-I:110:125:20:0:7:40
+I:110:125:20:0:4:40
 W:7:3:0:100
 B:HIT:HURT:1d10
 B:HIT:HURT:1d10
@@ -1547,7 +1547,7 @@ D:Trained to hunt and kill without fear.
 N:98:Cave orc
 T:orc
 C:G
-I:110:45:20:0:5:70
+I:110:45:20:0:4:70
 W:9:1:0:16
 B:HIT:HURT:1d8
 F:FRIENDS
@@ -1671,7 +1671,7 @@ D: you are trespassing in its territory.
 N:120:Hill orc
 T:orc
 C:u
-I:110:50:20:0:6:70
+I:110:50:20:0:4:70
 W:10:1:0:22
 B:HIT:HURT:1d10
 F:FRIENDS
@@ -1694,7 +1694,7 @@ D:It is a vast black spider whose bulbous body is bloated with poison.
 N:136:Dark elven mage
 T:humanoid
 C:r
-I:120:39:20:15:0:30
+I:120:39:20:15:1:30
 W:10:1:0:50
 B:HIT:HURT:1d6
 B:HIT:HURT:1d6
@@ -1710,7 +1710,7 @@ D:A dark elven figure, dressed all in black, hurling spells at you.
 N:137:Orfax, Son of Boldor
 T:yeek
 C:B
-I:120:120:18:5:5:10
+I:120:120:18:5:4:10
 W:10:3:0:80
 B:HIT:HURT:1d9
 B:HIT:HURT:1d8
@@ -1729,7 +1729,7 @@ D: yeek.
 N:138:Dark elven warrior
 T:humanoid
 C:u
-I:110:55:20:5:7:40
+I:110:55:20:5:4:40
 W:10:1:0:50
 B:HIT:HURT:1d8
 B:HIT:HURT:1d8
@@ -1752,7 +1752,7 @@ D:Yum!  It looks quite tasty.
 N:140:Grishnákh, the Hill Orc
 T:orc
 C:y
-I:110:200:20:0:6:50
+I:110:200:20:0:4:50
 W:10:3:0:160
 B:HIT:HURT:1d12
 B:HIT:HURT:1d10
@@ -1765,7 +1765,7 @@ D:He is a cunning and devious orc with a chaotic nature.
 N:141:Giant white tick
 T:spider
 C:w
-I:100:40:12:-10:15:20
+I:100:40:12:-10:4:20
 W:10:2:0:27
 B:BITE:POISON:2d6
 F:ANIMAL | WEIRD_MIND
@@ -1840,7 +1840,7 @@ D:A fast-breeding, annoying pest.
 N:150:Brigand
 T:person
 C:b
-I:115:41:20:15:0:5
+I:115:41:20:15:1:5
 W:10:2:0:35
 B:HIT:HURT:2d4
 B:TOUCH:EAT_ITEM
@@ -1957,7 +1957,7 @@ D:It is a shambling orcish corpse leaving behind a trail of flesh.
 N:154:Gnome mage
 T:humanoid
 C:r
-I:110:32:18:10:0:20
+I:110:32:18:10:1:20
 W:11:2:0:38
 B:HIT:HURT:1d5
 F:MALE | EVIL | FRIEND
@@ -1997,7 +1997,7 @@ D: and its fur coated in frost.
 N:157:Grape jelly
 T:jelly
 C:P
-I:110:234:2:-25:5:99
+I:110:234:2:-25:4:99
 W:12:3:0:60
 B:TOUCH:EXP_10
 F:HAS_LIGHT
@@ -2022,7 +2022,7 @@ D: you....
 N:159:Golfimbul, the Hill Orc Chief
 T:orc
 C:Y
-I:110:210:20:0:7:40
+I:110:210:20:0:4:40
 W:12:3:0:230
 B:HIT:HURT:1d12
 B:HIT:HURT:1d12
@@ -2051,7 +2051,7 @@ D:A small humanoid that radiates some power.
 N:161:Priest
 T:person
 C:g
-I:110:54:20:0:5:40
+I:110:54:20:0:4:40
 W:12:1:0:36
 B:HIT:HURT:2d3
 B:HIT:HURT:2d3
@@ -2067,7 +2067,7 @@ D:A robed man, dedicated to his god.
 N:162:Dark elven priest
 T:humanoid
 C:g
-I:120:39:20:5:5:40
+I:120:39:20:5:4:40
 W:12:1:0:50
 B:HIT:HURT:1d9
 B:HIT:HURT:1d10
@@ -2131,7 +2131,7 @@ D:A ghostly apparition that shrieks horribly.
 N:168:Swordsman
 T:person
 C:u
-I:110:54:20:0:8:70
+I:110:54:20:0:4:70
 W:12:1:0:40
 B:HIT:HURT:3d5
 B:HIT:HURT:3d5
@@ -2143,7 +2143,7 @@ D:A warrior of considerable skill.
 N:170:Spotted jelly
 T:jelly
 C:o
-I:120:59:12:-25:9:0
+I:120:59:12:-25:4:0
 W:12:3:0:33
 B:TOUCH:ACID:1d10
 B:TOUCH:ACID:2d6
@@ -2199,7 +2199,7 @@ D:A large black cat, stalking you with intent.  It thinks you're its next meal.
 N:151:Baby multi-hued dragon
 T:dragon
 C:v
-I:110:114:20:0:0:70
+I:110:114:20:0:3:70
 W:13:2:0:45
 B:CLAW:HURT:1d4
 B:CLAW:HURT:1d4
@@ -2216,7 +2216,7 @@ D: scales shimmering with hints of many different colours.
 N:617:Baby law drake
 T:dragon
 C:B
-I:110:114:20:0:0:70
+I:110:114:20:0:3:70
 W:13:2:0:55
 B:CLAW:HURT:1d4
 B:CLAW:HURT:1d4
@@ -2233,7 +2233,7 @@ D: cunning and its scales shimmer in colors of silver.
 N:618:Baby chaos drake
 T:dragon
 C:v
-I:110:114:20:0:0:70
+I:110:114:20:0:3:70
 W:13:2:0:55
 B:CLAW:HURT:1d4
 B:CLAW:HURT:1d4
@@ -2250,7 +2250,7 @@ D:shifting between a series of varicolored lizardlike shapes.
 N:619:Baby balance drake
 T:dragon
 C:v
-I:110:114:20:0:0:70
+I:110:114:20:0:3:70
 W:13:2:0:65
 B:CLAW:HURT:1d6
 B:CLAW:HURT:1d6
@@ -2282,7 +2282,7 @@ D:A dark elven torso merged with the bloated form of a giant spider.
 N:172:Killer brown beetle
 T:killer beetle
 C:u
-I:110:59:10:-10:15:30
+I:110:59:10:-10:4:30
 W:13:1:0:45
 B:BITE:HURT:4d4
 D:It is a vicious insect with a tough carapace.
@@ -2290,7 +2290,7 @@ D:It is a vicious insect with a tough carapace.
 N:173:Boldor, King of the Yeeks
 T:yeek
 C:P
-I:120:170:18:5:5:10
+I:120:170:18:5:4:10
 W:13:3:0:200
 B:HIT:HURT:1d9
 B:HIT:HURT:1d9
@@ -2317,7 +2317,7 @@ D:A hideous, smallish giant that is often found near or with orcs.
 N:175:Creeping mithril coins
 T:creeping coins
 C:B
-I:110:90:5:0:5:10
+I:110:90:5:0:4:10
 W:13:3:0:45
 B:HIT:HURT:2d5
 B:TOUCH:POISON:3d5
@@ -2329,7 +2329,7 @@ mimic:gold:mithril
 N:176:Illusionist
 T:person
 C:I
-I:120:54:20:20:0:20
+I:120:54:20:20:1:20
 W:13:2:0:50
 B:HIT:HURT:2d2
 F:MALE | EVIL | SMART | HAS_LIGHT
@@ -2344,7 +2344,7 @@ D:A deceptive spell caster.
 N:177:Druid
 T:person
 C:G
-I:110:78:20:0:0:20
+I:110:78:20:0:1:20
 W:13:2:0:50
 B:HIT:HURT:2d4
 B:HIT:HURT:2d4
@@ -2386,7 +2386,7 @@ D:It makes you itch just to look at it.
 N:181:Ufthak of Cirith Ungol
 T:orc
 C:g
-I:110:280:20:0:7:40
+I:110:280:20:0:4:40
 W:14:3:0:250
 B:HIT:HURT:3d4
 B:HIT:HURT:3d4
@@ -2401,7 +2401,7 @@ D: spiders.
 N:183:Blue icky thing
 T:icky thing
 C:b
-I:100:35:15:0:5:10
+I:100:35:15:0:4:10
 W:14:4:0:20
 B:CRAWL:POISON:1d4
 B:CRAWL:EAT_FOOD
@@ -2419,7 +2419,7 @@ D: cunning.  It hungers for food, and you look tasty.
 N:185:Flesh golem
 T:golem
 C:R
-I:110:54:12:-15:10:10
+I:110:54:12:-15:7:10
 W:14:2:0:50
 B:HIT:HURT:1d6
 B:HIT:HURT:1d6
@@ -2494,7 +2494,7 @@ D:Yum!  It looks quite tasty.  It seems to glow with an unusual light.
 N:192:Guardian naga
 T:naga
 C:B
-I:110:130:20:0:8:120
+I:110:130:20:0:4:120
 W:15:2:0:80
 B:CRUSH:HURT:2d8
 B:BITE:HURT:1d8
@@ -2535,7 +2535,7 @@ D:A hole in the air in the shape of a huge hound.  No light falls upon its form.
 N:195:Half-orc
 T:orc
 C:s
-I:110:70:20:0:8:50
+I:110:70:20:0:4:50
 W:15:2:0:50
 B:HIT:HURT:3d4
 B:HIT:HURT:3d4
@@ -2623,7 +2623,7 @@ D:A completely translucent hound.
 N:204:Clay golem
 T:golem
 C:U
-I:105:63:12:-15:15:10
+I:105:63:12:-15:8:10
 W:15:2:0:60
 B:HIT:HURT:1d8
 B:HIT:HURT:1d8
@@ -2660,7 +2660,7 @@ D:It is a vast armoured centipede with massive mandibles and a spiked tail.
 N:144:Pseudo-dragon
 T:dragon
 C:o
-I:110:176:20:0:0:70
+I:110:176:20:0:3:70
 W:16:2:0:100
 B:CLAW:HURT:1d3
 B:CLAW:HURT:1d3
@@ -2676,7 +2676,7 @@ D:A small relative of the dragon that inhabits dark caves.
 N:178:Black orc
 T:orc
 C:D
-I:110:55:20:0:8:60
+I:110:55:20:0:4:60
 W:16:1:0:40
 B:HIT:HURT:3d4
 B:HIT:HURT:3d4
@@ -2690,7 +2690,7 @@ D:He is a large orc with powerful arms and deep black skin.
 N:205:Umber hulk
 T:xorn
 C:U
-I:110:90:20:0:5:30
+I:110:90:20:0:4:30
 W:16:1:0:75
 B:GAZE:CONFUSE
 B:HIT:HURT:1d6
@@ -2731,7 +2731,7 @@ D:A giant buzzing wasp, its stinger drips venom.
 N:211:Ulfast, Son of Ulfang
 T:person
 C:U
-I:110:300:20:0:8:40
+I:110:300:20:0:4:40
 W:16:3:0:200
 B:HIT:HURT:3d5
 B:HIT:HURT:3d5
@@ -2806,7 +2806,7 @@ D:The lawful evil master's favourite pet.
 N:214:Forest troll
 T:troll
 C:g
-I:110:110:20:-10:5:80
+I:110:110:20:-10:4:80
 W:17:1:0:70
 B:HIT:HURT:1d4
 B:HIT:HURT:1d4
@@ -2819,7 +2819,7 @@ D:He is green skinned and ugly.
 N:215:Nár, the Dwarf
 T:humanoid
 C:y
-I:110:420:25:0:8:25
+I:110:420:25:0:4:25
 W:17:2:0:250
 B:HIT:HURT:3d5
 B:HIT:HURT:3d5
@@ -2864,7 +2864,7 @@ D:A whirlpool of sentient liquid.
 N:218:Giant red scorpion
 T:spider
 C:r
-I:110:50:12:0:10:20
+I:110:50:12:0:4:20
 W:17:1:0:62
 B:BITE:HURT:2d4
 B:STING:LOSE_STR:1d7
@@ -2875,7 +2875,7 @@ D:It is fast and poisonous.
 N:219:Earth spirit
 T:elemental
 C:u
-I:120:59:10:-5:8:20
+I:120:59:10:-5:4:20
 W:17:2:0:64
 B:HIT:HURT:1d8
 B:HIT:HURT:1d8
@@ -3024,7 +3024,7 @@ D: waking all it nears.
 N:588:Evil eye
 T:eye
 C:g
-I:110:68:2:-25:8:10
+I:110:68:2:-25:5:10
 W:18:3:0:80
 B:GAZE:EXP_10
 B:GAZE:EXP_10
@@ -3042,7 +3042,7 @@ D: except approach it in horrified fascination.
 N:206:Orc captain
 T:orc
 C:o
-I:110:90:20:0:10:30
+I:110:90:20:0:5:30
 W:19:3:0:80
 B:HIT:HURT:3d5
 B:HIT:HURT:3d5
@@ -3056,7 +3056,7 @@ D:An armoured orc with an air of authority.
 N:227:Shagrat, the Orc Captain
 T:orc
 C:g
-I:110:350:20:0:10:20
+I:110:350:20:0:5:20
 W:19:2:0:400
 B:HIT:HURT:3d8
 B:HIT:HURT:3d8
@@ -3070,7 +3070,7 @@ D: Ungol.
 N:228:Gorbag, the Orc Captain
 T:orc
 C:g
-I:110:350:20:0:10:20
+I:110:350:20:0:5:20
 W:19:2:0:400
 B:HIT:HURT:3d8
 B:HIT:HURT:3d8
@@ -3084,7 +3084,7 @@ D: Morgul.
 N:232:Stone golem
 T:golem
 C:W
-I:105:90:12:-15:20:10
+I:105:90:12:-15:10:10
 W:19:2:0:100
 B:HIT:HURT:1d10
 B:HIT:HURT:1d10
@@ -3127,7 +3127,7 @@ D: heard for quite some distance, alerting other monsters to your presence.
 N:226:Uruk
 T:orc
 C:B
-I:110:60:20:0:10:30
+I:110:60:20:0:5:30
 W:20:1:0:50
 B:HIT:HURT:3d5
 B:HIT:HURT:3d5
@@ -3140,7 +3140,7 @@ D:A cunning orc of power, as tall as a man, and stronger.  It fears little.
 N:235:Bolg, Son of Azog
 T:orc
 C:P
-I:120:440:20:0:10:20
+I:120:440:20:0:5:20
 W:20:4:0:800
 B:HIT:HURT:3d6
 B:HIT:HURT:3d6
@@ -3274,7 +3274,7 @@ D:A dark elven figure in armour and radiating evil power.
 N:580:Ranger
 T:person
 C:W
-I:110:90:20:10:0:20
+I:110:90:20:10:1:20
 W:20:1:0:55
 B:HIT:HURT:5d4
 B:HIT:HURT:5d4
@@ -3291,7 +3291,7 @@ D: minor spellcasting skills, and animals come to do his bidding.
 N:581:Paladin
 T:person
 C:w
-I:110:90:20:0:10:40
+I:110:90:20:0:5:40
 W:20:1:0:55
 B:HIT:HURT:4d5
 B:HIT:HURT:4d5
@@ -3308,7 +3308,7 @@ D: rivalry even between the various gods of Good, so he is your enemy.
 N:248:Lugdush, the Uruk
 T:orc
 C:b
-I:110:570:20:0:10:20
+I:110:570:20:0:5:20
 W:21:4:0:550
 B:HIT:HURT:3d7
 B:HIT:HURT:3d7
@@ -3427,7 +3427,7 @@ D:A tall shaggy, furry humanoid, it could call the yeti brother.
 N:249:Uglúk, the Uruk
 T:orc
 C:b
-I:110:640:20:0:10:20
+I:110:640:20:0:6:20
 W:22:3:0:600
 B:HIT:HURT:3d8
 B:HIT:HURT:3d8
@@ -3441,7 +3441,7 @@ D:A strong and cunning orc warrior, the commander of Saruman's orcish horde.
 N:257:Killer stag beetle
 T:killer beetle
 C:g
-I:115:68:12:-10:15:30
+I:115:68:12:-10:6:30
 W:22:1:0:80
 B:CLAW:HURT:3d6
 B:CLAW:HURT:3d6
@@ -3451,7 +3451,7 @@ D:It is a giant beetle with vicious claws.
 N:258:Iron golem
 T:golem
 C:s
-I:105:320:12:-15:25:20
+I:105:320:12:-15:11:20
 W:22:2:0:160
 B:HIT:HURT:1d12
 F:COLD_BLOOD
@@ -3465,7 +3465,7 @@ D:It is a massive metal statue that moves steadily towards you.
 N:259:Giant yellow scorpion
 T:spider
 C:y
-I:110:54:12:0:15:20
+I:110:54:12:0:6:20
 W:22:1:0:60
 B:BITE:HURT:1d8
 B:STING:POISON:2d5
@@ -3478,7 +3478,7 @@ D:It is a giant scorpion with a sharp stinger.
 N:260:Black ooze
 T:jelly
 C:D
-I:90:27:10:-10:10:1
+I:90:27:10:-10:6:1
 W:23:1:0:7
 B:TOUCH:ACID:2d6
 F:MULTIPLY
@@ -3492,7 +3492,7 @@ D:It is a strangely moving puddle.
 N:261:Hardened warrior
 T:person
 C:u
-I:110:80:20:0:12:60
+I:110:80:20:0:6:60
 W:23:1:0:60
 B:HIT:HURT:6d5
 B:HIT:HURT:6d5
@@ -3504,7 +3504,7 @@ D:A scarred warrior who moves with confidence.
 N:262:Azog, King of the Uruk-Hai
 T:orc
 C:R
-I:120:800:20:0:12:20
+I:120:800:20:0:6:20
 W:23:5:0:1111
 B:HIT:HURT:5d5
 B:HIT:HURT:5d5
@@ -3517,7 +3517,7 @@ D: bigger than his head.
 N:263:Master rogue
 T:person
 C:b
-I:125:75:20:35:0:5
+I:125:75:20:35:1:5
 W:23:2:0:110
 B:HIT:HURT:2d8
 B:HIT:HURT:2d8
@@ -3544,7 +3544,7 @@ D:It is a sharp-tailed bat, wreathed in fire.
 N:265:Killer white beetle
 T:killer beetle
 C:w
-I:110:81:14:-10:20:30
+I:110:81:14:-10:6:30
 W:23:0:0:85
 B:BITE:HURT:4d5
 F:RAND_25
@@ -3553,7 +3553,7 @@ D:It is looking for prey.
 N:551:Giant silver ant
 T:ant
 C:W
-I:115:41:10:0:15:40
+I:115:41:10:0:6:40
 W:23:1:0:80
 B:BITE:ACID:4d4
 F:RAND_25
@@ -3761,7 +3761,7 @@ D: the strongest armour.
 N:276:Pukelman
 T:golem
 C:m
-I:110:520:12:-15:0:20
+I:110:520:12:-15:6:20
 W:25:3:0:600
 B:HIT:HURT:1d12
 B:HIT:HURT:3d6
@@ -3778,7 +3778,7 @@ D: towards you with deadly intent.
 N:277:Dark elven druid
 T:humanoid
 C:G
-I:120:210:15:10:0:20
+I:120:210:15:10:1:20
 W:25:3:0:500
 B:HIT:HURT:1d7
 B:HIT:HURT:1d7
@@ -3795,7 +3795,7 @@ D:A powerful dark elf, with mighty nature-controlling enchantments.
 N:278:Stone troll
 T:troll
 C:W
-I:110:100:20:0:12:70
+I:110:100:20:0:6:70
 W:25:1:0:85
 B:HIT:HURT:1d6
 B:HIT:HURT:1d6
@@ -3820,7 +3820,7 @@ D: head.
 N:282:Killer red beetle
 T:killer beetle
 C:r
-I:110:90:14:-10:15:30
+I:110:90:14:-10:6:30
 W:25:1:0:90
 B:BITE:LOSE_STR:4d4
 B:BITE:HURT:4d4
@@ -3830,7 +3830,7 @@ D:It is a giant beetle with poisonous mandibles.
 N:552:Giant brown tick
 T:spider
 C:u
-I:105:81:12:-10:25:20
+I:105:81:12:-10:6:20
 W:25:2:0:70
 B:BITE:POISON:2d6
 B:STING:BLIND:1d1
@@ -3859,7 +3859,7 @@ D:A troll who is so bright he knows how to read.
 N:283:Giant grey ant
 T:ant
 C:s
-I:115:86:10:0:20:10
+I:115:86:10:0:7:10
 W:26:1:0:120
 B:BITE:HURT:2d12
 B:BITE:HURT:2d12
@@ -3869,7 +3869,7 @@ D:It is an ant encased in an impenetrable exoskeleton.
 N:284:Ulwarth, Son of Ulfang
 T:person
 C:U
-I:110:850:20:0:0:40
+I:110:850:20:0:1:40
 W:26:4:0:500
 B:HIT:HURT:4d6
 B:HIT:HURT:4d6
@@ -3895,7 +3895,7 @@ D:It is a huge black panther, clubbed tentacles sprouting from its shoulders.
 N:286:Giant fire tick
 T:spider
 C:R
-I:110:72:14:-5:15:20
+I:110:72:14:-5:7:20
 W:26:1:0:90
 B:BITE:FIRE:3d6
 F:ANIMAL | WEIRD_MIND | HAS_LIGHT
@@ -3917,7 +3917,7 @@ D:A giant orc-like figure with an awesomely muscled frame.
 N:288:White wraith
 T:wraith
 C:w
-I:110:68:20:0:10:10
+I:110:68:20:0:7:10
 W:26:1:0:175
 B:HIT:HURT:1d6
 B:HIT:HURT:1d6
@@ -4019,7 +4019,7 @@ D: hunted nearly to extinction by the High Elves.
 N:291:Killer fire beetle
 T:killer beetle
 C:R
-I:110:99:14:0:15:30
+I:110:99:14:0:7:30
 W:27:1:0:95
 B:BITE:HURT:3d4
 B:SPIT:FIRE:4d5
@@ -4044,7 +4044,7 @@ mimic:gold:adamantite
 N:293:Algroth
 T:troll
 C:o
-I:110:137:20:0:10:50
+I:110:137:20:0:7:50
 W:27:1:0:150
 B:CLAW:POISON:3d3
 B:CLAW:POISON:3d3
@@ -4089,7 +4089,7 @@ D: teeth.
 N:300:Colbran
 T:golem
 C:b
-I:115:520:12:-15:0:20
+I:115:520:12:-15:7:20
 W:27:2:0:900
 B:HIT:ELEC:3d8
 B:HIT:ELEC:3d8
@@ -4133,7 +4133,7 @@ D: sparks.
 N:555:Wyvern
 T:dragon
 C:g
-I:115:203:20:10:0:60
+I:115:203:20:10:3:60
 W:27:2:0:250
 B:BITE:HURT:2d6
 B:BITE:HURT:2d6
@@ -4162,7 +4162,7 @@ D:A twelve foot tall giant covered in furs.
 N:301:Spirit naga
 T:naga
 C:w
-I:110:240:20:10:10:120
+I:110:240:20:10:7:120
 W:28:2:0:60
 B:CRUSH:HURT:2d8
 B:CRUSH:HURT:2d8
@@ -4181,7 +4181,7 @@ D: powerful of its kind.
 N:304:Uldor the Accursed
 T:person
 C:U
-I:110:1000:20:0:10:40
+I:110:1000:20:0:7:40
 W:28:4:0:600
 B:HIT:HURT:4d6
 B:HIT:HURT:4d6
@@ -4199,7 +4199,7 @@ D: Battle of Unnumbered Tears in Morgoth's favour.
 N:305:Mage
 T:person
 C:r
-I:115:68:20:15:0:10
+I:115:68:20:15:1:10
 W:28:1:0:150
 B:HIT:HURT:2d5
 B:HIT:HURT:2d5
@@ -4216,7 +4216,7 @@ D:A mage of some power - you can tell by the size of his hat.
 N:306:Mind flayer
 T:humanoid
 C:P
-I:110:132:20:20:0:10
+I:110:132:20:20:1:10
 W:28:1:0:200
 B:GAZE:LOSE_INT:2d6
 B:GAZE:LOSE_WIS:2d6
@@ -4268,7 +4268,7 @@ D: at you and your soul starts to wilt!
 N:309:Ice troll
 T:troll
 C:w
-I:110:132:20:0:10:50
+I:110:132:20:0:7:50
 W:28:1:0:200
 B:HIT:HURT:1d5
 B:HIT:HURT:1d5
@@ -4385,7 +4385,7 @@ mimic:ring:See Invisible
 N:314:Young blue dragon
 T:dragon
 C:b
-I:110:200:20:5:10:70
+I:110:200:20:5:7:70
 W:29:1:0:500
 B:CLAW:HURT:2d4
 B:CLAW:HURT:2d4
@@ -4402,7 +4402,7 @@ D: blue in hue.  Sparks crackle along its length.
 N:315:Young white dragon
 T:dragon
 C:w
-I:110:200:20:5:10:70
+I:110:200:20:5:7:70
 W:29:1:0:500
 B:CLAW:HURT:2d4
 B:CLAW:HURT:2d4
@@ -4419,7 +4419,7 @@ D: white in hue.  Icy blasts of cold air come from it as it breathes.
 N:316:Young green dragon
 T:dragon
 C:g
-I:110:200:20:5:10:70
+I:110:200:20:5:7:70
 W:29:1:0:500
 B:CLAW:HURT:2d4
 B:CLAW:HURT:2d4
@@ -4436,7 +4436,7 @@ D: green in hue.  Foul gas seeps through its scales.
 N:317:Young bronze dragon
 T:dragon
 C:U
-I:110:200:20:5:10:70
+I:110:200:20:5:7:70
 W:29:0:0:500
 B:CLAW:HURT:2d4
 B:CLAW:HURT:2d4
@@ -4460,7 +4460,7 @@ D: bronze hue, and its shape glitters with strange colours that confuse you.
 N:209:Fire giant
 T:giant
 C:r
-I:110:289:20:-10:10:50
+I:110:289:20:-10:8:50
 W:30:1:0:220
 B:HIT:FIRE:6d8
 B:HIT:FIRE:6d8
@@ -4488,7 +4488,7 @@ D: monster that breeds on death.
 N:318:Mithril golem
 T:golem
 C:B
-I:105:440:12:-15:30:30
+I:105:440:12:-15:15:30
 W:30:4:0:500
 B:HIT:HURT:3d8
 B:HIT:HURT:3d8
@@ -4533,7 +4533,7 @@ D: spikes.
 N:322:Giant blue ant
 T:ant
 C:b
-I:110:36:10:0:20:10
+I:110:36:10:0:8:10
 W:30:2:0:80
 B:BITE:ELEC:5d5
 F:RAND_25
@@ -4543,7 +4543,7 @@ D:It is a giant ant that crackles with energy.
 N:323:Giant army ant
 T:ant
 C:o
-I:120:67:10:0:10:20
+I:120:67:10:0:8:20
 W:30:3:0:90
 B:BITE:HURT:2d12
 B:BITE:HURT:2d12
@@ -4555,7 +4555,7 @@ D: of them march.
 N:324:Grave wight
 T:wraith
 C:b
-I:110:66:20:5:10:30
+I:110:66:20:5:8:30
 W:30:1:0:325
 B:HIT:HURT:1d7
 B:HIT:HURT:1d7
@@ -4571,7 +4571,7 @@ D:It is a ghostly form with eyes that haunt you.
 N:325:Killer slicer beetle
 T:killer beetle
 C:y
-I:110:138:14:0:15:30
+I:110:138:14:0:8:30
 W:30:2:0:250
 B:BITE:HURT:7d8
 B:BITE:HURT:7d8
@@ -4580,7 +4580,7 @@ D:It is a beetle with deadly sharp cutting mandibles and a rock-hard carapace.
 N:610:Ogre chieftain
 T:ogre
 C:b
-I:120:200:20:0:13:30
+I:120:200:20:0:8:30
 W:30:5:0:600
 B:HIT:HURT:3d8
 B:HIT:HURT:3d8
@@ -4663,7 +4663,7 @@ D:You don't believe in it.  But it believes in you...
 N:327:Death watch beetle
 T:killer beetle
 C:D
-I:110:163:16:0:10:30
+I:110:163:16:0:8:30
 W:31:3:0:300
 B:BITE:HURT:5d6
 B:BITE:HURT:5d6
@@ -4673,7 +4673,7 @@ D:It is a giant beetle that produces a chilling sound.
 N:372:Young black dragon
 T:dragon
 C:s
-I:110:221:20:10:10:70
+I:110:221:20:10:8:70
 W:31:1:0:700
 B:CLAW:HURT:2d6
 B:CLAW:HURT:2d6
@@ -4690,7 +4690,7 @@ D: black hue.  Acid drips from its body.
 N:382:Young gold dragon
 T:dragon
 C:y
-I:110:221:20:10:10:70
+I:110:221:20:10:8:70
 W:31:1:0:700
 B:CLAW:HURT:2d6
 B:CLAW:HURT:2d6
@@ -4706,7 +4706,7 @@ D: tarnished gold hue, and light is reflected from its form.
 N:387:Young red dragon
 T:dragon
 C:r
-I:110:221:20:10:10:70
+I:110:221:20:10:8:70
 W:31:1:0:700
 B:CLAW:HURT:2d6
 B:CLAW:HURT:2d6
@@ -4749,7 +4749,7 @@ D:It is a very unstable, strange pulsing mound of flesh.
 N:331:Ninja
 T:person
 C:y
-I:125:85:20:25:0:10
+I:125:85:20:25:2:10
 W:32:2:0:300
 B:HIT:POISON:3d4
 B:HIT:LOSE_STR:3d4
@@ -4811,7 +4811,7 @@ D: flickering bright red flames.
 N:230:Stone giant
 T:giant
 C:W
-I:110:283:20:-15:15:50
+I:110:283:20:-15:8:50
 W:33:1:0:250
 B:HIT:HURT:7d8
 B:HIT:HURT:7d8
@@ -4823,7 +4823,7 @@ D:It is eighteen feet tall and looking at you.
 N:334:Cave troll
 T:troll
 C:u
-I:110:126:20:0:10:50
+I:110:126:20:0:8:50
 W:33:1:0:350
 B:HIT:HURT:3d5
 B:HIT:HURT:3d5
@@ -4837,7 +4837,7 @@ D:He is a vicious monster, feared for his ferocity.
 N:336:Mystic
 T:person
 C:o
-I:120:308:30:20:0:5
+I:120:308:30:20:2:5
 W:33:3:0:500
 B:KICK:HURT:10d2
 B:KICK:HURT:10d2
@@ -4857,7 +4857,7 @@ D: summon help from nature and is able to focus his power to ease any pain.
 N:337:Barrow wight
 T:wraith
 C:P
-I:110:83:20:10:13:30
+I:110:83:20:10:8:30
 W:33:3:0:375
 B:HIT:HURT:1d8
 B:HIT:HURT:1d8
@@ -4935,7 +4935,7 @@ D:It is a towering tempest of water.
 N:404:Crystal drake
 T:dragon
 C:u
-I:110:321:20:10:15:70
+I:110:321:20:10:8:70
 W:33:3:0:1350
 B:CLAW:HURT:2d4
 B:CLAW:HURT:2d4
@@ -5001,7 +5001,7 @@ D:A huge, ugly, half-human in search of plunder.
 N:343:Bert the Stone Troll
 T:troll
 C:s
-I:120:970:20:0:18:50
+I:120:970:20:0:9:50
 W:34:7:0:2000
 B:HIT:HURT:6d6
 B:HIT:HURT:6d6
@@ -5018,7 +5018,7 @@ D: and Tom.
 N:344:Bill the Stone Troll
 T:troll
 C:s
-I:120:970:20:0:18:50
+I:120:970:20:0:9:50
 W:34:7:0:2000
 B:HIT:HURT:6d6
 B:HIT:HURT:6d6
@@ -5035,7 +5035,7 @@ D: and Tom.
 N:345:Tom the Stone Troll
 T:troll
 C:s
-I:120:970:20:0:18:50
+I:120:970:20:0:9:50
 W:34:7:0:2000
 B:HIT:HURT:6d6
 B:HIT:HURT:6d6
@@ -5072,7 +5072,7 @@ D: deep within your body.
 N:354:Master thief
 T:person
 C:b
-I:130:99:20:35:0:5
+I:130:99:20:35:2:5
 W:34:2:0:350
 B:HIT:HURT:2d8
 B:HIT:HURT:3d4
@@ -5106,7 +5106,7 @@ D: Morgoth.
 N:356:Lich
 T:lich
 C:o
-I:110:224:20:5:10:60
+I:110:224:20:5:9:60
 W:34:2:0:1000
 B:TOUCH:EXP_40
 B:TOUCH:UN_POWER
@@ -5123,7 +5123,7 @@ D:It is a skeletal form dressed in robes.  It radiates vastly evil power.
 N:358:Giant grey scorpion
 T:spider
 C:s
-I:120:189:12:10:15:40
+I:120:189:12:10:9:40
 W:34:4:0:275
 B:BITE:HURT:1d6
 B:STING:POISON:1d4
@@ -5134,7 +5134,7 @@ D:It is a giant grey scorpion.  It looks poisonous.
 N:359:Earth elemental
 T:elemental
 C:u
-I:100:165:10:0:15:50
+I:100:165:10:0:9:50
 W:34:2:0:375
 B:HIT:HURT:4d6
 B:HIT:HURT:4d6
@@ -5166,7 +5166,7 @@ D:It is a towering tornado of winds.
 N:362:Eog golem
 T:golem
 C:u
-I:105:720:12:-15:35:20
+I:105:720:12:-15:17:20
 W:34:4:0:1200
 B:HIT:HURT:8d6
 B:HIT:HURT:8d6
@@ -5212,7 +5212,7 @@ D:It is impossible to define its form but its violence is legendary.
 N:364:Dagashi
 T:person
 C:y
-I:125:169:20:30:0:10
+I:125:169:20:30:2:10
 W:35:4:0:500
 B:HIT:POISON:3d4
 B:HIT:LOSE_STR:3d4
@@ -5243,7 +5243,7 @@ D:A disgusting animated blob of destruction.  Flee its gruesome hunger!
 N:373:Mûmak
 T:quadruped
 C:s
-I:110:495:20:0:10:70
+I:110:495:20:0:9:70
 W:35:2:0:2100
 B:BUTT:HURT:4d6
 B:BUTT:HURT:4d6
@@ -5267,7 +5267,7 @@ N:556:Chest mimic
 T:mimic
 G:~
 C:s
-I:110:308:30:-25:10:0
+I:110:308:30:-25:9:0
 W:35:4:0:250
 B:BITE:POISON:4d4
 B:BITE:POISON:4d4
@@ -5312,7 +5312,7 @@ D: malevolent light.
 N:319:Shadow drake
 T:dragon
 C:G
-I:110:264:20:10:10:70
+I:110:264:20:10:9:70
 W:36:3:0:1100
 B:CLAW:HURT:2d4
 B:CLAW:HURT:2d4
@@ -5331,7 +5331,7 @@ D: rather than the body.
 N:339:Chaos drake
 T:dragon
 C:v
-I:110:410:20:10:12:70
+I:110:410:20:10:9:70
 W:36:3:0:1300
 B:CLAW:HURT:2d4
 B:CLAW:HURT:2d4
@@ -5349,7 +5349,7 @@ D: its form shimmers and changes in front of your eyes.
 N:340:Law drake
 T:dragon
 C:B
-I:110:410:20:10:12:70
+I:110:410:20:10:9:70
 W:36:3:0:1300
 B:CLAW:HURT:2d4
 B:CLAW:HURT:2d4
@@ -5366,7 +5366,7 @@ D: it.
 N:341:Balance drake
 T:dragon
 C:v
-I:110:464:20:10:12:70
+I:110:464:20:10:9:70
 W:36:3:0:1400
 B:CLAW:HURT:2d4
 B:CLAW:HURT:2d4
@@ -5401,7 +5401,7 @@ D: drake's eyes glare with white hatred from the shadows.
 N:363:Olog
 T:troll
 C:y
-I:110:284:20:0:15:50
+I:110:284:20:0:9:50
 W:36:1:0:450
 B:HIT:HURT:1d12
 B:HIT:HURT:1d12
@@ -5414,7 +5414,7 @@ D:It is a massive intelligent troll with needle-sharp fangs.
 N:247:Cloud giant
 T:giant
 C:b
-I:110:368:20:-5:10:40
+I:110:368:20:-5:9:40
 W:36:1:0:500
 B:HIT:ELEC:8d8
 B:HIT:ELEC:8d8
@@ -5526,7 +5526,7 @@ D: your very soul.
 N:379:Grey wraith
 T:wraith
 C:s
-I:110:167:20:10:14:10
+I:110:167:20:10:9:10
 W:36:1:0:700
 B:HIT:HURT:1d10
 B:HIT:HURT:1d10
@@ -5543,7 +5543,7 @@ D: deathly cold.
 N:381:Colossus
 T:golem
 C:G
-I:105:2100:12:-20:35:10
+I:105:2100:12:-20:18:10
 W:36:4:0:850
 B:HIT:HURT:10d10
 B:HIT:HURT:10d10
@@ -5625,7 +5625,7 @@ D:A figure twisted by evil standing in robes of deepest crimson.
 N:615:Greater mummy
 T:zombie
 C:y
-I:115:299:30:0:17:90
+I:115:299:30:0:9:90
 W:36:5:0:800
 B:CLAW:LOSE_CON:3d6
 B:CLAW:LOSE_CON:3d6
@@ -5668,7 +5668,7 @@ D: magic.
 N:390:Ice elemental
 T:elemental
 C:w
-I:110:193:10:10:10:50
+I:110:193:10:10:9:50
 W:37:3:0:650
 B:TOUCH:COLD:4d3
 B:HIT:HURT:4d6
@@ -5685,7 +5685,7 @@ D:It is a towering glacier of ice.
 N:394:Mummified troll
 T:zombie
 C:w
-I:110:467:20:0:10:70
+I:110:467:20:0:9:70
 W:37:1:0:420
 B:HIT:HURT:2d6
 B:HIT:HURT:2d6
@@ -5698,7 +5698,7 @@ D: fists.
 N:395:The Queen Ant
 T:ant
 C:v
-I:120:1100:30:10:25:10
+I:120:1100:30:10:9:10
 W:37:2:0:2000
 B:BITE:HURT:2d12
 B:BITE:HURT:2d12
@@ -5716,7 +5716,7 @@ D:She's upset because you hurt her children.
 N:397:Magma elemental
 T:elemental
 C:o
-I:110:193:10:10:10:50
+I:110:193:10:10:9:50
 W:37:3:0:950
 B:HIT:FIRE:3d7
 B:HIT:HURT:4d6
@@ -5749,7 +5749,7 @@ D:A lump of rotting black flesh that slurrrrrrrps across the dungeon floor.
 N:399:Killer iridescent beetle
 T:killer beetle
 C:v
-I:110:330:16:0:15:30
+I:110:330:16:0:9:30
 W:37:2:0:850
 B:CLAW:ELEC:2d12
 B:CLAW:ELEC:2d12
@@ -5787,7 +5787,7 @@ D:A whirlpool of intense flame, charring the stones at your feet.
 N:420:Eldrak
 T:troll
 C:r
-I:110:660:20:0:10:40
+I:110:660:20:0:9:40
 W:37:3:0:800
 B:HIT:HURT:3d4
 B:HIT:HURT:3d4
@@ -5904,7 +5904,7 @@ D: shadow.  It reaches out at you.
 N:418:Erinyes
 T:major demon
 C:u
-I:115:210:20:5:25:70
+I:115:210:20:5:10:70
 W:38:2:0:1000
 B:HIT:HURT:3d4
 B:TOUCH:LOSE_STR:1d5
@@ -6037,7 +6037,7 @@ D:A strange reptilian hybrid with seven heads dripping venom.
 N:375:Mature white dragon
 T:dragon
 C:w
-I:115:352:20:10:15:70
+I:115:352:20:10:10:70
 W:40:1:0:1100
 B:CLAW:HURT:2d8
 B:CLAW:HURT:2d8
@@ -6053,7 +6053,7 @@ D:A large dragon, scales gleaming bright white.
 N:384:Mature blue dragon
 T:dragon
 C:b
-I:115:352:20:10:15:70
+I:115:352:20:10:10:70
 W:40:1:0:1100
 B:CLAW:HURT:2d8
 B:CLAW:HURT:2d8
@@ -6069,7 +6069,7 @@ D:A large dragon, scales tinted deep blue.
 N:385:Mature green dragon
 T:dragon
 C:g
-I:115:352:20:10:15:70
+I:115:352:20:10:10:70
 W:40:1:0:1100
 B:CLAW:HURT:2d8
 B:CLAW:HURT:2d8
@@ -6085,7 +6085,7 @@ D:A large dragon, scales tinted deep green.
 N:386:Mature bronze dragon
 T:dragon
 C:U
-I:115:352:20:10:15:70
+I:115:352:20:10:10:70
 W:40:0:0:1100
 B:CLAW:HURT:2d8
 B:CLAW:HURT:2d8
@@ -6127,7 +6127,7 @@ D:A weird ghostly troll-like being from the ethereal plane.
 N:435:Enchantress
 T:person
 C:i
-I:130:457:20:20:0:10
+I:130:457:20:20:2:10
 W:40:4:0:2100
 B:HIT:HURT:2d6
 B:HIT:HURT:2d6
@@ -6146,7 +6146,7 @@ D: rarely fights without.
 N:437:Sorcerer
 T:person
 C:R
-I:130:457:20:20:0:10
+I:130:457:20:20:2:10
 W:40:2:0:2150
 B:HIT:HURT:2d8
 B:HIT:HURT:2d8
@@ -6194,7 +6194,7 @@ D: and its screech echoes through the many winding dungeon corridors.
 N:440:Uvatha the Horseman
 T:wraith
 C:p
-I:120:1600:90:10:15:10
+I:120:1600:90:10:10:10
 W:40:3:0:10000
 B:HIT:HURT:6d6
 B:HIT:HURT:6d6
@@ -6301,7 +6301,7 @@ D: tribe.  It fears nothing.
 N:392:Lorgan, Chief of the Easterlings
 T:person
 C:P
-I:120:1800:25:5:0:10
+I:120:1800:25:5:2:10
 W:41:2:0:2000
 B:HIT:HURT:6d6
 B:HIT:HURT:6d6
@@ -6358,7 +6358,7 @@ D:It is a demon of lizard form with cruel-looking jaws.
 N:454:Gorlim, Betrayer of Barahir
 T:person
 C:z
-I:120:1600:20:15:0:40
+I:120:1600:20:15:2:40
 W:41:3:0:7000
 B:HIT:HURT:8d6
 B:HIT:HURT:8d6
@@ -6382,7 +6382,7 @@ D: servant of evil, even though the other side of his "bargain" was not kept.
 N:383:Rogrog the Black Troll
 T:troll
 C:D
-I:120:1750:20:5:15:30
+I:120:1750:20:5:11:30
 W:42:3:0:5000
 B:HIT:HURT:6d7
 B:HIT:HURT:6d7
@@ -6400,7 +6400,7 @@ D: muscular frame.  Despite his bulk, he strikes with stunning speed.
 N:402:Mature red dragon
 T:dragon
 C:r
-I:115:440:20:10:15:70
+I:115:440:20:10:11:70
 W:41:1:0:1400
 B:CLAW:HURT:2d10
 B:CLAW:HURT:2d10
@@ -6417,7 +6417,7 @@ D:A large dragon, scales tinted deep red.
 N:403:Mature gold dragon
 T:dragon
 C:y
-I:115:440:20:10:15:70
+I:115:440:20:10:11:70
 W:41:1:0:1400
 B:CLAW:HURT:2d10
 B:CLAW:HURT:2d10
@@ -6433,7 +6433,7 @@ D:A large dragon with scales of gleaming gold.
 N:405:Mature black dragon
 T:dragon
 C:s
-I:115:440:20:10:15:70
+I:115:440:20:10:11:70
 W:41:1:0:1400
 B:CLAW:HURT:2d10
 B:CLAW:HURT:2d10
@@ -6565,7 +6565,7 @@ D: of the rings.
 N:456:Glabrezu
 T:major demon
 C:U
-I:115:616:20:5:18:70
+I:115:616:20:5:11:70
 W:43:2:0:3000
 B:HIT:HURT:3d4
 B:HIT:HURT:3d4
@@ -6581,7 +6581,7 @@ D:It is demon with arms and pincers, its form a true mockery of life.
 N:466:Quaker, Master of Earth
 T:elemental
 C:U
-I:110:2400:10:5:16:50
+I:110:2400:10:5:11:50
 W:43:3:0:4500
 B:HIT:HURT:6d6
 B:HIT:HURT:6d6
@@ -6727,7 +6727,7 @@ D: blow as it stalks towards you.
 N:453:Akhorahil the Blind
 T:wraith
 C:p
-I:120:2200:90:10:15:10
+I:120:2200:90:10:11:10
 W:45:3:0:15000
 B:HIT:HURT:7d6
 B:HIT:HURT:7d6
@@ -6749,7 +6749,7 @@ D: any ordinary man ever could.
 N:458:Nalfeshnee
 T:major demon
 C:r
-I:115:792:20:10:15:80
+I:115:792:20:10:11:80
 W:45:2:0:5000
 B:HIT:HURT:3d4
 B:HIT:HURT:3d4
@@ -6767,7 +6767,7 @@ D: length.
 N:584:Cyclops
 T:giant
 C:u
-I:120:870:20:0:15:20
+I:120:870:20:0:11:20
 W:45:2:0:1500
 B:HIT:HURT:9d9
 B:HIT:HURT:9d9
@@ -6783,7 +6783,7 @@ D:A gigantic ugly humanoid with but one eye and very thick skin.
 N:411:Ancient blue dragon
 T:ancient dragon
 C:b
-I:120:633:20:10:15:80
+I:120:633:20:10:12:80
 W:46:1:0:1900
 B:CLAW:HURT:4d8
 B:CLAW:HURT:4d8
@@ -6798,7 +6798,7 @@ D:A huge draconic form.  Lightning crackles along its length.
 N:412:Ancient bronze dragon
 T:ancient dragon
 C:U
-I:120:633:20:10:15:80
+I:120:633:20:10:12:80
 W:46:0:0:1900
 B:CLAW:HURT:4d8
 B:CLAW:HURT:4d8
@@ -6812,7 +6812,7 @@ D:A huge draconic form enveloped in a cascade of colour.
 N:424:Ancient white dragon
 T:ancient dragon
 C:w
-I:120:633:20:10:15:80
+I:120:633:20:10:12:80
 W:46:1:0:1900
 B:CLAW:HURT:4d8
 B:CLAW:HURT:4d8
@@ -6827,7 +6827,7 @@ D:A huge draconic form.  Frost covers it from head to tail.
 N:425:Ancient green dragon
 T:ancient dragon
 C:g
-I:120:633:20:10:15:80
+I:120:633:20:10:12:80
 W:46:1:0:1900
 B:CLAW:HURT:4d8
 B:CLAW:HURT:4d8
@@ -6842,7 +6842,7 @@ D:A huge draconic form enveloped in clouds of poisonous vapour.
 N:429:Ancient black dragon
 T:ancient dragon
 C:s
-I:120:880:20:10:15:80
+I:120:880:20:10:12:80
 W:46:1:0:2000
 B:CLAW:HURT:4d9
 B:CLAW:HURT:4d9
@@ -6893,7 +6893,7 @@ D: speed and its powers make it a tornado of death and destruction.
 N:473:Scatha the Worm
 T:ancient dragon
 C:W
-I:120:2000:30:10:15:70
+I:120:2000:30:10:12:70
 W:46:2:0:17000
 B:CLAW:HURT:4d10
 B:CLAW:HURT:4d10
@@ -6934,7 +6934,7 @@ D: struggles to banish it.
 N:479:Death mold
 T:mold
 C:D
-I:140:1050:200:-25:20:0
+I:140:1050:200:-25:12:0
 W:47:1:0:1000
 B:SPORE:UN_BONUS:7d7
 B:SPORE:UN_BONUS:7d7
@@ -6950,7 +6950,7 @@ D: surrounds it.  Luckily for you, it can't move.
 N:480:Itangast the Fire Drake
 T:ancient dragon
 C:R
-I:120:2000:30:10:15:70
+I:120:2000:30:10:12:70
 W:47:2:0:20000
 B:CLAW:HURT:4d10
 B:CLAW:HURT:4d10
@@ -6969,7 +6969,7 @@ D: curl up from his nostrils as he regards you with disdain.
 N:444:Ancient red dragon
 T:ancient dragon
 C:r
-I:120:880:20:10:15:80
+I:120:880:20:10:12:80
 W:47:1:0:2200
 B:CLAW:HURT:4d9
 B:CLAW:HURT:4d9
@@ -6986,7 +6986,7 @@ D: heat surrounding it makes you gasp for breath.
 N:445:Ancient gold dragon
 T:ancient dragon
 C:y
-I:120:880:20:10:15:80
+I:120:880:20:10:12:80
 W:47:1:0:2200
 B:CLAW:HURT:4d9
 B:CLAW:HURT:4d9
@@ -7003,7 +7003,7 @@ D: deafens you.
 N:457:Ren the Unclean
 T:wraith
 C:p
-I:120:2350:90:10:15:10
+I:120:2350:90:10:12:10
 W:48:3:0:18000
 B:HIT:HURT:7d7
 B:HIT:HURT:7d7
@@ -7027,7 +7027,7 @@ D: family, and he never recovered.
 N:475:Smaug the Golden
 T:ancient dragon
 C:R
-I:120:1800:30:10:27:120
+I:120:1800:30:10:12:120
 W:48:2:0:23000
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -7111,7 +7111,7 @@ D: The dungeon shakes with each of its steps toward you.
 N:594:Eöl, the Dark Elf
 T:humanoid
 C:v
-I:130:2400:20:30:0:40
+I:130:2400:20:30:2:40
 W:49:2:0:25000
 B:HIT:HURT:3d8
 B:HIT:HURT:3d8
@@ -7197,7 +7197,7 @@ D:A foul wind chills your bones as this ghastly figure approaches.
 N:491:Harowen the Black Hand
 T:person
 C:Z
-I:140:2500:40:60:0:0
+I:140:2500:40:60:3:0
 W:51:3:0:20000
 B:TOUCH:EAT_GOLD:5d5
 B:TOUCH:EAT_ITEM:5d5
@@ -7218,7 +7218,7 @@ D: with blinding speed.  Check your pockets!
 N:415:Blue Wizard
 T:ainu
 C:b
-I:120:1020:30:15:15:255
+I:120:1020:30:15:13:255
 W:52:6:0:5000
 B:HIT:HURT:4d6
 B:HIT:HURT:5d5
@@ -7238,7 +7238,7 @@ D: the blue wizards command powerful magics and make formidable opponents.
 N:451:Master lich
 T:lich
 C:r
-I:120:1184:20:5:20:50
+I:120:1184:20:5:13:50
 W:52:2:0:8000
 B:TOUCH:EXP_80
 B:TOUCH:UN_POWER
@@ -7256,7 +7256,7 @@ D: fingers.
 N:464:Ji Indur Dawndeath
 T:wraith
 C:p
-I:120:2700:90:10:17:10
+I:120:2700:90:10:13:10
 W:52:3:0:22000
 B:HIT:HURT:8d7
 B:HIT:HURT:8d7
@@ -7433,7 +7433,7 @@ D: feed her voracious appetite.
 N:583:Berserker
 T:person
 C:u
-I:120:1320:20:10:0:10
+I:120:1320:20:10:3:10
 W:55:2:0:2100
 B:HIT:HURT:6d6
 B:HIT:HURT:6d6
@@ -7477,7 +7477,7 @@ D: condemned Númenor to oblivion.
 N:474:Dwar, Dog Lord of Waw
 T:wraith
 C:p
-I:120:3400:90:10:20:10
+I:120:3400:90:10:14:10
 W:56:3:0:25000
 B:HIT:HURT:8d8
 B:HIT:HURT:8d8
@@ -7584,7 +7584,7 @@ D: that defy him.
 N:582:Ranger Chieftain
 T:person
 C:W
-I:120:880:20:30:0:10
+I:120:880:20:30:3:10
 W:58:2:0:1200
 B:HIT:HURT:5d5
 B:HIT:HURT:5d5
@@ -7668,7 +7668,7 @@ D: bacteria that make it pulse in a foul and degrading way.
 N:514:Saruman of Many Colours
 T:person
 C:v
-I:120:5000:100:35:0:0
+I:120:5000:100:35:3:0
 W:60:1:0:35000
 B:HIT:UN_BONUS:6d8
 B:HIT:UN_BONUS:6d8
@@ -7693,7 +7693,7 @@ drop-artifact:[Mordenkainen's Escapes]
 N:450:Dark elven sorcerer
 T:humanoid
 C:R
-I:130:700:20:25:0:10
+I:130:700:20:25:3:10
 W:60:2:0:3000
 B:HIT:HURT:2d8
 B:HIT:HURT:2d8
@@ -7734,7 +7734,7 @@ D: form but you sense its evil.
 N:446:Great crystal drake
 T:ancient dragon
 C:u
-I:120:1648:25:10:20:80
+I:120:1648:25:10:15:80
 W:61:2:0:7500
 B:CLAW:HURT:4d10
 B:CLAW:HURT:4d10
@@ -7770,7 +7770,7 @@ D: in unearthly shadows.
 N:509:Arien, Maia of the Sun
 T:ainu
 C:R
-I:130:3500:40:20:20:10
+I:130:3500:40:20:15:10
 W:61:3:0:25000
 B:HIT:FIRE:4d12
 B:HIT:FIRE:4d12
@@ -7843,7 +7843,7 @@ D: vitality for its evil enchantments.
 N:482:Master mystic
 T:person
 C:o
-I:130:968:30:25:0:5
+I:130:968:30:25:3:5
 W:63:3:0:6000
 B:KICK:HURT:10d2
 B:KICK:HURT:10d2
@@ -7865,7 +7865,7 @@ D: need be.
 N:492:Hoarmurath of Dir
 T:wraith
 C:p
-I:120:3500:90:10:25:10
+I:120:3500:90:10:16:10
 W:63:3:0:30000
 B:HIT:HURT:9d9
 B:HIT:HURT:9d9
@@ -7889,7 +7889,7 @@ D: an unlife of everlasting torment.
 N:455:Istar
 T:ainu
 C:y
-I:125:1300:30:20:20:255
+I:125:1300:30:20:16:255
 W:64:5:0:8600
 B:GAZE:TERRIFY:4d4
 B:GAZE:TERRIFY:4d4
@@ -7910,7 +7910,7 @@ D: crush their foes.
 N:513:Radagast the Brown
 T:ainu
 C:u
-I:130:4500:40:25:25:10
+I:130:4500:40:25:16:10
 W:64:3:0:35000
 B:HIT:UN_BONUS:6d8
 B:HIT:FIRE:6d8
@@ -7933,7 +7933,7 @@ D: belie his inner strength.
 N:510:Ossë, Herald of Ulmo
 T:ainu
 C:w
-I:130:4000:40:25:25:10
+I:130:4000:40:25:16:10
 W:64:3:0:35000
 B:HIT:EXP_80:10d5
 B:HIT:EXP_80:10d5
@@ -7978,7 +7978,7 @@ D: to see another.
 N:532:The Mouth of Sauron
 T:person
 C:v
-I:130:7000:60:25:0:10
+I:130:7000:60:25:3:10
 W:65:3:0:38000
 B:HIT:UN_BONUS:6d8
 B:HIT:UN_BONUS:6d8
@@ -8003,7 +8003,7 @@ D: unshakably that he is unbeatable and laughs as he weaves his awesome spells.
 N:472:Drolem
 T:golem
 C:g
-I:120:2200:25:10:5:80
+I:120:2200:25:10:17:80
 W:66:3:0:10000
 B:CLAW:HURT:3d10
 B:CLAW:HURT:3d10
@@ -8064,7 +8064,7 @@ D: give away her true form.
 N:557:Demilich
 T:lich
 C:U
-I:125:2316:20:10:25:40
+I:125:2316:20:10:17:40
 W:67:2:0:10000
 B:TOUCH:EXP_80
 B:TOUCH:UN_POWER
@@ -8122,7 +8122,7 @@ D: trouble.
 N:433:Lesser titan
 T:giant
 C:y
-I:120:1700:30:0:20:15
+I:120:1700:30:0:17:15
 W:69:3:0:5000
 B:HIT:CONFUSE:9d9
 B:HIT:CONFUSE:9d9
@@ -8160,7 +8160,7 @@ D: capable of a terrifying berserk fury.
 N:585:Polyphemus, the Blind Cyclops
 T:giant
 C:g
-I:130:5300:40:0:5:20
+I:130:5300:40:0:7:20
 W:69:3:0:29000
 B:HIT:HURT:11d10
 B:HIT:HURT:11d10
@@ -8227,7 +8227,7 @@ D: of its victims from beyond the grave to come enslaved to its aid.
 N:493:Grand master mystic
 T:person
 C:o
-I:130:1936:30:45:0:5
+I:130:1936:30:45:4:5
 W:71:3:0:12000
 B:KICK:HURT:20d2
 B:KICK:HURT:10d2
@@ -8249,7 +8249,7 @@ D: disdainful ease.
 N:499:Hand druj
 T:skeleton
 C:y
-I:130:528:20:-25:20:10
+I:130:528:20:-25:18:10
 W:71:2:0:9600
 F:SMART | ATTR_FLICKER
 F:NEVER_BLOW | NEVER_MOVE
@@ -8267,7 +8267,7 @@ D: fingers.
 N:494:Khamûl, the Black Easterling
 T:wraith
 C:p
-I:120:4500:90:10:25:10
+I:120:4500:90:10:18:10
 W:72:3:0:40000
 B:HIT:HURT:9d10
 B:HIT:HURT:9d10
@@ -8290,7 +8290,7 @@ drop-artifact:[Holy Infusions]
 N:500:Eye druj
 T:skeleton
 C:r
-I:130:880:20:-25:20:10
+I:130:880:20:-25:18:10
 W:72:2:0:12000
 F:SMART | ATTR_FLICKER
 F:NEVER_BLOW | NEVER_MOVE
@@ -8441,7 +8441,7 @@ D: internal organs best left to the imagination.
 N:484:Nightwing
 T:wraith
 C:v
-I:120:1430:20:10:25:10
+I:120:1430:20:10:19:10
 W:75:3:0:8500
 B:TOUCH:POISON:6d5
 B:TOUCH:POISON:6d5
@@ -8487,7 +8487,7 @@ D: experienced.
 N:489:Great Storm Wyrm
 T:ancient dragon
 C:b
-I:125:3080:30:10:20:30
+I:125:3080:30:10:19:30
 W:76:2:0:17000
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8507,7 +8507,7 @@ D: muscles.  It regards you with contempt.
 N:496:Great Ice Wyrm
 T:ancient dragon
 C:w
-I:125:3080:30:10:20:30
+I:125:3080:30:10:19:30
 W:76:2:0:17000
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8527,7 +8527,7 @@ D: wrath!
 N:576:Great Swamp Wyrm
 T:ancient dragon
 C:g
-I:125:3080:30:10:20:30
+I:125:3080:30:10:19:30
 W:76:2:0:17000
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8547,7 +8547,7 @@ D: fight it, it sees no reason to do likewise.
 N:577:Great Wyrm of Perplexity
 T:ancient dragon
 C:U
-I:125:3080:30:10:20:30
+I:125:3080:30:10:19:30
 W:77:0:0:16500
 B:CLAW:HURT:4d12
 B:CLAW:HURT:4d12
@@ -8611,7 +8611,7 @@ D: risen from the dead to continue his foul plots and schemes.
 N:558:Archlich
 T:lich
 C:B
-I:125:3020:20:10:20:40
+I:125:3020:20:10:19:40
 W:77:2:0:16500
 B:TOUCH:EXP_80
 B:TOUCH:UN_POWER
@@ -8696,7 +8696,7 @@ D: defiance.
 N:586:Atlas, the Titan
 T:giant
 C:s
-I:120:6000:30:10:5:15
+I:120:6000:30:10:8:15
 W:78:3:0:36500
 B:HIT:SHATTER:13d13
 B:HIT:CONFUSE:13d13
@@ -8714,7 +8714,7 @@ D: on his shoulders; and the mountain range that now does so is named after him.
 N:608:Bone golem
 T:golem
 C:D
-I:120:3080:20:15:5:20
+I:120:3080:20:15:20:20
 W:78:3:0:20000
 B:HIT:UN_BONUS:8d8
 B:HIT:UN_BONUS:8d8
@@ -8736,7 +8736,7 @@ D: victims.
 N:481:Glaurung, Father of the Dragons
 T:ancient dragon
 C:v
-I:130:6250:30:10:40:20
+I:130:6250:30:10:20:20
 W:79:3:0:44000
 B:CLAW:HURT:5d12
 B:CLAW:HURT:5d12
@@ -8804,7 +8804,7 @@ D: stones of the dungeon - what could it do to you?
 N:512:Nightwalker
 T:wraith
 C:D
-I:130:1650:20:10:22:10
+I:130:1650:20:10:20:10
 W:80:3:0:19000
 B:HIT:UN_BONUS:10d10
 B:HIT:UN_BONUS:10d10
@@ -8997,7 +8997,7 @@ D: Run and run quickly, for death incarnate chases behind you!
 N:535:The Witch-King of Angmar
 T:wraith
 C:p
-I:130:6000:90:10:27:10
+I:130:6000:90:10:21:10
 W:84:3:0:57500
 B:HIT:HURT:10d10
 B:HIT:HURT:10d10
@@ -9202,7 +9202,7 @@ D: help to protect itself.
 N:609:Bronze golem
 T:golem
 C:o
-I:120:3520:20:15:10:20
+I:120:3520:20:15:22:20
 W:89:3:0:21500
 B:HIT:HURT:10d10
 B:HIT:HURT:10d10
@@ -9253,7 +9253,7 @@ D: spine as you face it.
 N:587:Kronos, Lord of the Titans
 T:giant
 C:v
-I:120:6200:30:10:25:15
+I:120:6200:30:10:23:15
 W:90:3:0:40000
 B:HIT:CONFUSE:12d12
 B:HIT:CONFUSE:12d12
@@ -9546,7 +9546,7 @@ D: terrible of all dragonkind, his power dismayed even the Valar for a time.
 N:545:Gothmog, the High Captain of Balrogs
 T:major demon
 C:v
-I:130:8000:100:10:32:0
+I:130:8000:100:10:25:0
 W:98:1:0:43000
 B:HIT:FIRE:9d12
 B:HIT:FIRE:9d12
