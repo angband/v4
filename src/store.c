@@ -2418,7 +2418,8 @@ static bool store_purchase(int item)
 	}
 
 	/* Describe the object (fully) */
-	object_desc(o_name, sizeof(o_name), i_ptr, ODESC_ARTICLE | ODESC_FULL);
+	object_desc(o_name, sizeof(o_name), i_ptr, ODESC_ARTICLE | ODESC_FULL |
+		ODESC_STORE);
 
 	/* Attempt to buy it */
 	if (store->sidx != STORE_HOME)
@@ -2777,8 +2778,10 @@ static void store_examine(int item)
 	o_ptr = &store->stock[item];
 
 	/* Show full info in most stores, but normal info in player home */
-	tb = object_info(o_ptr, (store->sidx != STORE_HOME) ? OINFO_FULL : OINFO_NONE);
-	object_desc(header, sizeof(header), o_ptr, ODESC_ARTICLE | ODESC_FULL);
+	tb = object_info(o_ptr, (store->sidx != STORE_HOME) ? OINFO_FULL :
+		OINFO_NONE);
+	object_desc(header, sizeof(header), o_ptr, ODESC_ARTICLE | ODESC_FULL |
+		ODESC_STORE);
 
 	textui_textblock_show(tb, area, header);
 	textblock_free(tb);
