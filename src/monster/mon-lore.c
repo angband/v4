@@ -1907,6 +1907,7 @@ void cheat_monster_lore(const monster_race *r_ptr, monster_lore *l_ptr)
 	assert(l_ptr);
 	
 	/* Hack -- Maximal kills */
+	l_ptr->sights = MAX_SHORT;
 	l_ptr->tkills = MAX_SHORT;
 
 	/* Hack -- Maximal info */
