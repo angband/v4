@@ -750,19 +750,19 @@ K:sword:Bastard Sword:0x8A:0x8E # & Bastard Sword~
 K:sword:Katana:0x8B:0x92 # & Katana~  
 K:sword:Zweihander:0x8A:0x8F # & Zweihander~  
 K:sword:Executioner's Sword:0x8A:0x8F # & Executioner's Sword~  
-K:sword:Blade of Chaos:0x8A:0x91 # & Blade~ of Chaos  
+#K:sword:Blade of Chaos:0x8A:0x91 # & Blade~ of Chaos  
 K:hafted:Whip:0x8A:0x92 # & Whip~  
 K:hafted:Ball-and-Chain:0x8A:0x99 # & Ball-and-Chain~  
 K:hafted:Morning Star:0x8A:0x97 # & Morning Star~  
 K:hafted:Flail:0x8A:0x96 # & Flail~  
 K:hafted:Two-Handed Great Flail:0x8A:0x9A # & Two-Handed Great Flail~  
 K:hafted:Mace:0x8A:0x94 # & Mace~  
-K:hafted:Lead-Filled Mace:0x8A:0x98 # & Lead-Filled Mace~  
+#K:hafted:Lead-Filled Mace:0x8A:0x98 # & Lead-Filled Mace~  
 K:hafted:Quarterstaff:0x8A:0x95 # & Quarterstaff~  
 K:hafted:War Hammer:0x8A:0x93 # & War Hammer~  
 K:hafted:Maul:0x8A:0xB0 # & Maul~  
 K:hafted:Great Hammer:0x8A:0xB0 # & Great Hammer~  
-K:hafted:Mace of Disruption:0x8A:0x9B # & Mace~ of Disruption  
+#K:hafted:Mace of Disruption:0x8A:0x9B # & Mace~ of Disruption  
 K:polearm:Spear:0x8A:0x9C # & Spear~  
 K:polearm:Awl-Pike:0x8A:0x9E # & Awl-Pike~  
 K:polearm:Trident:0x8A:0x9D # & Trident~  
@@ -776,7 +776,7 @@ K:polearm:Great Axe:0x8A:0xA8 # & Great Axe~
 K:polearm:Scythe:0x8A:0xA9 # & Scythe~  
 K:polearm:Glaive:0x8A:0xA5 # & Glaive~  
 K:polearm:Lance:0x8A:0x9F # & Lance~  
-K:polearm:Scythe of Slicing:0x8A:0xAA # & Scythe~ of Slicing  
+#K:polearm:Scythe of Slicing:0x8A:0xAA # & Scythe~ of Slicing  
 K:polearm:Lucerne Hammer:0x8A:0xA0 # & Lucerne Hammer~  
 K:bow:Sling:0x8A:0xAF # & Sling~  
 K:bow:Short Bow:0x8A:0xAB # & Short Bow~  
@@ -785,13 +785,13 @@ K:bow:Light Crossbow:0x8A:0xAD # & Light Crossbow~
 K:bow:Heavy Crossbow:0x8A:0xAE # & Heavy Crossbow~  
 K:arrow:Arrow:0x8A:0xB1 # & Arrow~  
 K:arrow:Seeker Arrow:0x8A:0xB2 # & Seeker Arrow~  
-K:arrow:Mithril Arrow:0x8A:0xD9 # & Mithril Arrow~  
+#K:arrow:Mithril Arrow:0x8A:0xD9 # & Mithril Arrow~  
 K:bolt:Bolt:0x8A:0xB3 # & Bolt~  
 K:bolt:Seeker Bolt:0x8A:0xB4 # & Seeker Bolt~  
-K:bolt:Mithril Bolt:0x8A:0xE3 # & Mithril Bolt~  
+#K:bolt:Mithril Bolt:0x8A:0xE3 # & Mithril Bolt~  
 K:shot:Rounded Pebble:0x8A:0xB5 # & Rounded Pebble~  
 K:shot:Sling Shot:0x8A:0xB6 # & Sling Shot~  
-K:shot:Mithril Shot:0x8B:0xB6 # & Mithril Shot~  
+#K:shot:Mithril Shot:0x8B:0xB6 # & Mithril Shot~  
 K:digger:Shovel:0x87:0x9E # & Shovel~  
 K:digger:Pick:0x87:0x9B # & Pick~  
 K:digger:Mattock:0x87:0x9D # & Mattock~  
@@ -799,15 +799,15 @@ K:boots:Pair of Sandals:0x80:0x94 # & Pair~ of Sandals
 K:boots:Pair of Soft Boots:0x80:0x95 # & Pair~ of Soft Boots  
 K:boots:Pair of Hard Boots:0x80:0x96 # & Pair~ of Hard Boots  
 K:boots:Pair of Greaves:0x8B:0xB4 # & Pair~ of Greaves
-K:boots:Pair of Mithril Shod Boots:0x8B:0xB5 # & Pair~ of Mithril Shod Boots  
+#K:boots:Pair of Mithril Shod Boots:0x8B:0xB5 # & Pair~ of Mithril Shod Boots  
 K:boots:Pair of Slippers:0x80:0x93 # & Pair~ of Slippers  
 K:helm:Soft Cap:0x80:0xC6
 K:helm:Hard Cap:0x80:0x8B  
 K:helm:Helm:0x80:0x8C
 K:helm:Full Helm:0x80:0x8D
 K:crown:Crown:0x80:0x8F
-K:crown:Golden Crown:0x80:0x90 # & Golden Crown~  
-K:crown:Jewel Encrusted Crown:0x80:0x91 # & Jewel Encrusted Crown~  
+#K:crown:Golden Crown:0x80:0x90 # & Golden Crown~  
+#K:crown:Jewel Encrusted Crown:0x80:0x91 # & Jewel Encrusted Crown~  
 K:soft armor:Robe:0x80:0xA2 # & Robe~  
 K:soft armor:Jerkin:0x80:0xA6 # Soft Leather Armour~  
 K:soft armor:Studded Armour:0x80:0xA9 # Studded Leather Armour~  
@@ -822,18 +822,18 @@ K:hard armor:Plate Mail:0x80:0xB2 # Partial Plate Armour~
 K:hard armor:Lamellar Armour:0x80:0xB3 # Metal Lamellar Armour~  
 K:hard armor:Full Plate Armour:0x80:0xB4 # Full Plate Armour~  
 K:hard armor:Ribbed Plate Armour:0x80:0xB5 # Ribbed Plate Armour~  
-K:hard armor:Mithril Chain Mail:0x80:0xB7 # Mithril Chain Mail~  
-K:hard armor:Mithril Plate Mail:0x80:0xB6 # Mithril Plate Mail~  
-K:hard armor:Adamantite Plate Mail:0x80:0xB8 # Adamantite Plate Mail~  
+#K:hard armor:Mithril Chain Mail:0x80:0xB7 # Mithril Chain Mail~  
+#K:hard armor:Mithril Plate Mail:0x80:0xB6 # Mithril Plate Mail~  
+#K:hard armor:Adamantite Plate Mail:0x80:0xB8 # Adamantite Plate Mail~  
 K:cloak:Cloak:0x80:0x81 # & Cloak~  
 K:cloak:Heavy Cloak:0x80:0x82 # & Fur Cloak~  
-K:cloak:Elven Cloak:0x80:0x83 # & Elven Cloak~  
-K:cloak:Ethereal Cloak:0x80:0x84 # & Ethereal Cloak~  
+#K:cloak:Elven Cloak:0x80:0x83 # & Elven Cloak~  
+#K:cloak:Ethereal Cloak:0x80:0x84 # & Ethereal Cloak~  
 K:gloves:Set of Gloves:0x80:0x97 # & Set~ of Leather Gloves  
 K:gloves:Set of Gauntlets:0x80:0x98 # & Set~ of Gauntlets  
 K:gloves:Set of Bracers:0x80:0x9A # & Set~ of Mithril Gauntlets  
 K:gloves:Set of Caestus:0x80:0x9B # & Set~ of Caestus  
-K:gloves:Set of Alchemist's Gloves:0x80:0x99 # & Set~ of Alchemist's Gloves  
+#K:gloves:Set of Alchemist's Gloves:0x80:0x99 # & Set~ of Alchemist's Gloves  
 K:shield:Buckler:0x80:0xE6
 K:shield:Small Shield:0x80:0x9C # & Wicker Shield~  
 K:shield:Kite Shield:0x80:0x9E # & Small Metal Shield~  
@@ -898,8 +898,8 @@ K:scroll:Treasure Detection:0x87:0xEF # Treasure Detection
 K:scroll:Trap Detection:0x87:0xE2 # Trap Detection  
 K:scroll:Door/Stair Location:0x87:0xE8 # Door/Stair Location  
 K:scroll:Detect Invisible:0x87:0xEE # Detect Invisible  
-K:scroll:Enchant Weapon To-Hit:0x87:0xCF # Enchant Weapon To-Hit  
-K:scroll:Enchant Weapon To-Dam:0x87:0xD0 # Enchant Weapon To-Dam  
+K:scroll:Enchant Weapon (Finesse):0x87:0xCF # Enchant Weapon To-Hit  
+K:scroll:Enchant Weapon (Prowess):0x87:0xD0 # Enchant Weapon To-Dam  
 K:scroll:Enchant Armour:0x87:0xD2 # Enchant Armour  
 K:scroll:*Enchant Weapon*:0x87:0xEB # *Enchant Weapon*  
 K:scroll:*Enchant Armour*:0x87:0xD1 # *Enchant Armour*  
