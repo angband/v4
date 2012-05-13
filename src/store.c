@@ -2574,6 +2574,9 @@ void do_cmd_sell(cmd_code code, cmd_arg args[])
 	inven_item_increase(item, -amt);
 	inven_item_optimize(item);
 
+	/* Notice if pack items need to be combined or reordered */
+	notice_stuff(p_ptr);
+
 	/* Handle stuff */
 	handle_stuff(p_ptr);
 
@@ -2777,6 +2780,9 @@ static void store_examine(int item)
 	/* Get the actual object */
 	o_ptr = &store->stock[item];
 
+	/* Hack -- no flush needed */
+	msg_flag = FALSE;
+
 	/* Show full info in most stores, but normal info in player home */
 	tb = object_info(o_ptr, (store->sidx != STORE_HOME) ? OINFO_FULL :
 		OINFO_NONE);
@@ -2847,6 +2853,9 @@ static bool store_process_command_key(struct keypress kp)
 {
 	int cmd = 0;
 
+	/* Hack -- no flush needed */
+	msg_flag = FALSE;
+
 	/* Process the keycode */
 	switch (kp.code) {
 		case 'T': /* roguelike */
@@ -2878,6 +2887,31 @@ static bool store_process_command_key(struct keypress kp)
 		cmd_insert_repeated(cmd, 0);
 
 	return TRUE;
+}
+
+/*
+ * Select an item from the store's stock, and return the stock index
+ */
+static int store_get_stock(menu_type *m, int oid)
+{
+	ui_event e;
+	int no_act = m->flags & MN_NO_ACTION;
+
+	/* set a flag to make sure that we get the selection or escape
+	 * without running the menu handler
+	 */
+	m->flags |= MN_NO_ACTION;
+	e = menu_select(m, 0, TRUE);
+	if (!no_act) {
+		m->flags &= ~MN_NO_ACTION;
+	}
+
+	if (e.type == EVT_SELECT) {
+		return m->cursor;
+	}
+
+	/* if we do not have a new selection, just return the original item */
+	return oid;
 }
 
 int context_menu_store(struct store *store, const int oid, int x, int y);
@@ -2945,9 +2979,28 @@ static bool store_menu_handle(menu_type *m, const ui_event *event, int oid)
 			case 's':
 			case 'd': storechange = store_sell(); break;
 			case 'p':
-			case 'g': storechange = store_purchase(oid); break;
+			case 'g':
+				{
+					/*if (TRUE) {*/
+						/* use the old way of purchasing items */
+						msg_flag = FALSE;
+						prt("Purchase which item?", 0, 0);
+						oid = store_get_stock(m, oid);
+					/*}*/
+					storechange = store_purchase(oid); break;
+				}
 			case 'l':
-			case 'x': store_examine(oid); break;
+			case 'x':
+				{
+					/*if (TRUE) {*/
+						/* use the old way of examining items */
+						msg_flag = FALSE;
+						prt("Examine which item?", 0, 0);
+						oid = store_get_stock(m, oid);
+						prt("", 0, 0);
+					/*}*/
+					store_examine(oid); break;
+				}
 
 			/* XXX redraw functionality should be another menu_iter handler */
 			case KTRL('R'): {
