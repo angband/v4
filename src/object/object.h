@@ -408,6 +408,8 @@ typedef struct ego_item {
 	s16b wgt_mod;							/* % change to base item weight */
 	s16b dd;								/* Extra dice */
 	s16b ds;								/* Extra sides */
+	s16b balance;							/* Balance adjustment */
+	s16b heft;								/* Heft adjustment */
 											/* M: */
 	s16b min_to_finesse;					/* Minimum finesse bonus */
 	s16b min_to_prowess;					/* Minimum prowess bonus */

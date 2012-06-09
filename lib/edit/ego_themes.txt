@@ -233,6 +233,8 @@ A:of Wisdom:6
 A:of Bravery:4
 A:of Observation:2
 A:of Support:0
+A:of Balance:1:0
+A:of Force:1
 A:Elven:1:0
 A:Dwarven:1:0
 A:Trollish:1:0
@@ -271,6 +273,8 @@ A:of Resist Cold:0
 A:of Durability:1
 A:of Stealth:0
 A:of Support:0
+A:of Balance:1:0
+A:of Force:1:0
 A:Elven:1:0
 A:Dwarven:1:0
 A:Trollish:1:0
@@ -303,6 +307,8 @@ A:of Observation:3
 A:of Free Action:5
 A:of Durability:1
 A:of Dweomercraft:0
+A:of Balance:1
+A:of Force:1
 A:Elven:1:0
 A:Dwarven:1:0
 A:Trollish:1:0
@@ -339,6 +345,8 @@ A:of Observation:5
 A:of Strength:5
 A:of Agility:5
 A:of Hardiness:5
+A:of Balance:1
+A:of Force:1
 A:Elven:1:0
 A:Dwarven:1:0
 A:Trollish:1:0
@@ -372,7 +380,8 @@ A:of Bravery:8
 A:of Durability:1
 A:of Strength:0
 A:of Strength:8
-A:of Extra Attacks:8
+A:of Force:5
+A:of Balance:5
 A:Elven:1:0
 A:Dwarven:1:0
 A:Trollish:1:0
@@ -423,6 +432,8 @@ A:Brutal:1:0
 A:of Slicing:1:0
 A:of Chaos:1:0
 A:of Disruption:1:0
+A:of Balance:1:0
+A:of Force:1:0
 
 N:23:suffix:of *Slay Evil*
 T:hafted:0:99:20 to 100
@@ -454,6 +465,8 @@ A:Brutal:1:0
 A:of Slicing:1:0
 A:of Chaos:1:0
 A:of Disruption:1:0
+A:of Balance:1:0
+A:of Force:1:0
 
 N:24:suffix:of *Slay Undead*
 T:hafted:0:18:62 to 127
@@ -486,6 +499,8 @@ A:Brutal:1:0
 A:of Slicing:1:0
 A:of Chaos:1:0
 A:of Disruption:1:0
+A:of Balance:1:0
+A:of Force:1:0
 
 N:25:suffix:of *Slay Demon*
 T:hafted:0:99:67 to 127
@@ -518,6 +533,8 @@ A:Brutal:1:0
 A:of Slicing:1:0
 A:of Chaos:1:0
 A:of Disruption:1:0
+A:of Balance:1:0
+A:of Force:1:0
 
 N:26:suffix:of *Slay Orc*
 T:hafted:0:99:10 to 44
@@ -548,6 +565,8 @@ A:Brutal:1:0
 A:of Slicing:1:0
 A:of Chaos:1:0
 A:of Disruption:1:0
+A:of Balance:1:0
+A:of Force:1:0
 
 N:27:suffix:of *Slay Troll*
 T:hafted:0:99:26 to 66
@@ -578,6 +597,8 @@ A:Brutal:1:0
 A:of Slicing:1:0
 A:of Chaos:1:0
 A:of Disruption:1:0
+A:of Balance:1:0
+A:of Force:1:0
 
 N:28:suffix:of *Slay Giant*
 T:hafted:0:99:29 to 100
@@ -608,6 +629,8 @@ A:Brutal:1:0
 A:of Slicing:1:0
 A:of Chaos:1:0
 A:of Disruption:1:0
+A:of Balance:1:0
+A:of Force:1:0
 
 N:29:suffix:of *Slay Dragon*
 T:hafted:0:99:29 to 100
@@ -639,6 +662,8 @@ A:Brutal:1:0
 A:of Slicing:1:0
 A:of Chaos:1:0
 A:of Disruption:1:0
+A:of Balance:1:0
+A:of Force:1:0
 
 N:30:suffix:of Earthquakes
 T:digger:0:99:20 to 127

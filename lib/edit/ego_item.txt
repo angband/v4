@@ -15,7 +15,7 @@
 # lib/edit/ego_themes.txt for details.
 
 # N: serial number : type : name
-# C: to-hit : to-dam : to-ac : base_ac_mod: weight_mod : dice : sides
+# C: to-hit : to-dam : to-ac : base_ac_mod: weight_mod : dice : sides : balance : heft
 # M: min to-hit : min to-dam : min to-ac
 # F: flag | flag | etc.
 # L: pval : min pval : flag | flag | etc.
@@ -50,7 +50,9 @@
 # 'C' is for combat values - to-hit, to-dam, to-ac. All of these fields 
 # accept randomized values. base_ac_mod and weight_mod are percentages 
 # which are applied to the base ac and weight of the base item. dice and 
-# sides are self-explanatory. The last four fields are optional.
+# sides are self-explanatory. Balance and heft are the percentage of @'s
+# finesse and prowess scores (respectively) which the weapon can use. The
+# last six fields are optional.
 
 # 'M' is for minimum values - minimum allowed to-hit, to-dam, to-ac. The 
 # value of 255 is special, meaning "there is no minimum". This allows 
@@ -370,11 +372,18 @@ T:polearm:0:99:average:19:61 to 100
 T:sword:0:99:good:19:1 to 60
 T:sword:0:99:average:19:61 to 100
 
-N:69:suffix:of Extra Attacks
-L:d2:0:BLOWS
+N:68:suffix:of Balance
+C:0:0:0:0:0:0:0:10
 T:hafted:0:99:great:15:30 to 127
 T:polearm:0:99:great:15:30 to 127
 T:sword:0:99:great:15:30 to 127
+
+N:69:suffix:of Force
+C:0:0:0:0:0:0:0:0:10
+T:hafted:0:99:great:15:30 to 127
+T:polearm:0:99:great:15:30 to 127
+T:sword:0:99:great:15:30 to 127
+T:digger:0:99:great:15:30 to 127
 
 # 71 (unused)
 
@@ -663,7 +672,7 @@ L:d5:0:SPEED
 ### New affixes ###
 
 N:130:quality:Massive
-C:0:M30:0:0:50:1:0
+C:0:M30:0:0:50:1:0:-20
 T:digger:0:99:great:5:45 to 100
 T:hafted:0:99:great:10:45 to 100
 T:polearm:0:99:great:10:45 to 100
@@ -735,7 +744,7 @@ T:arrow:0:99:good:10:10 to 100
 D:It is lighter and more accurate than usual, favoured by wood-elf hunters.
 
 N:142:make:Dwarven
-C:0:10+M30:0:0:10:0:0
+C:0:10+M30:0:0:10:0:0:0:5
 L:1:1:TUNNEL
 T:digger:0:99:good:25:20 to 127
 T:hafted:0:99:good:20:16 to 50
@@ -746,7 +755,7 @@ T:bolt:0:99:good:5:20 to 100
 D:It is of dwarven make and seems to eat through rock.
 
 N:143:make:Gnomish
-C:0:-10:0:0:-20:0:-1
+C:0:-10:0:0:-20:0:0:0:-5
 L:2:2:TUNNEL
 T:digger:0:99:average:5:2 to 66
 T:hafted:0:99:average:20:2 to 66
@@ -754,13 +763,13 @@ T:polearm:0:99:average:20:2 to 66
 D:It is of gnomish design, small but incredibly useful for digging.
 
 N:145:make:Trollish
-C:-10d2:10d2:0:0:20:0:2
+C:-10d2:10d2:0:0:20:0:2:-10
 T:hafted:0:99:great:10:26 to 50
 T:hafted:0:99:good:10:51 to 100
 D:It is larger and clumsier than usual.
 
 N:146:make:Hobbitish
-C:10d2M20:0:0:0:-20:0:-1
+C:10d2M20:0:0:0:-20:0:0:10:-10
 T:hafted:0:99:average:20:6 to 56
 T:polearm:0:99:average:20:6 to 56
 T:sword:0:99:average:20:6 to 56
@@ -777,14 +786,14 @@ T:sword:0:99:good:10:76 to 100
 D:It is finely crafted for skilled warriors.
 
 N:151:make:Kobold
-C:10d2:0:0:0:-30:0:-1
+C:10d2:0:0:0:-30:0:-1:0:-10
 T:hafted:0:99:average:20:6 to 36
 T:polearm:0:99:average:20:6 to 36
 T:sword:0:99:average:20:6 to 36
 D:It is comically small in size.
 
 N:152:make:Orcish
-C:M30:M20:0:0:20:0:0
+C:M30:M20:0:0:20:0:0:-10:10
 L:1:1:TUNNEL
 T:digger:0:99:good:15:10 to 127
 T:hafted:0:99:good:20:6 to 86
@@ -794,7 +803,7 @@ D:It is of orcish make.  It is heavy and unlikely to
 D: have ever seen daylight.
 
 N:153:make:Giant
-C:-10d2:10d2M20:0:0:150:1:1
+C:-10d2:10d2M20:0:0:150:1:1:-25
 T:digger:0:99:great:15:36 to 127
 T:hafted:0:99:great:20:36 to 75
 T:hafted:0:99:good:10:76 to 100
@@ -818,7 +827,7 @@ T:bolt:0:99:bad:10:1 to 40
 D:It has been discarded for junk.
 
 N:156:quality:Cheap
-C:-20:0:0
+C:-20:0:0:0:0:0:0:-10:-10
 T:hafted:0:99:bad:20:1 to 66
 T:polearm:0:99:bad:20:1 to 66
 T:sword:0:99:bad:20:1 to 66
@@ -836,7 +845,7 @@ T:sword:0:99:bad:20:6 to 46
 D:It is better suited on a store display.
 
 N:158:make:Hunter's
-C:20d3M30:0:0
+C:20d3M30:0:0:0:0:0:0:5
 T:polearm:0:99:good:20:3 to 100
 T:sword:0:99:good:20:3 to 100
 T:bow:12:13:good:15:10 to 127
@@ -852,7 +861,7 @@ T:sword:0:99:good:10:56 to 100
 T:arrow:0:99:good:10:1 to 60
 
 N:160:quality:Journeyman's
-C:10+M80:10+M80:0:0:0:0:0
+C:10+M80:10+M80:0:0:0:0:0:0:5
 T:hafted:0:99:good:20:6 to 100
 T:polearm:0:99:good:20:6 to 100
 T:sword:0:99:good:20:6 to 100
@@ -889,7 +898,7 @@ T:hafted:10:99:average:20:56 to 100
 D:It is made from animal skeletons.
 
 N:164:material:Stone
-C:0:M40:0:0:10
+C:0:M40:0:0:10:0:0:0:-5:10
 T:hafted:10:99:good:20:6 to 65
 T:hafted:10:99:average:20:66 to 100
 T:polearm:0:99:good:20:6 to 65
@@ -897,12 +906,12 @@ T:polearm:0:99:average:20:66 to 100
 D:It is made from solid granite.
 
 N:165:material:Lead-Filled
-C:0:10d3M30:0:0:50:2:-1
+C:0:10d3M30:0:0:50:2:-1:-10:5
 T:hafted:10:99:good:20:6 to 100
 D:It is much heavier than normal.
 
 N:166:material:Dragonbone
-C:0:M30:0:0:0:0:1
+C:0:M30:0:0:0:0:1:-5
 T:hafted:10:99:good:10:16 to 100
 T:arrow:0:99:good:10:16 to 100
 T:bolt:0:99:good:10:16 to 100
@@ -933,7 +942,7 @@ T:arrow:0:99:good:10:1 to 100
 T:bolt:0:99:good:10:1 to 100
 
 N:170:material:Crystal
-C:10d2M20:20+10d3M40:0
+C:10d2M20:20+10d3M40:0:0:0:0:0:-5:10
 T:hafted:10:99:good:30:16 to 100
 T:polearm:0:99:good:30:16 to 100
 T:sword:0:99:good:30:16 to 100
@@ -991,7 +1000,7 @@ T:arrow:0:99:great:10:45 to 100
 T:bolt:0:99:great:10:45 to 100
 
 N:175:material:Diamond
-C:10d2M30:20+10d3M40:0
+C:10d2M30:20+10d3M40:0:0:0:0:0:-5:5
 T:hafted:10:99:good:30:26 to 100
 T:polearm:0:99:good:30:26 to 100
 T:sword:0:99:good:30:26 to 100
@@ -1000,7 +1009,7 @@ T:arrow:0:99:good:10:25 to 100
 T:bolt:0:99:good:10:25 to 100
 
 N:176:material:Blackrock
-C:10d2M20:20+10d3M30:0:0:75
+C:10d2M20:20+10d3M30:0:0:75:0:0:-10:10
 T:hafted:10:99:good:20:10 to 66
 T:polearm:0:99:good:20:10 to 66
 T:sword:0:99:good:20:10 to 66
@@ -1021,7 +1030,7 @@ T:arrow:0:99:good:35:1 to 100
 D:It is much sharper than usual.
 
 N:178:quality:Keen
-C:M90:20+10d4M60:0
+C:M90:20+10d4M60:0:0:0:0:0:5
 T:polearm:0:99:great:30:21 to 100
 T:sword:0:99:great:30:21 to 100
 T:arrow:0:99:great:25:21 to 100
@@ -1034,7 +1043,7 @@ T:digger:0:99:good:50:1 to 100
 D:It is more damaging than usual.
 
 N:180:quality:Brutal
-C:M90:20+10d4M60:0
+C:M90:20+10d4M60:0:0:0:0:0:0:5
 T:hafted:0:99:great:30:21 to 100
 T:digger:0:99:great:30:21 to 100
 D:It is much more damaging than usual.
@@ -1150,7 +1159,7 @@ F:RES_NEXUS
 T:boots:0:99:great:16:15 to 100
 
 N:196:suffix:of Parrying
-C:0:0:d6M6
+C:0:0:d6M6:0:0:0:0:0:-5
 T:polearm:0:99:good:10:1 to 50
 T:polearm:0:99:average:10:51 to 100
 T:sword:0:99:good:10:1 to 50
@@ -1160,16 +1169,16 @@ T:hafted:0:99:average:10:51 to 100
 D:It is designed with an eye towards defense.
 
 N:197:suffix:of Slicing
-C:10d2M80:10d2M80:0:0:0:3:1
+C:10d2M80:10d2M80:0:0:0:3:1:-10:5
 T:polearm:2:99:uber:10:60 to 100
 
 N:198:suffix:of Chaos
-C:10d2M80:10d2M80:0:0:0:2:0
+C:10d2M80:10d2M80:0:0:0:2:0:-5:-5
 F:RES_CHAOS
 T:sword:11:99:uber:10:70 to 100
 
 N:207:suffix:of Disruption
-C:10d2M80:10d2M80:0:0:233:3:4
+C:10d2M80:10d2M80:0:0:233:3:4:-20:15
 L:200:200:SLAY_UNDEAD
 T:hafted:0:99:uber:10:70 to 100
 

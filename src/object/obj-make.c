@@ -379,7 +379,7 @@ void ego_apply_magic(object_type *o_ptr, int level, int affix)
 	/* Apply remaining flags */
 	of_union(o_ptr->flags, f2);
 
-	/* Adjust AC, weight, dice and sides */
+	/* Adjust AC, weight, dice and sides, balance and heft */
 	if (o_ptr->ac && ego->ac_mod)
 		o_ptr->ac = ((100 + ego->ac_mod) * o_ptr->ac) / 100;
 
@@ -392,6 +392,14 @@ void ego_apply_magic(object_type *o_ptr, int level, int affix)
 	o_ptr->ds += ego->ds;
 	if (o_ptr->ds < 1)
 		o_ptr->ds = 1;
+
+	o_ptr->balance += ego->balance;
+	if (o_ptr->balance < 1)
+		o_ptr->balance = 1;
+
+	o_ptr->heft += ego->heft;
+	if (o_ptr->heft < 1)
+		o_ptr->heft = 1;
 
 	/* Tidy up and de-duplicate flags, and set the correct prefix/suffix */
 	check_obj_flags(o_ptr);

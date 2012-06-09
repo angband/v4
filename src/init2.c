@@ -1495,6 +1495,10 @@ static enum parser_error parse_e_c(struct parser *p)
 		e->dd = parser_getint(p, "dice");
 	if (parser_hasval(p, "sides"))
 		e->ds = parser_getint(p, "sides");
+	if (parser_hasval(p, "balance"))
+		e->balance = parser_getint(p, "balance");
+	if (parser_hasval(p, "heft"))
+		e->heft = parser_getint(p, "heft");
 
 	return PARSE_ERROR_NONE;
 }
@@ -1698,7 +1702,7 @@ struct parser *init_parse_e(void) {
 	parser_setpriv(p, NULL);
 	parser_reg(p, "V sym version", ignored);
 	parser_reg(p, "N int index sym type str name", parse_e_n);
-	parser_reg(p, "C rand th rand td rand ta ?int ac_mod ?int wgt_mod ?int dice ?int sides",
+	parser_reg(p, "C rand th rand td rand ta ?int ac_mod ?int wgt_mod ?int dice ?int sides ?int balance ?int heft",
 		parse_e_c);
 	parser_reg(p, "M int th int td int ta", parse_e_m);
 	parser_reg(p, "F ?str flags", parse_e_f);
