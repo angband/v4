@@ -228,13 +228,13 @@ static struct object_kind TEST_DATA test_lantern = {
 			},
 	},
 
-	.to_h = {
+	.to_finesse = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
 			.m_bonus = 0,
 	},
-	.to_d = {
+	.to_prowess = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
@@ -294,13 +294,13 @@ static struct object_kind TEST_DATA test_flask = {
 			},
 	},
 
-	.to_h = {
+	.to_finesse = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
 			.m_bonus = 0,
 	},
-	.to_d = {
+	.to_prowess = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
@@ -360,13 +360,13 @@ static struct object_kind TEST_DATA test_rod_treasure_location = {
 			},
 	},
 
-	.to_h = {
+	.to_finesse = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
 			.m_bonus = 0,
 	},
-	.to_d = {
+	.to_prowess = {
 			.base = 0,
 			.dice = 0,
 			.sides = 0,
