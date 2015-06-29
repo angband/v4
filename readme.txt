@@ -35,3 +35,5 @@ prefer it removed altogether.
 Enjoy!
 
 -- The Angband Dev Team
+
+Join the chat at https://gitter.im/angband/v4
